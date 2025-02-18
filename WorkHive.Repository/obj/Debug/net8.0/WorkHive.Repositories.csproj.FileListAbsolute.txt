@@ -1,0 +1,12 @@
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\bin\Debug\net8.0\WorkHive.Repositories.deps.json
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\bin\Debug\net8.0\WorkHive.Repositories.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\bin\Debug\net8.0\WorkHive.Repositories.pdb
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.GeneratedMSBuildEditorConfig.editorconfig
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.AssemblyInfoInputs.cache
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.AssemblyInfo.cs
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.csproj.CoreCompileInputs.cache
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.sourcelink.json
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\refint\WorkHive.Repositories.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.pdb
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\ref\WorkHive.Repositories.dll
