@@ -1,0 +1,6 @@
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.csproj.AssemblyReference.cache
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.GeneratedMSBuildEditorConfig.editorconfig
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.AssemblyInfoInputs.cache
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.AssemblyInfo.cs
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.csproj.CoreCompileInputs.cache
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.sourcelink.json
