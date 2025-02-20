@@ -4,3 +4,10 @@ D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\Wo
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.AssemblyInfo.cs
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.csproj.CoreCompileInputs.cache
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.sourcelink.json
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\bin\Debug\net8.0\WorkHive.BuildingBlocks.deps.json
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\bin\Debug\net8.0\WorkHive.BuildingBlocks.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\bin\Debug\net8.0\WorkHive.BuildingBlocks.pdb
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\refint\WorkHive.BuildingBlocks.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\WorkHive.BuildingBlocks.pdb
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.BuildingBlocks\obj\Debug\net8.0\ref\WorkHive.BuildingBlocks.dll

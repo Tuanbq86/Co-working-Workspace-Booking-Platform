@@ -23,9 +23,13 @@ public partial class Workspace
 
     public DateTime? UpdatedAt { get; set; }
 
+    public int? CleanTime { get; set; }
+
+    public int? Area { get; set; }
+
     public int OwnerId { get; set; }
 
-    public virtual ICollection<BookingWorkspace> BookingWorkspaces { get; set; } = new List<BookingWorkspace>();
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<FacilityWorkspace> FacilityWorkspaces { get; set; } = new List<FacilityWorkspace>();
 

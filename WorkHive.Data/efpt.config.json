@@ -23,15 +23,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Booking]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Booking_Amenity]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[Booking_Beverage]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Booking_Workspace]",
          "ObjectType": 0
       },
       {
@@ -84,6 +84,10 @@
       },
       {
          "Name": "[dbo].[Price]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Promotion]",
          "ObjectType": 0
       },
       {

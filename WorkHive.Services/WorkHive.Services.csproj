@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WorkHive.BuildingBlocks\WorkHive.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\WorkHive.Repository\WorkHive.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>

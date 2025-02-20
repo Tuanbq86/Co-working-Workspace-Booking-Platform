@@ -31,7 +31,7 @@ public partial class User
 
     public int RoleId { get; set; }
 
-    public virtual ICollection<BookingWorkspace> BookingWorkspaces { get; set; } = new List<BookingWorkspace>();
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<CustomerWallet> CustomerWallets { get; set; } = new List<CustomerWallet>();
 

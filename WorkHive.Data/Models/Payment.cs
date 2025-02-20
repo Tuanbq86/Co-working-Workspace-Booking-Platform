@@ -13,5 +13,5 @@ public partial class Payment
 
     public string Status { get; set; }
 
-    public virtual ICollection<BookingWorkspace> BookingWorkspaces { get; set; } = new List<BookingWorkspace>();
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }
