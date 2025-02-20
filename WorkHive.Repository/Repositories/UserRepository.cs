@@ -10,7 +10,6 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     public UserRepository(WorkHiveContext context) => _context = context;
 
     //To do object method
-
     public User RegisterUserByPhoneAndEmail(string name, string email, 
         string phone, string password)
     {

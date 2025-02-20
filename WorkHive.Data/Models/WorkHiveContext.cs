@@ -12,10 +12,13 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
+
+    //Adding a contructor for call
     public WorkHiveContext()
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }

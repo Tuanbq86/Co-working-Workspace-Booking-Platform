@@ -4,8 +4,8 @@ public interface IGenericRepository<T> where T : class
     public void PrepareCreate(T entity);
     public void PrepareUpdate(T entity);
     public void PrepareRemove(T entity);
-    public IEnumerable<T> GetAll();
-    public Task<IEnumerable<T>> GetAllAsync();
+    public List<T> GetAll();
+    public Task<List<T>> GetAllAsync();
     public void Create(T entity);
     public Task<int> CreateAsync(T entity);
     public void Update(T entity);

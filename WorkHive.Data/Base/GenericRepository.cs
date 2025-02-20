@@ -36,11 +36,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     #endregion Separating asign entity and save operators
 
 
-    public IEnumerable<T> GetAll()
+    public List<T> GetAll()
     {
         return _context.Set<T>().ToList();
     }
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<List<T>> GetAllAsync()
     {
         return await _context.Set<T>().ToListAsync();
     }
