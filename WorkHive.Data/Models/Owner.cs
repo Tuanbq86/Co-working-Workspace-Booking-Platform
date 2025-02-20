@@ -17,7 +17,11 @@ public partial class Owner
 
     public string Address { get; set; }
 
+    public string GoogleMapUrl { get; set; }
+
     public string Description { get; set; }
+
+    public string SocialUrl { get; set; }
 
     public string License { get; set; }
 
@@ -25,17 +29,19 @@ public partial class Owner
 
     public string OwnerIdentityCard { get; set; }
 
-    public string Contract { get; set; }
-
-    public string TaxCode { get; set; }
-
     public string Status { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
+    public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
+
+    public virtual ICollection<Beverage> Beverages { get; set; } = new List<Beverage>();
+
     public virtual ICollection<OwnerWallet> OwnerWallets { get; set; } = new List<OwnerWallet>();
+
+    public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
 
     public virtual ICollection<Workspace> Workspaces { get; set; } = new List<Workspace>();
 }

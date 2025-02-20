@@ -11,9 +11,13 @@ public partial class BookingAmenity
 
     public string Status { get; set; }
 
-    public int BookingWorkspaceId { get; set; }
+    public int? Quantity { get; set; }
 
-    public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
+    public int BookingId { get; set; }
 
-    public virtual BookingWorkspace BookingWorkspace { get; set; }
+    public int AmenityId { get; set; }
+
+    public virtual Amenity Amenity { get; set; }
+
+    public virtual Booking Booking { get; set; }
 }

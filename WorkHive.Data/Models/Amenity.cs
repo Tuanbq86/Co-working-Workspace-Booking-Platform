@@ -25,7 +25,11 @@ public partial class Amenity
 
     public DateTime? UpdatedAt { get; set; }
 
-    public int BookingAmenityId { get; set; }
+    public string Status { get; set; }
 
-    public virtual BookingAmenity BookingAmenity { get; set; }
+    public int OwnerId { get; set; }
+
+    public virtual ICollection<BookingAmenity> BookingAmenities { get; set; } = new List<BookingAmenity>();
+
+    public virtual Owner Owner { get; set; }
 }

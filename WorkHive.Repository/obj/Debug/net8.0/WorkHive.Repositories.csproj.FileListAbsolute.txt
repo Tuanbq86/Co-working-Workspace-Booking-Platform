@@ -10,3 +10,7 @@ D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHi
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\refint\WorkHive.Repositories.dll
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.pdb
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\ref\WorkHive.Repositories.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\bin\Debug\net8.0\WorkHive.Data.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\bin\Debug\net8.0\WorkHive.Data.pdb
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.Repositories.csproj.AssemblyReference.cache
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.Repository\obj\Debug\net8.0\WorkHive.5ED544C0.Up2Date

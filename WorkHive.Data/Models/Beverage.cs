@@ -25,7 +25,9 @@ public partial class Beverage
 
     public DateTime? UpdatedAt { get; set; }
 
-    public int BookingBeverageId { get; set; }
+    public int OwnerId { get; set; }
 
-    public virtual BookingBeverage BookingBeverage { get; set; }
+    public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
+
+    public virtual Owner Owner { get; set; }
 }
