@@ -2,6 +2,7 @@
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.Users.RegisterUser;
 
@@ -34,8 +35,20 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit)
     public async Task<RegisterUserResult> Handle(RegisterUserCommand command, 
         CancellationToken cancellationToken)
     {
+        //Checking exist used email and phone number for registering
+
+        var existEmailOrPhoneUser = userUnit.User.GetAll().
+            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) || 
+            x.Phone.ToLower().Equals(command.Phone.ToLower())).FirstOrDefault();
+
+        if (existEmailOrPhoneUser is not null)
+            throw new BadRequestEmailOrPhoneException("Email or Phone has been used");
+        
+        //Create new user for registering
+
         var tempUser = userUnit.User.RegisterUserByPhoneAndEmail(command.Name, command.Email, 
             command.Phone, command.Password);
+
 
         var newUser = new User
         {

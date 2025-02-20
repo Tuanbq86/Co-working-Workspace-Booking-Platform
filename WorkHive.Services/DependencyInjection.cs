@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.Behaviors;
@@ -31,8 +34,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
-
-
+        
         return services;
     }
 }
