@@ -29,5 +29,5 @@ public partial class Beverage
 
     public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
 
-    public virtual Owner Owner { get; set; }
+    public virtual WorkspaceOwner Owner { get; set; }
 }

@@ -11,4 +11,7 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IUserRepository : IGenericRepository<User>
 {
     public User RegisterUserByPhoneAndEmail(string name, string email, string phone, string password);
+    public User FindUserByEmail(string email);
+    public User FindUserByPhone(string phone);
+    public bool FindUserByEmailOrPhone(string auth, string password);
 }
