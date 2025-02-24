@@ -33,7 +33,7 @@ public partial class Workspace
 
     public virtual ICollection<FacilityWorkspace> FacilityWorkspaces { get; set; } = new List<FacilityWorkspace>();
 
-    public virtual Owner Owner { get; set; }
+    public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<WorkspaceImage> WorkspaceImages { get; set; } = new List<WorkspaceImage>();
 

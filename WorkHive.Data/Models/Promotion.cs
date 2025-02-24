@@ -9,7 +9,7 @@ public partial class Promotion
 {
     public int Id { get; set; }
 
-    public string Name { get; set; }
+    public string Code { get; set; }
 
     public int? Discount { get; set; }
 
@@ -27,5 +27,5 @@ public partial class Promotion
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-    public virtual Owner Owner { get; set; }
+    public virtual WorkspaceOwner Owner { get; set; }
 }

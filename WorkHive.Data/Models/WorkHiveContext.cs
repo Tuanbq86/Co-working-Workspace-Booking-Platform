@@ -12,13 +12,10 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
-
-    //Adding a contructor for call
     public WorkHiveContext()
     {
         
     }
-
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -42,8 +39,6 @@ public partial class WorkHiveContext : DbContext
     public virtual DbSet<ImageFeedback> ImageFeedbacks { get; set; }
 
     public virtual DbSet<Notification> Notifications { get; set; }
-
-    public virtual DbSet<Owner> Owners { get; set; }
 
     public virtual DbSet<OwnerTransactionHistory> OwnerTransactionHistories { get; set; }
 
@@ -73,6 +68,8 @@ public partial class WorkHiveContext : DbContext
 
     public virtual DbSet<WorkspaceImage> WorkspaceImages { get; set; }
 
+    public virtual DbSet<WorkspaceOwner> WorkspaceOwners { get; set; }
+
     public virtual DbSet<WorkspacePolicy> WorkspacePolicies { get; set; }
 
     public virtual DbSet<WorkspacePrice> WorkspacePrices { get; set; }
@@ -85,7 +82,7 @@ public partial class WorkHiveContext : DbContext
     {
         modelBuilder.Entity<Amenity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Amenity__3214EC272EF53DAD");
+            entity.HasKey(e => e.Id).HasName("PK__Amenity__3214EC2751A68455");
 
             entity.ToTable("Amenity");
 
@@ -121,12 +118,12 @@ public partial class WorkHiveContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.Amenities)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKAmenity971690");
+                .HasConstraintName("FKAmenity881084");
         });
 
         modelBuilder.Entity<Beverage>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Beverage__3214EC277183037D");
+            entity.HasKey(e => e.Id).HasName("PK__Beverage__3214EC27BC4A8E38");
 
             entity.ToTable("Beverage");
 
@@ -160,12 +157,12 @@ public partial class WorkHiveContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.Beverages)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKBeverage498721");
+                .HasConstraintName("FKBeverage620093");
         });
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Booking__3214EC276928EF73");
+            entity.HasKey(e => e.Id).HasName("PK__Booking__3214EC2764101DE8");
 
             entity.ToTable("Booking");
 
@@ -213,7 +210,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<BookingAmenity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Booking___3214EC27031A9990");
+            entity.HasKey(e => e.Id).HasName("PK__Booking___3214EC273BBF442B");
 
             entity.ToTable("Booking_Amenity");
 
@@ -238,7 +235,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<BookingBeverage>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Booking___3214EC27D0118FD4");
+            entity.HasKey(e => e.Id).HasName("PK__Booking___3214EC27596B5169");
 
             entity.ToTable("Booking_Beverage");
 
@@ -263,7 +260,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<CustomerWallet>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC27AE304362");
+            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC2781E235EC");
 
             entity.ToTable("Customer_Wallet");
 
@@ -287,7 +284,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Facility>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__facility__3214EC2777A441BE");
+            entity.HasKey(e => e.Id).HasName("PK__facility__3214EC278EA0E512");
 
             entity.ToTable("facility");
 
@@ -302,7 +299,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<FacilityWorkspace>(entity =>
         {
-            entity.HasKey(e => new { e.Id, e.FacilityId, e.WorkspaceId }).HasName("PK__facility__D879E35A2213F722");
+            entity.HasKey(e => new { e.Id, e.FacilityId, e.WorkspaceId }).HasName("PK__facility__D879E35AA9C32815");
 
             entity.ToTable("facility_Workspace");
 
@@ -325,7 +322,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Feedback__3214EC27C48211C8");
+            entity.HasKey(e => e.Id).HasName("PK__Feedback__3214EC2750F53B8F");
 
             entity.ToTable("Feedback");
 
@@ -346,7 +343,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Image>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Image__3214EC270A4DFE5D");
+            entity.HasKey(e => e.Id).HasName("PK__Image__3214EC2728A44B88");
 
             entity.ToTable("Image");
 
@@ -367,7 +364,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<ImageFeedback>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Image_Fe__3214EC27216E4549");
+            entity.HasKey(e => e.Id).HasName("PK__Image_Fe__3214EC278EB9073E");
 
             entity.ToTable("Image_Feedback");
 
@@ -391,7 +388,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC2778663B11");
+            entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC275CF8CF87");
 
             entity.ToTable("Notification");
 
@@ -404,60 +401,9 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnName("status");
         });
 
-        modelBuilder.Entity<Owner>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Owner__3214EC27269265EB");
-
-            entity.ToTable("Owner");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Address)
-                .HasColumnType("text")
-                .HasColumnName("address");
-            entity.Property(e => e.BusinessName)
-                .HasMaxLength(50)
-                .HasColumnName("business_name");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Description)
-                .HasColumnType("text")
-                .HasColumnName("description");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsFixedLength()
-                .HasColumnName("email");
-            entity.Property(e => e.GoogleMapUrl)
-                .HasColumnType("text")
-                .HasColumnName("google_map_url");
-            entity.Property(e => e.License)
-                .HasMaxLength(255)
-                .HasColumnName("license");
-            entity.Property(e => e.OwnerIdentityCard)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("owner_identity_card");
-            entity.Property(e => e.OwnerName)
-                .HasMaxLength(50)
-                .HasColumnName("owner_name");
-            entity.Property(e => e.Phone)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("phone");
-            entity.Property(e => e.SocialUrl)
-                .HasColumnType("text")
-                .HasColumnName("social_url");
-            entity.Property(e => e.Status)
-                .HasMaxLength(50)
-                .HasColumnName("status");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
-        });
-
         modelBuilder.Entity<OwnerTransactionHistory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Owner_Tr__3214EC27CE9AEB70");
+            entity.HasKey(e => e.Id).HasName("PK__Owner_Tr__3214EC27E93CD94B");
 
             entity.ToTable("Owner_Transaction_History");
 
@@ -481,7 +427,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<OwnerWallet>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Owner_Wa__3214EC27E8EBCF7E");
+            entity.HasKey(e => e.Id).HasName("PK__Owner_Wa__3214EC27DD737CC5");
 
             entity.ToTable("Owner_Wallet");
 
@@ -495,7 +441,7 @@ public partial class WorkHiveContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKOwner_Wall571813");
+                .HasConstraintName("FKOwner_Wall547001");
 
             entity.HasOne(d => d.Wallet).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.WalletId)
@@ -505,7 +451,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC27DE4E35B8");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC277412FD9F");
 
             entity.ToTable("Payment");
 
@@ -520,7 +466,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Policy>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Policy__3214EC27BE7E85C4");
+            entity.HasKey(e => e.Id).HasName("PK__Policy__3214EC275BCF0E35");
 
             entity.ToTable("Policy");
 
@@ -535,7 +481,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Price>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Price__3214EC274C021CC9");
+            entity.HasKey(e => e.Id).HasName("PK__Price__3214EC2776D2A488");
 
             entity.ToTable("Price");
 
@@ -550,11 +496,14 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27344989CD");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27F7B7B450");
 
             entity.ToTable("Promotion");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .HasColumnName("code");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -562,9 +511,6 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
@@ -579,12 +525,12 @@ public partial class WorkHiveContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.Promotions)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKPromotion450926");
+                .HasConstraintName("FKPromotion667888");
         });
 
         modelBuilder.Entity<Rating>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Rating__3214EC2733010221");
+            entity.HasKey(e => e.Id).HasName("PK__Rating__3214EC274569491C");
 
             entity.ToTable("Rating");
 
@@ -609,7 +555,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC2742483158");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC27547BFB28");
 
             entity.ToTable("Role");
 
@@ -621,7 +567,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<TransactionHistory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Transact__3214EC27DBF4D33D");
+            entity.HasKey(e => e.Id).HasName("PK__Transact__3214EC2739DFD901");
 
             entity.ToTable("Transaction_History");
 
@@ -642,7 +588,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC277373EB40");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC2782F183E3");
 
             entity.ToTable("User");
 
@@ -653,9 +599,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.DateOfBirth)
-                .HasColumnType("datetime")
-                .HasColumnName("dateOfBirth");
+            entity.Property(e => e.DateOfBirth).HasColumnName("dateOfBirth");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -667,7 +611,7 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("name");
             entity.Property(e => e.Password)
-                .HasMaxLength(50)
+                .HasColumnType("text")
                 .HasColumnName("password");
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
@@ -689,7 +633,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<UserTransactionHistory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User_Tra__3214EC27D3073CEA");
+            entity.HasKey(e => e.Id).HasName("PK__User_Tra__3214EC27B00A9A9F");
 
             entity.ToTable("User_Transaction_History");
 
@@ -713,7 +657,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Wallet>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Wallet__3214EC276301F168");
+            entity.HasKey(e => e.Id).HasName("PK__Wallet__3214EC2798D9A9AB");
 
             entity.ToTable("Wallet");
 
@@ -728,7 +672,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Workspace>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC2705D1355C");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27EEFE513D");
 
             entity.ToTable("Workspace");
 
@@ -759,12 +703,12 @@ public partial class WorkHiveContext : DbContext
             entity.HasOne(d => d.Owner).WithMany(p => p.Workspaces)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKWorkspace597278");
+                .HasConstraintName("FKWorkspace521536");
         });
 
         modelBuilder.Entity<WorkspaceImage>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC278C4130DC");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27B837B264");
 
             entity.ToTable("Workspace_Image");
 
@@ -786,9 +730,95 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FKWorkspace_795085");
         });
 
+        modelBuilder.Entity<WorkspaceOwner>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27686416C2");
+
+            entity.ToTable("Workspace_Owner");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CharterCaptital)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("charter_captital");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Dob).HasColumnName("dob");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("email");
+            entity.Property(e => e.Facebook)
+                .HasColumnType("text")
+                .HasColumnName("facebook");
+            entity.Property(e => e.GoogleMapUrl)
+                .HasColumnType("text")
+                .HasColumnName("google_map_url");
+            entity.Property(e => e.IdentityCreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("identity_created_date");
+            entity.Property(e => e.IdentityExpriredDate)
+                .HasColumnType("datetime")
+                .HasColumnName("identity_exprired_date");
+            entity.Property(e => e.IdentityFile)
+                .HasColumnType("text")
+                .HasColumnName("identity_file");
+            entity.Property(e => e.IdentityName)
+                .HasMaxLength(50)
+                .HasColumnName("identity_name");
+            entity.Property(e => e.IdentityNumber)
+                .HasMaxLength(12)
+                .IsFixedLength()
+                .HasColumnName("identity_number");
+            entity.Property(e => e.Instagram)
+                .HasColumnType("text")
+                .HasColumnName("instagram");
+            entity.Property(e => e.LicenseAddress)
+                .HasMaxLength(255)
+                .HasColumnName("license_address");
+            entity.Property(e => e.LicenseFile)
+                .HasColumnType("text")
+                .HasColumnName("license_file");
+            entity.Property(e => e.LicenseName)
+                .HasMaxLength(50)
+                .HasColumnName("license_name");
+            entity.Property(e => e.LicenseNumber)
+                .HasMaxLength(13)
+                .IsFixedLength()
+                .HasColumnName("license_number");
+            entity.Property(e => e.Nationality)
+                .HasMaxLength(50)
+                .HasColumnName("nationality");
+            entity.Property(e => e.Password)
+                .HasColumnType("text")
+                .HasColumnName("password");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("phone");
+            entity.Property(e => e.PlaceOfOrigin)
+                .HasMaxLength(50)
+                .HasColumnName("place_of_origin");
+            entity.Property(e => e.PlaceOfResidence)
+                .HasMaxLength(50)
+                .HasColumnName("place_of_residence");
+            entity.Property(e => e.Sex)
+                .HasMaxLength(50)
+                .HasColumnName("sex");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.Tiktok)
+                .HasColumnType("text")
+                .HasColumnName("tiktok");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+        });
+
         modelBuilder.Entity<WorkspacePolicy>(entity =>
         {
-            entity.HasKey(e => new { e.Id, e.WorkspaceId, e.PolicyId }).HasName("PK__Workspac__7BBE89456DC6AA49");
+            entity.HasKey(e => new { e.Id, e.WorkspaceId, e.PolicyId }).HasName("PK__Workspac__7BBE8945B3849B56");
 
             entity.ToTable("Workspace_Policy");
 
@@ -811,7 +841,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspacePrice>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27CBF7457A");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27CA8BA3EC");
 
             entity.ToTable("Workspace_Price");
 
@@ -835,7 +865,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceRating>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27F6EC3DF8");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC278AE0338E");
 
             entity.ToTable("Workspace_Rating");
 
@@ -859,7 +889,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceRatingImage>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27AC663122");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27E23653DF");
 
             entity.ToTable("Workspace_Rating_Image");
 

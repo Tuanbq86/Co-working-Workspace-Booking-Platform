@@ -49,13 +49,14 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit)
         var tempUser = userUnit.User.RegisterUserByPhoneAndEmail(command.Name, command.Email, 
             command.Phone, command.Password);
 
-
         var newUser = new User
         {
             Name = tempUser.Name,
             Email = tempUser.Email,
             Phone = tempUser.Phone,
-            Password = tempUser.Password,
+            //Using Bcrypt to hash password using SHA-512 algorithm
+            //Work factor time so long when increment for safety(13)
+            Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempUser.Password, 13),
             RoleId = 4
         };
 

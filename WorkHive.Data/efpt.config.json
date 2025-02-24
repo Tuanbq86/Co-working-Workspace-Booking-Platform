@@ -63,10 +63,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Owner]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Owner_Transaction_History]",
          "ObjectType": 0
       },
@@ -120,6 +116,10 @@
       },
       {
          "Name": "[dbo].[Workspace_Image]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Workspace_Owner]",
          "ObjectType": 0
       },
       {

@@ -31,5 +31,5 @@ public partial class Amenity
 
     public virtual ICollection<BookingAmenity> BookingAmenities { get; set; } = new List<BookingAmenity>();
 
-    public virtual Owner Owner { get; set; }
+    public virtual WorkspaceOwner Owner { get; set; }
 }
