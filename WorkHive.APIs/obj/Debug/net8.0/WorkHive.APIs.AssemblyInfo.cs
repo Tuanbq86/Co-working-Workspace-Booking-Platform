@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorkHive.APIs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e172b435a5e1d39133a641fcf2843a9f5c64b74b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2003fc7b34bbe7b69f75b3b62a150b88d7b7b003")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorkHive.APIs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorkHive.APIs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

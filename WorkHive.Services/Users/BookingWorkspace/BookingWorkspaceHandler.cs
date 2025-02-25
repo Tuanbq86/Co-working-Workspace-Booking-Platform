@@ -5,9 +5,9 @@ using WorkHive.Data.Models;
 namespace WorkHive.Services.Users.BookingWorkspace;
 
 public record BookingWorkspaceCommand(int WorkspaceId, int UserId,
-    List<BookingAmenity> Amenities, List<BookingBeverage> Beverages )
+    List<BookingAmenity> Amenities, List<BookingBeverage> Beverages)
     : ICommand<BookingWorkspaceResult>;
-public record BookingWorkspaceResult();
+public record BookingWorkspaceResult(string Notification);
 
 public class BookingWorkspaceValidator : AbstractValidator<BookingWorkspaceCommand>
 {

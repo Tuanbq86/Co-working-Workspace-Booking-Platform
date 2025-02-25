@@ -22,6 +22,7 @@ public static class DependencyInjection
     public static IServiceCollection AddServiceServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        //Add database connection
         services.AddDbContext<WorkHiveContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
@@ -30,7 +31,7 @@ public static class DependencyInjection
         services.AddMediatR(config =>
         {
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            //add for middle ware validate request
+            //Add for middle ware validate request
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
 
@@ -50,6 +51,14 @@ public static class DependencyInjection
         });
 
         services.AddAuthorization();
+        services.AddSession(o =>
+        {
+            o.IdleTimeout = TimeSpan.FromMinutes(45);//if you send any request in a interval session will auto disabled
+            o.Cookie.HttpOnly = true;//avoid accessing from script on browser
+        });
+
+        //use to work in outside controller, middleware like services 
+        services.AddHttpContextAccessor();
 
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
         services.AddScoped<ITokenRepository, TokenRepository>();
@@ -62,7 +71,7 @@ public static class DependencyInjection
     {
         app.UseAuthentication();
         app.UseAuthorization();
-
+        app.UseSession();
         return app;
     }
 }
