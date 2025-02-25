@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj": {}
+    "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj": {}
   },
   "projects": {
-    "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj": {
+    "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj",
         "projectName": "WorkHive.APIs",
-        "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.APIs\\obj\\",
+        "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.APIs\\WorkHive.APIs.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.APIs\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,15 +26,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Services\\WorkHive.Services.csproj": {
-                "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Services\\WorkHive.Services.csproj"
+              "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Services\\WorkHive.Services.csproj": {
+                "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Services\\WorkHive.Services.csproj"
               }
             }
           }
@@ -48,8 +47,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -91,24 +89,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj": {
+    "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj",
         "projectName": "WorkHive.BuildingBlocks",
-        "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.BuildingBlocks\\obj\\",
+        "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.BuildingBlocks\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -117,7 +115,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -135,8 +132,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -179,24 +175,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Data\\WorkHive.Data.csproj": {
+    "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Data\\WorkHive.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Data\\WorkHive.Data.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Data\\WorkHive.Data.csproj",
         "projectName": "WorkHive.Data",
-        "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Data\\WorkHive.Data.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Data\\obj\\",
+        "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Data\\WorkHive.Data.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -205,7 +201,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -223,8 +218,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -275,24 +269,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj": {
+    "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj",
         "projectName": "WorkHive.Repositories",
-        "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Repository\\obj\\",
+        "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -301,15 +295,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Data\\WorkHive.Data.csproj": {
-                "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Data\\WorkHive.Data.csproj"
+              "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Data\\WorkHive.Data.csproj": {
+                "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Data\\WorkHive.Data.csproj"
               }
             }
           }
@@ -323,8 +316,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -345,24 +337,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Services\\WorkHive.Services.csproj": {
+    "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Services\\WorkHive.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Services\\WorkHive.Services.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Services\\WorkHive.Services.csproj",
         "projectName": "WorkHive.Services",
-        "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Services\\WorkHive.Services.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Services\\obj\\",
+        "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Services\\WorkHive.Services.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -371,18 +363,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj": {
-                "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj"
+              "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj": {
+                "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.BuildingBlocks\\WorkHive.BuildingBlocks.csproj"
               },
-              "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj": {
-                "projectPath": "D:\\CAPSTONE_PROJECT_SP25\\SEP490_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj"
+              "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj": {
+                "projectPath": "C:\\Users\\ACER\\Downloads\\SEP490_BE_APIs\\WorkHive.Repository\\WorkHive.Repositories.csproj"
               }
             }
           }
@@ -396,8 +387,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -418,7 +408,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

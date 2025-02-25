@@ -11,4 +11,8 @@
     <ProjectReference Include="..\WorkHive.Repository\WorkHive.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Owners\" />
+  </ItemGroup>
+
 </Project>

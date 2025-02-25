@@ -34,6 +34,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
+        services.AddScoped<IOwnerUnitOfWork, OwnerUnitOfWork>();
         
         return services;
     }
