@@ -51,12 +51,18 @@ public static class DependencyInjection
         });
 
         services.AddAuthorization();
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            string connection = configuration.GetConnectionString("Redis")!;
+            options.Configuration = connection;
+        });
+
         services.AddSession(o =>
         {
             o.IdleTimeout = TimeSpan.FromMinutes(45);//if you send any request in a interval session will auto disabled
             o.Cookie.HttpOnly = true;//avoid accessing from script on browser
         });
-
         //use to work in outside controller, middleware like services 
         services.AddHttpContextAccessor();
 
