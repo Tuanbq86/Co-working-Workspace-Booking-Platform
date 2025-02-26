@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "k/SOBZpQV4ncQMbyJ+eqCjkIWwd+xcuv2IcxM9fstbY=",
+  "Hash": "vN9OS1C9ROzyvq2bVoMmmZSQjNLAkxdSAf5tBgi8MJs=",
   "Source": "WorkHive.APIs",
   "BasePath": "_content/WorkHive.APIs",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }

@@ -13,14 +13,14 @@ public class RegisterUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/register", async (RegisterUserRequest request, ISender sender) => {
+        app.MapPost("/users/register", async (RegisterUserRequest request, ISender sender) => {
             var command = request.Adapt<RegisterUserCommand>();
 
             var result = await sender.Send(command);
 
             var response = result.Adapt<RegisterUserResponse>();
 
-            return Results.Created($"/register", response.Notification);
+            return Results.Created($"/users/register", response.Notification);
         })
         .WithName("RegisterUser")
         .Produces<RegisterUserResponse>(StatusCodes.Status201Created)

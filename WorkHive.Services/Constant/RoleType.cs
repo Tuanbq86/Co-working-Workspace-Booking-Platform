@@ -11,6 +11,5 @@ public enum RoleType
     Admin,
     Manager,
     Staff,
-    Customer,
-    Owner
+    Customer
 }

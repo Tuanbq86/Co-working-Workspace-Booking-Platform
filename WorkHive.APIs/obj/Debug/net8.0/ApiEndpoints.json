@@ -1,8 +1,144 @@
 [
   {
+    "ContainingType": "WorkHive.APIs.Owner.RegisterOwner.RegisterOwnerEndpoint\u002B\u003C\u003Ec",
+    "Method": "\u003CAddRoutes\u003Eb__0_0",
+    "RelativePath": "owners/register",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WorkHive.APIs.Owner.RegisterOwner.RegisterOwnerRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WorkHive.APIs.Owner.RegisterOwner.RegisterOwnerResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "EndpointName": "RegisterOwner",
+    "Description": "Register successfully",
+    "Summary": "Register successfully"
+  },
+  {
+    "ContainingType": "WorkHive.APIs.Users.LoginUser.LoginWithEmailEndpoint\u002B\u003C\u003Ec",
+    "Method": "\u003CAddRoutes\u003Eb__0_0",
+    "RelativePath": "users/checkuseremail",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WorkHive.APIs.Users.LoginUser.LoginWithEmailRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WorkHive.APIs.Users.RegisterUser.RegisterUserResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 404
+      }
+    ],
+    "EndpointName": "checkEmail",
+    "Description": "Check User Email",
+    "Summary": "Check User Email"
+  },
+  {
+    "ContainingType": "WorkHive.APIs.Users.LoginUser.LoginWithPhoneEndpoint\u002B\u003C\u003Ec",
+    "Method": "\u003CAddRoutes\u003Eb__0_0",
+    "RelativePath": "users/checkuserphone",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WorkHive.APIs.Users.LoginUser.LoginWithPhoneRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WorkHive.APIs.Users.RegisterUser.RegisterUserResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 404
+      }
+    ],
+    "EndpointName": "checkPhone",
+    "Description": "Check User Phone",
+    "Summary": "Check User Phone"
+  },
+  {
+    "ContainingType": "WorkHive.APIs.Users.LoginUser.LoginUserEndpoint\u002B\u003C\u003Ec",
+    "Method": "\u003CAddRoutes\u003Eb__0_0",
+    "RelativePath": "users/login",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WorkHive.APIs.Users.LoginUser.LoginUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "WorkHive.APIs.Users.RegisterUser.RegisterUserResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 404
+      }
+    ],
+    "EndpointName": "userLogin",
+    "Description": "User Login",
+    "Summary": "User Login"
+  },
+  {
     "ContainingType": "WorkHive.APIs.Users.RegisterUser.RegisterUserEndpoint\u002B\u003C\u003Ec",
     "Method": "\u003CAddRoutes\u003Eb__0_0",
-    "RelativePath": "register",
+    "RelativePath": "users/register",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,

@@ -15,7 +15,7 @@ public partial class OwnerWallet
 
     public int OwnerId { get; set; }
 
-    public virtual Owner Owner { get; set; }
+    public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<OwnerTransactionHistory> OwnerTransactionHistories { get; set; } = new List<OwnerTransactionHistory>();
 

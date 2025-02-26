@@ -10,17 +10,15 @@ using WorkHive.Repositories.Repositories;
 
 namespace WorkHive.Repositories.UnitOfWork;
 
-public class OwnerUnitOfWork : IOwnerUnitOfWork
+public class WorkspaceOwnerUnitOfWork : IWorkspaceOwnerUnitOfWork
 {
     protected WorkHiveContext _context;
-    public IOwnerRepository Owner { get; private set; }
-
-    public OwnerUnitOfWork(WorkHiveContext context)
+    public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
+    public WorkspaceOwnerUnitOfWork(WorkHiveContext context)
     {
         _context = context;
-        Owner = new OwnerRepository(_context);
+        WorkspaceOwner = new WorkspaceOwnerRepository(_context);
     }
-
     public int Save()
     {
         return _context.SaveChanges();
@@ -30,5 +28,4 @@ public class OwnerUnitOfWork : IOwnerUnitOfWork
     {
         return await _context.SaveChangesAsync();
     }
-
 }
