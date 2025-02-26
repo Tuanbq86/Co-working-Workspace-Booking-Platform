@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorkHive.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e5fc5e82d7d22d27fb31df559c7b32bc8502697")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e50490ab4acd8d2fbd4acf58be3e4bb0074de33")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorkHive.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorkHive.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
