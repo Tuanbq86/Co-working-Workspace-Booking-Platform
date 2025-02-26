@@ -141,3 +141,7 @@ D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\zh-Hans\Micr
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Scrutor.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\StackExchange.Redis.dll
