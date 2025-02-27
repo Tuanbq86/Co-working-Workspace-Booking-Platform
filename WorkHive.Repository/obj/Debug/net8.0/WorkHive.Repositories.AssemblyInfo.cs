@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorkHive.Repositories")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e5fc5e82d7d22d27fb31df559c7b32bc8502697")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6f2b69e61a653f9b1781291c7c617153f8e2de4")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorkHive.Repositories")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorkHive.Repositories")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

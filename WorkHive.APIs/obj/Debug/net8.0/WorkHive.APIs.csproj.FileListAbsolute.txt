@@ -145,3 +145,4 @@ D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Microsoft.Ex
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Scrutor.dll
 D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\StackExchange.Redis.dll
+D:\CAPSTONE_PROJECT_SP25\SEP490_APIs\WorkHive.APIs\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll

@@ -333,6 +333,10 @@
             "Scrutor": {
               "target": "Package",
               "version": "[5.0.2, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.6.0, )"
             }
           },
           "imports": [
