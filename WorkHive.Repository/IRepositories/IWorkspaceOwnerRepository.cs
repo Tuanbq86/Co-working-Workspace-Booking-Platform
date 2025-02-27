@@ -12,4 +12,7 @@ public interface IWorkspaceOwnerRepository : IGenericRepository<WorkspaceOwner>
 {
     public WorkspaceOwner RegisterOwnerByPhoneAndEmail(string email,
         string phone, string password);
+    public WorkspaceOwner FindOwnerByEmail(string email);
+    public WorkspaceOwner FindOwnerByPhone(string phone);
+    public bool FindOwnerByEmailOrPhone(string auth, string password);
 }

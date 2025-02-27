@@ -10,5 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 public interface ITokenRepository
 {
     public string GenerateJwtToken(User user);
-    public List<string> DecodeJwtToken(string token);
+    public string GenerateJwtToken(WorkspaceOwner Owner);
 }

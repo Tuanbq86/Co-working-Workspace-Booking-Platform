@@ -137,6 +137,10 @@
       {
          "Name": "[dbo].[Workspace_Rating_Image]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Workspace_Time]",
+         "ObjectType": 0
       }
    ],
    "UiHint": null,
