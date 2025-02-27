@@ -13,11 +13,6 @@ public partial class WorkHiveContext : DbContext
     {
     }
 
-    public WorkHiveContext()
-    {
-        
-    }
-
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -603,9 +598,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.DateOfBirth)
-                .HasColumnType("datetime")
-                .HasColumnName("dateOfBirth");
+            entity.Property(e => e.DateOfBirth).HasColumnName("dateOfBirth");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
