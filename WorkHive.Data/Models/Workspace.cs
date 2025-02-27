@@ -42,4 +42,6 @@ public partial class Workspace
     public virtual ICollection<WorkspacePrice> WorkspacePrices { get; set; } = new List<WorkspacePrice>();
 
     public virtual ICollection<WorkspaceRating> WorkspaceRatings { get; set; } = new List<WorkspaceRating>();
+
+    public virtual ICollection<WorkspaceTime> WorkspaceTimes { get; set; } = new List<WorkspaceTime>();
 }
