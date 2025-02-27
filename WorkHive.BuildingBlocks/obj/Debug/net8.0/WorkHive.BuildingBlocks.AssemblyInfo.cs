@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WorkHive.BuildingBlocks")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e5fc5e82d7d22d27fb31df559c7b32bc8502697")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd8bf60f2b15fba8fa8c58a8a1baef9f176fa43d")]
 [assembly: System.Reflection.AssemblyProductAttribute("WorkHive.BuildingBlocks")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WorkHive.BuildingBlocks")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
