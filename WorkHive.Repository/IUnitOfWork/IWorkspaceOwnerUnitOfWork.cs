@@ -9,6 +9,7 @@ namespace WorkHive.Repositories.IUnitOfWork;
 
 public interface IWorkspaceOwnerUnitOfWork
 {
+
     IWorkspaceOwnerRepository WorkspaceOwner { get; }
     public int Save();
     public Task<int> SaveAsync();

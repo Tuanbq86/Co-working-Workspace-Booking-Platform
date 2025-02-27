@@ -844,7 +844,14 @@
           }
         }
       },
-      "System.Formats.Asn1/8.0.2": {},
+      "System.Formats.Asn1/8.0.2": {
+        "runtime": {
+          "lib/net8.0/System.Formats.Asn1.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1325.6609"
+          }
+        }
+      },
       "System.IdentityModel.Tokens.Jwt/7.1.2": {
         "dependencies": {
           "Microsoft.IdentityModel.JsonWebTokens": "7.1.2",
@@ -1001,10 +1008,7 @@
           "MediatR": "12.4.1"
         },
         "runtime": {
-          "WorkHive.BuildingBlocks.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "WorkHive.BuildingBlocks.dll": {}
         }
       },
       "WorkHive.Data/1.0.0": {
@@ -1015,10 +1019,7 @@
           "Microsoft.Extensions.Configuration.Json": "9.0.2"
         },
         "runtime": {
-          "WorkHive.Data.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "WorkHive.Data.dll": {}
         }
       },
       "WorkHive.Repositories/1.0.0": {
@@ -1028,10 +1029,7 @@
           "WorkHive.Data": "1.0.0"
         },
         "runtime": {
-          "WorkHive.Repositories.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "WorkHive.Repositories.dll": {}
         }
       },
       "WorkHive.Services/1.0.0": {
@@ -1043,10 +1041,7 @@
           "WorkHive.Repositories": "1.0.0"
         },
         "runtime": {
-          "WorkHive.Services.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "WorkHive.Services.dll": {}
         }
       }
     }
