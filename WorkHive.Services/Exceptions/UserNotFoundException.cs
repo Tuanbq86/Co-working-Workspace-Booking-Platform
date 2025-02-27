@@ -11,7 +11,11 @@ namespace WorkHive.Services.Exceptions
     {
         public UserNotFoundException(string name, string message) : base(name, message)
         {
-            
+
         }
+        //public OwnerNotFoundException(string name, string message) : base(name, message)
+        //{
+
+        //}
     }
 }
