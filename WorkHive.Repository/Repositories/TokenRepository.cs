@@ -16,6 +16,25 @@ public sealed class TokenRepository : ITokenRepository
     {
         _configuration = configuration;
     }
+
+    public List<String> DecodeJwtToken(string token)
+    {
+        var claims = new List<String>();
+
+        var handler = new JwtSecurityTokenHandler(); //use to decode jwt token
+        var jwtToken = handler.ReadJwtToken(token); //convert jwt toke to JwtSecurityToken
+
+        //Get Sub being the subject for identification equals userId
+        var subInformation = jwtToken.Claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Sub))?.Value;
+        claims.Add(subInformation!);
+
+        //Get RoleId for user to authorize
+        var roleInformation = jwtToken.Claims.FirstOrDefault(c => c.Type.Equals("RoleId"))?.Value;
+        claims.Add(roleInformation!);
+
+        return claims;
+    }
+
     public string GenerateJwtToken(User user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
