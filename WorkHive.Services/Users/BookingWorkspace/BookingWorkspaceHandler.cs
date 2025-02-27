@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
-using WorkHive.Repositories.IRepositories;
+using WorkHive.Repositories.Repositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
+using WorkHive.Repositories.IRepositories;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
