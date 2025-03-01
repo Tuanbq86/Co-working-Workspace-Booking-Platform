@@ -12,6 +12,7 @@ public interface IBookingWorkspaceUnitOfWork
     IBookingBeverageRepository bookBeverage { get; }
     IAmenityRepository amenity { get; }
     IBeverageRepository beverage { get; }
+    IWorkspaceTimeRepository workspaceTime { get; }
     public int Save();
     public Task<int> SaveAsync();
 }

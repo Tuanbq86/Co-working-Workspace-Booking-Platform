@@ -23,7 +23,7 @@ public partial class User
 
     public string Location { get; set; }
 
-    public DateOnly? DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

@@ -2,30 +2,39 @@
 using Microsoft.AspNetCore.Http;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
-using WorkHive.Repositories.Repositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
 using WorkHive.Repositories.IRepositories;
+using Microsoft.Extensions.Configuration;
+using Net.payOS;
+using Net.payOS.Types;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
-public record BookingWorkspaceCommand(int WorkspaceId, DateTime startDate, DateTime endDate,
-    List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string promotionCode)
+public record BookingWorkspaceCommand(int WorkspaceId, int PaymentId, DateTime StartDate, DateTime EndDate,
+    List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string PromotionCode, decimal Price)
     : ICommand<BookingWorkspaceResult>;
-public record BookingWorkspaceResult(string Notification);
+public record BookingWorkspaceResult(string Bin, string AccountNumber, int Amount, string Description, 
+    long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
 
+/*
 public class BookingWorkspaceValidator : AbstractValidator<BookingWorkspaceCommand>
 {
     public BookingWorkspaceValidator()
     {
-        
+
     }
 }
+*/
+
 public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRepository tokenRepo,
-    IBookingWorkspaceUnitOfWork bookingUnitOfWork)
+    IBookingWorkspaceUnitOfWork bookingUnitOfWork, IConfiguration configuration)
     : ICommandHandler<BookingWorkspaceCommand, BookingWorkspaceResult>
 {
+    private readonly string ClientID = configuration["PayOS:ClientId"]!;
+    private readonly string ApiKey = configuration["PayOS:ApiKey"]!;
+    private readonly string CheckSumKey = configuration["CheckSumKey"]!;
     public async Task<BookingWorkspaceResult> Handle(BookingWorkspaceCommand command, 
         CancellationToken cancellationToken)
     {
@@ -38,93 +47,107 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var userId = listInfo[0];
         var roleId = listInfo[1];
 
-        newBooking.UserId = Convert.ToInt32(userId);
+        newBooking.UserId = Convert.ToInt32(userId); //Add userId for booking
 
-        //if workspace available
-        if (bookingUnitOfWork.workspace.GetById(command.WorkspaceId).Status.Equals(WorkspaceStatus.Available))
-        {
-            if(command.startDate < DateTime.UtcNow)
-            {
-                throw new BookingBadRequestException("start date have to equal present moment");
-            }
+        //Check validate for start date and end date
+        var workspaceTimes = bookingUnitOfWork.workspaceTime.GetAll()
+            .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
 
-            newBooking.StartDate = command.startDate;
-
-            if (command.endDate <= command.startDate)
-                throw new BookingBadRequestException("end date have to greater than start date");
-
-            newBooking.EndDate = command.endDate;
-
-            newBooking.WorkspaceId = command.WorkspaceId;
-        }
+        if (bookingUnitOfWork.workspaceTime.IsOverlap(workspaceTimes, command.StartDate, command.EndDate))
+            throw new BadBookingRequestException("Khoảng thời gian bị trùng với các khoảng đã thuê");
         else
         {
-            //check time for booking
-            var bookings = await bookingUnitOfWork.booking.GetAllAsync();
-
-            var booking = new Booking();
-            foreach (var item in bookings)
+            // Create a workspace time for workspace
+            var booingTime = new WorkspaceTime
             {
-                if (item.WorkspaceId == command.WorkspaceId && item.Status.Equals(WorkspaceStatus.InUse))
-                    booking = item;
-            }
+                StartDate = command.StartDate,
+                EndDate = command.EndDate,
+                Status = WorkspaceTimeStatus.Handling.ToString(),
+                WorkspaceId = command.WorkspaceId,
+                BookingId = newBooking.Id
+            };
 
-            if (command.startDate < booking.EndDate.GetValueOrDefault())
-            {
-                throw new BookingBadRequestException("Start date have to greater than or equal to last booking");
-            }
-
-            if (bookingUnitOfWork.workspace.GetById(command.WorkspaceId)
-                .Status.Equals(WorkspaceStatus.InUse) && command.startDate == booking.EndDate)
-            {
-                newBooking.StartDate = booking.EndDate.GetValueOrDefault()
-                          .AddMinutes(bookingUnitOfWork.workspace.GetById(command.WorkspaceId).
-                          CleanTime.GetValueOrDefault());
-
-                newBooking.EndDate = command.endDate;
-            }
-
-            if (bookingUnitOfWork.workspace.GetById(command.WorkspaceId).Status.Equals(WorkspaceStatus.InUse)
-                && command.startDate > booking.EndDate.GetValueOrDefault().
-                AddMinutes(bookingUnitOfWork.workspace.GetById(command.WorkspaceId).
-                CleanTime.GetValueOrDefault()))
-            {
-                newBooking.StartDate = command.startDate;
-
-                newBooking.EndDate = command.endDate;
-            }
-
-            newBooking.WorkspaceId = command.WorkspaceId;
+            newBooking.StartDate = booingTime.StartDate; //
+            newBooking.EndDate = booingTime.EndDate; //
         }
-
+            
         //Add Amenity and Beverage for Booking
-        foreach(var item in command.Amenities)
+        foreach (var item in command.Amenities)
         {
-            item.BookingId = newBooking.Id;
+            if (item.Quantity > bookingUnitOfWork.amenity.GetById(item.AmenityId).Quantity)
+                throw new AmenityBadRequestException("Số lượng tiện nghi không được lớn hơn số lượng trong kho");
+
+            var amenity = bookingUnitOfWork.amenity.GetById(item.AmenityId);
+
+            amenity.Quantity = amenity.Quantity - item.Quantity;
+
+            await bookingUnitOfWork.amenity.UpdateAsync(amenity);
+
+            item.BookingId = newBooking.Id; //
+
+            await bookingUnitOfWork.bookAmenity.UpdateAsync(item);
         }
 
         foreach (var item in command.Beverages)
         {
-            item.BookingWorkspaceId = newBooking.Id;
+            item.BookingWorkspaceId = newBooking.Id; //
+
+            await bookingUnitOfWork.bookBeverage.UpdateAsync(item);
         }
 
         //Add promotion for booking
 
         var codeDiscount = bookingUnitOfWork.promotion.GetAll().
-            Where(p => p.Code.Equals(command.promotionCode)).FirstOrDefault();
+            Where(p => p.Code.Equals(command.PromotionCode)).FirstOrDefault();
 
         if (codeDiscount is null)
-            throw new PromotionNotFoundException("Invalid promotion code");
+            throw new PromotionNotFoundException("Mã giảm giá không hợp lệ");
 
         if (codeDiscount.Status.Equals(PromotionStatus.Expired))
         {
-            throw new PromotionNotFoundException("Expired code");
+            throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
         }
 
-        newBooking.PromotionId = codeDiscount.Id;
+        newBooking.PromotionId = codeDiscount.Id; //
 
+        newBooking.Price = command.Price; //
+        newBooking.WorkspaceId = command.WorkspaceId; //
+        newBooking.PaymentId = command.PaymentId; //
+        newBooking.CreatedAt = DateTime.UtcNow;
+        newBooking.Status = BookingStatus.Handling.ToString(); //
 
+        bookingUnitOfWork.booking.Create(newBooking);
+        await bookingUnitOfWork.SaveAsync();
 
-        throw new NotImplementedException();
+        //Integrate payOS for booking
+        var payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
+        var items = new List<ItemData>();
+
+        foreach (var item in command.Amenities)
+        {
+            var amenity = bookingUnitOfWork.amenity.GetById(item.AmenityId);
+            items.Add(new ItemData(name: amenity.Name, quantity: (int)item.Quantity!, price: (int)amenity.Price!));
+        }
+
+        foreach (var item in command.Beverages)
+        {
+            var beverage = bookingUnitOfWork.beverage.GetById(item.BeverageId);
+            items.Add(new ItemData(name: beverage.Name, quantity: (int)item.Quantity!, price: (int)beverage.Price!));
+        }
+
+        var domain = configuration["PayOS:Domain"]!;
+        var paymentLinkRequest = new PaymentData(
+                orderCode: newBooking.Id,
+                amount: (int)(newBooking.Price * 100),
+                description: "Thanh toán không gian làm việc",
+                returnUrl: domain + "/success",
+                cancelUrl : domain + "/checkout",
+                items : items
+            );
+
+        var link = await payOS.createPaymentLink(paymentLinkRequest);
+
+        return new BookingWorkspaceResult(link.bin, link.accountNumber, link.amount, link.description, 
+            link.orderCode, link.paymentLinkId, link.status, link.checkoutUrl, link.qrCode);
     }
 }
