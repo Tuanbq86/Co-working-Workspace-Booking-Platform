@@ -12,7 +12,7 @@ using Net.payOS.Types;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
-public record BookingWorkspaceCommand(int WorkspaceId, int PaymentId, DateTime StartDate, DateTime EndDate,
+public record BookingWorkspaceCommand(int WorkspaceId, int PaymentId, string StartDate, string EndDate,
     List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string PromotionCode, decimal Price)
     : ICommand<BookingWorkspaceResult>;
 public record BookingWorkspaceResult(string Bin, string AccountNumber, int Amount, string Description, 
@@ -53,15 +53,16 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var workspaceTimes = bookingUnitOfWork.workspaceTime.GetAll()
             .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
 
-        if (bookingUnitOfWork.workspaceTime.IsOverlap(workspaceTimes, command.StartDate, command.EndDate))
+        if (bookingUnitOfWork.workspaceTime.IsOverlap(workspaceTimes, DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture), 
+            DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)))
             throw new BadBookingRequestException("Khoảng thời gian bị trùng với các khoảng đã thuê");
         else
         {
             // Create a workspace time for workspace
             var booingTime = new WorkspaceTime
             {
-                StartDate = command.StartDate,
-                EndDate = command.EndDate,
+                StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                EndDate = DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
                 Status = WorkspaceTimeStatus.Handling.ToString(),
                 WorkspaceId = command.WorkspaceId,
                 BookingId = newBooking.Id
@@ -74,18 +75,22 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         //Add Amenity and Beverage for Booking
         foreach (var item in command.Amenities)
         {
-            if (item.Quantity > bookingUnitOfWork.amenity.GetById(item.AmenityId).Quantity)
+            var amenity = bookingUnitOfWork.bookAmenity.GetById(item.AmenityId);
+
+            if (item.Quantity > bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity)
                 throw new AmenityBadRequestException("Số lượng tiện nghi không được lớn hơn số lượng trong kho");
 
-            var amenity = bookingUnitOfWork.amenity.GetById(item.AmenityId);
+            amenity.Quantity = item.Quantity;
 
-            amenity.Quantity = amenity.Quantity - item.Quantity;
+            await bookingUnitOfWork.bookAmenity.UpdateAsync(amenity);
 
-            await bookingUnitOfWork.amenity.UpdateAsync(amenity);
+            bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity = bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity - amenity.Quantity;
 
-            item.BookingId = newBooking.Id; //
+            await bookingUnitOfWork.amenity.UpdateAsync(bookingUnitOfWork.amenity.GetById(amenity.AmenityId));
 
-            await bookingUnitOfWork.bookAmenity.UpdateAsync(item);
+            amenity.BookingId = newBooking.Id; //
+
+            await bookingUnitOfWork.bookAmenity.UpdateAsync(amenity);
         }
 
         foreach (var item in command.Beverages)
