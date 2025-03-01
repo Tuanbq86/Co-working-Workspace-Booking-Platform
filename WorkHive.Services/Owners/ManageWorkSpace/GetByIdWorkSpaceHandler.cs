@@ -6,11 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
+using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.Exceptions;
+using WorkHive.Services.Users.LoginUser;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace
 {
-    public record GetByIdWorkSpaceCommand(List<Workspace> Workspaces) : ICommand<GetByIdWorkspaceResult>;
-    public record GetByIdWorkspaceResult(string Notification);
+    public record GetByIdWorkSpaceCommand(int id) : ICommand<GetByIdWorkspaceResult>;
+    public record GetByIdWorkspaceResult(Workspace Workspace, string Notification);
 
     public class GetByIdWorkSpaceValidator : AbstractValidator<GetByIdWorkSpaceCommand>
     {
@@ -20,12 +23,22 @@ namespace WorkHive.Services.Owners.ManageWorkSpace
         }
     }
 
-    public class GetByIdWorkspaceHandler()
+    public class GetByIdWorkspaceHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
     : ICommandHandler<GetByIdWorkSpaceCommand, GetByIdWorkspaceResult>
     {
-        public Task<GetByIdWorkspaceResult> Handle(GetByIdWorkSpaceCommand request, CancellationToken cancellationToken)
+        public async Task<GetByIdWorkspaceResult> Handle(GetByIdWorkSpaceCommand command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            Workspace IsExit = workSpaceManageUnit.Workspace.GetById(command.id);
+            if (IsExit == null)
+            {
+                message = "WorkSpace not found! ";
+            }
+            else
+            {               
+                message = "Successfully";
+            }
+            return new GetByIdWorkspaceResult(IsExit, message);
         }
     }
 }

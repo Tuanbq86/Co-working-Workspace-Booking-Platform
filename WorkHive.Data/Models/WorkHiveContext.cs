@@ -12,6 +12,10 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
+    public WorkHiveContext()
+    {
+        
+    }
 
     public virtual DbSet<Amenity> Amenities { get; set; }
 

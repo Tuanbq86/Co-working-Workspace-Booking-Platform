@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
+using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Owners.LoginOwner;
 using WorkHive.Services.Users.BookingWorkspace;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace
 {
-    public record GetAllWorkSpaceCommand(List<Workspace> Workspaces) : ICommand<GetAllWorkspaceResult>;
-    public record GetAllWorkspaceResult(string Notification);
+    public record GetAllWorkSpaceCommand() : ICommand<GetAllWorkspaceResult>;
+    public record GetAllWorkspaceResult(List<Workspace> Workspaces);
 
     public class GetAllWorkSpaceValidator : AbstractValidator<GetAllWorkSpaceCommand>
     {
@@ -22,12 +23,14 @@ namespace WorkHive.Services.Owners.ManageWorkSpace
         }
     }
 
-    public class GetAllWorkspaceHandler()
+    public class GetAllWorkspaceHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
     : ICommandHandler<GetAllWorkSpaceCommand, GetAllWorkspaceResult>
     {
-        public Task<GetAllWorkspaceResult> Handle(GetAllWorkSpaceCommand request, CancellationToken cancellationToken)
+        public Task<GetAllWorkspaceResult> Handle(GetAllWorkSpaceCommand command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            List<Workspace> Workspaces = workSpaceManageUnit.Workspace.GetAll();
+            return Task.FromResult(new GetAllWorkspaceResult(Workspaces));
         }
+
     }
 }

@@ -69,6 +69,7 @@ public static class DependencyInjection
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
         services.AddScoped<ITokenRepository, TokenRepository>();
         services.AddScoped<IWorkspaceOwnerUnitOfWork, WorkspaceOwnerUnitOfWork>();
+                      services.AddScoped<IWorkSpaceManageUnitOfWork,WorkSpaceManageUnitOfWork>();
         
         return services;
     }
