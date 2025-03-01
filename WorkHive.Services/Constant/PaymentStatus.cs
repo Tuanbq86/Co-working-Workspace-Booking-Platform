@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkHive.Services.Constant
-{
-    public enum AmenityStatus
-    {
+namespace WorkHive.Services.Constant;
 
-    }
+public enum PaymentStatus
+{
+    Available,
+    Unavailable
 }

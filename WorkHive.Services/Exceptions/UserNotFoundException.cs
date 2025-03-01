@@ -5,17 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.Exceptions;
 
-namespace WorkHive.Services.Exceptions
+namespace WorkHive.Services.Exceptions;
+
+class UserNotFoundException : NotFoundException
 {
-    class UserNotFoundException : NotFoundException
+    public UserNotFoundException(string name, string message) : base(name, message)
     {
-        public UserNotFoundException(string name, string message) : base(name, message)
-        {
 
-        }
-        //public OwnerNotFoundException(string name, string message) : base(name, message)
-        //{
-
-        //}
     }
+    //public OwnerNotFoundException(string name, string message) : base(name, message)
+    //{
+
+    //}
 }

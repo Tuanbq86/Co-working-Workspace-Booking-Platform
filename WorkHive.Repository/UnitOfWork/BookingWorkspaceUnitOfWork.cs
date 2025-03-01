@@ -23,6 +23,9 @@ namespace WorkHive.Repositories.UnitOfWork
         public IAmenityRepository amenity { get; private set; }
 
         public IBeverageRepository beverage { get; private set; }
+
+        public IWorkspaceTimeRepository workspaceTime { get; private set; }
+
         public BookingWorkspaceUnitOfWork(WorkHiveContext context)
         {
             _context = context;
@@ -34,6 +37,7 @@ namespace WorkHive.Repositories.UnitOfWork
             bookBeverage = new BookingBeverageRepository(_context);
             amenity = new AmenityRepository(_context);
             beverage = new BeverageRepository(_context);
+            workspaceTime = new WorkspaceTimeRepository(_context);
         }
 
         public int Save()

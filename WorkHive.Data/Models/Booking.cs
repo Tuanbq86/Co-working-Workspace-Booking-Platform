@@ -38,4 +38,6 @@ public partial class Booking
     public virtual User User { get; set; }
 
     public virtual Workspace Workspace { get; set; }
+
+    public virtual ICollection<WorkspaceTime> WorkspaceTimes { get; set; } = new List<WorkspaceTime>();
 }
