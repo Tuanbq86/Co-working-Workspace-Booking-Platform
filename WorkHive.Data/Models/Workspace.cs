@@ -29,6 +29,10 @@ public partial class Workspace
 
     public int OwnerId { get; set; }
 
+    public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
+
+    public virtual ICollection<Beverage> Beverages { get; set; } = new List<Beverage>();
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<FacilityWorkspace> FacilityWorkspaces { get; set; } = new List<FacilityWorkspace>();

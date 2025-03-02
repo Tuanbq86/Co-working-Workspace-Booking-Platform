@@ -28,7 +28,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
     {
         public async Task<List<WorkspaceDTO>> Handle(GetWorkSpacesByOwnerIdCommand command, CancellationToken cancellationToken)
         {
-            var workspaces = await workSpaceManageUnit.Workspace.GetAllByOwnerIdAsync(command.OwnerId);
+            var workspaces = await workSpaceManageUnit.Workspace.GetAllWorkSpaceByOwnerIdAsync(command.OwnerId);
 
             if (workspaces == null || !workspaces.Any())
             {

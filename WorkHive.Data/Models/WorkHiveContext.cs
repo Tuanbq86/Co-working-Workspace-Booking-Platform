@@ -12,11 +12,11 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
+
     public WorkHiveContext()
     {
         
     }
-
 
     public virtual DbSet<Amenity> Amenities { get; set; }
 
@@ -118,11 +118,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+            entity.Property(e => e.WorkspaceId).HasColumnName("Workspace_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Amenities)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKAmenity881084");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.Amenities)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Amenity_Workspace");
         });
 
         modelBuilder.Entity<Beverage>(entity =>
@@ -162,6 +168,11 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKBeverage620093");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.Beverages)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Beverage_Workspace");
         });
 
         modelBuilder.Entity<Booking>(entity =>
@@ -500,7 +511,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27EF80E391");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27E887ADB7");
 
             entity.ToTable("Promotion");
 
@@ -921,7 +932,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC279089BEE4");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC271D40FDA0");
 
             entity.ToTable("Workspace_Time");
 
