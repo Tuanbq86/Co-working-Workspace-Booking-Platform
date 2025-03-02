@@ -29,7 +29,11 @@ public partial class Amenity
 
     public int OwnerId { get; set; }
 
+    public int WorkspaceId { get; set; }
+
     public virtual ICollection<BookingAmenity> BookingAmenities { get; set; } = new List<BookingAmenity>();
 
     public virtual WorkspaceOwner Owner { get; set; }
+
+    public virtual Workspace Workspace { get; set; }
 }

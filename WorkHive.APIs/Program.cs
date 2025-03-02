@@ -8,7 +8,7 @@ var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 builder.Services.AddServiceServices(builder.Configuration);
 builder.Services.AddApiServices(builder.Configuration);
@@ -26,11 +26,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My WorkHive API");
-    });
+    //app.UseSwagger();
+    //app.UseSwaggerUI(c =>
+    //{
+    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My WorkHive API");
+    //});
 }
 
 app.UseApiServices();

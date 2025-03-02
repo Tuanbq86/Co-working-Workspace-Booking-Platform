@@ -10,4 +10,6 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IAmenityRepository : IGenericRepository<Amenity>
 {
+    public Task<List<Amenity>> GetAmenitiesByWorkSpaceIdAsync(int workspaceId);
+
 }

@@ -61,7 +61,7 @@ public sealed class TokenRepository : ITokenRepository
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[] {
+        var claims = new[] {      
         new Claim(JwtRegisteredClaimNames.Sub, Owner.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Email, Owner.Email),
         new Claim("Phone", Owner.Phone)};
