@@ -17,7 +17,7 @@ public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUn
 
         if (!command.Status.Equals(UpdateTimeStatus.PAID))
         {
-            throw new BookingBadRequestException("Không thể cập nhật trạng thái");
+            throw new BookingBadRequestException("Update failed");
         }
 
         var workspaceTime = bookUnit.workspaceTime.GetAll()
@@ -28,6 +28,6 @@ public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUn
         bookUnit.workspaceTime.Update(workspaceTime);
         await bookUnit.SaveAsync();
 
-        return new UpdateTimeResult("Cập nhật trạng thái thành công");
+        return new UpdateTimeResult("Update successfully");
     }
 }

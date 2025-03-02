@@ -3,6 +3,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
+using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
@@ -24,6 +25,10 @@ public class GetUnavailableWorkspaceTimesHandler(IBookingWorkspaceUnitOfWork boo
         CancellationToken cancellationToken)
     {
         var workspace = bookUnit.workspace.GetById(query.WorkspaceId);
+
+        if (workspace is null)
+            throw new WorkspaceNotFoundException("Workspace", query.WorkspaceId);
+
         var results = new List<WorkspaceTime>();
         var workspaceTimeList = bookUnit.workspaceTime.GetAll();
 
