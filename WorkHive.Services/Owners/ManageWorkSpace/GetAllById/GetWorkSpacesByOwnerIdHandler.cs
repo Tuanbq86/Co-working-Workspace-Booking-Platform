@@ -13,7 +13,11 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
 {
     public record GetWorkSpacesByOwnerIdCommand(int OwnerId) : ICommand<List<WorkspaceDTO>>;
 
-    public record WorkspaceDTO(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area);
+    public record WorkspaceDTO(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area, List<WorkspacePriceDTO> Prices,
+    List<WorkspaceImageDTO> Images);
+
+    public record WorkspacePriceDTO(int Id, decimal? Price, string Category);
+    public record WorkspaceImageDTO(int Id, string ImgUrl);
 
     public class GetWorkSpacesByOwnerIdValidator : AbstractValidator<GetWorkSpacesByOwnerIdCommand>
     {
@@ -43,8 +47,17 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
                 ws.Category,
                 ws.Status,
                 ws.CleanTime,
-                ws.Area
-            )).ToList();
+                ws.Area,
+                ws.WorkspacePrices.Select(wp => new WorkspacePriceDTO(
+                    wp.Price.Id,
+                    wp.Price.Price1,
+                    wp.Price.Category
+                )).ToList(),
+                ws.WorkspaceImages.Select(wi => new WorkspaceImageDTO(
+                    wi.Image.Id,
+                    wi.Image.ImgUrl
+                )).ToList()
+                )).ToList();
         }
     }
 }

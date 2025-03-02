@@ -18,9 +18,18 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
     public async Task<List<Workspace>> GetAllWorkSpaceByOwnerIdAsync(int ownerId)
     {
         return await _context.Workspaces
-            .Where(ws => ws.OwnerId == ownerId)
+            .Include(w => w.WorkspacePrices)
+            .ThenInclude(wp => wp.Price)  
+            .Include(w => w.WorkspaceImages)
+            .ThenInclude(wi => wi.Image)  
             .ToListAsync();
     }
-
+    //public async Task<List<Workspace>> GetWorkspacesWithPriceAndImagesAsync()
+    //{
+    //    return await _context.Workspaces
+    //        .Include(w => w.WorkspacePrices) 
+    //        .Include(w => w.WorkspaceImages) 
+    //        .ToListAsync();
+    //}
 
 }

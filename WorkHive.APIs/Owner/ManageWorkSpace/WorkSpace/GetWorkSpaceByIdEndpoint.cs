@@ -6,7 +6,8 @@ using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
-    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area, int OwnerId);
+    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacePriceDTO> Prices,
+    List<WorkspaceImageDTO> Images);
 
     public class GetWorkSpaceByIdEndpoint : ICarterModule
     {
