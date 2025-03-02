@@ -14,7 +14,7 @@ public class GetUnavailableWorkspaceTimesEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/booking/workspacetimes", async ([AsParameters] WorkspaceTimesRequest request, ISender sender) =>
+        app.MapGet("users/booking/workspacetimes", async ([AsParameters] WorkspaceTimesRequest request, ISender sender) =>
         {
             var query = request.Adapt<WorkspaceTimesQuery>();
 

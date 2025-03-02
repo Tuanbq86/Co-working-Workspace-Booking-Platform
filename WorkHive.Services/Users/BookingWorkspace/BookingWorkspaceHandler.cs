@@ -12,7 +12,7 @@ using Net.payOS.Types;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
-public record BookingWorkspaceCommand(int WorkspaceId, int PaymentId, string StartDate, string EndDate,
+public record BookingWorkspaceCommand(int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string PromotionCode, decimal Price)
     : ICommand<BookingWorkspaceResult>;
 public record BookingWorkspaceResult(string Bin, string AccountNumber, int Amount, string Description, 
@@ -49,36 +49,13 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
 
         newBooking.UserId = Convert.ToInt32(userId); //Add userId for booking
 
-        //Check validate for start date and end date
-        var workspaceTimes = bookingUnitOfWork.workspaceTime.GetAll()
-            .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
-
-        if (bookingUnitOfWork.workspaceTime.IsOverlap(workspaceTimes, DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture), 
-            DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)))
-            throw new BadBookingRequestException("Khoảng thời gian bị trùng với các khoảng đã thuê");
-        else
-        {
-            // Create a workspace time for workspace
-            var booingTime = new WorkspaceTime
-            {
-                StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
-                EndDate = DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
-                Status = WorkspaceTimeStatus.Handling.ToString(),
-                WorkspaceId = command.WorkspaceId,
-                BookingId = newBooking.Id
-            };
-
-            newBooking.StartDate = booingTime.StartDate; //
-            newBooking.EndDate = booingTime.EndDate; //
-        }
-            
         //Add Amenity and Beverage for Booking
         foreach (var item in command.Amenities)
         {
-            var amenity = bookingUnitOfWork.bookAmenity.GetById(item.AmenityId);
+            var amenity = bookingUnitOfWork.bookAmenity.GetById(item.Id);
 
             if (item.Quantity > bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity)
-                throw new AmenityBadRequestException("Số lượng tiện nghi không được lớn hơn số lượng trong kho");
+                throw new AmenityBadRequestException("The number of amenity can not more than that in warehouse");
 
             amenity.Quantity = item.Quantity;
 
@@ -114,12 +91,18 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         }
 
         newBooking.PromotionId = codeDiscount.Id; //
-
         newBooking.Price = command.Price; //
         newBooking.WorkspaceId = command.WorkspaceId; //
-        newBooking.PaymentId = command.PaymentId; //
+        newBooking.PaymentId = 1; //
         newBooking.CreatedAt = DateTime.UtcNow;
         newBooking.Status = BookingStatus.Handling.ToString(); //
+
+        newBooking.StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", 
+            System.Globalization.CultureInfo.InvariantCulture); //
+
+        newBooking.EndDate = DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy",
+            System.Globalization.CultureInfo.InvariantCulture); //
+
 
         bookingUnitOfWork.booking.Create(newBooking);
         await bookingUnitOfWork.SaveAsync();

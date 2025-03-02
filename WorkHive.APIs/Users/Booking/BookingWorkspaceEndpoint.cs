@@ -7,7 +7,7 @@ using WorkHive.Services.Users.BookingWorkspace;
 
 namespace WorkHive.APIs.Users.Booking;
 
-public record BookingWorkspaceRequest(int WorkspaceId, int PaymentId, DateTime StartDate, DateTime EndDate,
+public record BookingWorkspaceRequest(int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string PromotionCode, decimal Price);
 
 public record BookingWorkspaceResponse(string Bin, string AccountNumber, int Amount, string Description,
