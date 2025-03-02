@@ -1,5 +1,34 @@
+# Visual Studio
 .vs/
-node_modules/
+*.suo
+*.user
+*.userosscache
+*.sln.cache
+
+# Build
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.appx
+*.nupkg
+*.snupkg
 *.log
+
+# Config
 .env
 appsettings.*.json
+
+# Node.js
+node_modules/
+
+# Npm/Yarn Logs
+*.log
+
+# MacOS
+.DS_Store
+
+# System files
+Thumbs.db
