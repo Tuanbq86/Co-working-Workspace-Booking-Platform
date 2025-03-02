@@ -53,13 +53,13 @@ public static class DependencyInjection
         services.AddAuthorization();
 
         //Save session into Ram when I restart all data will delete
-        //services.AddDistributedMemoryCache();
+        services.AddDistributedMemoryCache();
 
-        services.AddStackExchangeRedisCache(options =>
-        {
-            string connection = configuration.GetConnectionString("Redis")!;
-            options.Configuration = connection;
-        });
+        //services.AddStackExchangeRedisCache(options =>
+        //{
+        //    string connection = configuration.GetConnectionString("Redis")!;
+        //    options.Configuration = connection;
+        //});
 
         services.AddSession(o =>
         {
