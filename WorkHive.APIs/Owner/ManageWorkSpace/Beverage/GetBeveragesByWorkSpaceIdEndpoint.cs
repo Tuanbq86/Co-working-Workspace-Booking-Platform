@@ -10,7 +10,7 @@ namespace WorkHive.APIs.WorkSpace.ManageWorkSpace.Beverage
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/beverages/WorkSpace/{workspaceId}", async (int WorkSpaceId, ISender sender) =>
+            app.MapGet("/beverages/workspace/{workspaceId}", async (int WorkSpaceId, ISender sender) =>
             {
                 var command = new GetBeveragesByWorkSpaceIdCommand(WorkSpaceId);
                 var result = await sender.Send(command);

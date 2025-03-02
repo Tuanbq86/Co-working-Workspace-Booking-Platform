@@ -12,7 +12,7 @@ namespace WorkHive.Services.Owmers.ManageBeverage.GetAllById
 {
     public record GetBeveragesByWorkSpaceIdCommand(int WorkSpaceId) : ICommand<List<BeverageDTO>>;
 
-    public record BeverageDTO(int Id, string Name, decimal? Price, string ImgUrl, string Description, string Category, string Status, DateTime? CreatedAt, DateTime? UpdatedAt, int WorkspaceId);
+    public record BeverageDTO(int Id, string Name, decimal? Price, string ImgUrl, string Description, string Category, string Status, int WorkspaceId);
 
     public class GetBeveragesByWorkSpaceIdValidator : AbstractValidator<GetBeveragesByWorkSpaceIdCommand>
     {
@@ -43,8 +43,6 @@ namespace WorkHive.Services.Owmers.ManageBeverage.GetAllById
             b.Description,
             b.Category,
             b.Status,
-            b.CreatedAt,
-            b.UpdatedAt,
             b.WorkspaceId
         )).ToList();
     }
