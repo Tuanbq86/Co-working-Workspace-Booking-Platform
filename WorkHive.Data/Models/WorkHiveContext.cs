@@ -17,7 +17,6 @@ public partial class WorkHiveContext : DbContext
     {
         
     }
-
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -106,7 +105,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_Id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
@@ -118,11 +117,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Amenities)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKAmenity881084");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.Amenities)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Amenity_Workspace");
         });
 
         modelBuilder.Entity<Beverage>(entity =>
@@ -147,7 +152,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_Id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
@@ -157,11 +162,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_Id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Beverages)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKBeverage620093");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.Beverages)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Beverage_Workspace");
         });
 
         modelBuilder.Entity<Booking>(entity =>
@@ -198,7 +209,6 @@ public partial class WorkHiveContext : DbContext
 
             entity.HasOne(d => d.Promotion).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.PromotionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKBooking49948");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
@@ -500,7 +510,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27EF80E391");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27EEC157C9");
 
             entity.ToTable("Promotion");
 
@@ -721,7 +731,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ImageId).HasColumnName("ImageID");
             entity.Property(e => e.Status)
-                .HasColumnType("datetime")
+                .HasMaxLength(50)
                 .HasColumnName("status");
             entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
 
@@ -743,9 +753,9 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Workspace_Owner");
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.CharterCaptital)
+            entity.Property(e => e.CharterCapital)
                 .HasColumnType("decimal(18, 2)")
-                .HasColumnName("charter_captital");
+                .HasColumnName("charter_capital");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -765,9 +775,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.IdentityCreatedDate)
                 .HasColumnType("datetime")
                 .HasColumnName("identity_created_date");
-            entity.Property(e => e.IdentityExpriredDate)
+            entity.Property(e => e.IdentityExpiredDate)
                 .HasColumnType("datetime")
-                .HasColumnName("identity_exprired_date");
+                .HasColumnName("identity_expired_date");
             entity.Property(e => e.IdentityFile)
                 .HasColumnType("text")
                 .HasColumnName("identity_file");
@@ -921,7 +931,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC279089BEE4");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27A4D3D8E8");
 
             entity.ToTable("Workspace_Time");
 

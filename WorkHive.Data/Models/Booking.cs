@@ -25,7 +25,7 @@ public partial class Booking
 
     public int WorkspaceId { get; set; }
 
-    public int PromotionId { get; set; }
+    public int? PromotionId { get; set; }
 
     public virtual ICollection<BookingAmenity> BookingAmenities { get; set; } = new List<BookingAmenity>();
 

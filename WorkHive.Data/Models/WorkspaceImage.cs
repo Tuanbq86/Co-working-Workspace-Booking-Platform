@@ -9,7 +9,7 @@ public partial class WorkspaceImage
 {
     public int Id { get; set; }
 
-    public DateTime? Status { get; set; }
+    public string Status { get; set; }
 
     public int WorkspaceId { get; set; }
 
