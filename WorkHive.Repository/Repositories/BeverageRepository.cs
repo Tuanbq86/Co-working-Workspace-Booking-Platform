@@ -16,11 +16,12 @@ public class BeverageRepository : GenericRepository<Beverage>, IBeverageReposito
 
     public BeverageRepository(WorkHiveContext context) => _context = context;
 
-    public async Task<List<Beverage>> GetAllBeveragesByOwnerIdAsync(int ownerId)
+
+
+    public async Task<List<Beverage>> GetBeveragesByWorkSpaceIdAsync(int workspaceId)
     {
         return await _context.Beverages
-            .Where(ws => ws.OwnerId == ownerId)
+            .Where(ws => ws.WorkspaceId == workspaceId)
             .ToListAsync();
     }
-
 }

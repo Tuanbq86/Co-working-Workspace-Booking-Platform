@@ -11,7 +11,7 @@ using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Exceptions;
 using WorkHive.Services.Users.LoginUser;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace
+namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 {
     public record GetWorkSpaceByIdCommand(int id) : ICommand<GetWorkSpaceByIdResult>;
     public record GetWorkSpaceByIdResult(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area, int OwnerId);

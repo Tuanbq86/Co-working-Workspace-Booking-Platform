@@ -12,7 +12,6 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
-
     public WorkHiveContext()
     {
         
@@ -106,7 +105,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_Id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
@@ -118,7 +117,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
-            entity.Property(e => e.WorkspaceId).HasColumnName("Workspace_id");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Amenities)
                 .HasForeignKey(d => d.OwnerId)
@@ -153,7 +152,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_Id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
@@ -163,6 +162,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_Id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Beverages)
                 .HasForeignKey(d => d.OwnerId)

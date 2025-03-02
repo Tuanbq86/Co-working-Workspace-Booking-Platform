@@ -2,6 +2,7 @@
 using Mapster;
 using MediatR;
 using WorkHive.Services.Owners.ManageWorkSpace;
+using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
