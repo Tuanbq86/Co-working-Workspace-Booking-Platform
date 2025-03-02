@@ -8,5 +8,6 @@ namespace WorkHive.Services.Constant
 {
     public enum AmenityStatus
     {
+
     }
 }

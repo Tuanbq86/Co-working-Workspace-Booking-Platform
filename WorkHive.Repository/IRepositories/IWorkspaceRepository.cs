@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IWorkspaceRepository : IGenericRepository<Workspace>
 {
+    public Task<List<Workspace>> GetAllWorkSpaceByOwnerIdAsync(int ownerId);
 }

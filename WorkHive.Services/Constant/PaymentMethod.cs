@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkHive.Services.Constant;
 
-public enum WorkspaceStatus
+public enum PaymentMethod
 {
-    Available,
-    InUse
+    PayOS
 }

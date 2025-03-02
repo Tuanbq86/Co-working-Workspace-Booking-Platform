@@ -17,5 +17,9 @@ public partial class WorkspaceTime
 
     public int WorkspaceId { get; set; }
 
+    public int BookingId { get; set; }
+
+    public virtual Booking Booking { get; set; }
+
     public virtual Workspace Workspace { get; set; }
 }

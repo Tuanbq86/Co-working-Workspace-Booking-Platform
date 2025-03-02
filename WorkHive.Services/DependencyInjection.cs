@@ -52,6 +52,9 @@ public static class DependencyInjection
 
         services.AddAuthorization();
 
+        //Save session into Ram when I restart all data will delete
+        //services.AddDistributedMemoryCache();
+
         services.AddStackExchangeRedisCache(options =>
         {
             string connection = configuration.GetConnectionString("Redis")!;
@@ -69,8 +72,11 @@ public static class DependencyInjection
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
         services.AddScoped<ITokenRepository, TokenRepository>();
         services.AddScoped<IWorkspaceOwnerUnitOfWork, WorkspaceOwnerUnitOfWork>();
-                      services.AddScoped<IWorkSpaceManageUnitOfWork,WorkSpaceManageUnitOfWork>();
+        services.AddScoped<IWorkSpaceManageUnitOfWork,WorkSpaceManageUnitOfWork>();
         
+        services.AddScoped<IBookingWorkspaceUnitOfWork, BookingWorkspaceUnitOfWork>();
+        services.AddScoped<IWorkSpaceManageUnitOfWork, WorkSpaceManageUnitOfWork>();
+
         return services;
     }
 
