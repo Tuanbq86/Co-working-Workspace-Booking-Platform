@@ -33,8 +33,14 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
             throw new UserNotFoundException("User", command.Auth);
 
         // Get user to use generate JWT token
-        var user = userUnit.User.GetAll().Where(u => u.Phone.Equals(command.Auth) 
-        || u.Email.Equals(command.Auth)).FirstOrDefault();
+
+        var userList = await userUnit.User.GetAllAsync();
+
+        var user = userList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
+                   u.Email.ToLower().Trim().Equals(command.Auth.ToLower().Trim()));
+
+        if (user is null)
+            throw new UserNotFoundException("User", command.Auth);
 
         string token = tokenRepo.GenerateJwtToken(user!);
 

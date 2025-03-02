@@ -54,6 +54,8 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit)
             Name = tempUser.Name,
             Email = tempUser.Email,
             Phone = tempUser.Phone,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempUser.Password, 13),
