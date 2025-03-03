@@ -1,0 +1,15 @@
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\bin\Debug\net8.0\WorkHive.Data.deps.json
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\bin\Debug\net8.0\WorkHive.Data.runtimeconfig.json
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\bin\Debug\net8.0\WorkHive.Data.dll
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\bin\Debug\net8.0\WorkHive.Data.pdb
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.csproj.AssemblyReference.cache
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.AssemblyInfoInputs.cache
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.AssemblyInfo.cs
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.csproj.CoreCompileInputs.cache
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.sourcelink.json
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.dll
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\refint\WorkHive.Data.dll
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.pdb
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\WorkHive.Data.genruntimeconfig.cache
+C:\Users\ACER\Downloads\SEP490_BE_APIs\WorkHive.Data\obj\Debug\net8.0\ref\WorkHive.Data.dll

@@ -35,10 +35,11 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
     {
         public async Task<GetWorkSpaceByIdResult> Handle(GetWorkSpaceByIdCommand command, CancellationToken cancellationToken)
         {
-            var workspace = await workSpaceManageUnit.Workspace.GetByIdAsync(command.id);
+            var workspace = await workSpaceManageUnit.Workspace.GetWorkSpaceById(command.id);
+
             if (workspace == null)
             {
-                throw new NotFoundException("WorkSpace not found!");
+                throw new NotFoundException($"Workspace with ID {command.id} not found!");
             }
 
             return new GetWorkSpaceByIdResult(
@@ -51,17 +52,19 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
                 workspace.CleanTime,
                 workspace.Area,
                 workspace.OwnerId,
-                workspace.WorkspacePrices.Select(wp => new WorkspacePriceDTO(
-                    wp.Price.Id,
-                    wp.Price.Price1,
-                    wp.Price.Category
-                )).ToList(),
-                workspace.WorkspaceImages.Select(wi => new WorkspaceImageDTO(
-                    wi.Image.Id,
-                    wi.Image.ImgUrl
-                )).ToList()
+                workspace.WorkspacePrices?.Where(wp => wp != null && wp.Price != null)
+                    .Select(wp => new WorkspacePriceDTO(
+                        wp.Id,
+                        wp.Price!.Price1, 
+                        wp.Price.Category
+                    )).ToList() ?? new List<WorkspacePriceDTO>(),
+                workspace.WorkspaceImages?.Where(wi => wi != null && wi.Image != null)
+                    .Select(wi => new WorkspaceImageDTO(
+                        wi.Image!.Id, 
+                        wi.Image.ImgUrl ?? string.Empty 
+                    )).ToList() ?? new List<WorkspaceImageDTO>()
             );
         }
-
     }
+
 }
