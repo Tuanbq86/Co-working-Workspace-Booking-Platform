@@ -37,7 +37,7 @@ public partial class WorkspaceOwner
 
     public string PlaceOfResidence { get; set; }
 
-    public DateTime? IdentityExpriredDate { get; set; }
+    public DateTime? IdentityExpiredDate { get; set; }
 
     public DateTime? IdentityCreatedDate { get; set; }
 
@@ -49,7 +49,7 @@ public partial class WorkspaceOwner
 
     public string LicenseAddress { get; set; }
 
-    public decimal? CharterCaptital { get; set; }
+    public decimal? CharterCapital { get; set; }
 
     public string LicenseFile { get; set; }
 

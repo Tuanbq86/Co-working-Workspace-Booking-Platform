@@ -19,17 +19,20 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
     {
         return await _context.Workspaces
             .Include(w => w.WorkspacePrices)
-            .ThenInclude(wp => wp.Price)  
+            .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
-            .ThenInclude(wi => wi.Image)  
+            .ThenInclude(wi => wi.Image)
             .ToListAsync();
     }
-    //public async Task<List<Workspace>> GetWorkspacesWithPriceAndImagesAsync()
-    //{
-    //    return await _context.Workspaces
-    //        .Include(w => w.WorkspacePrices) 
-    //        .Include(w => w.WorkspaceImages) 
-    //        .ToListAsync();
-    //}
+    public async Task<Workspace?> GetWorkSpaceById(int ownerId)
+    {
+        return await _context.Workspaces
+            .Include(w => w.WorkspacePrices)
+            .ThenInclude(wp => wp.Price)
+            .Include(w => w.WorkspaceImages)
+            .ThenInclude(wi => wi.Image)
+            .FirstOrDefaultAsync(w => w.OwnerId == ownerId);
+    }
+
 
 }
