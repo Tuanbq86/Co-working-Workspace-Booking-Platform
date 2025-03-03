@@ -7,7 +7,7 @@ using WorkHive.Services.Users.BookingWorkspace;
 
 namespace WorkHive.APIs.Users.Booking;
 
-public record GetBookingHistoryListByIdRequest(string Token);
+public record GetBookingHistoryListByIdRequest(int UserId);
 public record GetBookingHistoryListByIdResponse(List<BookingHistory> BookingHistories);
 
 public class GetBookingHistoryListByIdEndpoint : ICarterModule

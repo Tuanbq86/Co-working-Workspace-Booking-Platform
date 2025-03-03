@@ -6,7 +6,7 @@ using WorkHive.Services.Users.RegisterUser;
 namespace WorkHive.APIs.Users.RegisterUser;
 
 public record RegisterUserRequest(string Name, string Email,
-    string Phone, string Password);
+    string Phone, string Password, string Sex);
 public record RegisterUserResponse(string Notification);
 
 public class RegisterUserEndpoint : ICarterModule

@@ -9,6 +9,7 @@ using WorkHive.Repositories.IRepositories;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
@@ -44,8 +45,7 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
         var listInfo = tokenRepo.DecodeJwtToken(token);
 
-        var userId = listInfo[0];
-        var roleId = listInfo[1];
+        var userId = listInfo[JwtRegisteredClaimNames.Sub];
 
         newBooking.UserId = Convert.ToInt32(userId); //Add userId for booking
 

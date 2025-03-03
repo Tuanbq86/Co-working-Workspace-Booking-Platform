@@ -6,7 +6,7 @@ using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
-public record GetBookingHistoryListByIdQuery(string Token) 
+public record GetBookingHistoryListByIdQuery(int UserId) 
     : IQuery<GetBookingHistoryListByIdResult>;
 public record GetBookingHistoryListByIdResult(List<BookingHistory> BookingHistories);
 
@@ -17,17 +17,10 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
     public async Task<GetBookingHistoryListByIdResult> Handle(GetBookingHistoryListByIdQuery query, 
         CancellationToken cancellationToken)
     {
-        var results = new List<BookingHistory>();
-
-        var listInfo = tokenRepo.DecodeJwtToken(query.Token);
-
-        var userId = listInfo[0];
-
         var bookings = bookingUnit.booking.GetAll()
-            .Where(b => b.UserId == Convert.ToInt32(userId)).ToList();
+            .Where(b => b.UserId == Convert.ToInt32(query.UserId)).ToList();
 
-        if (bookings.Count.Equals(0))
-            throw new BookingNotFoundException("Can not find any booking");
+        List<BookingHistory> results = new List<BookingHistory>();
 
         foreach(var item in bookings)
         {

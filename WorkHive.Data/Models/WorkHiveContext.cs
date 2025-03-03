@@ -17,6 +17,7 @@ public partial class WorkHiveContext : DbContext
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -89,7 +90,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Amenity");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category)
                 .HasMaxLength(50)
                 .HasColumnName("category");
@@ -105,7 +106,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("owner_Id");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
@@ -136,7 +137,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Beverage");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category)
                 .HasMaxLength(50)
                 .HasColumnName("category");
@@ -152,7 +153,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("owner_Id");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
@@ -162,7 +163,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
-            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_Id");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Beverages)
                 .HasForeignKey(d => d.OwnerId)
@@ -181,26 +182,26 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Booking");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
-            entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
+            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
-            entity.Property(e => e.PromotionId).HasColumnName("PromotionID");
+            entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("start_date");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.PaymentId)
@@ -228,9 +229,9 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Booking_Amenity");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.AmenityId).HasColumnName("AmenityID");
-            entity.Property(e => e.BookingId).HasColumnName("Booking_ID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AmenityId).HasColumnName("amenity_id");
+            entity.Property(e => e.BookingId).HasColumnName("booking_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
@@ -253,9 +254,9 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Booking_Beverage");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.BeverageId).HasColumnName("BeverageID");
-            entity.Property(e => e.BookingWorkspaceId).HasColumnName("Booking_WorkspaceID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.BeverageId).HasColumnName("beverage_id");
+            entity.Property(e => e.BookingWorkspaceId).HasColumnName("booking_workspace_id");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
@@ -278,12 +279,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Customer_Wallet");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
-            entity.Property(e => e.WalletId).HasColumnName("WalletID");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.WalletId).HasColumnName("wallet_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.CustomerWallets)
                 .HasForeignKey(d => d.UserId)
@@ -300,9 +301,9 @@ public partial class WorkHiveContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__facility__3214EC27D1442BBE");
 
-            entity.ToTable("facility");
+            entity.ToTable("Facility");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
@@ -315,13 +316,13 @@ public partial class WorkHiveContext : DbContext
         {
             entity.HasKey(e => new { e.Id, e.FacilityId, e.WorkspaceId }).HasName("PK__facility__D879E35A474DE708");
 
-            entity.ToTable("facility_Workspace");
+            entity.ToTable("Facility_Workspace");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
-            entity.Property(e => e.FacilityId).HasColumnName("facilityID");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
+                .HasColumnName("id");
+            entity.Property(e => e.FacilityId).HasColumnName("facility_id");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Facility).WithMany(p => p.FacilityWorkspaces)
                 .HasForeignKey(d => d.FacilityId)
@@ -340,14 +341,14 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Feedback");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasColumnName("description");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.UserId)
@@ -361,7 +362,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Image");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -382,9 +383,9 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Image_Feedback");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.FeedbackId).HasColumnName("feedback_id");
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -406,7 +407,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Notification");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasColumnName("description");
@@ -421,12 +422,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Owner_Transaction_History");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.OwnerWalletId).HasColumnName("Owner_WalletID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.OwnerWalletId).HasColumnName("owner_wallet_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.TransactionHistoryId).HasColumnName("Transaction_HistoryID");
+            entity.Property(e => e.TransactionHistoryId).HasColumnName("transaction_history_id");
 
             entity.HasOne(d => d.OwnerWallet).WithMany(p => p.OwnerTransactionHistories)
                 .HasForeignKey(d => d.OwnerWalletId)
@@ -445,12 +446,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Owner_Wallet");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.WalletId).HasColumnName("WalletID");
+            entity.Property(e => e.WalletId).HasColumnName("wallet_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.OwnerId)
@@ -469,7 +470,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Payment");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.PaymentMethod)
                 .HasMaxLength(50)
                 .HasColumnName("payment_method");
@@ -484,7 +485,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Policy");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
@@ -499,7 +500,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Price");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category)
                 .HasMaxLength(50)
                 .HasColumnName("category");
@@ -510,11 +511,11 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3214EC27EEC157C9");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F4AD067E9");
 
             entity.ToTable("Promotion");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Code)
                 .HasMaxLength(50)
                 .HasColumnName("code");
@@ -548,7 +549,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Rating");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Comment)
                 .HasColumnType("text")
                 .HasColumnName("comment");
@@ -559,7 +560,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Ratings)
                 .HasForeignKey(d => d.UserId)
@@ -573,7 +574,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Role");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
                 .HasColumnName("role_name");
@@ -585,7 +586,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Transaction_History");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amount)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("amount");
@@ -606,7 +607,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("User");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar)
                 .HasMaxLength(255)
                 .HasColumnName("avatar");
@@ -615,7 +616,7 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnName("created_at");
             entity.Property(e => e.DateOfBirth)
                 .HasColumnType("datetime")
-                .HasColumnName("dateOfBirth");
+                .HasColumnName("date_of_birth");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -633,7 +634,10 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("phone");
-            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
+            entity.Property(e => e.Sex)
+                .HasMaxLength(50)
+                .HasColumnName("sex");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -653,12 +657,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("User_Transaction_History");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.CustomerWalletId).HasColumnName("Customer_WalletID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CustomerWalletId).HasColumnName("customer_wallet_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.TransactionHistoryId).HasColumnName("Transaction_HistoryID");
+            entity.Property(e => e.TransactionHistoryId).HasColumnName("transaction_history_id");
 
             entity.HasOne(d => d.CustomerWallet).WithMany(p => p.UserTransactionHistories)
                 .HasForeignKey(d => d.CustomerWalletId)
@@ -677,7 +681,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Wallet");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Balance)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("balance");
@@ -692,7 +696,7 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Workspace");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Area).HasColumnName("area");
             entity.Property(e => e.Capacity).HasColumnName("capacity");
             entity.Property(e => e.Category)
@@ -708,7 +712,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-            entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -728,12 +732,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Workspace_Image");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Image).WithMany(p => p.WorkspaceImages)
                 .HasForeignKey(d => d.ImageId)
@@ -752,16 +756,16 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Workspace_Owner");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CharterCapital)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("charter_capital");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.Dob)
+            entity.Property(e => e.DateOfBirth)
                 .HasColumnType("datetime")
-                .HasColumnName("dob");
+                .HasColumnName("date_of_birth");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -814,7 +818,11 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("phone");
+            entity.Property(e => e.PhoneStatus)
+                .HasMaxLength(50)
+                .HasColumnName("phone_status");
             entity.Property(e => e.PlaceOfOrigin)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("place_of_origin");
             entity.Property(e => e.PlaceOfResidence)
@@ -842,9 +850,9 @@ public partial class WorkHiveContext : DbContext
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
-            entity.Property(e => e.PolicyId).HasColumnName("PolicyID");
+                .HasColumnName("id");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
+            entity.Property(e => e.PolicyId).HasColumnName("policy_id");
 
             entity.HasOne(d => d.Policy).WithMany(p => p.WorkspacePolicies)
                 .HasForeignKey(d => d.PolicyId)
@@ -863,12 +871,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Workspace_Price");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.PriceId).HasColumnName("PriceID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.PriceId).HasColumnName("price_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Price).WithMany(p => p.WorkspacePrices)
                 .HasForeignKey(d => d.PriceId)
@@ -887,12 +895,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Workspace_Rating");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.RatingId).HasColumnName("RatingID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.RatingId).HasColumnName("rating_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Rating).WithMany(p => p.WorkspaceRatings)
                 .HasForeignKey(d => d.RatingId)
@@ -911,12 +919,12 @@ public partial class WorkHiveContext : DbContext
 
             entity.ToTable("Workspace_Rating_Image");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.WorkspaceRatingId).HasColumnName("Workspace_RatingID");
+            entity.Property(e => e.WorkspaceRatingId).HasColumnName("workspace_rating_id");
 
             entity.HasOne(d => d.Image).WithMany(p => p.WorkspaceRatingImages)
                 .HasForeignKey(d => d.ImageId)
@@ -931,12 +939,12 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3214EC27A4D3D8E8");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F7E18F6CE");
 
             entity.ToTable("Workspace_Time");
 
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.BookingId).HasColumnName("BookingID");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.BookingId).HasColumnName("booking_id");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
@@ -946,7 +954,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.WorkspaceId).HasColumnName("WorkspaceID");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.WorkspaceTimes)
                 .HasForeignKey(d => d.BookingId)

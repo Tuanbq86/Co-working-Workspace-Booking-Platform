@@ -39,11 +39,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[facility]",
+         "Name": "[dbo].[Facility]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[facility_Workspace]",
+         "Name": "[dbo].[Facility_Workspace]",
          "ObjectType": 0
       },
       {
