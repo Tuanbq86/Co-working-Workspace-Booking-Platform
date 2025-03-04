@@ -1,8 +1,7 @@
 ﻿using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
-using WorkHive.Services.BookingDTO;
-using WorkHive.Services.Exceptions;
+using WorkHive.Services.Users.DTOs;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 

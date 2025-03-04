@@ -2,7 +2,7 @@
 using Mapster;
 using MediatR;
 using WorkHive.APIs.Users.RegisterUser;
-using WorkHive.Services.BookingDTO;
+using WorkHive.Services.Users.DTOs;
 using WorkHive.Services.Users.BookingWorkspace;
 
 namespace WorkHive.APIs.Users.Booking;

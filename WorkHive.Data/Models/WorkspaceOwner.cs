@@ -19,7 +19,7 @@ public partial class WorkspaceOwner
 
     public string IdentityNumber { get; set; }
 
-    public DateTime? DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 
     public string Sex { get; set; }
 

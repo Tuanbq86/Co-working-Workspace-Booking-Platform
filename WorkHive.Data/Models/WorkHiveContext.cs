@@ -12,12 +12,10 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
-
     public WorkHiveContext()
     {
         
     }
-
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -511,7 +509,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F4AD067E9");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83FE9062006");
 
             entity.ToTable("Promotion");
 
@@ -614,9 +612,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.DateOfBirth)
-                .HasColumnType("datetime")
-                .HasColumnName("date_of_birth");
+            entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -763,9 +759,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.DateOfBirth)
-                .HasColumnType("datetime")
-                .HasColumnName("date_of_birth");
+            entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -822,7 +816,6 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("phone_status");
             entity.Property(e => e.PlaceOfOrigin)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("place_of_origin");
             entity.Property(e => e.PlaceOfResidence)
@@ -939,7 +932,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F7E18F6CE");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F3E5F61A3");
 
             entity.ToTable("Workspace_Time");
 
