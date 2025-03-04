@@ -13,8 +13,8 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.Amenity
         {
             app.MapGet("/amenities/{id}", async (int id, ISender sender) =>
             {
-                var command = new GetAmenityByIdCommand(id);
-                var result = await sender.Send(command);
+                var query = new GetAmenityByIdQuery(id);
+                var result = await sender.Send(query);
                 var response = result.Adapt<GetAmenityByIdResponse>();
 
                 return Results.Ok(response);

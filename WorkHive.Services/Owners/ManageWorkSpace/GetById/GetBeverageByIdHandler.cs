@@ -10,11 +10,11 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 {
-    public record GetBeverageByIdCommand(int id) : ICommand<GetBeverageByIdResult>;
+    public record GetBeverageByIdQuery(int id) : IQuery<GetBeverageByIdResult>;
     public record GetBeverageByIdResult(int Id, string Name, decimal? Price, string ImgUrl, string Description, string Category, string Status, int WorkspaceId);
 
 
-    public class GetBeverageByIdValidator : AbstractValidator<GetBeverageByIdCommand>
+    public class GetBeverageByIdValidator : AbstractValidator<GetBeverageByIdQuery>
     {
         public GetBeverageByIdValidator()
         {
@@ -23,11 +23,11 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
     }
 
     public class GetBeverageByIdHandler(IWorkSpaceManageUnitOfWork BeverageManageUnit)
-    : ICommandHandler<GetBeverageByIdCommand, GetBeverageByIdResult>
+    : IQueryHandler<GetBeverageByIdQuery, GetBeverageByIdResult>
     {
-        public async Task<GetBeverageByIdResult> Handle(GetBeverageByIdCommand command, CancellationToken cancellationToken)
+        public async Task<GetBeverageByIdResult> Handle(GetBeverageByIdQuery query, CancellationToken cancellationToken)
         {
-            var beverage = await BeverageManageUnit.Beverage.GetByIdAsync(command.id);
+            var beverage = await BeverageManageUnit.Beverage.GetByIdAsync(query.id);
             if (beverage == null)
             {
                 throw new NotFoundException("Beverage not found!");

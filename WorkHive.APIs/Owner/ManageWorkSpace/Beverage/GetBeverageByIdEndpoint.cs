@@ -12,8 +12,8 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.Beverage
         {
             app.MapGet("/beverages/{id}", async (int id, ISender sender) =>
             {
-                var command = new GetBeverageByIdCommand(id);
-                var result = await sender.Send(command);
+                var query = new GetBeverageByIdQuery(id);
+                var result = await sender.Send(query);
                 var response = result.Adapt<GetBeverageByIdResponse>();
 
                 return Results.Ok(response);

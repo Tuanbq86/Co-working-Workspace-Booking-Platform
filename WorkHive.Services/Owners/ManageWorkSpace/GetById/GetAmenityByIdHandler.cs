@@ -10,11 +10,11 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 {
-    public record GetAmenityByIdCommand(int id) : ICommand<GetAmenityByIdResult>;
+    public record GetAmenityByIdQuery(int id) : IQuery<GetAmenityByIdResult>;
     public record GetAmenityByIdResult(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
 
 
-    public class GetAmenityByIdValidator : AbstractValidator<GetAmenityByIdCommand>
+    public class GetAmenityByIdValidator : AbstractValidator<GetAmenityByIdQuery>
     {
         public GetAmenityByIdValidator()
         {
@@ -23,11 +23,11 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
     }
 
     public class GetAmenityByIdHandler(IWorkSpaceManageUnitOfWork AmenityManageUnit)
-    : ICommandHandler<GetAmenityByIdCommand, GetAmenityByIdResult>
+    : IQueryHandler<GetAmenityByIdQuery, GetAmenityByIdResult>
     {
-        public async Task<GetAmenityByIdResult> Handle(GetAmenityByIdCommand command, CancellationToken cancellationToken)
+        public async Task<GetAmenityByIdResult> Handle(GetAmenityByIdQuery query, CancellationToken cancellationToken)
         {
-            var amenity = await AmenityManageUnit.Amenity.GetByIdAsync(command.id);
+            var amenity = await AmenityManageUnit.Amenity.GetByIdAsync(query.id);
             if (amenity == null)
             {
                 throw new NotFoundException("Amenity not found!");

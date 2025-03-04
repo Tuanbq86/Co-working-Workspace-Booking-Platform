@@ -10,11 +10,11 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
 {
-    public record GetAmenitiesByWorkSpaceIdCommand(int WorkSpaceId) : ICommand<List<AmenityDTO>>;
+    public record GetAmenitiesByWorkSpaceIdQuery(int WorkSpaceId) : IQuery<List<AmenityDTO>>;
 
     public record AmenityDTO(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
 
-    public class GetAmenitiesByWorkSpaceIdValidator : AbstractValidator<GetAmenitiesByWorkSpaceIdCommand>
+    public class GetAmenitiesByWorkSpaceIdValidator : AbstractValidator<GetAmenitiesByWorkSpaceIdQuery>
     {
         public GetAmenitiesByWorkSpaceIdValidator()
         {
@@ -23,15 +23,15 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
         }
     }
     public class GetAmenitiesByWorkSpaceIdHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
-   : ICommandHandler<GetAmenitiesByWorkSpaceIdCommand, List<AmenityDTO>>
+   : IQueryHandler<GetAmenitiesByWorkSpaceIdQuery, List<AmenityDTO>>
     {
-        public async Task<List<AmenityDTO>> Handle(GetAmenitiesByWorkSpaceIdCommand command, CancellationToken cancellationToken)
+        public async Task<List<AmenityDTO>> Handle(GetAmenitiesByWorkSpaceIdQuery query, CancellationToken cancellationToken)
         {
-            var amenities = await workSpaceManageUnit.Amenity.GetAmenitiesByWorkSpaceIdAsync(command.WorkSpaceId);
+            var amenities = await workSpaceManageUnit.Amenity.GetAmenitiesByWorkSpaceIdAsync(query.WorkSpaceId);
 
             if (amenities == null || !amenities.Any())
             {
-                throw new NotFoundException($"No amenities found for WorkSpaceId {command.WorkSpaceId}");
+                throw new NotFoundException($"No amenities found for WorkSpaceId {query.WorkSpaceId}");
             }
 
             return amenities.Select(am => new AmenityDTO(
