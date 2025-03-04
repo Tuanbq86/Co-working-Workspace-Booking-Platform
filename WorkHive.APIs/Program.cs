@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using WorkHive.APIs;
 using WorkHive.Services;
 
@@ -8,7 +8,7 @@ var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddServiceServices(builder.Configuration);
 builder.Services.AddApiServices(builder.Configuration);
@@ -19,6 +19,11 @@ builder.Services.AddCors(opts =>
     opts.AddPolicy("CORSPolicy", builder
         => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((hosts) => true));
 });
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
+
 
 var app = builder.Build();
 
@@ -26,11 +31,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI(c =>
-    //{
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My WorkHive API");
-    //});
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My WorkHive API");
+    });
 }
 
 app.UseApiServices();

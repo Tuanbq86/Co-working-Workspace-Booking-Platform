@@ -13,10 +13,10 @@ namespace WorkHive.APIs.Owners.ManageWorkSpace.Amenity
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/amenities/workspace/{WorkSpaceId}", async (int WorkSpaceId, ISender sender) =>
+            app.MapGet("/amenities/workspace/{workSpaceId}", async (int workSpaceId, ISender sender) =>
             {
-                var command = new GetAmenitiesByWorkSpaceIdCommand(WorkSpaceId);
-                var result = await sender.Send(command);
+                var query = new GetAmenitiesByWorkSpaceIdQuery(workSpaceId);
+                var result = await sender.Send(query);
                 var response = new GetAmenitiesByWorkSpaceIdResponse(result);
 
                 return Results.Ok(response);

@@ -15,8 +15,8 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
         {
             app.MapGet("/workspaces/{id}", async (int id, ISender sender) =>
             {
-                var command = new GetWorkSpaceByIdCommand(id);
-                var result = await sender.Send(command);
+                var query = new GetWorkSpaceByIdQuery(id);
+                var result = await sender.Send(query);
                 var response = result.Adapt<GetWorkSpaceByIdResponse>();
 
                 return Results.Ok(response);

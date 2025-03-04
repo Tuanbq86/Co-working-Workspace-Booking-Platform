@@ -14,7 +14,7 @@ using WorkHive.Services.Users.LoginUser;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 {
-    public record GetWorkSpaceByIdCommand(int id) : ICommand<GetWorkSpaceByIdResult>;
+    public record GetWorkSpaceByIdQuery(int id) : IQuery<GetWorkSpaceByIdResult>;
     public record GetWorkSpaceByIdResult(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacePriceDTO> Prices,
     List<WorkspaceImageDTO> Images);
 
@@ -22,7 +22,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
     public record WorkspaceImageDTO(int Id, string ImgUrl);
 
 
-    public class GetWorkSpaceByIdValidator : AbstractValidator<GetWorkSpaceByIdCommand>
+    public class GetWorkSpaceByIdValidator : AbstractValidator<GetWorkSpaceByIdQuery>
     {
         public GetWorkSpaceByIdValidator()
         {
@@ -31,15 +31,15 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
     }
 
     public class GetWorkSpaceByIdHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
-    : ICommandHandler<GetWorkSpaceByIdCommand, GetWorkSpaceByIdResult>
+    : IQueryHandler<GetWorkSpaceByIdQuery, GetWorkSpaceByIdResult>
     {
-        public async Task<GetWorkSpaceByIdResult> Handle(GetWorkSpaceByIdCommand command, CancellationToken cancellationToken)
+        public async Task<GetWorkSpaceByIdResult> Handle(GetWorkSpaceByIdQuery query, CancellationToken cancellationToken)
         {
-            var workspace = await workSpaceManageUnit.Workspace.GetWorkSpaceById(command.id);
+            var workspace = await workSpaceManageUnit.Workspace.GetWorkSpaceById(query.id);
 
             if (workspace == null)
             {
-                throw new NotFoundException($"Workspace with ID {command.id} not found!");
+                throw new NotFoundException($"Workspace with ID {query.id} not found!");
             }
 
             return new GetWorkSpaceByIdResult(

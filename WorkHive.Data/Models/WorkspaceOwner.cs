@@ -19,7 +19,7 @@ public partial class WorkspaceOwner
 
     public string IdentityNumber { get; set; }
 
-    public DateTime? Dob { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 
     public string Sex { get; set; }
 
@@ -58,6 +58,8 @@ public partial class WorkspaceOwner
     public string Instagram { get; set; }
 
     public string Tiktok { get; set; }
+
+    public string PhoneStatus { get; set; }
 
     public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
 

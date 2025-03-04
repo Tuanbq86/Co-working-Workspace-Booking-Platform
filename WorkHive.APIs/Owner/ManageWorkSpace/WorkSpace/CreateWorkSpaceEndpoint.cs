@@ -17,8 +17,8 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
         {
             app.MapPost("/workspaces", async (CreateWorkspaceRequest request, ISender sender) =>
             {
-                var command = request.Adapt<CreateWorkSpaceCommand>();
-                var result = await sender.Send(command);
+                var query = request.Adapt<CreateWorkSpaceCommand>();
+                var result = await sender.Send(query);
                 var response = result.Adapt<CreateWorkspaceResponse>();
 
                 return Results.Created($"/workspaces", response);
