@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
+using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Exceptions;
 
@@ -9,7 +11,7 @@ namespace WorkHive.Services.Users.RegisterUser;
 public record RegisterUserCommand(string Name, string Email, 
     string Phone, string Password, string Sex) : ICommand<RegisterUserResult>;
 
-public record RegisterUserResult(string Notification);
+public record RegisterUserResult(string Token, string Notification);
 
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
@@ -31,7 +33,8 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     }
 }
 
-public class RegisterUserHandler(IUserUnitOfWork userUnit)
+public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRepo,
+    IHttpContextAccessor httpContext)
     : ICommandHandler<RegisterUserCommand, RegisterUserResult>
 {
     public async Task<RegisterUserResult> Handle(RegisterUserCommand command, 
@@ -70,6 +73,10 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit)
         
         await userUnit.SaveAsync();
 
-        return new RegisterUserResult("Register successfully");
+        var token = tokenRepo.GenerateJwtToken(newUser);
+
+        httpContext.HttpContext!.Session.SetString("token", token);
+
+        return new RegisterUserResult(token, "Register successfully");
     }
 }
