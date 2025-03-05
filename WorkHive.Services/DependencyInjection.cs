@@ -1,10 +1,12 @@
-﻿using FluentValidation;
+﻿using CloudinaryDotNet;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
@@ -14,6 +16,7 @@ using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Repositories.Repositories;
 using WorkHive.Repositories.UnitOfWork;
+using WorkHive.Services.UploadImages;
 
 namespace WorkHive.Services;
 
@@ -68,6 +71,16 @@ public static class DependencyInjection
         });
         //use to work in outside controller, middleware like services 
         services.AddHttpContextAccessor();
+
+        services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
+        services.AddSingleton<Cloudinary>(provider =>
+        {
+            var config = provider.GetRequiredService<IOptions<CloudinarySettings>>().Value;
+            var account = new Account(config.CloudName, config.ApiKey, config.ApiSecret);
+            return new Cloudinary(account);
+        });
+
+
 
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
         services.AddScoped<ITokenRepository, TokenRepository>();
