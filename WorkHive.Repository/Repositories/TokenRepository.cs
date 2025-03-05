@@ -17,20 +17,18 @@ public sealed class TokenRepository : ITokenRepository
         _configuration = configuration;
     }
 
-    public List<String> DecodeJwtToken(string token)
+    public Dictionary<string, string> DecodeJwtToken(string token)
     {
-        var claims = new List<String>();
+        Dictionary<string, string> claims = new Dictionary<string, string>();
 
         var handler = new JwtSecurityTokenHandler(); //use to decode jwt token
         var jwtToken = handler.ReadJwtToken(token); //convert jwt toke to JwtSecurityToken
 
-        //Get Sub being the subject for identification equals userId
-        var subInformation = jwtToken.Claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Sub))?.Value;
-        claims.Add(subInformation!);
 
-        //Get RoleId for user to authorize
-        var roleInformation = jwtToken.Claims.FirstOrDefault(c => c.Type.Equals("RoleId"))?.Value;
-        claims.Add(roleInformation!);
+        foreach (var claim in jwtToken.Claims)
+        {
+            claims.Add(claim.Type, claim.Value);
+        }
 
         return claims;
     }
@@ -42,8 +40,11 @@ public sealed class TokenRepository : ITokenRepository
 
         var claims = new[] {
         new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email.TrimEnd()),
         new Claim(JwtRegisteredClaimNames.Name, user.Name),
+        new Claim("Phone", user.Phone.ToString()),
+        new Claim("Sex", user.Sex.ToString()),
+        new Claim("Status", user.Status.ToString()),
         new Claim("RoleId", user.RoleId.ToString())
     };
 
