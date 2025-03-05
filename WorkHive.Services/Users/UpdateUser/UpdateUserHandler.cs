@@ -6,7 +6,7 @@ using WorkHive.Services.Exceptions;
 namespace WorkHive.Services.Users.UpdateUser;
 
 public record UpdateUserCommand(string Name, string Email, string Location, string Phone, 
-    DateOnly? DateOfBirth, string Sex, string OldPassword, 
+    DateOnly? DateOfBirth, string Sex, string Avatar, string OldPassword, 
     string NewPassword, string ConfirmPassword) : ICommand<UpdateUserResult>;
 public record UpdateUserResult(string Notification);
 
@@ -74,6 +74,7 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
         user.Phone = command.Phone;
         user.DateOfBirth = command.DateOfBirth;
         user.Sex = command.Sex;
+        user.Avatar = command.Avatar;
         user.Password = command.ConfirmPassword;
 
         userUnit.User.Update(user);
