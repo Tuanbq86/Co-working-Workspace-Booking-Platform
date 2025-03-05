@@ -24,6 +24,8 @@ namespace WorkHive.Repositories.UnitOfWork
 
         public IWorkspaceRepository Workspace { get; private set; }
 
+        public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
+
 
         public WorkSpaceManageUnitOfWork(WorkHiveContext context)
         {
@@ -33,6 +35,7 @@ namespace WorkHive.Repositories.UnitOfWork
             Amenity = new AmenityRepository(_context);
             Beverage = new BeverageRepository(_context);
             Workspace = new WorkspaceRepository(_context);
+            WorkspaceOwner = new WorkspaceOwnerRepository(_context);
         }
         public int Save()
         {

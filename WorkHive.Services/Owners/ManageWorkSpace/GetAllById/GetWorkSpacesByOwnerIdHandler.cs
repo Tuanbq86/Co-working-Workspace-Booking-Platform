@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.BuildingBlocks.Exceptions;
+using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 
 public record GetWorkSpacesByOwnerIdQuery(int Id) : IQuery<List<GetWorkSpaceByOwnerIdResult>>;
 
-public record GetWorkSpaceByOwnerIdResult(int Id, string Name, string Description, int? Capacity, string Category, 
+public record GetWorkSpaceByOwnerIdResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category, 
     string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacesPriceDTO> Prices,
 List<WorkspacesImageDTO> Images);
 
@@ -35,10 +36,12 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
         {
             throw new NotFoundException($"No workspaces found for OwnerId {Query.Id}");
         }
-
+        WorkspaceOwner owner = await workSpaceManageUnit.WorkspaceOwner.GetByIdAsync(Query.Id);
         return workspaces.Select(ws => new GetWorkSpaceByOwnerIdResult(
             ws.Id,
             ws.Name,
+            owner.LicenseAddress,
+            owner.GoogleMapUrl,
             ws.Description,
             ws.Capacity,
             ws.Category,

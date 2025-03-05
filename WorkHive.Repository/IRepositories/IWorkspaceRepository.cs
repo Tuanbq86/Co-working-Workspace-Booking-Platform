@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IWorkspaceRepository : IGenericRepository<Workspace>
 {
     public Task<List<Workspace>> GetAllWorkSpaceByOwnerIdAsync(int ownerId);
+    public Task<List<Workspace>> GetAllWorkSpaceAsync();
     public Task<Workspace?> GetWorkSpaceById(int ownerId);
+
 }

@@ -19,8 +19,4 @@
     <ProjectReference Include="..\WorkHive.Services\WorkHive.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Owner\LoginOwner\" />
-  </ItemGroup>
-
 </Project>

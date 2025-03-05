@@ -15,4 +15,5 @@ public interface IWorkspaceOwnerRepository : IGenericRepository<WorkspaceOwner>
     public WorkspaceOwner FindOwnerByEmail(string email);
     public WorkspaceOwner FindOwnerByPhone(string phone);
     public bool FindOwnerByEmailOrPhone(string auth, string password);
+    public Task<List<WorkspaceOwner>> GetOwnersByIdsAsync(List<int> ownerIds);
 }
