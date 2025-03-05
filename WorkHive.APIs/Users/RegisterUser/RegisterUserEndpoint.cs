@@ -6,8 +6,8 @@ using WorkHive.Services.Users.RegisterUser;
 namespace WorkHive.APIs.Users.RegisterUser;
 
 public record RegisterUserRequest(string Name, string Email,
-    string Phone, string Password);
-public record RegisterUserResponse(string Notification);
+    string Phone, string Password, string Sex);
+public record RegisterUserResponse(string Token, string Notification);
 
 public class RegisterUserEndpoint : ICarterModule
 {
@@ -20,7 +20,7 @@ public class RegisterUserEndpoint : ICarterModule
 
             var response = result.Adapt<RegisterUserResponse>();
 
-            return Results.Created($"/users/register", response.Notification);
+            return Results.Created($"/users/register", new { Token = response.Token, Notification = response.Notification });
         })
         .WithName("RegisterUser")
         .Produces<RegisterUserResponse>(StatusCodes.Status201Created)

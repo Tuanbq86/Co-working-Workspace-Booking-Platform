@@ -40,14 +40,15 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     }
 
     public User RegisterUserByPhoneAndEmail(string name, string email, 
-        string phone, string password)
+        string phone, string password, string sex)
     {
         var user = new User
         {
             Name = name,
             Email = email,
             Phone = phone,
-            Password = password
+            Password = password,
+            Sex = sex
         };
         
         return user;

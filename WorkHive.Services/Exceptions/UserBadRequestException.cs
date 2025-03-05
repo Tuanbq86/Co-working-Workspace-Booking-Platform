@@ -7,14 +7,9 @@ using WorkHive.BuildingBlocks.Exceptions;
 
 namespace WorkHive.Services.Exceptions;
 
-class UserNotFoundException : NotFoundException
+public class UserBadRequestException : BadRequestException
 {
-    public UserNotFoundException(string name, object message) : base(name, message)
-    {
-
-    }
-
-    public UserNotFoundException(string message) : base(message)
+    public UserBadRequestException(string message) : base(message)
     {
         
     }

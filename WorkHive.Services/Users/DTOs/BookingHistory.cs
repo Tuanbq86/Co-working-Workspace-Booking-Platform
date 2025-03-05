@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkHive.Services.BookingDTO;
+namespace WorkHive.Services.Users.DTOs;
 
 public sealed class BookingHistory
 {
