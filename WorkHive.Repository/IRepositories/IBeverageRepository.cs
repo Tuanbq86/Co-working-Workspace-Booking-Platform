@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IBeverageRepository : IGenericRepository<Beverage>
 {
+    public Task<List<Beverage>> GetBeveragesByWorkSpaceIdAsync(int workspaceId);
 }

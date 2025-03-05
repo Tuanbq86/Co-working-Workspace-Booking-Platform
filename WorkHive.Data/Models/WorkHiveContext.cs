@@ -337,7 +337,9 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.Id).HasColumnName("id");
+
             entity.Property(e => e.Description).HasColumnName("description");
+
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -401,7 +403,9 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Notification");
 
             entity.Property(e => e.Id).HasColumnName("id");
+
             entity.Property(e => e.Description).HasColumnName("description");
+
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -541,7 +545,9 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Rating");
 
             entity.Property(e => e.Id).HasColumnName("id");
+
             entity.Property(e => e.Comment).HasColumnName("comment");
+
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -603,7 +609,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
+                
             entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
+            
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -746,7 +754,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
+
             entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
+
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -759,7 +769,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.IdentityExpiredDate)
                 .HasColumnType("datetime")
                 .HasColumnName("identity_expired_date");
+
             entity.Property(e => e.IdentityFile).HasColumnName("identity_file");
+
             entity.Property(e => e.IdentityName)
                 .HasMaxLength(50)
                 .HasColumnName("identity_name");
@@ -793,6 +805,7 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("phone_status");
             entity.Property(e => e.PlaceOfOrigin)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("place_of_origin");
             entity.Property(e => e.PlaceOfResidence)

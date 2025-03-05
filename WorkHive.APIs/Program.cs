@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using WorkHive.APIs;
 using WorkHive.Services;
 
@@ -19,6 +19,11 @@ builder.Services.AddCors(opts =>
     opts.AddPolicy("CORSPolicy", builder
         => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((hosts) => true));
 });
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
+
 
 var app = builder.Build();
 
