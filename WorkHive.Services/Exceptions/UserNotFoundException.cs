@@ -13,8 +13,5 @@ class UserNotFoundException : NotFoundException
     {
 
     }
-    //public OwnerNotFoundException(string name, string message) : base(name, message)
-    //{
 
-    //}
 }

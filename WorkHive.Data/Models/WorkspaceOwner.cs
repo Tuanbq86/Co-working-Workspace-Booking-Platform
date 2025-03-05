@@ -19,7 +19,7 @@ public partial class WorkspaceOwner
 
     public string IdentityNumber { get; set; }
 
-    public DateTime? DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 
     public string Sex { get; set; }
 
@@ -37,9 +37,9 @@ public partial class WorkspaceOwner
 
     public string PlaceOfResidence { get; set; }
 
-    public DateTime? IdentityExpiredDate { get; set; }
+    public DateOnly? IdentityExpiredDate { get; set; }
 
-    public DateTime? IdentityCreatedDate { get; set; }
+    public DateOnly? IdentityCreatedDate { get; set; }
 
     public string IdentityFile { get; set; }
 
