@@ -36,7 +36,7 @@ namespace WorkHive.Services.Owners.LoginOwner
             var IsExist = OwnerUnit.WorkspaceOwner.FindOwnerByEmailOrPhone(command.Auth, command.Password);
 
             if (IsExist == false)
-                throw new UserNotFoundException("WorkSpaceOwner", command.Auth);
+                throw new OwnerNotFoundException("WorkSpaceOwner", command.Auth);
 
             // Get Owner to use generate JWT token
             var Owner = OwnerUnit.WorkspaceOwner.GetAll().Where(u => u.Phone.Equals(command.Auth)

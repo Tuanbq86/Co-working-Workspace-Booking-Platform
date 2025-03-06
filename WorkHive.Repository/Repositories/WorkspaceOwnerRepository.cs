@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,13 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
             Password = password
         };
         return workspaceOwner;
+    }
+
+    public async Task<List<WorkspaceOwner>> GetOwnersByIdsAsync(List<int> ownerIds)
+    {
+        return await _context.WorkspaceOwners
+            .Where(o => ownerIds.Contains(o.Id))
+            .ToListAsync();
     }
 
 }

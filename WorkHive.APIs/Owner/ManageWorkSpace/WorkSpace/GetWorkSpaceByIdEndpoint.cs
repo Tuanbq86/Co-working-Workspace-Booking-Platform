@@ -6,7 +6,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
-    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, int? Capacity, string Category, string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacePriceDTO> Prices,
+    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacePriceDTO> Prices,
     List<WorkspaceImageDTO> Images);
 
     public class GetWorkSpaceByIdEndpoint : ICarterModule
@@ -17,7 +17,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             {
                 var query = new GetWorkSpaceByIdQuery(id);
                 var result = await sender.Send(query);
-                var response = result.Adapt<GetWorkSpaceByIdResponse>();
+                GetWorkSpaceByIdResponse response = result.Adapt<GetWorkSpaceByIdResponse>();
 
                 return Results.Ok(response);
             })

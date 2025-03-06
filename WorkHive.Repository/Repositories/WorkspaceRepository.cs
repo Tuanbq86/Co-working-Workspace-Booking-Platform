@@ -17,6 +17,7 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
             .ThenInclude(wi => wi.Image)
+            .Where(w => w.OwnerId == ownerId)
             .ToListAsync();
     }
     public async Task<Workspace?> GetWorkSpaceById(int ownerId)
@@ -28,6 +29,16 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wi => wi.Image)
             .FirstOrDefaultAsync(w => w.OwnerId == ownerId);
     }
+
+    public async Task<List<Workspace>> GetAllWorkSpaceAsync()
+    {
+        return await _context.Workspaces
+            .Include(w => w.WorkspacePrices)
+            .ThenInclude(wp => wp.Price)
+            .Include(w => w.WorkspaceImages)
+            .ThenInclude(wi => wi.Image).ToListAsync();
+    }
+
 
 
 }

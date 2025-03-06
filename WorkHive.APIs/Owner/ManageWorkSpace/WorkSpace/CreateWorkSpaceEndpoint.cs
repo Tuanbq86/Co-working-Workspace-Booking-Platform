@@ -3,7 +3,7 @@ using Mapster;
 using MediatR;
 using WorkHive.APIs.Users.RegisterUser;
 using WorkHive.Data.Models;
-using WorkHive.Services.Owners.ManageWorkSpace;
+using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
