@@ -4,7 +4,7 @@ using MediatR;
 using WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace;
 using WorkHive.Services.UploadImages;
 
-namespace WorkHive.APIs.Image;
+namespace WorkHive.APIs.UploadImage;
 
 public record UploadImageRequest(List<IFormFile> Images);
 public record UploadImageResponse(int Status, string Message, List<string> Data);

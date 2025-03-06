@@ -4,11 +4,12 @@ using MediatR;
 using WorkHive.APIs.Users.RegisterUser;
 using WorkHive.Data.Models;
 using WorkHive.Services.Users.BookingWorkspace;
+using WorkHive.Services.Users.DTOs;
 
 namespace WorkHive.APIs.Users.Booking;
 
 public record BookingWorkspaceRequest(int WorkspaceId, string StartDate, string EndDate,
-    List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string PromotionCode, decimal Price);
+    List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price);
 
 public record BookingWorkspaceResponse(string Bin, string AccountNumber, int Amount, string Description,
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);

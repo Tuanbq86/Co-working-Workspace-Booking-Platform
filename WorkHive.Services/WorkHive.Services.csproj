@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Owners\ManageWorkSpace\GetAllById\Definition_Record\" />
+    <Folder Include="Users\UserWallet\" />
   </ItemGroup>
 
 </Project>
