@@ -6,7 +6,7 @@ using WorkHive.Services.UploadImages;
 
 namespace WorkHive.APIs.Image;
 
-public record UploadImageRequest(IFormFile Image);
+public record UploadImageRequest(List<IFormFile> Images);
 public record UploadImageResponse(int Status, string Message, List<string> Data);
 
 public class UploadImageEndpoint : ICarterModule
@@ -16,12 +16,14 @@ public class UploadImageEndpoint : ICarterModule
         app.MapPost("/images/upload", async(HttpContext context, ISender sender) =>
         {
             var form = await context.Request.ReadFormAsync();
-            var file = form.Files.FirstOrDefault();
-            if (file == null)
-                return Results.BadRequest("Image is required");
+            var files = form.Files.ToList();
 
-            var result = await sender.Send(new UploadImageCommand(file));
+            if (files == null || files.Count == 0)
+                return Results.BadRequest("At least one image is required");
+
+            var result = await sender.Send(new UploadImageCommand(files));
             var response = result.Adapt<UploadImageResponse>();
+
             return Results.Ok(response);
         })
         .Accepts<UploadImageRequest>("multipart/form-data")

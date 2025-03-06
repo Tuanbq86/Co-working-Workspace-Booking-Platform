@@ -44,11 +44,14 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
     public async Task<UpdateUserResult> Handle(UpdateUserCommand command, 
         CancellationToken cancellationToken)
     {
-        var user = userUnit.User.FindUserByPhone(command.Phone);
+        var userByPhone = userUnit.User.FindUserByPhone(command.Phone);
+        var userByEmail = userUnit.User.FindUserByEmail(command.Email);
 
         //Check null user
-        if (user is null)
+        if (userByEmail is null || userByPhone is null)
             throw new UserNotFoundException("Can not find user to update");
+
+        var user = userUnit.User.FindUserByPhone(command.Phone);
 
         //Check command with password of user
         if (!user.Password.ToLower().Trim().Equals(command.OldPassword.ToLower().Trim()))
@@ -66,7 +69,6 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
         {
             throw new UserBadRequestException("Email");
         }
-
 
         user.Name = command.Name;
         user.Email = command.Email;
