@@ -14,7 +14,7 @@ using WorkHive.Services.Users.DTOs;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
-public record BookingWorkspaceCommand(int WorkspaceId, string StartDate, string EndDate,
+public record BookingWorkspaceCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price)
     : ICommand<BookingWorkspaceResult>;
 public record BookingWorkspaceResult(string Bin, string AccountNumber, int Amount, string Description, 
@@ -43,12 +43,12 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var newBooking = new Booking();
 
         //Get userId and roleId for Booking in session containing token in a session working
-        var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
-        var listInfo = tokenRepo.DecodeJwtToken(token);
+        //var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
+        //var listInfo = tokenRepo.DecodeJwtToken(token);
 
-        var userId = listInfo[JwtRegisteredClaimNames.Sub];
+        //var userId = listInfo[JwtRegisteredClaimNames.Sub];
 
-        newBooking.UserId = Convert.ToInt32(userId); //Add userId for booking
+        newBooking.UserId = command.UserId;//Add userId for booking
 
         //Add promotion for booking
 
