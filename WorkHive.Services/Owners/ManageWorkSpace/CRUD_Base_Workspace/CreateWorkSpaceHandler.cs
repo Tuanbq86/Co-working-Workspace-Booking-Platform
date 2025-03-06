@@ -8,7 +8,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace
+namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
     public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId ) : ICommand<CreateWorkspaceResult>;
     public record CreateWorkspaceResult(string Notification);

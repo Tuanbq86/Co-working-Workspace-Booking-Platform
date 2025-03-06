@@ -337,9 +337,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.Id).HasColumnName("id");
-
             entity.Property(e => e.Description).HasColumnName("description");
-
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -403,9 +401,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Notification");
 
             entity.Property(e => e.Id).HasColumnName("id");
-
             entity.Property(e => e.Description).HasColumnName("description");
-
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -506,7 +502,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83FAE1FBA95");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F7554EB6B");
 
             entity.ToTable("Promotion");
 
@@ -545,9 +541,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Rating");
 
             entity.Property(e => e.Id).HasColumnName("id");
-
             entity.Property(e => e.Comment).HasColumnName("comment");
-
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -609,9 +603,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-                
             entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
-            
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -754,24 +746,16 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-
             entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
-
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("email");
             entity.Property(e => e.Facebook).HasColumnName("facebook");
             entity.Property(e => e.GoogleMapUrl).HasColumnName("google_map_url");
-            entity.Property(e => e.IdentityCreatedDate)
-                .HasColumnType("datetime")
-                .HasColumnName("identity_created_date");
-            entity.Property(e => e.IdentityExpiredDate)
-                .HasColumnType("datetime")
-                .HasColumnName("identity_expired_date");
-
+            entity.Property(e => e.IdentityCreatedDate).HasColumnName("identity_created_date");
+            entity.Property(e => e.IdentityExpiredDate).HasColumnName("identity_expired_date");
             entity.Property(e => e.IdentityFile).HasColumnName("identity_file");
-
             entity.Property(e => e.IdentityName)
                 .HasMaxLength(50)
                 .HasColumnName("identity_name");
@@ -805,7 +789,6 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("phone_status");
             entity.Property(e => e.PlaceOfOrigin)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("place_of_origin");
             entity.Property(e => e.PlaceOfResidence)
@@ -920,7 +903,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F9C895F71");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FD6322F22");
 
             entity.ToTable("Workspace_Time");
 

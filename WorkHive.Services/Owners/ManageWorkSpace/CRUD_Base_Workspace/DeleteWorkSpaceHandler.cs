@@ -8,7 +8,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace
+namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
     public record DeleteWorkSpaceCommand(int id) : ICommand<DeleteWorkspaceResult>;
     public record DeleteWorkspaceResult(string Notification);

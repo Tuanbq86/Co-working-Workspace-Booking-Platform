@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace
+namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
     public record UpdateWorkSpaceCommand(List<Workspace> Workspaces) : ICommand<UpdateWorkspaceResult>;
     public record UpdateWorkspaceResult(string Notification);

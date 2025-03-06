@@ -14,6 +14,8 @@ namespace WorkHive.Repositories.IUnitOfWork
         IAmenityRepository Amenity { get; }
         IBeverageRepository Beverage { get; }
         IWorkspaceRepository Workspace { get; }
+        IWorkspaceOwnerRepository WorkspaceOwner { get; }
+
 
         public int Save();
         public Task<int> SaveAsync();
