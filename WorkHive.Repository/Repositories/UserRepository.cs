@@ -10,6 +10,11 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     public UserRepository() { }
     public UserRepository(WorkHiveContext context) => _context = context;
 
+    public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword)
+    {
+        return newPassword.ToLower().Trim().Equals(confirmPassword.ToLower().Trim());
+    }
+
     public User FindUserByEmail(string email)
     {
         return _context.Users.Where(x => x.Email.ToLower().Trim()

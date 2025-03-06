@@ -1,13 +1,15 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
 using WorkHive.BuildingBlocks.CQRS;
+using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.Users.UpdateUser;
 
 public record UpdateUserCommand(string Name, string Email, string Location, string Phone, 
-    DateOnly? DateOfBirth, string Sex, string Avatar, string OldPassword, 
-    string NewPassword, string ConfirmPassword) : ICommand<UpdateUserResult>;
+    DateOnly? DateOfBirth, string Sex, string Avatar) : ICommand<UpdateUserResult>;
 public record UpdateUserResult(string Notification);
 
 public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
@@ -28,37 +30,28 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
         RuleFor(x => x.DateOfBirth).NotEmpty().WithMessage("Date of birth is required");
 
-        RuleFor(x => x.OldPassword).NotEmpty().WithMessage("Old Password is required");
-
-        RuleFor(x => x.NewPassword).NotEmpty().WithMessage("New Password is required");
-
-        RuleFor(x => x.ConfirmPassword).NotEmpty().WithMessage("New Password is required");
-
         RuleFor(x => x.Sex).NotEmpty().WithMessage("Sex is required");
+
+        RuleFor(x => x.Avatar).NotEmpty().WithMessage("Avatar is required");
     }
 }
 
-public class UpdateUserHandler(IUserUnitOfWork userUnit)
+public class UpdateUserHandler(IUserUnitOfWork userUnit, IHttpContextAccessor httpContext, ITokenRepository tokenRepo)
     : ICommandHandler<UpdateUserCommand, UpdateUserResult>
 {
     public async Task<UpdateUserResult> Handle(UpdateUserCommand command, 
         CancellationToken cancellationToken)
     {
-        var userByPhone = userUnit.User.FindUserByPhone(command.Phone);
-        var userByEmail = userUnit.User.FindUserByEmail(command.Email);
+        var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
+        var listInfo = tokenRepo.DecodeJwtToken(token);
+
+        var userId = listInfo[JwtRegisteredClaimNames.Sub];
+
+        var user = userUnit.User.GetById(Convert.ToInt32(userId));
 
         //Check null user
-        if (userByEmail is null || userByPhone is null)
+        if (user is null)
             throw new UserNotFoundException("Can not find user to update");
-
-        var user = userUnit.User.FindUserByPhone(command.Phone);
-
-        //Check command with password of user
-        if (!user.Password.ToLower().Trim().Equals(command.OldPassword.ToLower().Trim()))
-            throw new UserBadRequestException("Error password");
-
-        if (!command.ConfirmPassword.ToLower().Trim().Equals(command.NewPassword.ToLower().Trim()))
-            throw new UserBadRequestException("Confirm password is not equal to new password");
 
         //Check email and phone of user who get in database with others in database
         bool isDuplicate = userUnit.User.GetAll()
@@ -67,7 +60,7 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
 
         if (isDuplicate)
         {
-            throw new UserBadRequestException("Email");
+            throw new UserBadRequestException("Email or password has been used");
         }
 
         user.Name = command.Name;
@@ -77,7 +70,6 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
         user.DateOfBirth = command.DateOfBirth;
         user.Sex = command.Sex;
         user.Avatar = command.Avatar;
-        user.Password = command.ConfirmPassword;
 
         userUnit.User.Update(user);
         await userUnit.SaveAsync();

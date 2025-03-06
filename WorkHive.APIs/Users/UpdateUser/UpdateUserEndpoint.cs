@@ -7,8 +7,7 @@ using MediatR;
 namespace WorkHive.APIs.Users.UpdateUser;
 
 public record UpdateUserRequest(string Name, string Email, string Location, string Phone,
-    DateOnly? DateOfBirth, string Sex, string OldPassword,
-    string NewPassword, string ConfirmPassword);
+    DateOnly? DateOfBirth, string Sex, string Avatar);
 public record UpdateUserResponse(string Notification);
 
 public class UpdateUserEndpoint : ICarterModule
