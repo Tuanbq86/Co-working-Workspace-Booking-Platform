@@ -6,7 +6,7 @@ using MediatR;
 
 namespace WorkHive.APIs.Users.UpdateUser;
 
-public record UpdateUserRequest(string Name, string Email, string Location, string Phone,
+public record UpdateUserRequest(int UserId, string Name, string Email, string Location, string Phone,
     DateOnly? DateOfBirth, string Sex, string Avatar);
 public record UpdateUserResponse(string Notification);
 

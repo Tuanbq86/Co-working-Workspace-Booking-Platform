@@ -7,7 +7,7 @@ using WorkHive.Services.Users.UpdateUser;
 namespace WorkHive.APIs.Users.UpdateUser;
 
 public record UpdateUserPasswordRequest
-    (string OldPassword, string NewPassword, string ConfirmPassword);
+    (int UserId, string OldPassword, string NewPassword, string ConfirmPassword);
 public record UpdateUserPasswordResponse(string Notification);
 
 public class UpdateUserPasswordEndpoint : ICarterModule
