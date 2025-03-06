@@ -9,7 +9,7 @@ public partial class Price
 {
     public int Id { get; set; }
 
-    public decimal? Price1 { get; set; }
+    public decimal? Price { get; set; }
 
     public string Category { get; set; }
 

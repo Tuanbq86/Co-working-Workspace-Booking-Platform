@@ -499,7 +499,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Category)
                 .HasMaxLength(50)
                 .HasColumnName("category");
-            entity.Property(e => e.Price1)
+            entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
         });

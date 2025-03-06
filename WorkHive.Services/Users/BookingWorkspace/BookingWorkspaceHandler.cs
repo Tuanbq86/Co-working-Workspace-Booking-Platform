@@ -52,16 +52,22 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
 
         //Add promotion for booking
 
-        var codeDiscount = bookingUnitOfWork.promotion.GetAll().
-            Where(p => p.Code.ToLower().Trim().Equals(command.PromotionCode.ToLower().Trim())).FirstOrDefault();
-
-        if (codeDiscount is null)
-            throw new PromotionNotFoundException("Mã giảm giá không hợp lệ");
-
-        if (codeDiscount.Status.Equals(PromotionStatus.Expired))
+        if (!string.IsNullOrWhiteSpace(command.PromotionCode))
         {
-            throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
+            var codeDiscount = bookingUnitOfWork.promotion.GetAll()
+                .Where(p => p.Code.ToLower().Trim().Equals(command.PromotionCode.ToLower().Trim()))
+                .FirstOrDefault();
+
+            if (codeDiscount is null)
+                throw new PromotionNotFoundException("Mã giảm giá không hợp lệ");
+
+            if (codeDiscount.Status.Equals(PromotionStatus.Expired))
+                throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
+
+            // Nếu mã giảm giá hợp lệ thì lưu PromotionId
+            newBooking.PromotionId = codeDiscount.Id;
         }
+
         //Add List amenity, beverage item for payOS
         var amenityItems = new List<AmenityItemDTO>();
         var beverageItems = new List<BeverageItemDTO>();
@@ -69,64 +75,68 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         //Add amenities and beverages for booking
 
         //Amenity
-        foreach(var item in command.Amenities)
+        if (command.Amenities is not null && command.Amenities.Any())
         {
-            var amenity = bookingUnitOfWork.amenity.GetById(item.Id);
-            
-            if (amenity is null || item.Quantity > amenity.Quantity)
-                throw new AmenityBadRequestException("Can not find or request quantity being more than that in warehouse");
-            
-            var newBookingAmenity = new BookingAmenity
+            foreach (var item in command.Amenities)
             {
-                Quantity = item.Quantity,
-                BookingId = newBooking.Id,
-                AmenityId = amenity.Id
-            };
+                var amenity = bookingUnitOfWork.amenity.GetById(item.Id);
 
-            await bookingUnitOfWork.bookAmenity.CreateAsync(newBookingAmenity);
+                if (amenity is null || item.Quantity > amenity.Quantity)
+                    throw new AmenityBadRequestException("Can not find or request quantity being more than that in warehouse");
 
-            amenity.Quantity -= newBookingAmenity.Quantity;
+                var newBookingAmenity = new BookingAmenity
+                {
+                    Quantity = item.Quantity,
+                    BookingId = newBooking.Id,
+                    AmenityId = amenity.Id
+                };
 
-            await bookingUnitOfWork.amenity.UpdateAsync(amenity);
+                await bookingUnitOfWork.bookAmenity.CreateAsync(newBookingAmenity);
 
-            amenityItems.Add(new AmenityItemDTO
-            {
-                Name = amenity.Name,
-                Quantity = newBookingAmenity.Quantity,
-                Price = (int)((amenity.Price * newBookingAmenity.Quantity) * 100)!
-            });
+                amenity.Quantity -= newBookingAmenity.Quantity;
+
+                await bookingUnitOfWork.amenity.UpdateAsync(amenity);
+
+                amenityItems.Add(new AmenityItemDTO
+                {
+                    Name = amenity.Name,
+                    Quantity = newBookingAmenity.Quantity,
+                    Price = (int)((amenity.Price * newBookingAmenity.Quantity) * 100)!
+                });
+            }
         }
 
         //Beverage
-        foreach(var item in command.Beverages)
+        if (command.Beverages is not null && command.Beverages.Any())
         {
-            var beverage = bookingUnitOfWork.beverage.GetById(item.Id);
-
-            if(beverage is null)
+            foreach (var item in command.Beverages)
             {
-                throw new BeverageBadRequestException("Can not find beverage");
+                var beverage = bookingUnitOfWork.beverage.GetById(item.Id);
+
+                if (beverage is null)
+                {
+                    throw new BeverageBadRequestException("Can not find beverage");
+                }
+
+                var newBookingBeverage = new BookingBeverage
+                {
+                    Quantity = item.Quantity,
+                    BookingWorkspaceId = newBooking.Id,
+                    BeverageId = beverage.Id
+                };
+
+                await bookingUnitOfWork.bookBeverage.CreateAsync(newBookingBeverage);
+
+                beverageItems.Add(new BeverageItemDTO
+                {
+                    Name = beverage.Name,
+                    Quantity = newBookingBeverage.Quantity,
+                    Price = (int)((beverage.Price * newBookingBeverage.Quantity) * 100)!
+                });
             }
-
-            var newBookingBeverage = new BookingBeverage
-            {
-                Quantity = item.Quantity,
-                BookingWorkspaceId = newBooking.Id,
-                BeverageId = beverage.Id
-            };
-
-            await bookingUnitOfWork.bookBeverage.CreateAsync(newBookingBeverage);
-
-            beverageItems.Add(new BeverageItemDTO
-            {
-                Name = beverage.Name,
-                Quantity = newBookingBeverage.Quantity,
-                Price = (int)((beverage.Price * newBookingBeverage.Quantity) * 100)!
-            });
         }
 
         //-------------------------------------------------------------------
-
-        newBooking.PromotionId = codeDiscount.Id; //
         newBooking.Price = command.Price; //
         newBooking.WorkspaceId = command.WorkspaceId; //
         newBooking.PaymentId = 1; //
@@ -147,11 +157,18 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
         var items = new List<ItemData>();
 
-        foreach(var item in amenityItems)
-            items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
+        if (!amenityItems.Count.Equals(0))
+        {
+            foreach (var item in amenityItems)
+                items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
+        }
 
-        foreach (var item in beverageItems)
-            items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
+        if (!beverageItems.Count.Equals(0))
+        {
+            foreach (var item in beverageItems)
+                items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
+
+        }
 
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
