@@ -36,7 +36,7 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
     private readonly string ApiKey = configuration["PayOS:ApiKey"]!;
-    private readonly string CheckSumKey = configuration["CheckSumKey"]!;
+    private readonly string CheckSumKey = configuration["PayOS:CheckSumKey"]!;
     public async Task<BookingWorkspaceResult> Handle(BookingWorkspaceCommand command, 
         CancellationToken cancellationToken)
     {
@@ -174,7 +174,7 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var paymentLinkRequest = new PaymentData(
                 orderCode: newBooking.Id,
                 amount: (int)(newBooking.Price * 100),
-                description: "Thanh toán không gian làm việc",
+                description: "Success",
                 returnUrl: domain + "/success",
                 cancelUrl : domain + "/checkout",
                 items : items
