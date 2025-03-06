@@ -8,7 +8,7 @@ using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.Users.UpdateUser;
 
-public record UpdateUserCommand(string Name, string Email, string Location, string Phone, 
+public record UpdateUserCommand(int UserId, string Name, string Email, string Location, string Phone, 
     DateOnly? DateOfBirth, string Sex, string Avatar) : ICommand<UpdateUserResult>;
 public record UpdateUserResult(string Notification);
 
@@ -36,18 +36,13 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     }
 }
 
-public class UpdateUserHandler(IUserUnitOfWork userUnit, IHttpContextAccessor httpContext, ITokenRepository tokenRepo)
+public class UpdateUserHandler(IUserUnitOfWork userUnit)
     : ICommandHandler<UpdateUserCommand, UpdateUserResult>
 {
     public async Task<UpdateUserResult> Handle(UpdateUserCommand command, 
         CancellationToken cancellationToken)
     {
-        var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
-        var listInfo = tokenRepo.DecodeJwtToken(token);
-
-        var userId = listInfo[JwtRegisteredClaimNames.Sub];
-
-        var user = userUnit.User.GetById(Convert.ToInt32(userId));
+        var user = userUnit.User.GetById(command.UserId);
 
         //Check null user
         if (user is null)

@@ -173,10 +173,10 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
                 orderCode: newBooking.Id,
-                amount: (int)(newBooking.Price * 100),
+                amount: (int)newBooking.Price,
                 description: "Success",
                 returnUrl: domain + "/success",
-                cancelUrl : domain + "/checkout",
+                cancelUrl : domain + "/fail",
                 items : items
             );
 
