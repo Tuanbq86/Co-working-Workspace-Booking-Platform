@@ -32,6 +32,7 @@ public class BookingWorkspaceEndpoint : ICarterModule
         .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Booking workspace")
+        .WithTags("Booking")
         .WithDescription("Booking workspace");
     }
 }

@@ -17,6 +17,7 @@ public partial class WorkHiveContext : DbContext
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -502,7 +503,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F7554EB6B");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83FEAFE206B");
 
             entity.ToTable("Promotion");
 
@@ -915,7 +916,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FD6322F22");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FC5BDA8D3");
 
             entity.ToTable("Workspace_Time");
 
