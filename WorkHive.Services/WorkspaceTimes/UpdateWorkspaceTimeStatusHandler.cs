@@ -15,7 +15,7 @@ public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUn
     {
         var bookWorkspace = bookUnit.booking.GetById((int)command.OrderCode);
 
-        if (!command.Status.Equals(UpdateTimeStatus.PAID))
+        if (!command.Status.Equals(UpdateTimeStatus.PAID.ToString(), StringComparison.OrdinalIgnoreCase))
         {
             throw new BookingBadRequestException("Update failed");
         }

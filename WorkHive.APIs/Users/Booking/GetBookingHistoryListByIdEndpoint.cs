@@ -28,6 +28,7 @@ public class GetBookingHistoryListByIdEndpoint : ICarterModule
         .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("History Booking List")
+        .WithTags("Booking")
         .WithDescription("History Booking List");
     }
 }

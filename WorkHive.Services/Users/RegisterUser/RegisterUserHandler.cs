@@ -51,7 +51,7 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
         
         //Create new user for registering
 
-        var tempUser = userUnit.User.RegisterUserByPhoneAndEmail(command.Name, command.Email, 
+        var tempUser = userUnit.User.RegisterUser(command.Name, command.Email, 
             command.Phone, command.Password, command.Sex);
 
         var newUser = new User

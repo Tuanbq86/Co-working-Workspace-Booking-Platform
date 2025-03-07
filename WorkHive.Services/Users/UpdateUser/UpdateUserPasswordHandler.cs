@@ -27,7 +27,7 @@ public class UpdateUserPasswordHandler(IUserUnitOfWork userUnit)
         var user = userUnit.User.GetById(command.UserId);
 
         //Check user password with old password in command
-        if (BCrypt.Net.BCrypt.EnhancedVerify(command.OldPassword, user.Password))
+        if (!BCrypt.Net.BCrypt.EnhancedVerify(command.OldPassword, user.Password))
             throw new UserBadRequestException("Error old password");
 
         //Check new password and confirm password
