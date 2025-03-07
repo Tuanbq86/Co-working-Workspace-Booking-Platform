@@ -30,8 +30,7 @@ public class BookingWorkspaceValidator : AbstractValidator<BookingWorkspaceComma
 }
 */
 
-public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRepository tokenRepo,
-    IBookingWorkspaceUnitOfWork bookingUnitOfWork, IConfiguration configuration)
+public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWork, IConfiguration configuration)
     : ICommandHandler<BookingWorkspaceCommand, BookingWorkspaceResult>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
@@ -181,12 +180,15 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
                 items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
 
         }
-        //var orderCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
+
+        //create order code with time increasing by time
+        var orderCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
+
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
-                orderCode: newBooking.Id,
+                orderCode: orderCode,
                 amount: (int)newBooking.Price,
-                description: "Success",
+                description: "WorkHive",
                 returnUrl: domain + "/success",
                 cancelUrl : domain + "/fail",
                 items : items
