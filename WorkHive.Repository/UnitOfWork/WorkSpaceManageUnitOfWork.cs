@@ -22,6 +22,13 @@ namespace WorkHive.Repositories.UnitOfWork
 
         public IBeverageRepository Beverage { get; private set; }
 
+        public IImageRepository Image { get; private set; }
+        public IPriceRepository Price { get; private set; } 
+
+        public IWorkspacePriceRepository WorkspacePrice { get; private set; }
+
+        public IWorkspaceImageRepository WorkspaceImage { get; private set; }   
+
         public IWorkspaceRepository Workspace { get; private set; }
 
         public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
@@ -36,6 +43,10 @@ namespace WorkHive.Repositories.UnitOfWork
             Beverage = new BeverageRepository(_context);
             Workspace = new WorkspaceRepository(_context);
             WorkspaceOwner = new WorkspaceOwnerRepository(_context);
+            WorkspaceImage = new WorkspaceImageRepository(_context);
+            WorkspacePrice = new WorkspacePriceRepository(_context);
+            Price = new PriceRepository(_context);
+            Image = new ImageRepository(_context);
         }
         public int Save()
         {

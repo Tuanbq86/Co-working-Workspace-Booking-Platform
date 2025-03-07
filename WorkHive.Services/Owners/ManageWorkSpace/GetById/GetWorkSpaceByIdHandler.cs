@@ -58,7 +58,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
                 workspace.WorkspacePrices?.Where(wp => wp != null && wp.Price != null)
                     .Select(wp => new WorkspacePriceDTO(
                         wp.Id,
-                        wp.Price!.Price1,
+                        wp.Price!.AveragePrice,
                         wp.Price.Category
                     )).ToList() ?? new List<WorkspacePriceDTO>(),
                 workspace.WorkspaceImages?.Where(wi => wi != null && wi.Image != null)
