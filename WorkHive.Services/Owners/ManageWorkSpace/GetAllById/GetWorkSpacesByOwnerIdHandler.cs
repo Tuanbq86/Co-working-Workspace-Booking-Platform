@@ -34,7 +34,7 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
 
         if (workspaces == null || !workspaces.Any())
         {
-            throw new NotFoundException($"No workspaces found for OwnerId {Query.Id}");
+            return null;
         }
         WorkspaceOwner owner = await workSpaceManageUnit.WorkspaceOwner.GetByIdAsync(Query.Id);
         return workspaces.Select(ws => new GetWorkSpaceByOwnerIdResult(

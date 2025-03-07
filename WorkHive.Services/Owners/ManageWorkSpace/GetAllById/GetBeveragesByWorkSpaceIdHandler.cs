@@ -32,7 +32,7 @@ namespace WorkHive.Services.Owmers.ManageBeverage.GetAllById
 
         if (beverages == null || !beverages.Any())
         {
-            throw new NotFoundException($"No beverages found for WorkSpaceId {query.WorkSpaceId}");
+                return null;
         }
 
         return beverages.Select(b => new BeverageDTO(

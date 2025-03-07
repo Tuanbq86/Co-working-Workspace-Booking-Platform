@@ -1,6 +1,7 @@
 ﻿using Carter;
 using MediatR;
 using WorkHive.Services.Owmers.ManageBeverage.GetAllById;
+using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
 
 namespace WorkHive.APIs.WorkSpace.ManageWorkSpace.Beverage
 {
@@ -14,6 +15,10 @@ namespace WorkHive.APIs.WorkSpace.ManageWorkSpace.Beverage
             {
                 var query = new GetBeveragesByWorkSpaceIdQuery(WorkSpaceId);
                 var result = await sender.Send(query);
+                if (result == null)
+                {
+                    return Results.Json(Array.Empty<GetBeveragesByWorkSpaceIdResponse>());
+                }
                 var response = new GetBeveragesByWorkSpaceIdResponse(result);
 
                 return Results.Ok(response);

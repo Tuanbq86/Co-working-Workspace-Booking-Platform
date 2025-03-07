@@ -39,7 +39,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 
             if (workspace == null)
             {
-                throw new NotFoundException($"Workspace with ID {query.id} not found!");
+                return null;
             }
 
             WorkspaceOwner owner = await workSpaceManageUnit.WorkspaceOwner.GetByIdAsync(workspace.OwnerId);

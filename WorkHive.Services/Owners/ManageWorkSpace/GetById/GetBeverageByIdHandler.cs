@@ -30,7 +30,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
             var beverage = await BeverageManageUnit.Beverage.GetByIdAsync(query.id);
             if (beverage == null)
             {
-                throw new NotFoundException("Beverage not found!");
+                return null;
             }
 
             return new GetBeverageByIdResult(

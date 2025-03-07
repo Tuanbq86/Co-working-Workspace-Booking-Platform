@@ -14,6 +14,10 @@ public class GetWorkSpacesEndpoint : ICarterModule
         {
             var query = new GetWorkSpacesQuery();
             var result = await sender.Send(query);
+            if (result == null)
+            {
+                return Results.Json(Array.Empty<GetWorkSpacesResponse>());
+            }
             var response = new GetWorkSpacesResponse(result);
 
             return Results.Ok(response);
