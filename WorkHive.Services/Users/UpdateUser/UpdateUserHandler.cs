@@ -16,23 +16,17 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
     public UpdateUserCommandValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required")
+        RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId is required");
+
+        RuleFor(x => x.Name)
             .MinimumLength(5).WithMessage("Length of name have to have minimum being 5")
             .MaximumLength(50).WithMessage("Length of name have to have maximum being 50");
 
-        RuleFor(x => x.Email).NotEmpty().WithMessage("Email address is required")
+        RuleFor(x => x.Email)
             .EmailAddress().WithMessage("A valid email format is required");
 
-        RuleFor(x => x.Location).NotEmpty().WithMessage("Location is required");
-
-        RuleFor(x => x.Phone).NotEmpty().WithMessage("Phone is required")
+        RuleFor(x => x.Phone)
             .Length(10).WithMessage("The number of characterics is exact 10 characterics");
-
-        RuleFor(x => x.DateOfBirth).NotEmpty().WithMessage("Date of birth is required");
-
-        RuleFor(x => x.Sex).NotEmpty().WithMessage("Sex is required");
-
-        RuleFor(x => x.Avatar).NotEmpty().WithMessage("Avatar is required");
     }
 }
 

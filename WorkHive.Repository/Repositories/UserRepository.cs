@@ -46,7 +46,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         .Equals(phone.ToLower().Trim())).FirstOrDefault()!;
     }
 
-    public User RegisterUserByPhoneAndEmail(string name, string email, 
+    public User RegisterUser(string name, string email, 
         string phone, string password, string sex)
     {
         var user = new User

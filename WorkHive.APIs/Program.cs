@@ -8,6 +8,7 @@ var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddServiceServices(builder.Configuration);

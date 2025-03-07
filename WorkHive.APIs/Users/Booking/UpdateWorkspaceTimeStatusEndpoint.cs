@@ -28,6 +28,7 @@ public class UpdateWorkspaceTimeStatusEndpoint : ICarterModule
         .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Update workspace times")
+        .WithTags("Booking")
         .WithDescription("Update workspace times");
     }
 }

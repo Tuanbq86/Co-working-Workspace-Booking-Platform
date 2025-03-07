@@ -151,6 +151,18 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
 
 
         bookingUnitOfWork.booking.Create(newBooking);
+
+        var newWorkspaceTime = new WorkspaceTime
+        {
+            StartDate = newBooking.StartDate,
+            EndDate = newBooking.EndDate,
+            Status = WorkspaceTimeStatus.Handling.ToString(),
+            WorkspaceId = newBooking.WorkspaceId,
+            BookingId = newBooking.Id
+        };
+
+        bookingUnitOfWork.workspaceTime.Create(newWorkspaceTime);
+
         await bookingUnitOfWork.SaveAsync();
 
         //Integrate payOS for booking
@@ -169,7 +181,7 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
                 items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
 
         }
-
+        //var orderCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
                 orderCode: newBooking.Id,
