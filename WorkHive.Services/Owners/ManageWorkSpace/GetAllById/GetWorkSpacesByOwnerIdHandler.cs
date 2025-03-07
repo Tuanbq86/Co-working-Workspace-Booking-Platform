@@ -51,7 +51,7 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
             ws.OwnerId,
             ws.WorkspacePrices.Select(wp => new WorkspacesPriceDTO(
                 wp.Price.Id,
-                wp.Price.Price1,
+                wp.Price.AveragePrice,
                 wp.Price.Category
             )).ToList(),
             ws.WorkspaceImages.Select(wi => new WorkspacesImageDTO(
