@@ -17,7 +17,7 @@ namespace WorkHive.Services.Users.BookingWorkspace;
 public record BookingWorkspaceCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price)
     : ICommand<BookingWorkspaceResult>;
-public record BookingWorkspaceResult(string Bin, string AccountNumber, int Amount, string Description, 
+public record BookingWorkspaceResult(int BookingId, string Bin, string AccountNumber, int Amount, string Description, 
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
 
 /*
@@ -196,7 +196,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
 
         var link = await payOS.createPaymentLink(paymentLinkRequest);
 
-        return new BookingWorkspaceResult(link.bin, link.accountNumber, link.amount, link.description, 
+        return new BookingWorkspaceResult(newBooking.Id, link.bin, link.accountNumber, link.amount, link.description, 
             link.orderCode, link.paymentLinkId, link.status, link.checkoutUrl, link.qrCode);
     }
 }
