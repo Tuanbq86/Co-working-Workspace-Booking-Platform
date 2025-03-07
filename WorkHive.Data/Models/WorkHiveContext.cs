@@ -17,6 +17,7 @@ public partial class WorkHiveContext : DbContext
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -492,17 +493,17 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Price");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AveragePrice)
+                .HasColumnType("decimal(18, 3)")
+                .HasColumnName("average_price");
             entity.Property(e => e.Category)
                 .HasMaxLength(50)
                 .HasColumnName("category");
-            entity.Property(e => e.Price1)
-                .HasColumnType("decimal(18, 3)")
-                .HasColumnName("price");
         });
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F7554EB6B");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83FEAFE206B");
 
             entity.ToTable("Promotion");
 
@@ -751,11 +752,17 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("email");
-            entity.Property(e => e.Facebook).HasColumnName("facebook");
-            entity.Property(e => e.GoogleMapUrl).HasColumnName("google_map_url");
+            entity.Property(e => e.Facebook)
+                .HasColumnType("text")
+                .HasColumnName("facebook");
+            entity.Property(e => e.GoogleMapUrl)
+                .HasColumnType("text")
+                .HasColumnName("google_map_url");
             entity.Property(e => e.IdentityCreatedDate).HasColumnName("identity_created_date");
             entity.Property(e => e.IdentityExpiredDate).HasColumnName("identity_expired_date");
-            entity.Property(e => e.IdentityFile).HasColumnName("identity_file");
+            entity.Property(e => e.IdentityFile)
+                .HasColumnType("text")
+                .HasColumnName("identity_file");
             entity.Property(e => e.IdentityName)
                 .HasMaxLength(50)
                 .HasColumnName("identity_name");
@@ -763,11 +770,15 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(12)
                 .IsFixedLength()
                 .HasColumnName("identity_number");
-            entity.Property(e => e.Instagram).HasColumnName("instagram");
+            entity.Property(e => e.Instagram)
+                .HasColumnType("text")
+                .HasColumnName("instagram");
             entity.Property(e => e.LicenseAddress)
                 .HasMaxLength(255)
                 .HasColumnName("license_address");
-            entity.Property(e => e.LicenseFile).HasColumnName("license_file");
+            entity.Property(e => e.LicenseFile)
+                .HasColumnType("text")
+                .HasColumnName("license_file");
             entity.Property(e => e.LicenseName)
                 .HasMaxLength(50)
                 .HasColumnName("license_name");
@@ -800,7 +811,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.Tiktok).HasColumnName("tiktok");
+            entity.Property(e => e.Tiktok)
+                .HasColumnType("text")
+                .HasColumnName("tiktok");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
@@ -903,7 +916,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FD6322F22");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FC5BDA8D3");
 
             entity.ToTable("Workspace_Time");
 
