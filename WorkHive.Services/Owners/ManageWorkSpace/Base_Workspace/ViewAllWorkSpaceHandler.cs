@@ -36,12 +36,15 @@ public class GetWorkSpacesHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit
         CancellationToken cancellationToken)
     {
         var workspaces = await workSpaceManageUnit.Workspace.GetAllWorkSpaceAsync();
+        if (workspaces == null || !workspaces.Any())
+        {
+            return new List<GetWorkSpacesResult>();
+        }
 
         var ownerIds = workspaces.Select(ws => ws.OwnerId).Distinct().ToList();
         var owners = await workSpaceManageUnit.WorkspaceOwner.GetOwnersByIdsAsync(ownerIds);
         return workspaces.Select(ws =>
         {
-            // Lấy owner tương ứng với workspace
             var owner = owners.FirstOrDefault(o => o.Id == ws.OwnerId);
 
             return new GetWorkSpacesResult(

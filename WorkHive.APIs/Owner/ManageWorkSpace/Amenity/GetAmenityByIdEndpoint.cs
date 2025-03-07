@@ -2,6 +2,7 @@
 using Mapster;
 using MediatR;
 using WorkHive.Services.Owners.ManageWorkSpace.GetById;
+using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.Amenity
 {
@@ -15,6 +16,10 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.Amenity
             {
                 var query = new GetAmenityByIdQuery(id);
                 var result = await sender.Send(query);
+                if (result == null)
+                {
+                    return Results.Json(Array.Empty<GetAmenityByIdResponse>()); 
+                }
                 var response = result.Adapt<GetAmenityByIdResponse>();
 
                 return Results.Ok(response);

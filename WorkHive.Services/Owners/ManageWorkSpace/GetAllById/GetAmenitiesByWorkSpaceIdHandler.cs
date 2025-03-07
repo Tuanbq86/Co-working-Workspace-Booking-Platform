@@ -31,7 +31,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
 
             if (amenities == null || !amenities.Any())
             {
-                throw new NotFoundException($"No amenities found for WorkSpaceId {query.WorkSpaceId}");
+                return null;
             }
 
             return amenities.Select(am => new AmenityDTO(

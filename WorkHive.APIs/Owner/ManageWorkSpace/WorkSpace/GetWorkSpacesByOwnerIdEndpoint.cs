@@ -14,6 +14,10 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             {
                 var query = new GetWorkSpacesByOwnerIdQuery(Id);
                 var result = await sender.Send(query);
+                if (result == null)
+                {
+                    return Results.Json(Array.Empty<GetWorkSpacesByOwnerIdResponse>());
+                }
                 var response = new GetWorkSpacesByOwnerIdResponse(result);
 
                 return Results.Ok(response);
