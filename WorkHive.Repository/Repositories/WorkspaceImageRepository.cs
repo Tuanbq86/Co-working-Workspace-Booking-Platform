@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,19 @@ class WorkspaceImageRepository : GenericRepository<WorkspaceImage>, IWorkspaceIm
     public WorkspaceImageRepository() { }
     public WorkspaceImageRepository(WorkHiveContext context) => _context = context;
 
-    //To do object method
+    public async Task CreateWorkspaceImagesAsync(List<WorkspaceImage> WorkspaceImages)
+    {
+        if (WorkspaceImages == null || !WorkspaceImages.Any()) return;
 
+        await _context.WorkspaceImages.AddRangeAsync(WorkspaceImages);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<WorkspaceImage>> GetWorkspaceImagesByWorkspaceIdAsync(int workspaceId)
+    {
+        return await _context.WorkspaceImages
+                    .Where(i => i.WorkspaceId == workspaceId)
+                    .ToListAsync();
+    }
 
 }

@@ -14,6 +14,10 @@ namespace WorkHive.Repositories.IUnitOfWork
         IAmenityRepository Amenity { get; }
         IBeverageRepository Beverage { get; }
         IWorkspaceRepository Workspace { get; }
+        IPriceRepository Price { get; }
+        IImageRepository Image { get; }
+        IWorkspaceImageRepository WorkspaceImage { get; }
+        IWorkspacePriceRepository WorkspacePrice { get; }
         IWorkspaceOwnerRepository WorkspaceOwner { get; }
 
 

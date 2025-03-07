@@ -4,10 +4,12 @@ using MediatR;
 using WorkHive.APIs.Users.RegisterUser;
 using WorkHive.Data.Models;
 using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
+using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
-    public record CreateWorkspaceRequest(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId);
+    public record CreateWorkspaceRequest(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, List<PriceDTO> Prices,
+    List<ImageDTO> Images);
 
     public record CreateWorkspaceResponse(string Notification);
 
