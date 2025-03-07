@@ -31,7 +31,7 @@ public class UpdateUserPasswordHandler(IUserUnitOfWork userUnit)
             throw new UserBadRequestException("Error old password");
 
         //Check new password and confirm password
-        if (command.NewPassword.ToLower().Trim()
+        if (!command.NewPassword.ToLower().Trim()
             .Equals(command.ConfirmPassword.ToLower().Trim()))
             throw new UserBadRequestException("New password and confirm password are different");
 
