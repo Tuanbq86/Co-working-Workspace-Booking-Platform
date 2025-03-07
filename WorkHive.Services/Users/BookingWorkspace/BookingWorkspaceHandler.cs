@@ -10,11 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
 using Microsoft.IdentityModel.JsonWebTokens;
+using WorkHive.Services.Users.DTOs;
 
 namespace WorkHive.Services.Users.BookingWorkspace;
 
-public record BookingWorkspaceCommand(int WorkspaceId, string StartDate, string EndDate,
-    List<BookingAmenity> Amenities, List<BookingBeverage> Beverages, string PromotionCode, decimal Price)
+public record BookingWorkspaceCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
+    List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price)
     : ICommand<BookingWorkspaceResult>;
 public record BookingWorkspaceResult(string Bin, string AccountNumber, int Amount, string Description, 
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
@@ -35,62 +36,107 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
     private readonly string ApiKey = configuration["PayOS:ApiKey"]!;
-    private readonly string CheckSumKey = configuration["CheckSumKey"]!;
+    private readonly string CheckSumKey = configuration["PayOS:CheckSumKey"]!;
     public async Task<BookingWorkspaceResult> Handle(BookingWorkspaceCommand command, 
         CancellationToken cancellationToken)
     {
         var newBooking = new Booking();
 
         //Get userId and roleId for Booking in session containing token in a session working
-        var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
-        var listInfo = tokenRepo.DecodeJwtToken(token);
+        //var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
+        //var listInfo = tokenRepo.DecodeJwtToken(token);
 
-        var userId = listInfo[JwtRegisteredClaimNames.Sub];
+        //var userId = listInfo[JwtRegisteredClaimNames.Sub];
 
-        newBooking.UserId = Convert.ToInt32(userId); //Add userId for booking
-
-        //Add Amenity and Beverage for Booking
-        foreach (var item in command.Amenities)
-        {
-            var amenity = bookingUnitOfWork.bookAmenity.GetById(item.Id);
-
-            if (item.Quantity > bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity)
-                throw new AmenityBadRequestException("The number of amenity can not more than that in warehouse");
-
-            amenity.Quantity = item.Quantity;
-
-            await bookingUnitOfWork.bookAmenity.UpdateAsync(amenity);
-
-            bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity = bookingUnitOfWork.amenity.GetById(amenity.AmenityId).Quantity - amenity.Quantity;
-
-            await bookingUnitOfWork.amenity.UpdateAsync(bookingUnitOfWork.amenity.GetById(amenity.AmenityId));
-
-            amenity.BookingId = newBooking.Id; //
-
-            await bookingUnitOfWork.bookAmenity.UpdateAsync(amenity);
-        }
-
-        foreach (var item in command.Beverages)
-        {
-            item.BookingWorkspaceId = newBooking.Id; //
-
-            await bookingUnitOfWork.bookBeverage.UpdateAsync(item);
-        }
+        newBooking.UserId = command.UserId;//Add userId for booking
 
         //Add promotion for booking
 
-        var codeDiscount = bookingUnitOfWork.promotion.GetAll().
-            Where(p => p.Code.Equals(command.PromotionCode)).FirstOrDefault();
-
-        if (codeDiscount is null)
-            throw new PromotionNotFoundException("Mã giảm giá không hợp lệ");
-
-        if (codeDiscount.Status.Equals(PromotionStatus.Expired))
+        if (!string.IsNullOrWhiteSpace(command.PromotionCode))
         {
-            throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
+            var codeDiscount = bookingUnitOfWork.promotion.GetAll()
+                .Where(p => p.Code.ToLower().Trim().Equals(command.PromotionCode.ToLower().Trim()))
+                .FirstOrDefault();
+
+            if (codeDiscount is null)
+                throw new PromotionNotFoundException("Mã giảm giá không hợp lệ");
+
+            if (codeDiscount.Status.Equals(PromotionStatus.Expired))
+                throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
+
+            // Nếu mã giảm giá hợp lệ thì lưu PromotionId
+            newBooking.PromotionId = codeDiscount.Id;
         }
 
-        newBooking.PromotionId = codeDiscount.Id; //
+        //Add List amenity, beverage item for payOS
+        var amenityItems = new List<AmenityItemDTO>();
+        var beverageItems = new List<BeverageItemDTO>();
+
+        //Add amenities and beverages for booking
+
+        //Amenity
+        if (command.Amenities is not null && command.Amenities.Any())
+        {
+            foreach (var item in command.Amenities)
+            {
+                var amenity = bookingUnitOfWork.amenity.GetById(item.Id);
+
+                if (amenity is null || item.Quantity > amenity.Quantity)
+                    throw new AmenityBadRequestException("Can not find or request quantity being more than that in warehouse");
+
+                var newBookingAmenity = new BookingAmenity
+                {
+                    Quantity = item.Quantity,
+                    BookingId = newBooking.Id,
+                    AmenityId = amenity.Id
+                };
+
+                await bookingUnitOfWork.bookAmenity.CreateAsync(newBookingAmenity);
+
+                amenity.Quantity -= newBookingAmenity.Quantity;
+
+                await bookingUnitOfWork.amenity.UpdateAsync(amenity);
+
+                amenityItems.Add(new AmenityItemDTO
+                {
+                    Name = amenity.Name,
+                    Quantity = newBookingAmenity.Quantity,
+                    Price = (int)((amenity.Price * newBookingAmenity.Quantity) * 100)!
+                });
+            }
+        }
+
+        //Beverage
+        if (command.Beverages is not null && command.Beverages.Any())
+        {
+            foreach (var item in command.Beverages)
+            {
+                var beverage = bookingUnitOfWork.beverage.GetById(item.Id);
+
+                if (beverage is null)
+                {
+                    throw new BeverageBadRequestException("Can not find beverage");
+                }
+
+                var newBookingBeverage = new BookingBeverage
+                {
+                    Quantity = item.Quantity,
+                    BookingWorkspaceId = newBooking.Id,
+                    BeverageId = beverage.Id
+                };
+
+                await bookingUnitOfWork.bookBeverage.CreateAsync(newBookingBeverage);
+
+                beverageItems.Add(new BeverageItemDTO
+                {
+                    Name = beverage.Name,
+                    Quantity = newBookingBeverage.Quantity,
+                    Price = (int)((beverage.Price * newBookingBeverage.Quantity) * 100)!
+                });
+            }
+        }
+
+        //-------------------------------------------------------------------
         newBooking.Price = command.Price; //
         newBooking.WorkspaceId = command.WorkspaceId; //
         newBooking.PaymentId = 1; //
@@ -111,25 +157,26 @@ public class BookingWorkspaceHandler(IHttpContextAccessor httpContext, ITokenRep
         var payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
         var items = new List<ItemData>();
 
-        foreach (var item in command.Amenities)
+        if (!amenityItems.Count.Equals(0))
         {
-            var amenity = bookingUnitOfWork.amenity.GetById(item.AmenityId);
-            items.Add(new ItemData(name: amenity.Name, quantity: (int)item.Quantity!, price: (int)amenity.Price!));
+            foreach (var item in amenityItems)
+                items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
         }
 
-        foreach (var item in command.Beverages)
+        if (!beverageItems.Count.Equals(0))
         {
-            var beverage = bookingUnitOfWork.beverage.GetById(item.BeverageId);
-            items.Add(new ItemData(name: beverage.Name, quantity: (int)item.Quantity!, price: (int)beverage.Price!));
+            foreach (var item in beverageItems)
+                items.Add(new ItemData(name: item.Name, quantity: (int)item.Quantity!, price: item.Price));
+
         }
 
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
                 orderCode: newBooking.Id,
-                amount: (int)(newBooking.Price * 100),
-                description: "Thanh toán không gian làm việc",
+                amount: (int)newBooking.Price,
+                description: "Success",
                 returnUrl: domain + "/success",
-                cancelUrl : domain + "/checkout",
+                cancelUrl : domain + "/fail",
                 items : items
             );
 

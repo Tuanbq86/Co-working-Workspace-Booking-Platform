@@ -7,14 +7,17 @@ using WorkHive.BuildingBlocks.Exceptions;
 
 namespace WorkHive.Services.UploadImages;
 
-public record UploadImageCommand(IFormFile Image) : ICommand<UploadImageResult>;
+public record UploadImageCommand(List<IFormFile> Images) : ICommand<UploadImageResult>;
 public record UploadImageResult(int Status, string Message, List<string> Data);
 
 public class UploadImageValidator : AbstractValidator<UploadImageCommand>
 {
     public UploadImageValidator()
     {
-        RuleFor(x => x.Image)
+        RuleFor(x => x.Images)
+            .NotEmpty().WithMessage("At least one image is required");
+
+        RuleForEach(x => x.Images)
             .NotNull().WithMessage("Image is required")
             .Must(x => x.ContentType.Contains("image"))
             .WithMessage("Only image files are allowed");
@@ -27,25 +30,29 @@ public class UploadImageHandler(Cloudinary cloudinary)
     public async Task<UploadImageResult> Handle(UploadImageCommand request, 
         CancellationToken cancellationToken)
     {
-        if (request.Image is null || request.Image.Length == 0)
-            throw new BadRequestException("Image is required");
+        if (request.Images == null || !request.Images.Any())
+            throw new BadRequestException("At least one image is required");
 
-        var uploadParams = new ImageUploadParams
+        var imageUrls = new List<string>();
+
+        foreach (var image in request.Images)
         {
-            File = new FileDescription(request.Image.FileName, request.Image.OpenReadStream()),
-            Folder = "IMAGES",
-            Transformation = new Transformation().Width(500).Height(500).Crop("fill")
-        };
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(image.FileName, image.OpenReadStream()),
+                Folder = "IMAGES",
+                Transformation = new Transformation().Width(500).Height(500).Crop("fill")
+            };
 
-        var uploadResult = await cloudinary.UploadAsync(uploadParams);
+            var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
-        if (uploadResult.StatusCode != System.Net.HttpStatusCode.OK)
-            throw new Exception("Failed to upload image");
+            if (uploadResult.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception($"Failed to upload image: {image.FileName}");
 
-        var imageUrl = uploadResult.SecureUrl.ToString();
+            imageUrls.Add(uploadResult.SecureUrl.ToString());
+        }
 
-        return new UploadImageResult(200, "Upload success !", 
-            new List<string> { imageUrl });
+        return new UploadImageResult(200, "Upload success!", imageUrls);
 
     }
 }

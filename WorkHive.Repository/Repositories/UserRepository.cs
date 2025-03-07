@@ -10,9 +10,15 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     public UserRepository() { }
     public UserRepository(WorkHiveContext context) => _context = context;
 
+    public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword)
+    {
+        return newPassword.ToLower().Trim().Equals(confirmPassword.ToLower().Trim());
+    }
+
     public User FindUserByEmail(string email)
     {
-        return _context.Users.Where(x => x.Email.Equals(email)).FirstOrDefault()!;
+        return _context.Users.Where(x => x.Email.ToLower().Trim()
+        .Equals(email.ToLower().Trim())).FirstOrDefault()!;
     }
 
     public bool FindUserByEmailOrPhone(string auth, string password)
@@ -36,7 +42,8 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
     public User FindUserByPhone(string phone)
     {
-        return _context.Users.Where(x => x.Phone.Equals(phone)).FirstOrDefault()!;
+        return _context.Users.Where(x => x.Phone.ToLower().Trim()
+        .Equals(phone.ToLower().Trim())).FirstOrDefault()!;
     }
 
     public User RegisterUserByPhoneAndEmail(string name, string email, 
