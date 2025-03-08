@@ -44,5 +44,4 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
         return await _context.Workspaces.Where(w => w.Id == workspaceId)
             .Include(w => w.WorkspaceTimes).FirstOrDefaultAsync();
     }
-
 }
