@@ -48,6 +48,21 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         //var userId = listInfo[JwtRegisteredClaimNames.Sub];
 
         newBooking.UserId = command.UserId;//Add userId for booking
+        newBooking.Price = command.Price; //
+        newBooking.WorkspaceId = command.WorkspaceId; //
+        newBooking.PaymentId = 1; //
+        newBooking.CreatedAt = DateTime.Now;
+        newBooking.Status = BookingStatus.Handling.ToString(); //
+
+        newBooking.StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy",
+            System.Globalization.CultureInfo.InvariantCulture); //
+
+        newBooking.EndDate = DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy",
+            System.Globalization.CultureInfo.InvariantCulture); //
+
+
+        await bookingUnitOfWork.booking.CreateAsync(newBooking);
+
 
         //Add promotion for booking
 
@@ -136,20 +151,6 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         }
 
         //-------------------------------------------------------------------
-        newBooking.Price = command.Price; //
-        newBooking.WorkspaceId = command.WorkspaceId; //
-        newBooking.PaymentId = 1; //
-        newBooking.CreatedAt = DateTime.UtcNow;
-        newBooking.Status = BookingStatus.Handling.ToString(); //
-
-        newBooking.StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", 
-            System.Globalization.CultureInfo.InvariantCulture); //
-
-        newBooking.EndDate = DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy",
-            System.Globalization.CultureInfo.InvariantCulture); //
-
-
-        bookingUnitOfWork.booking.Create(newBooking);
 
         var newWorkspaceTime = new WorkspaceTime
         {

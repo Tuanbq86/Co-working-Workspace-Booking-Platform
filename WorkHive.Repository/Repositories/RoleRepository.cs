@@ -21,6 +21,4 @@ public class RoleRepository : GenericRepository<Role>, IRoleRepository
         return (Role)checkRole;
     }
 
-
-
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ public class WorkspaceTimeRepository : GenericRepository<WorkspaceTime>, IWorksp
 {
     public WorkspaceTimeRepository()
     {
-        
+
     }
 
     public WorkspaceTimeRepository(WorkHiveContext context) => _context = context;
