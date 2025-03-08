@@ -10,7 +10,7 @@ public record GetBookingHistoryListByIdQuery(int UserId)
 public record GetBookingHistoryListByIdResult(List<BookingHistory> BookingHistories);
 
 
-public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookingUnit, ITokenRepository tokenRepo)
+public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookingUnit)
     : IQueryHandler<GetBookingHistoryListByIdQuery, GetBookingHistoryListByIdResult>
 {
     public async Task<GetBookingHistoryListByIdResult> Handle(GetBookingHistoryListByIdQuery query, 
@@ -27,7 +27,7 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
             //If null amenities and beverages will assign default list[]
             var amenities = bookingHistory.BookingHistoryAmenities ?? new List<BookingHistoryAmenity>();
             var beverages = bookingHistory.BookingHistoryBeverages ?? new List<BookingHistoryBeverage>();
-
+            var workspaceImages = bookingHistory.BookingHistoryWorkspaceImages ?? new List<BookingHistoryWorkspaceImage>();
 
             bookingHistory.Booking_StartDate = (DateTime)item.StartDate!;
             bookingHistory.Booking_EndDate = (DateTime)item.EndDate!;
@@ -49,14 +49,18 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
 
             foreach(var amenity in item.BookingAmenities)
                 amenities.Add(new BookingHistoryAmenity 
-                ((int)amenity.Quantity!, amenity.Amenity.Name, (decimal)amenity.Amenity.Price!));
+                ((int)amenity.Quantity!, amenity.Amenity.Name, (decimal)amenity.Amenity.Price!, amenity.Amenity.ImgUrl));
 
-            foreach (var beverage in item.BookingBeverages)
+            foreach(var beverage in item.BookingBeverages)
                 beverages.Add(new BookingHistoryBeverage
-                    ((int)beverage.Quantity!, beverage.Beverage.Name, (decimal)beverage.Beverage.Price!));
+                    ((int)beverage.Quantity!, beverage.Beverage.Name, (decimal)beverage.Beverage.Price!, beverage.Beverage.ImgUrl));
+
+            foreach (var image in item.Workspace.WorkspaceImages)
+                workspaceImages.Add(new BookingHistoryWorkspaceImage(image.Image.ImgUrl));
 
             bookingHistory.BookingHistoryAmenities = amenities;
             bookingHistory.BookingHistoryBeverages = beverages;
+            bookingHistory.BookingHistoryWorkspaceImages = workspaceImages;
 
             results.Add(bookingHistory);
         }
