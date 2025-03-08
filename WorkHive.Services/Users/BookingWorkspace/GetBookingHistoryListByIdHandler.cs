@@ -16,22 +16,49 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
     public async Task<GetBookingHistoryListByIdResult> Handle(GetBookingHistoryListByIdQuery query, 
         CancellationToken cancellationToken)
     {
-        var bookings = bookingUnit.booking.GetAll()
-            .Where(b => b.UserId == Convert.ToInt32(query.UserId)).ToList();
+        var bookings = await bookingUnit.booking.GetAllBookingByUserId(query.UserId);
 
         List<BookingHistory> results = new List<BookingHistory>();
 
         foreach(var item in bookings)
         {
-            var history = new BookingHistory();
+            var bookingHistory = new BookingHistory();
 
-            history.StartDate = (DateTime)item.StartDate!;
-            history.EndDate = (DateTime)item.EndDate!;
-            history.CreatedAt = (DateTime)item.CreatedAt!;
-            history.Status = item.Status;
-            history.Price = (decimal)item.Price!;
+            //If null amenities and beverages will assign default list[]
+            var amenities = bookingHistory.BookingHistoryAmenities ?? new List<BookingHistoryAmenity>();
+            var beverages = bookingHistory.BookingHistoryBeverages ?? new List<BookingHistoryBeverage>();
 
-            results.Add(history);
+
+            bookingHistory.Booking_StartDate = (DateTime)item.StartDate!;
+            bookingHistory.Booking_EndDate = (DateTime)item.EndDate!;
+            bookingHistory.Booking_Price = (decimal)item.Price!;
+            bookingHistory.Booking_Status = item.Status;
+            bookingHistory.Booking_CreatedAt = (DateTime)item.CreatedAt!;
+            bookingHistory.Payment_Method = item.Payment.PaymentMethod;
+            bookingHistory.Workspace_Name = item.Workspace.Name;
+            bookingHistory.Workspace_Capacity = (int)item.Workspace.Capacity!;
+            bookingHistory.Workspace_Category = item.Workspace.Category;
+            bookingHistory.Workspace_Description = item.Workspace.Description;
+            bookingHistory.Workspace_Area = (int)item.Workspace.Area!;
+            bookingHistory.Workspace_CleanTime = (int)item.Workspace.CleanTime!;
+
+            //If null amenities and beverages will assign default "No Promotion"
+            bookingHistory.Promotion_Code = item.Promotion?.Code ?? "No Promotion";
+            //If null amenities and beverages will assign default value: 0
+            bookingHistory.Discount = (int)(item.Promotion?.Discount ?? 0);
+
+            foreach(var amenity in item.BookingAmenities)
+                amenities.Add(new BookingHistoryAmenity 
+                ((int)amenity.Quantity!, amenity.Amenity.Name, (decimal)amenity.Amenity.Price!));
+
+            foreach (var beverage in item.BookingBeverages)
+                beverages.Add(new BookingHistoryBeverage
+                    ((int)beverage.Quantity!, beverage.Beverage.Name, (decimal)beverage.Beverage.Price!));
+
+            bookingHistory.BookingHistoryAmenities = amenities;
+            bookingHistory.BookingHistoryBeverages = beverages;
+
+            results.Add(bookingHistory);
         }
 
         return new GetBookingHistoryListByIdResult(results);
