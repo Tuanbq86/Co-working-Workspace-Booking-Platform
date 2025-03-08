@@ -4,11 +4,12 @@ using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
+using WorkHive.Services.WorkspaceTimes.DTOs;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
 public record WorkspaceTimesQuery(int WorkspaceId) : IQuery<WorkspaceTimesResult>;
-public record WorkspaceTimesResult(List<WorkspaceTime> WorkspaceTimes);
+public record WorkspaceTimesResult(List<WorkspaceTimeDto> WorkspaceTimes);
 
 public class WorkspaceTimesQueryValidator : AbstractValidator<WorkspaceTimesQuery>
 {
@@ -29,28 +30,29 @@ public class GetUnavailableWorkspaceTimesHandler(IBookingWorkspaceUnitOfWork boo
         if (workspace is null)
             throw new WorkspaceNotFoundException("Workspace", query.WorkspaceId);
 
-        var results = new List<WorkspaceTime>();
-        var workspaceTimeList = bookUnit.workspaceTime.GetAll();
+        var results = new List<WorkspaceTimeDto>();
+        var tempWorkspace = await bookUnit.workspace.GetWorkspacesById(query.WorkspaceId);
 
-        //Get workspaceTime with workspaceId
-        var timesWithWorkspaceId = workspaceTimeList
-            .Where(item => item.WorkspaceId.Equals(query.WorkspaceId))
-            .ToList();
 
         //Update EndDate plus clean time of workspace
-        foreach (var item in timesWithWorkspaceId)
+        foreach (var item in tempWorkspace.WorkspaceTimes)
         {
-            if(item.Status.Equals(WorkspaceTimeStatus.InUse) 
-                || item.Status.Equals(WorkspaceTimeStatus.Handling))
+            if(item.Status.Equals(WorkspaceTimeStatus.InUse.ToString()) ||
+                item.Status.Equals(WorkspaceTimeStatus.Handling.ToString()))
             {
-                results.Add(item);
+                results.Add(new WorkspaceTimeDto
+                {
+                    StartDate = (DateTime)item.StartDate!,
+                    EndDate = (DateTime)item.EndDate!,
+                    Status = item.Status
+                });
             }
         }
 
         //Add clean time for End date
         foreach(var item in results)
         {
-            item.EndDate = item.EndDate.GetValueOrDefault()
+            item.EndDate = item.EndDate
                 .AddMinutes(workspace.CleanTime.GetValueOrDefault());
         }
 

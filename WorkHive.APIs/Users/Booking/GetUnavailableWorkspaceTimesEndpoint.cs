@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using WorkHive.APIs.Users.RegisterUser;
 using WorkHive.Data.Models;
 using WorkHive.Services.WorkspaceTimes;
+using WorkHive.Services.WorkspaceTimes.DTOs;
 
 namespace WorkHive.APIs.Users.Booking;
 
 public record WorkspaceTimesRequest(int WorkspaceId);
-public record WorkspaceTimesResponse(List<WorkspaceTime> WorkspaceTimes);
+public record WorkspaceTimesResponse(List<WorkspaceTimeDto> WorkspaceTimes);
 public class GetUnavailableWorkspaceTimesEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)

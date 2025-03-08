@@ -14,5 +14,6 @@ public interface IWorkspaceRepository : IGenericRepository<Workspace>
     public Task<List<Workspace>> GetAllWorkSpaceByOwnerIdAsync(int ownerId);
     public Task<List<Workspace>> GetAllWorkSpaceAsync();
     public Task<Workspace?> GetWorkSpaceById(int ownerId);
+    public Task<Workspace> GetWorkspacesById(int workspaceId);
 
 }

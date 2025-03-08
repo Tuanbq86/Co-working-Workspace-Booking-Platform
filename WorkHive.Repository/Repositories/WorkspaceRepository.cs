@@ -39,6 +39,10 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wi => wi.Image).ToListAsync();
     }
 
-
+    public async Task<Workspace> GetWorkspacesById(int workspaceId)
+    {
+        return await _context.Workspaces.Where(w => w.Id == workspaceId)
+            .Include(w => w.WorkspaceTimes).FirstOrDefaultAsync();
+    }
 
 }
