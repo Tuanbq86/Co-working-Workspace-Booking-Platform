@@ -13,7 +13,11 @@ public interface IWorkspaceRepository : IGenericRepository<Workspace>
 {
     public Task<List<Workspace>> GetAllWorkSpaceByOwnerIdAsync(int ownerId);
     public Task<List<Workspace>> GetAllWorkSpaceAsync();
+<<<<<<< HEAD
     public Task<Workspace?> GetWorkSpaceById(int ownerId);
     public Task<Workspace> GetWorkspaceByIdForTime(int workspaceId);
+=======
+    public Task<Workspace?> GetWorkSpaceById(int Id);
+>>>>>>> main
 
 }

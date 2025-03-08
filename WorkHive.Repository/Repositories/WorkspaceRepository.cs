@@ -20,14 +20,14 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .Where(w => w.OwnerId == ownerId)
             .ToListAsync();
     }
-    public async Task<Workspace?> GetWorkSpaceById(int ownerId)
+    public async Task<Workspace?> GetWorkSpaceById(int Id)
     {
         return await _context.Workspaces
             .Include(w => w.WorkspacePrices)
             .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
             .ThenInclude(wi => wi.Image)
-            .FirstOrDefaultAsync(w => w.OwnerId == ownerId);
+            .FirstOrDefaultAsync(w => w.Id == Id);
     }
 
     public async Task<List<Workspace>> GetAllWorkSpaceAsync()

@@ -30,7 +30,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
             var amenity = await AmenityManageUnit.Amenity.GetByIdAsync(query.id);
             if (amenity == null)
             {
-                throw new NotFoundException("Amenity not found!");
+                return null;
             }
 
             return new GetAmenityByIdResult(

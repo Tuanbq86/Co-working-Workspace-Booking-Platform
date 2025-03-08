@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
+using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
 
 namespace WorkHive.APIs.Owners.ManageWorkSpace.Amenity
 {
@@ -17,6 +18,10 @@ namespace WorkHive.APIs.Owners.ManageWorkSpace.Amenity
             {
                 var query = new GetAmenitiesByWorkSpaceIdQuery(workSpaceId);
                 var result = await sender.Send(query);
+                if (result == null)
+                {
+                    return Results.Json(Array.Empty<GetAmenitiesByWorkSpaceIdResponse>()); 
+                }
                 var response = new GetAmenitiesByWorkSpaceIdResponse(result);
 
                 return Results.Ok(response);

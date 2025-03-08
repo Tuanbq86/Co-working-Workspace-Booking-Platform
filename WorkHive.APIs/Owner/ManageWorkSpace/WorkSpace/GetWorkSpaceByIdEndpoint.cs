@@ -3,6 +3,7 @@ using Mapster;
 using MediatR;
 using WorkHive.Services.Owners.ManageWorkSpace;
 using WorkHive.Services.Owners.ManageWorkSpace.GetById;
+using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
@@ -17,6 +18,10 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             {
                 var query = new GetWorkSpaceByIdQuery(id);
                 var result = await sender.Send(query);
+                if (result == null)
+                {
+                    return Results.Json(Array.Empty<GetWorkSpaceByIdResponse>()); 
+                }
                 GetWorkSpaceByIdResponse response = result.Adapt<GetWorkSpaceByIdResponse>();
 
                 return Results.Ok(response);
