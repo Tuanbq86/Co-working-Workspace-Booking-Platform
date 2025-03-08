@@ -31,7 +31,7 @@ public class GetUnavailableWorkspaceTimesHandler(IBookingWorkspaceUnitOfWork boo
             throw new WorkspaceNotFoundException("Workspace", query.WorkspaceId);
 
         var results = new List<WorkspaceTimeDto>();
-        var tempWorkspace = await bookUnit.workspace.GetWorkspacesById(query.WorkspaceId);
+        var tempWorkspace = await bookUnit.workspace.GetWorkspaceByIdForTime(query.WorkspaceId);
 
 
         //Update EndDate plus clean time of workspace
