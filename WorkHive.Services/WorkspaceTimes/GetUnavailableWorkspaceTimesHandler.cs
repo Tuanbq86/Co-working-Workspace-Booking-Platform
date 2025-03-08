@@ -42,6 +42,7 @@ public class GetUnavailableWorkspaceTimesHandler(IBookingWorkspaceUnitOfWork boo
             {
                 results.Add(new WorkspaceTimeDto
                 {
+                    Id = item.Id,
                     StartDate = (DateTime)item.StartDate!,
                     EndDate = (DateTime)item.EndDate!,
                     Status = item.Status
