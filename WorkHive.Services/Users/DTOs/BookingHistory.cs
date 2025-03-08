@@ -1,4 +1,6 @@
-﻿namespace WorkHive.Services.Users.DTOs;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
+namespace WorkHive.Services.Users.DTOs;
 
 public sealed class BookingHistory
 {
@@ -18,7 +20,9 @@ public sealed class BookingHistory
     public int? Discount { get; set; }
     public List<BookingHistoryAmenity>? BookingHistoryAmenities { get; set; }
     public List<BookingHistoryBeverage>? BookingHistoryBeverages { get; set; }
+    public List<BookingHistoryWorkspaceImage>? BookingHistoryWorkspaceImages { get; set; }
 }
 
-public record BookingHistoryAmenity(int Quantity, string Name, decimal UnitPrice);
-public record BookingHistoryBeverage(int Quantity, string Name, decimal UnitPrice);
+public record BookingHistoryAmenity(int Quantity, string Name, decimal UnitPrice, string ImageUrl);
+public record BookingHistoryBeverage(int Quantity, string Name, decimal UnitPrice, string ImageUrl);
+public record BookingHistoryWorkspaceImage(string ImageUrl);

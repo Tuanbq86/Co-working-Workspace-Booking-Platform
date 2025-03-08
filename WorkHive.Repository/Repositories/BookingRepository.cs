@@ -12,9 +12,13 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
 
     public async Task<List<Booking>> GetAllBookingByUserId(int userId)
     {
-        return await _context.Bookings.Include(b => b.Payment)
+        return await _context.Bookings
+                                .Where(b => b.UserId.Equals(userId))
+                                .Include(b => b.Payment)
                                 .Include(b => b.WorkspaceTimes)
                                 .Include(b => b.Workspace)
+                                .ThenInclude(ws => ws.WorkspaceImages)
+                                .ThenInclude(wi => wi.Image)
                                 .Include(b => b.Promotion)
                                 .Include(b => b.BookingAmenities)
                                 .ThenInclude(ba => ba.Amenity)
