@@ -18,6 +18,9 @@ public sealed class BookingHistory
     public int? Workspace_CleanTime { get; set; }
     public string? Promotion_Code { get; set; }
     public int? Discount { get; set; }
+    public string? License_Name { get; set; }
+    public string? License_Address { get; set; }
+    //public string? google_map_url { get; set; }
     public List<BookingHistoryAmenity>? BookingHistoryAmenities { get; set; }
     public List<BookingHistoryBeverage>? BookingHistoryBeverages { get; set; }
     public List<BookingHistoryWorkspaceImage>? BookingHistoryWorkspaceImages { get; set; }
