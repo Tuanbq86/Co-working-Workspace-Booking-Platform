@@ -17,13 +17,14 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
         var workspace = bookUnit.workspace.GetById(command.WorkspaceId);
 
         if (workspace is null)
-            throw new WorkspaceNotFoundException("Workspace", command.WorkspaceId);
+            return new CheckTimesResult("Can not find Workspace");
 
         var timesOfWorkspaceId = bookUnit.workspaceTime.GetAll()
-            .Where(x => x.Id.Equals(command.WorkspaceId)).ToList();
+            .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
 
-        var TimesHandlingOrInuse = timesOfWorkspaceId.Where(x => x.Status.Equals(WorkspaceTimeStatus.InUse) 
-        || x.Status.Equals(WorkspaceTimeStatus.Handling)).ToList();
+        var TimesHandlingOrInuse = timesOfWorkspaceId
+            .Where(x => x.Status.Equals(WorkspaceTimeStatus.InUse.ToString()) 
+        || x.Status.Equals(WorkspaceTimeStatus.Handling.ToString())).ToList();
 
         foreach(var item in TimesHandlingOrInuse)
         {
@@ -35,7 +36,7 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
             DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
             DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)))
         {
-            throw new TimeOverlapException("Time interval has been used");
+            return new CheckTimesResult("Time interval has been used");
         }
 
         return new CheckTimesResult("Time interval is available");

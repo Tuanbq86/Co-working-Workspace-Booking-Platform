@@ -19,7 +19,8 @@ public class WorkspaceTimeRepository : GenericRepository<WorkspaceTime>, IWorksp
 
     public WorkspaceTimeRepository(WorkHiveContext context) => _context = context;
 
-    public bool IsOverlap(List<WorkspaceTime> workspaceTimes, DateTime startDate, DateTime endDate)
+    public bool IsOverlap(List<WorkspaceTime> workspaceTimes, 
+        DateTime startDate, DateTime endDate)
     {
         return workspaceTimes.Any(w =>
         w.StartDate.HasValue && w.EndDate.HasValue &&
