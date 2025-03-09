@@ -41,6 +41,10 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
             bookingHistory.Workspace_Description = item.Workspace.Description;
             bookingHistory.Workspace_Area = (int)item.Workspace.Area!;
             bookingHistory.Workspace_CleanTime = (int)item.Workspace.CleanTime!;
+            // Add new attribute
+            bookingHistory.License_Name = item.Workspace.Owner.LicenseName;
+            bookingHistory.License_Address = item.Workspace.Owner.LicenseAddress;
+            //bookingHistory.google_map_url = item.Workspace.Owner.GoogleMapUrl;
 
             //If null amenities and beverages will assign default "No Promotion"
             bookingHistory.Promotion_Code = item.Promotion?.Code ?? "No Promotion";
