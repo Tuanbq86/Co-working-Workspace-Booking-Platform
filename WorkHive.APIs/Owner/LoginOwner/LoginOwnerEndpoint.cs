@@ -27,6 +27,7 @@ namespace WorkHive.APIs.Owner.LoginOwner
             .WithName("OwnerLogin")
             .Produces<RegisterOwnerResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithTags("Owner")
             .WithSummary("Owner Login")
             .WithDescription("Owner Login");
         }

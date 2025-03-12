@@ -28,6 +28,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .WithName("CreateWorkspace")
             .Produces<CreateWorkspaceResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithTags("Workspace")
             .WithSummary("Create a new workspace")
             .WithDescription("Creates a new workspace with the provided details.");
 
