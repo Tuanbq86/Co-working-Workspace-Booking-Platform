@@ -96,7 +96,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 var amenity = bookingUnitOfWork.amenity.GetById(item.Id);
 
                 if (amenity is null || item.Quantity > amenity.Quantity)
-                    throw new AmenityBadRequestException("Can not find or request quantity being more than that in warehouse");
+                    throw new AmenityBadRequestException("Sản phẩm đã hết hàng hoặc số lượng trong kho không đủ");
 
                 var newBookingAmenity = new BookingAmenity
                 {

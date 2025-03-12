@@ -10,6 +10,7 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
     public BookingRepository() { }
     public BookingRepository(WorkHiveContext context) => _context = context;
 
+
     public async Task<List<Booking>> GetAllBookingByUserId(int userId)
     {
         return await _context.Bookings

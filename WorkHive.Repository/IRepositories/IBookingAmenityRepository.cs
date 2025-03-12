@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IBookingAmenityRepository : IGenericRepository<BookingAmenity>
 {
+    public Task<List<BookingAmenity>> GetAllBookingAmenityByBookingId(int bookingId);
 }
