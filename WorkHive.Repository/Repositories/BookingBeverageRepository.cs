@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,11 @@ public class BookingBeverageRepository : GenericRepository<BookingBeverage>, IBo
     public BookingBeverageRepository() { }
     public BookingBeverageRepository(WorkHiveContext context) => _context = context;
 
-    //To do object method
+    public async Task<List<BookingBeverage>> GetAllBookingBeverageByBookingId(int bookingId)
+    {
+        return await _context.BookingBeverages
+            .Where(bb => bb.BookingWorkspaceId.Equals(bookingId))
+            .Include(bb => bb.Beverage).ToListAsync();
+    }
 
 }
