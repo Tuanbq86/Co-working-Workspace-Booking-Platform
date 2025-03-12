@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkHive.Services.Owners.ManageImage.GetAllIById
 {
-    class GetImagesByIdFeedbackHandler
+    class GetImagesByFeedbackIdHandler
     {
     }
 }
