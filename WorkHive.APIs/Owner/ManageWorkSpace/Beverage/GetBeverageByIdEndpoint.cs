@@ -27,6 +27,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.Beverage
             .WithName("GetBeverageById")
             .Produces<GetBeverageByIdResponse>(StatusCodes.Status200OK)
             .Produces<IEnumerable<GetBeverageByIdResponse>>(StatusCodes.Status200OK) 
+            .WithTags("Beverage")
             .WithSummary("Get Beverage by ID")
             .WithDescription("Retrieve a Beverage using its ID.");
         }

@@ -29,6 +29,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .WithName("GetWorkSpaceById")
             .Produces<GetWorkSpaceByIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithTags("Workspace")
             .WithSummary("Get Workspace by ID")
             .WithDescription("Retrieve a workspace using its ID.");
         }
