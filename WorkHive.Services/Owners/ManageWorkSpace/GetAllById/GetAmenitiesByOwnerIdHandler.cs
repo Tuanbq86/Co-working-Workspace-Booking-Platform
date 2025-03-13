@@ -10,24 +10,24 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
 {
-    public record GetAmenitiesByWorkSpaceIdQuery(int WorkSpaceId) : IQuery<List<AmenityDTO>>;
+    public record GetAmenitiesByOwnerIdQuery(int OwnerId) : IQuery<List<AmenityDTO>>;
 
     public record AmenityDTO(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
 
-    public class GetAmenitiesByWorkSpaceIdValidator : AbstractValidator<GetAmenitiesByWorkSpaceIdQuery>
+    public class GetAmenitiesByOwnerIdValidator : AbstractValidator<GetAmenitiesByOwnerIdQuery>
     {
-        public GetAmenitiesByWorkSpaceIdValidator()
+        public GetAmenitiesByOwnerIdValidator()
         {
-            RuleFor(x => x.WorkSpaceId)
-                .GreaterThan(0).WithMessage("WorkSpace ID must be greater than 0");
+            RuleFor(x => x.OwnerId)
+                .GreaterThan(0).WithMessage("Owner ID must be greater than 0");
         }
     }
-    public class GetAmenitiesByWorkSpaceIdHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
-   : IQueryHandler<GetAmenitiesByWorkSpaceIdQuery, List<AmenityDTO>>
+    public class GetAmenitiesByOwnerIdHandler(IWorkSpaceManageUnitOfWork OwnerManageUnit)
+   : IQueryHandler<GetAmenitiesByOwnerIdQuery, List<AmenityDTO>>
     {
-        public async Task<List<AmenityDTO>> Handle(GetAmenitiesByWorkSpaceIdQuery query, CancellationToken cancellationToken)
+        public async Task<List<AmenityDTO>> Handle(GetAmenitiesByOwnerIdQuery query, CancellationToken cancellationToken)
         {
-            var amenities = await workSpaceManageUnit.Amenity.GetAmenitiesByWorkSpaceIdAsync(query.WorkSpaceId);
+            var amenities = await OwnerManageUnit.Amenity.GetAmenitiesByOwnerIdAsync(query.OwnerId);
 
             if (amenities == null || !amenities.Any())
             {

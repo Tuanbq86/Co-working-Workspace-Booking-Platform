@@ -17,6 +17,10 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
             .ThenInclude(wi => wi.Image)
+            .Include(w => w.WorkspaceFacilities)
+            .ThenInclude(wf => wf.Facility)
+            .Include(w => w.WorkspacePolicies)
+            .ThenInclude(wp => wp.Policy)
             .Where(w => w.OwnerId == ownerId)
             .ToListAsync();
     }
@@ -27,6 +31,10 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
             .ThenInclude(wi => wi.Image)
+            .Include(w => w.WorkspaceFacilities)
+            .ThenInclude(wf => wf.Facility)
+            .Include(w => w.WorkspacePolicies)
+            .ThenInclude(wp => wp.Policy)
             .FirstOrDefaultAsync(w => w.Id == Id);
     }
 
@@ -36,7 +44,12 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .Include(w => w.WorkspacePrices)
             .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
-            .ThenInclude(wi => wi.Image).ToListAsync();
+            .ThenInclude(wi => wi.Image)
+            .Include(w => w.WorkspaceFacilities)
+            .ThenInclude(wf => wf.Facility)
+            .Include(w => w.WorkspacePolicies)
+            .ThenInclude(wp => wp.Policy)
+            .ToListAsync();
     }
 
     public async Task<Workspace> GetWorkspaceByIdForTime(int workspaceId)

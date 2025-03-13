@@ -75,8 +75,16 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
             {
                 newBooking.Price -= (newBooking.Price * promotion.Discount) / 100;
 
+<<<<<<< HEAD
                 await bookingUnitOfWork.booking.UpdateAsync(newBooking);
             }
+=======
+            if (codeDiscount.Status.Equals(PromotionStatus.Expired))
+                throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
+
+            // Nếu mã giảm giá hợp lệ thì lưu PromotionId
+            //newBooking.PromotionId = codeDiscount.Id;
+>>>>>>> main
         }
 
         //Add List amenity, beverage item for payOS

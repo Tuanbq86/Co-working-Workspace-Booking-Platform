@@ -10,4 +10,6 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IWorkspaceFacilityRepository : IGenericRepository<WorkspaceFacility>
 {
+    public Task CreateWorkspaceFacilitiesAsync(List<WorkspaceFacility> workspaceFacilities);
+    public Task<List<WorkspaceFacility>> GetWorkspaceFacilitiesByWorkspaceIdAsync(int workspaceId);
 }

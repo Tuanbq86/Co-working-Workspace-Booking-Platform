@@ -2,13 +2,12 @@
 using Mapster;
 using MediatR;
 using WorkHive.Services.Owners.ManageWorkSpace;
+using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
 using WorkHive.Services.Owners.ManageWorkSpace.GetById;
-using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
-    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacePriceDTO> Prices,
-    List<WorkspaceImageDTO> Images);
+    public record GetWorkSpaceByIdResponse(GetWorkSpaceByIdResult GetWorkSpaceByIdResult);
 
     public class GetWorkSpaceByIdEndpoint : ICarterModule
     {
@@ -22,7 +21,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
                 {
                     return Results.Json(Array.Empty<GetWorkSpaceByIdResponse>()); 
                 }
-                GetWorkSpaceByIdResponse response = result.Adapt<GetWorkSpaceByIdResponse>();
+                var response = new GetWorkSpaceByIdResponse(result);
 
                 return Results.Ok(response);
             })
