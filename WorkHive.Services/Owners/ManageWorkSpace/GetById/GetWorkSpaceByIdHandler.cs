@@ -15,7 +15,7 @@ using WorkHive.Services.Users.LoginUser;
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 {
     public record GetWorkSpaceByIdQuery(int id) : IQuery<GetWorkSpaceByIdResult>;
-    public record GetWorkSpaceByIdResult(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacePriceDTO> Prices,
+    public record GetWorkSpaceByIdResult(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacePriceDTO> Prices,
     List<WorkspaceImageDTO> Images);
 
     public record WorkspacePriceDTO(int Id, decimal? Price, string Category);
@@ -55,6 +55,9 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
                 workspace.CleanTime,
                 workspace.Area,
                 workspace.OwnerId,
+                workspace.OpenTime,
+                workspace.CloseTime,
+                workspace.Is24h,
                 workspace.WorkspacePrices?.Where(wp => wp != null && wp.Price != null)
                     .Select(wp => new WorkspacePriceDTO(
                         wp.Id,
