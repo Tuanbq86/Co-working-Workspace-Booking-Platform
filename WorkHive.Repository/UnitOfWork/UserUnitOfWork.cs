@@ -15,11 +15,20 @@ public class UserUnitOfWork : IUserUnitOfWork
     protected WorkHiveContext _context;
     public IUserRepository User { get; private set; }
     public IRoleRepository Role { get; private set; }
+    public IWalletRepository Wallet { get; private set; }
+    public ICustomerWalletRepository CustomerWallet { get; private set; }
+    public IUserTransactionHistoryRepository UserTransactionHistory { get; private set; }
+    public ITransactionHistoryRepository TransactionHistory { get; private set; }
+
     public UserUnitOfWork(WorkHiveContext context)
     {
         _context = context;
         User = new UserRepository(_context);
         Role = new RoleRepository(_context);
+        Wallet = new WalletRepository(_context);
+        CustomerWallet = new CustomerWalletRepository(_context);
+        UserTransactionHistory = new UserTransactionHistoryRepository(_context);
+        TransactionHistory = new TransactionHistoryRepository(_context);
     }
 
     public int Save()

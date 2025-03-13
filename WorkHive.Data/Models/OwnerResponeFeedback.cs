@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class Feedback
+public partial class OwnerResponeFeedback
 {
     public int Id { get; set; }
 
@@ -17,7 +17,7 @@ public partial class Feedback
 
     public int OwnerId { get; set; }
 
-    public virtual ICollection<ImageFeedback> ImageFeedbacks { get; set; } = new List<ImageFeedback>();
+    public virtual ICollection<ImageResponseFeedback> ImageResponseFeedbacks { get; set; } = new List<ImageResponseFeedback>();
 
     public virtual WorkspaceOwner Owner { get; set; }
 

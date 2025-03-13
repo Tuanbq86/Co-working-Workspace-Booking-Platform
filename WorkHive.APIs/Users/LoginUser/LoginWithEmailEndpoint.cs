@@ -25,7 +25,7 @@ public class LoginWithEmailEndpoint : ICarterModule
             return Results.Ok(response.UserName);
         })
         .WithName("checkEmail")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<LoginWithEmailResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Check User Email")
         .WithDescription("Check User Email");

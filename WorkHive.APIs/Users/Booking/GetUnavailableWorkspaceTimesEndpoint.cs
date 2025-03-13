@@ -26,7 +26,7 @@ public class GetUnavailableWorkspaceTimesEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("GetWorkspaceTimes")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<WorkspaceTimesResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get workspace times")
         .WithTags("Booking")

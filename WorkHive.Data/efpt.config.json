@@ -43,10 +43,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Facility_Workspace]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Feedback]",
          "ObjectType": 0
       },
@@ -59,7 +55,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Notification]",
+         "Name": "[dbo].[Image_Response_Feedback]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Owner_Notification]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Owner_Respone_Feedback]",
          "ObjectType": 0
       },
       {
@@ -71,7 +75,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Payment]",
+         "Name": "[dbo].[Payment_Method]",
          "ObjectType": 0
       },
       {
@@ -103,6 +107,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[User_Notification]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[User_Transaction_History]",
          "ObjectType": 0
       },
@@ -112,6 +120,10 @@
       },
       {
          "Name": "[dbo].[Workspace]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Workspace_Facility]",
          "ObjectType": 0
       },
       {

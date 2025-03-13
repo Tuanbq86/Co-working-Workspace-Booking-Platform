@@ -11,6 +11,10 @@ public interface IUserUnitOfWork
 {
     IUserRepository User { get; }
     IRoleRepository Role { get; }
+    IWalletRepository Wallet { get; }
+    ICustomerWalletRepository CustomerWallet { get; }
+    IUserTransactionHistoryRepository UserTransactionHistory { get; }
+    ITransactionHistoryRepository TransactionHistory { get; }
 
     public int Save();
     public Task<int> SaveAsync();

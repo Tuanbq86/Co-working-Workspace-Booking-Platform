@@ -21,7 +21,7 @@ public class GetAllCustomerEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("GetAllCustomer")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<GetAllCustomerResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get All Customer")
         .WithDescription("Get All Customer");

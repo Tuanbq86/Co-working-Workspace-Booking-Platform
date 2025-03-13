@@ -19,6 +19,8 @@ public partial class Image
 
     public virtual ICollection<ImageFeedback> ImageFeedbacks { get; set; } = new List<ImageFeedback>();
 
+    public virtual ICollection<ImageResponseFeedback> ImageResponseFeedbacks { get; set; } = new List<ImageResponseFeedback>();
+
     public virtual ICollection<WorkspaceImage> WorkspaceImages { get; set; } = new List<WorkspaceImage>();
 
     public virtual ICollection<WorkspaceRatingImage> WorkspaceRatingImages { get; set; } = new List<WorkspaceRatingImage>();

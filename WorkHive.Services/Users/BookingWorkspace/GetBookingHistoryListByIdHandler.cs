@@ -34,7 +34,7 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
             bookingHistory.Booking_Price = (decimal)item.Price!;
             bookingHistory.Booking_Status = item.Status;
             bookingHistory.Booking_CreatedAt = (DateTime)item.CreatedAt!;
-            bookingHistory.Payment_Method = item.Payment.PaymentMethod;
+            bookingHistory.Payment_Method = item.Payment.Method;
             bookingHistory.Workspace_Name = item.Workspace.Name;
             bookingHistory.Workspace_Capacity = (int)item.Workspace.Capacity!;
             bookingHistory.Workspace_Category = item.Workspace.Category;

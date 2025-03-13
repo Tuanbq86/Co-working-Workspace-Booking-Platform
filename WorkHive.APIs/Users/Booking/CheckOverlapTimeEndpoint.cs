@@ -25,7 +25,7 @@ public class CheckOverlapTimeEndpoint : ICarterModule
             return Results.Ok(response.Notification);
         })
         .WithName("Check overlap times")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<CheckTimesResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("CheckOverLapTimes")
         .WithTags("Booking")

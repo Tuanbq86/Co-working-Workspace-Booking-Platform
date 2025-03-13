@@ -31,9 +31,7 @@ public partial class Booking
 
     public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
 
-    public virtual Payment Payment { get; set; }
-
-    public virtual Promotion Promotion { get; set; }
+    public virtual PaymentMethod Payment { get; set; }
 
     public virtual User User { get; set; }
 

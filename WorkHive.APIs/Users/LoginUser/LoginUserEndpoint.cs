@@ -24,7 +24,7 @@ public class LoginUserEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("userLogin")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<LoginUserResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("User Login")
         .WithDescription("User Login");
