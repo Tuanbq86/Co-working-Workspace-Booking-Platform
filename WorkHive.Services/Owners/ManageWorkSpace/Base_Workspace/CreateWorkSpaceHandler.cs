@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
-using WorkHive.Services.Owners.ManageWorkSpace.GetById;
+using WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
