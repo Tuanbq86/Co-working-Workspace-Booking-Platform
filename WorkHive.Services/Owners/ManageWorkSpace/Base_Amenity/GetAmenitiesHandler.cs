@@ -11,7 +11,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
 {
     public record GetAllAmenitiesQuery() : IQuery<List<AmenityDT>>;
 
-    public record AmenityDT(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
+    public record AmenityDT(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status, int OwnerId);
 
     public class GetAllAmenitiesValidator : AbstractValidator<GetAllAmenitiesQuery>
     {
@@ -39,7 +39,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
                 am.ImgUrl,
                 am.Description,
                 am.Category,
-                am.Status
+                am.Status,
+                am.OwnerId
             )).ToList();
         }
     }
