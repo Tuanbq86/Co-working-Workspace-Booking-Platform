@@ -3,9 +3,9 @@ using FluentValidation;
 using MediatR;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
-using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
+using static WorkHive.APIs.Owner.ManageBeverage.GetBeverageByIdEndpoint;
 
-namespace WorkHive.APIs.Owners.ManageWorkSpace.Amenity
+namespace WorkHive.APIs.Owner.ManageAmenity
 {
 
     public record GetAmenitiesByOwnerIdResponse(List<AmenityDTO> Amenities);

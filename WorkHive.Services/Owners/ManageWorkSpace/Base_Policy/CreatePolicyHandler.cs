@@ -26,7 +26,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Policy
         {
             Policy newPolicy = new Policy
             {
-                Name = command.Name
+                Name = command.Name,
+                Status = "Active"
             };
             await unit.Policy.CreateAsync(newPolicy);
             return new CreatePolicyResult("Policy created successfully");

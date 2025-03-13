@@ -1,9 +1,9 @@
 ﻿using Carter;
 using MediatR;
 using WorkHive.Services.Owmers.ManageBeverage.GetAllById;
-using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
+using static WorkHive.APIs.Owner.ManageBeverage.GetBeverageByIdEndpoint;
 
-namespace WorkHive.APIs.WorkSpace.ManageWorkSpace.Beverage
+namespace WorkHive.APIs.Owner.ManageBeverage
 {
     public record GetBeveragesByOwnerIdResponse(List<BeverageDTO> Beverages);
 

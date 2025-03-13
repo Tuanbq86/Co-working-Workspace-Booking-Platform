@@ -8,7 +8,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.BuildingBlocks.Exceptions;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
+namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Beverage
 {
     public record GetBeverageByIdQuery(int id) : IQuery<GetBeverageByIdResult>;
     public record GetBeverageByIdResult(int Id, string Name, decimal? Price, string ImgUrl, string Description, string Category, string Status, int WorkspaceId);
