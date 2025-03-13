@@ -16,7 +16,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
 public record GetWorkSpacesQuery() : IQuery<List<GetWorkSpacesResult>>;
 
 public record GetWorkSpacesResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category,
-    string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacesPriceDTO> Prices,
+    string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacesPriceDTO> Prices,
 List<WorkspacesImageDTO> Images);
 
 public record WorkspacesPriceDTO(int Id, decimal? Price, string Category);
@@ -59,6 +59,9 @@ public class GetWorkSpacesHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit
                 ws.CleanTime,
                 ws.Area,
                 ws.OwnerId,
+                ws.OpenTime,
+                ws.CloseTime,
+                ws.Is24h,
                ws.WorkspacePrices.Select(wp => new WorkspacesPriceDTO(
                 wp.Price.Id,
                 wp.Price.AveragePrice,
