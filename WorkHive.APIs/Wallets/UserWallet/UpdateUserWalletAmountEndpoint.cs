@@ -5,7 +5,7 @@ using WorkHive.Services.Wallets.UserWallet;
 
 namespace WorkHive.APIs.Wallets.UserWallet;
 
-public record UpdateUserWalletAmountRequest(int CustomerWalletId, string Status, int Amount);
+public record UpdateUserWalletAmountRequest(int CustomerWalletId, long OrderCode, int Amount);
 public record UpdateUserWalletAmountResponse(string Notification);
 
 public class UpdateUserWalletAmountEndpoint : ICarterModule

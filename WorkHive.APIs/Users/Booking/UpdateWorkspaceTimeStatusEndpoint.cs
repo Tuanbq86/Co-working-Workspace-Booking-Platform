@@ -7,7 +7,7 @@ using WorkHive.Services.WorkspaceTimes;
 
 namespace WorkHive.APIs.Users.Booking;
 
-public record UpdateTimeRequest(string Status, int BookingId);
+public record UpdateTimeRequest(long OrderCode, int BookingId);
 public record UpdateTimeResponse(string Notification);
 
 public class UpdateWorkspaceTimeStatusEndpoint : ICarterModule

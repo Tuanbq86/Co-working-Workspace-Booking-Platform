@@ -22,7 +22,7 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
                                 .ThenInclude(wi => wi.Image)
                                 .Include(b => b.Workspace)
                                 .ThenInclude(ws => ws.Owner)
-                                .Include(b => b.Promotion)
+                                //.Include(b => b.Promotion)
                                 .Include(b => b.BookingAmenities)
                                 .ThenInclude(ba => ba.Amenity)
                                 .Include(b => b.BookingBeverages)

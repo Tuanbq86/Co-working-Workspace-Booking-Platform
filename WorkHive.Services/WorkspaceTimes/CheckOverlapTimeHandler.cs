@@ -26,15 +26,13 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
         var startTime = TimeOnly.FromDateTime(startDateTime);
         var endTime = TimeOnly.FromDateTime(endDateTime);
 
-        if ((startTime < workspace.OpenTime || endTime > workspace.CloseTime) 
-            && !(workspace.Is24h.Equals(1)))
+        if (!workspace.Is24h.Equals(1))
         {
-            return new CheckTimesResult("Thời gian không nằm trong giờ mở cửa của workspace");
-        }
-
-        if(!(workspace.Is24h.Equals(1)) && startTime >= workspace.OpenTime 
-            && endTime <= workspace.CloseTime)
-        {
+            if((startTime < workspace.OpenTime || endTime > workspace.CloseTime) 
+                && (startDateTime.Date != endDateTime.Date))
+            {
+                return new CheckTimesResult("Thời gian đặt phải trong cùng một ngày và trong giờ mở cửa của workspace");
+            }
             var timesOfWorkspaceId = bookUnit.workspaceTime.GetAll()
                 .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
 
@@ -84,7 +82,7 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
         }
         else
         {
-            return new CheckTimesResult("Workspace không hoạt động 24h.");
+            return new CheckTimesResult("Request không phù hợp");
         }
     }
 }

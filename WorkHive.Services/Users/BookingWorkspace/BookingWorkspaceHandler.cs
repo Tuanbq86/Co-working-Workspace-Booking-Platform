@@ -65,21 +65,18 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
 
 
         //Add promotion for booking
-
         if (!string.IsNullOrWhiteSpace(command.PromotionCode))
         {
-            var codeDiscount = bookingUnitOfWork.promotion.GetAll()
-                .Where(p => p.Code.ToLower().Trim().Equals(command.PromotionCode.ToLower().Trim()))
-                .FirstOrDefault();
+            var promotion = bookingUnitOfWork.promotion.GetAll()
+                                .FirstOrDefault(p => p.WorkspaceId == command.WorkspaceId
+                          && p.Code.Trim().ToLower() == command.PromotionCode.Trim().ToLower());
 
-            if (codeDiscount is null)
-                throw new PromotionNotFoundException("Mã giảm giá không hợp lệ");
+            if (promotion != null)
+            {
+                newBooking.Price -= (newBooking.Price * promotion.Discount) / 100;
 
-            if (codeDiscount.Status.Equals(PromotionStatus.Expired))
-                throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
-
-            // Nếu mã giảm giá hợp lệ thì lưu PromotionId
-            newBooking.PromotionId = codeDiscount.Id;
+                await bookingUnitOfWork.booking.UpdateAsync(newBooking);
+            }
         }
 
         //Add List amenity, beverage item for payOS
@@ -96,7 +93,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 var amenity = bookingUnitOfWork.amenity.GetById(item.Id);
 
                 if (amenity is null || item.Quantity > amenity.Quantity)
-                    throw new AmenityBadRequestException("Sản phẩm đã hết hàng hoặc số lượng trong kho không đủ");
+                    continue;
 
                 var newBookingAmenity = new BookingAmenity
                 {
@@ -128,9 +125,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 var beverage = bookingUnitOfWork.beverage.GetById(item.Id);
 
                 if (beverage is null)
-                {
-                    throw new BeverageBadRequestException("Can not find beverage");
-                }
+                    continue;
 
                 var newBookingBeverage = new BookingBeverage
                 {
@@ -188,7 +183,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
                 orderCode: orderCode,
-                amount: (int)newBooking.Price,
+                amount: (int)newBooking.Price!,
                 description: "WorkHive",
                 returnUrl: domain + "/success",
                 cancelUrl : domain + "/fail",

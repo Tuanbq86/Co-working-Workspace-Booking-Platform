@@ -27,11 +27,7 @@ public partial class Beverage
 
     public int OwnerId { get; set; }
 
-    public int WorkspaceId { get; set; }
-
     public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
 
     public virtual WorkspaceOwner Owner { get; set; }
-
-    public virtual Workspace Workspace { get; set; }
 }

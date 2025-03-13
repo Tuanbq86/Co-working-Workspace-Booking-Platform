@@ -73,7 +73,5 @@ public partial class WorkspaceOwner
 
     public virtual ICollection<OwnerWallet> OwnerWallets { get; set; } = new List<OwnerWallet>();
 
-    public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
-
     public virtual ICollection<Workspace> Workspaces { get; set; } = new List<Workspace>();
 }
