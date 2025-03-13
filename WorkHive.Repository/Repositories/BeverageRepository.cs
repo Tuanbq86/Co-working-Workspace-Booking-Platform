@@ -18,10 +18,10 @@ public class BeverageRepository : GenericRepository<Beverage>, IBeverageReposito
 
 
 
-    public async Task<List<Beverage>> GetBeveragesByWorkSpaceIdAsync(int workspaceId)
+    public async Task<List<Beverage>> GetBeveragesByOwnerIdAsync(int OwnerId)
     {
         return await _context.Beverages
-            .Where(ws => ws.WorkspaceId == workspaceId)
+            .Where(ws => ws.OwnerId == OwnerId)
             .ToListAsync();
     }
 }

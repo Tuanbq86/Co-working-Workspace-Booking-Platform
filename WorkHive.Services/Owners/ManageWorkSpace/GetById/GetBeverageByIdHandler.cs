@@ -41,7 +41,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
                 beverage.Description,
                 beverage.Category,
                 beverage.Status,
-                beverage.WorkspaceId
+                beverage.OwnerId
             );
         }
 
