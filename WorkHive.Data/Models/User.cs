@@ -39,7 +39,11 @@ public partial class User
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
+    public virtual ICollection<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; } = new List<OwnerResponeFeedback>();
+
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual Role Role { get; set; }
+
+    public virtual ICollection<UserNotification> UserNotifications { get; set; } = new List<UserNotification>();
 }

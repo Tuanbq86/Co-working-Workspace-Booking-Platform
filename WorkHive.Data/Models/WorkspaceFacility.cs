@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class FacilityWorkspace
+public partial class WorkspaceFacility
 {
     public int Id { get; set; }
 

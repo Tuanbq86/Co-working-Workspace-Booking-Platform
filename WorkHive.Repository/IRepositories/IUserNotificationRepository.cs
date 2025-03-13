@@ -8,6 +8,6 @@ using WorkHive.Data.Models;
 
 namespace WorkHive.Repositories.IRepositories;
 
-public interface IPaymentRepository : IGenericRepository<Payment>
+public interface IUserNotificationRepository : IGenericRepository<UserNotification>
 {
 }

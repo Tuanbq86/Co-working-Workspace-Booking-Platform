@@ -32,21 +32,23 @@ public partial class WorkHiveContext : DbContext
 
     public virtual DbSet<Facility> Facilities { get; set; }
 
-    public virtual DbSet<FacilityWorkspace> FacilityWorkspaces { get; set; }
-
     public virtual DbSet<Feedback> Feedbacks { get; set; }
 
     public virtual DbSet<Image> Images { get; set; }
 
     public virtual DbSet<ImageFeedback> ImageFeedbacks { get; set; }
 
-    public virtual DbSet<Notification> Notifications { get; set; }
+    public virtual DbSet<ImageResponseFeedback> ImageResponseFeedbacks { get; set; }
+
+    public virtual DbSet<OwnerNotification> OwnerNotifications { get; set; }
+
+    public virtual DbSet<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; }
 
     public virtual DbSet<OwnerTransactionHistory> OwnerTransactionHistories { get; set; }
 
     public virtual DbSet<OwnerWallet> OwnerWallets { get; set; }
 
-    public virtual DbSet<Payment> Payments { get; set; }
+    public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 
     public virtual DbSet<Policy> Policies { get; set; }
 
@@ -62,11 +64,15 @@ public partial class WorkHiveContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserNotification> UserNotifications { get; set; }
+
     public virtual DbSet<UserTransactionHistory> UserTransactionHistories { get; set; }
 
     public virtual DbSet<Wallet> Wallets { get; set; }
 
     public virtual DbSet<Workspace> Workspaces { get; set; }
+
+    public virtual DbSet<WorkspaceFacility> WorkspaceFacilities { get; set; }
 
     public virtual DbSet<WorkspaceImage> WorkspaceImages { get; set; }
 
@@ -204,10 +210,6 @@ public partial class WorkHiveContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKBooking795232");
 
-            entity.HasOne(d => d.Promotion).WithMany(p => p.Bookings)
-                .HasForeignKey(d => d.PromotionId)
-                .HasConstraintName("FKBooking49948");
-
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -308,29 +310,6 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnName("status");
         });
 
-        modelBuilder.Entity<FacilityWorkspace>(entity =>
-        {
-            entity.HasKey(e => new { e.Id, e.FacilityId, e.WorkspaceId }).HasName("PK__facility__D879E35A474DE708");
-
-            entity.ToTable("Facility_Workspace");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
-            entity.Property(e => e.FacilityId).HasColumnName("facility_id");
-            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
-
-            entity.HasOne(d => d.Facility).WithMany(p => p.FacilityWorkspaces)
-                .HasForeignKey(d => d.FacilityId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKfacility_W828201");
-
-            entity.HasOne(d => d.Workspace).WithMany(p => p.FacilityWorkspaces)
-                .HasForeignKey(d => d.WorkspaceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKfacility_W348891");
-        });
-
         modelBuilder.Entity<Feedback>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Feedback__3214EC2791A03BD6");
@@ -339,10 +318,16 @@ public partial class WorkHiveContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Feedback_Workspace_Owner");
 
             entity.HasOne(d => d.User).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.UserId)
@@ -395,17 +380,69 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FKImage_Feed509918");
         });
 
-        modelBuilder.Entity<Notification>(entity =>
+        modelBuilder.Entity<ImageResponseFeedback>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC27C443ED5F");
-
-            entity.ToTable("Notification");
+            entity.ToTable("Image_Response_Feedback");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
+            entity.Property(e => e.ResponseFeedbackId).HasColumnName("response_feedback_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+
+            entity.HasOne(d => d.Image).WithMany(p => p.ImageResponseFeedbacks)
+                .HasForeignKey(d => d.ImageId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Image_Response_Feedback_Image");
+
+            entity.HasOne(d => d.ResponseFeedback).WithMany(p => p.ImageResponseFeedbacks)
+                .HasForeignKey(d => d.ResponseFeedbackId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Image_Response_Feedback_Owner_Respone_Feedback");
+        });
+
+        modelBuilder.Entity<OwnerNotification>(entity =>
+        {
+            entity.ToTable("Owner_Notification");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.OwnerNotifications)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Notification_Workspace_Owner");
+        });
+
+        modelBuilder.Entity<OwnerResponeFeedback>(entity =>
+        {
+            entity.ToTable("Owner_Respone_Feedback");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.OwnerResponeFeedbacks)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Respone_Feedback_Workspace_Owner");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OwnerResponeFeedbacks)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Respone_Feedback_User");
         });
 
         modelBuilder.Entity<OwnerTransactionHistory>(entity =>
@@ -456,16 +493,16 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FKOwner_Wall535444");
         });
 
-        modelBuilder.Entity<Payment>(entity =>
+        modelBuilder.Entity<PaymentMethod>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Payment__3214EC275764D36C");
 
-            entity.ToTable("Payment");
+            entity.ToTable("Payment_Method");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.PaymentMethod)
+            entity.Property(e => e.Method)
                 .HasMaxLength(50)
-                .HasColumnName("payment_method");
+                .HasColumnName("method");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -503,7 +540,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83FEAFE206B");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83FD34E1237");
 
             entity.ToTable("Promotion");
 
@@ -528,11 +565,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Promotions)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FKPromotion667888");
+                .HasConstraintName("FK_Promotion_Workspace_Owner");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.Promotions)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Promotion_Workspace");
         });
 
         modelBuilder.Entity<Rating>(entity =>
@@ -547,9 +590,6 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Rate).HasColumnName("rate");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Ratings)
@@ -583,9 +623,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.Description)
-                .HasColumnType("text")
-                .HasColumnName("description");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -635,6 +673,28 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKUser349791");
+        });
+
+        modelBuilder.Entity<UserNotification>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC27C443ED5F");
+
+            entity.ToTable("User_Notification");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserNotifications)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_User_Notification_User");
         });
 
         modelBuilder.Entity<UserTransactionHistory>(entity =>
@@ -689,13 +749,20 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("category");
             entity.Property(e => e.CleanTime).HasColumnName("clean_time");
+            entity.Property(e => e.CloseTime)
+                .HasPrecision(0)
+                .HasColumnName("close_time");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Is24h).HasColumnName("is_24h");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
+            entity.Property(e => e.OpenTime)
+                .HasPrecision(0)
+                .HasColumnName("open_time");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
@@ -708,6 +775,29 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKWorkspace521536");
+        });
+
+        modelBuilder.Entity<WorkspaceFacility>(entity =>
+        {
+            entity.HasKey(e => new { e.Id, e.FacilityId, e.WorkspaceId }).HasName("PK__facility__D879E35A474DE708");
+
+            entity.ToTable("Workspace_Facility");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
+            entity.Property(e => e.FacilityId).HasColumnName("facility_id");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
+
+            entity.HasOne(d => d.Facility).WithMany(p => p.WorkspaceFacilities)
+                .HasForeignKey(d => d.FacilityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FKfacility_W828201");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.WorkspaceFacilities)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FKfacility_W348891");
         });
 
         modelBuilder.Entity<WorkspaceImage>(entity =>
@@ -916,12 +1006,15 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FC5BDA8D3");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F3891079E");
 
             entity.ToTable("Workspace_Time");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
+            entity.Property(e => e.Category)
+                .HasMaxLength(50)
+                .HasColumnName("category");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");

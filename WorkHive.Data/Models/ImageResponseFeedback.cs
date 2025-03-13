@@ -5,13 +5,17 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class Facility
+public partial class ImageResponseFeedback
 {
     public int Id { get; set; }
 
-    public string Name { get; set; }
-
     public string Status { get; set; }
 
-    public virtual ICollection<WorkspaceFacility> WorkspaceFacilities { get; set; } = new List<WorkspaceFacility>();
+    public int ResponseFeedbackId { get; set; }
+
+    public int ImageId { get; set; }
+
+    public virtual Image Image { get; set; }
+
+    public virtual OwnerResponeFeedback ResponseFeedback { get; set; }
 }

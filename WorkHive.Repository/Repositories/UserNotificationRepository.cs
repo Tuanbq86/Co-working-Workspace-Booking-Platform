@@ -9,10 +9,10 @@ using WorkHive.Repositories.IRepositories;
 
 namespace WorkHive.Repositories.Repositories;
 
-public class NotificationRepository : GenericRepository<Notification>, INotificationRepository
+public class UserNotificationRepository : GenericRepository<UserNotification>, IUserNotificationRepository
 {
-    public NotificationRepository() { }
-    public NotificationRepository(WorkHiveContext context) => _context = context;
+    public UserNotificationRepository() { }
+    public UserNotificationRepository(WorkHiveContext context) => _context = context;
 
     //To do object method
 

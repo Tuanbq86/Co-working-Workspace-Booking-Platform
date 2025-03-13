@@ -5,11 +5,17 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class Notification
+public partial class OwnerNotification
 {
     public int Id { get; set; }
 
     public string Description { get; set; }
 
     public string Status { get; set; }
+
+    public int OwnerId { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public virtual WorkspaceOwner Owner { get; set; }
 }

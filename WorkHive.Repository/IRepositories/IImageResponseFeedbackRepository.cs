@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using WorkHive.Data.Base;
 using WorkHive.Data.Models;
 
-namespace WorkHive.Repositories.IRepositories;
-
-public interface INotificationRepository : IGenericRepository<Notification>
+namespace WorkHive.Repositories.IRepositories
 {
+    public interface IImageResponseFeedbackRepository : IGenericRepository<ImageResponseFeedback>
+    {
+    }
 }
