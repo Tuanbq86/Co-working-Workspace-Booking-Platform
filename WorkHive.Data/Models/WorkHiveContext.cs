@@ -43,6 +43,10 @@ public partial class WorkHiveContext : DbContext
 
     public virtual DbSet<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; }
 
+    public virtual DbSet<OwnerNotification> OwnerNotifications { get; set; }
+
+    public virtual DbSet<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; }
+
     public virtual DbSet<OwnerTransactionHistory> OwnerTransactionHistories { get; set; }
 
     public virtual DbSet<OwnerWallet> OwnerWallets { get; set; }
@@ -419,6 +423,32 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Owner_Notification_Workspace_Owner");
+        });
+
+        modelBuilder.Entity<OwnerResponeFeedback>(entity =>
+        {
+            entity.ToTable("Owner_Respone_Feedback");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.OwnerResponeFeedbacks)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Respone_Feedback_Workspace_Owner");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OwnerResponeFeedbacks)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Respone_Feedback_User");
         });
 
         modelBuilder.Entity<OwnerResponeFeedback>(entity =>

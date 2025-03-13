@@ -9,12 +9,11 @@ using WorkHive.Repositories.IRepositories;
 
 namespace WorkHive.Repositories.Repositories;
 
-public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
+public class WorkspaceFacilityRepository : GenericRepository<WorkspaceFacility>, IWorkspaceFacilityRepository
 {
-    public PaymentRepository() { }
-    public PaymentRepository(WorkHiveContext context) => _context = context;
+    public WorkspaceFacilityRepository() { }
+    public WorkspaceFacilityRepository(WorkHiveContext context) => _context = context;
 
     //To do object method
-
 
 }

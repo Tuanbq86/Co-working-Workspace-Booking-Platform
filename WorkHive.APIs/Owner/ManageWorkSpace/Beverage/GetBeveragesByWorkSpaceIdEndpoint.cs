@@ -26,6 +26,7 @@ namespace WorkHive.APIs.WorkSpace.ManageWorkSpace.Beverage
             .WithName("GetBeveragesByWorkSpaceId")
             .Produces<GetBeveragesByWorkSpaceIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithTags("Beverage")
             .WithSummary("Get Beverages by WorkSpace ID")
             .WithDescription("Retrieve all beverages belonging to a specific WorkSpace.");
         }

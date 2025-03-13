@@ -10,7 +10,7 @@ namespace WorkHive.Repositories.UnitOfWork
         private readonly WorkHiveContext _context;
         public IBookingRepository booking { get; private set; }
 
-        public IPaymentRepository payment { get; private set; }
+        public IPaymentMethodRepository payment { get; private set; }
 
         public IPromotionRepository promotion { get; private set; }
 
@@ -30,7 +30,7 @@ namespace WorkHive.Repositories.UnitOfWork
         {
             _context = context;
             booking = new BookingRepository(_context);
-            payment = new PaymentRepository(_context);
+            payment = new PaymentMethodRepository(_context);
             promotion = new PromotionRepository(_context);
             workspace = new WorkspaceRepository(_context);
             bookAmenity = new BookingAmenityRepository(_context);

@@ -7,7 +7,7 @@ using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoin
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
-    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, List<WorkspacePriceDTO> Prices,
+    public record GetWorkSpaceByIdResponse(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacePriceDTO> Prices,
     List<WorkspaceImageDTO> Images);
 
     public class GetWorkSpaceByIdEndpoint : ICarterModule
@@ -29,6 +29,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .WithName("GetWorkSpaceById")
             .Produces<GetWorkSpaceByIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithTags("Workspace")
             .WithSummary("Get Workspace by ID")
             .WithDescription("Retrieve a workspace using its ID.");
         }

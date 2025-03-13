@@ -5,7 +5,7 @@ namespace WorkHive.Repositories.IUnitOfWork;
 public interface IBookingWorkspaceUnitOfWork
 {
     IBookingRepository booking { get; }
-    IPaymentRepository payment { get; }
+    IPaymentMethodRepository payment { get; }
     IPromotionRepository promotion { get; }
     IWorkspaceRepository workspace { get; }
     IBookingAmenityRepository bookAmenity { get; }

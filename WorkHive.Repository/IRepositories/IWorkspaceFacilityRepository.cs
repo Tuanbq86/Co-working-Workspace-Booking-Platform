@@ -8,6 +8,6 @@ using WorkHive.Data.Models;
 
 namespace WorkHive.Repositories.IRepositories;
 
-public interface IFacilityWorkspaceRepository : IGenericRepository<FacilityWorkspace>
+public interface IWorkspaceFacilityRepository : IGenericRepository<WorkspaceFacility>
 {
 }

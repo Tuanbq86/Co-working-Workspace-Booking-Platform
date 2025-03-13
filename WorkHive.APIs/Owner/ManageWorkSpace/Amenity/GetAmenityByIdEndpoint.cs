@@ -27,6 +27,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.Amenity
             .WithName("GetAmenityById")
             .Produces<GetAmenityByIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithTags("Amenity")
             .WithSummary("Get Amenity by ID")
             .WithDescription("Retrieve a Amenity using its ID.");
         }

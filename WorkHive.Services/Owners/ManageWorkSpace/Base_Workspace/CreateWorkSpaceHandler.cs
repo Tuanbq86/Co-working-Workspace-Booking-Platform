@@ -11,7 +11,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
-    public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, List<PriceDTO> Prices,
+    public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<PriceDTO> Prices,
     List<ImageDTO> Images) : ICommand<CreateWorkspaceResult>;
 
     public record PriceDTO(decimal? Price, string Category);
@@ -70,7 +70,10 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     Status = command.Status,
                     CleanTime = command.CleanTime,
                     Area = command.Area,
-                    OwnerId = command.OwnerId
+                    OwnerId = command.OwnerId,
+                    OpenTime = command.OpenTime,
+                    CloseTime = command.CloseTime,
+                    Is24h = command.Is24h
                 };
 
                 await workSpaceManageUnit.Workspace.CreateAsync(newWorkSpace);

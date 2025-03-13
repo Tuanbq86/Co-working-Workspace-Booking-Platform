@@ -24,6 +24,7 @@ public class RegisterOwnerEndpoint : ICarterModule
         .WithName("RegisterOwner")
         .Produces<RegisterOwnerResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
+        .WithTags("Owner")
         .WithSummary("Register Owner")
         .WithDescription("Register Owner");
     }

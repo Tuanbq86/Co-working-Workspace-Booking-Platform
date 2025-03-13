@@ -25,6 +25,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .WithName("GetWorkSpacesByOwnerId")
             .Produces<GetWorkSpacesByOwnerIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithTags("Workspace")
             .WithSummary("Get Workspaces by Owner ID")
             .WithDescription("Retrieve all workspaces belonging to a specific owner.");
         }
