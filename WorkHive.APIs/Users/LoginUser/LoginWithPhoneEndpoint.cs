@@ -24,7 +24,7 @@ public class LoginWithPhoneEndpoint : ICarterModule
             return Results.Ok(response.UserName);
         })
         .WithName("checkPhone")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<LoginWithPhoneResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Check User Phone")
         .WithDescription("Check User Phone");

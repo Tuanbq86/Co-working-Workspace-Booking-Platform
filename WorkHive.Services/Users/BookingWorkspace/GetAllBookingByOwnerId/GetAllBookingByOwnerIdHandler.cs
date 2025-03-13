@@ -47,7 +47,7 @@ public class GetAllBookingByOwnerIdHandler(IBookingWorkspaceUnitOfWork bookUnit)
             bookingByOwnerIdDTO.PromotionId = item.PromotionId;
 
             var payment = bookUnit.payment.GetById(item.PaymentId);
-            bookingByOwnerIdDTO.Payment_Method = payment.PaymentMethod;
+            bookingByOwnerIdDTO.Payment_Method = payment.Method;
 
             var bookingAmenities = await bookUnit.bookAmenity.GetAllBookingAmenityByBookingId(item.Id);
             var bookingbeverages = await bookUnit.bookBeverage.GetAllBookingBeverageByBookingId(item.Id);

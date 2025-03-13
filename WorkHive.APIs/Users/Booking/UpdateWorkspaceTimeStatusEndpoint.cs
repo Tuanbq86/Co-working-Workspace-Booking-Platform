@@ -7,7 +7,7 @@ using WorkHive.Services.WorkspaceTimes;
 
 namespace WorkHive.APIs.Users.Booking;
 
-public record UpdateTimeRequest(string Status, int BookingId);
+public record UpdateTimeRequest(long OrderCode, int BookingId);
 public record UpdateTimeResponse(string Notification);
 
 public class UpdateWorkspaceTimeStatusEndpoint : ICarterModule
@@ -25,7 +25,7 @@ public class UpdateWorkspaceTimeStatusEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("UpdateWorkspaceTimes")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<UpdateTimeResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Update workspace times")
         .WithTags("Booking")

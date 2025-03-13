@@ -16,29 +16,73 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
     {
         var workspace = bookUnit.workspace.GetById(command.WorkspaceId);
 
-        if (workspace is null)
-            return new CheckTimesResult("Can not find Workspace");
+        //Cast startdate and enddate base on request
+        var startDateTime = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy",
+            System.Globalization.CultureInfo.InvariantCulture);
+        var endDateTime = DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy",
+            System.Globalization.CultureInfo.InvariantCulture);
 
-        var timesOfWorkspaceId = bookUnit.workspaceTime.GetAll()
-            .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
+        //cast only time
+        var startTime = TimeOnly.FromDateTime(startDateTime);
+        var endTime = TimeOnly.FromDateTime(endDateTime);
 
-        var TimesHandlingOrInuse = timesOfWorkspaceId
-            .Where(x => x.Status.Equals(WorkspaceTimeStatus.InUse.ToString()) 
-        || x.Status.Equals(WorkspaceTimeStatus.Handling.ToString())).ToList();
-
-        foreach(var item in TimesHandlingOrInuse)
+        if (!workspace.Is24h.Equals(1))
         {
-            item.EndDate = item.EndDate.GetValueOrDefault()
-                .AddMinutes(workspace.CleanTime.GetValueOrDefault());
+            if((startTime < workspace.OpenTime || endTime > workspace.CloseTime) 
+                && (startDateTime.Date != endDateTime.Date))
+            {
+                return new CheckTimesResult("Thời gian đặt phải trong cùng một ngày và trong giờ mở cửa của workspace");
+            }
+            var timesOfWorkspaceId = bookUnit.workspaceTime.GetAll()
+                .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
+
+            var TimesHandlingOrInuse = timesOfWorkspaceId
+                .Where(x => x.Status.Equals(WorkspaceTimeStatus.InUse.ToString())
+                         || x.Status.Equals(WorkspaceTimeStatus.Handling.ToString())).ToList();
+
+            foreach (var item in TimesHandlingOrInuse)
+            {
+                item.EndDate = item.EndDate.GetValueOrDefault()
+                    .AddMinutes(workspace.CleanTime.GetValueOrDefault());
+            }
+
+            if (bookUnit.workspaceTime.IsOverlap(TimesHandlingOrInuse, startDateTime, endDateTime))
+            {
+                return new CheckTimesResult("Khoảng thời gian đã được sử dụng");
+            }
+            else
+            {
+                return new CheckTimesResult("Khoảng thời gian phù hợp");
+            }
         }
 
-        if(bookUnit.workspaceTime.IsOverlap(TimesHandlingOrInuse, 
-            DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
-            DateTime.ParseExact(command.EndDate, "HH:mm dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture)))
+        if (workspace.Is24h.Equals(1))
         {
-            return new CheckTimesResult("Time interval has been used");
-        }
+            var timesOfWorkspaceId = bookUnit.workspaceTime.GetAll()
+                .Where(x => x.WorkspaceId.Equals(command.WorkspaceId)).ToList();
 
-        return new CheckTimesResult("Time interval is available");
+            var TimesHandlingOrInuse = timesOfWorkspaceId
+                .Where(x => x.Status.Equals(WorkspaceTimeStatus.InUse.ToString())
+                         || x.Status.Equals(WorkspaceTimeStatus.Handling.ToString())).ToList();
+
+            foreach (var item in TimesHandlingOrInuse)
+            {
+                item.EndDate = item.EndDate.GetValueOrDefault()
+                    .AddMinutes(workspace.CleanTime.GetValueOrDefault());
+            }
+
+            if (bookUnit.workspaceTime.IsOverlap(TimesHandlingOrInuse, startDateTime, endDateTime))
+            {
+                return new CheckTimesResult("Khoảng thời gian đã được sử dụng");
+            }
+            else
+            {
+                return new CheckTimesResult("Khoảng thời gian phù hợp");
+            }
+        }
+        else
+        {
+            return new CheckTimesResult("Request không phù hợp");
+        }
     }
 }

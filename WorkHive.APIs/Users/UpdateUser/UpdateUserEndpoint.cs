@@ -25,7 +25,7 @@ public class UpdateUserEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("Update User")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<UpdateUserResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("UpdateUser")
         .WithDescription("UpdateUser");

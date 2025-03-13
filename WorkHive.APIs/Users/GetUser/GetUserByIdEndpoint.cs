@@ -22,7 +22,7 @@ public class GetUserByIdEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("GetUserById")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<GetUserByIdResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Get User By Id")
         .WithDescription("Get User By Id");

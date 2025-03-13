@@ -1,53 +1,36 @@
-﻿using WorkHive.BuildingBlocks.CQRS;
+﻿using Microsoft.Extensions.Configuration;
+using Net.payOS.Types;
+using Net.payOS;
+using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
-public record UpdateTimeCommand(string Status, int BookingId) : ICommand<UpdateTimeResult>;
+public record UpdateTimeCommand(long OrderCode, int BookingId) : ICommand<UpdateTimeResult>;
 public record UpdateTimeResult(string Notification);
 
-public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUnit)
+public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUnit, IConfiguration configuration)
     : ICommandHandler<UpdateTimeCommand, UpdateTimeResult>
 {
+    private readonly string ClientID = configuration["PayOS:ClientId"]!;
+    private readonly string ApiKey = configuration["PayOS:ApiKey"]!;
+    private readonly string CheckSumKey = configuration["PayOS:CheckSumKey"]!;
     public async Task<UpdateTimeResult> Handle(UpdateTimeCommand command, 
         CancellationToken cancellationToken)
     {
         var bookWorkspace = bookUnit.booking.GetById(command.BookingId);
 
-        //Pay successfully
+        PayOS payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
 
-        if (command.Status.Equals(UpdateTimeStatus.PAID.ToString(), StringComparison.OrdinalIgnoreCase))
-        {
-            var workspaceTime = bookUnit.workspaceTime.GetAll()
-            .FirstOrDefault(x => x.BookingId.Equals(command.BookingId));
-            if(workspaceTime is null)
-            {
-                return new UpdateTimeResult("Yêu cầu không hợp lệ");
-            }
+        PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation(command.OrderCode);
 
+        var Status = paymentLinkInformation.status.ToString();
 
-            var booking = bookUnit.booking.GetById(command.BookingId);
-            if(booking is null)
-            {
-                return new UpdateTimeResult("Yêu cầu không hợp lệ");
-            }
-                
+        //Pay Failed
 
-            booking.Status = BookingStatus.Success.ToString();
-            workspaceTime!.Status = WorkspaceTimeStatus.InUse.ToString();
-
-            bookUnit.booking.Update(booking);
-            bookUnit.workspaceTime.Update(workspaceTime);
-
-            await bookUnit.SaveAsync();
-        }
-
-        //Pay failed or expried
-
-        if(command.Status.Equals(UpdateTimeStatus.FAILED.ToString())
-            || command.Status.Equals(UpdateTimeStatus.EXPIRED.ToString()))
+        if (!(Status.Equals(PayOSStatus.PAID.ToString())))
         {
             var workspaceTime = bookUnit.workspaceTime.GetAll()
                 .FirstOrDefault(x => x.BookingId.Equals(command.BookingId));
@@ -70,7 +53,33 @@ public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUn
 
             await bookUnit.SaveAsync();
         }
-        
+
+
+        //Pay successfully
+        if (Status.Equals(PayOSStatus.PAID.ToString()))
+        {
+            var workspaceTime = bookUnit.workspaceTime.GetAll()
+                .FirstOrDefault(x => x.BookingId.Equals(command.BookingId));
+            if (workspaceTime is null)
+            {
+                return new UpdateTimeResult("Yêu cầu không hợp lệ");
+            }
+
+            var booking = bookUnit.booking.GetById(command.BookingId);
+            if (booking is null)
+            {
+                return new UpdateTimeResult("Yêu cầu không hợp lệ");
+            }
+
+
+            booking.Status = BookingStatus.Success.ToString();
+            workspaceTime!.Status = WorkspaceTimeStatus.InUse.ToString();
+
+            bookUnit.booking.Update(booking);
+            bookUnit.workspaceTime.Update(workspaceTime);
+
+            await bookUnit.SaveAsync();
+        }
 
         return new UpdateTimeResult("Cập nhật trạng thái thành công");
     }

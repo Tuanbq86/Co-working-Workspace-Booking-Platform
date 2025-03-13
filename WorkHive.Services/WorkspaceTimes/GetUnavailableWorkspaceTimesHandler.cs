@@ -27,8 +27,8 @@ public class GetUnavailableWorkspaceTimesHandler(IBookingWorkspaceUnitOfWork boo
     {
         var workspace = bookUnit.workspace.GetById(query.WorkspaceId);
 
-        if (workspace is null)
-            throw new WorkspaceNotFoundException("Workspace", query.WorkspaceId);
+        //if (workspace is null)
+        //    throw new WorkspaceNotFoundException("Workspace", query.WorkspaceId);
 
         var results = new List<WorkspaceTimeDto>();
         var tempWorkspace = await bookUnit.workspace.GetWorkspaceByIdForTime(query.WorkspaceId);
