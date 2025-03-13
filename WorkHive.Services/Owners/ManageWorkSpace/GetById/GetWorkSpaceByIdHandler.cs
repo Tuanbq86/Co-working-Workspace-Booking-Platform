@@ -16,10 +16,13 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
 {
     public record GetWorkSpaceByIdQuery(int id) : IQuery<GetWorkSpaceByIdResult>;
     public record GetWorkSpaceByIdResult(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacePriceDTO> Prices,
-    List<WorkspaceImageDTO> Images);
+    List<WorkspaceImageDTO> Images, List<WorkspaceFacilityDT> Facilities, List<WorkspacePolicyDT> Policies);
 
     public record WorkspacePriceDTO(int Id, decimal? Price, string Category);
     public record WorkspaceImageDTO(int Id, string ImgUrl);
+    public record WorkspaceFacilityDT(int Id, string FacilityName);
+    public record WorkspacePolicyDT(int Id, string PolicyName);
+
 
 
     public class GetWorkSpaceByIdValidator : AbstractValidator<GetWorkSpaceByIdQuery>
@@ -68,7 +71,19 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
                     .Select(wi => new WorkspaceImageDTO(
                         wi.Image!.Id,
                         wi.Image.ImgUrl ?? string.Empty
-                    )).ToList() ?? new List<WorkspaceImageDTO>()
+                    )).ToList() ?? new List<WorkspaceImageDTO>(),
+                workspace.WorkspaceFacilities?.Where(wf => wf != null && wf.Facility != null)
+                    .Select(wf => new WorkspaceFacilityDT(
+                        wf.Facility!.Id,
+                        wf.Facility.Name ?? string.Empty
+                    )).ToList() ?? new List<WorkspaceFacilityDT>(),
+                workspace.WorkspacePolicies?.Where(wp => wp != null && wp.Policy != null)
+                    .Select(wp => new WorkspacePolicyDT(
+                        wp.Policy!.Id,
+                        wp.Policy.Name ?? string.Empty
+                    )).ToList() ?? new List<WorkspacePolicyDT>()
+
+
             );
         }
     }

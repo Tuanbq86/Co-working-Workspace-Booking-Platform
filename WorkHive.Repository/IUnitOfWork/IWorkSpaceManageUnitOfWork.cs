@@ -18,6 +18,8 @@ namespace WorkHive.Repositories.IUnitOfWork
         IImageRepository Image { get; }
         IWorkspaceImageRepository WorkspaceImage { get; }
         IWorkspacePriceRepository WorkspacePrice { get; }
+        IWorkspaceFacilityRepository WorkspaceFacility { get; }
+        IWorkspacePolicyRepository WorkspacePolicy { get; }
         IWorkspaceOwnerRepository WorkspaceOwner { get; }
 
 

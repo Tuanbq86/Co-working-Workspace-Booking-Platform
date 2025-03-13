@@ -9,7 +9,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
     public record CreateWorkspaceRequest(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<PriceDTO> Prices,
-    List<ImageDTO> Images);
+    List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies);
 
     public record CreateWorkspaceResponse(string Notification);
 

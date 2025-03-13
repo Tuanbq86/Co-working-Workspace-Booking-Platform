@@ -12,15 +12,17 @@ using WorkHive.Services.Owners.LoginOwner;
 using WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 using WorkHive.Services.Users.BookingWorkspace;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
+namespace WorkHive.Services.Owners.ManageWorkSpace.GetAll;
 public record GetWorkSpacesQuery() : IQuery<List<GetWorkSpacesResult>>;
 
 public record GetWorkSpacesResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category,
     string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacesPriceDTO> Prices,
-List<WorkspacesImageDTO> Images);
+List<WorkspacesImageDTO> Images, List<WorkspaceFacilityDTO> Facilities, List<WorkspacePolicyDTO> Policies);
 
 public record WorkspacesPriceDTO(int Id, decimal? Price, string Category);
 public record WorkspacesImageDTO(int Id, string ImgUrl);
+public record WorkspaceFacilityDTO(int Id, string FacilityName);
+public record WorkspacePolicyDTO(int Id, string PolicyName);
 
 
 public class GetWorkSpacesValidator : AbstractValidator<GetWorkSpacesQuery>
@@ -50,8 +52,8 @@ public class GetWorkSpacesHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit
             return new GetWorkSpacesResult(
                 ws.Id,
                 ws.Name,
-                owner?.LicenseAddress ?? string.Empty,  
-                owner?.GoogleMapUrl ?? string.Empty,   
+                owner?.LicenseAddress ?? string.Empty,
+                owner?.GoogleMapUrl ?? string.Empty,
                 ws.Description,
                 ws.Capacity,
                 ws.Category,
@@ -70,6 +72,14 @@ public class GetWorkSpacesHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit
             ws.WorkspaceImages.Select(wi => new WorkspacesImageDTO(
                 wi.Image.Id,
                 wi.Image.ImgUrl
+            )).ToList(),
+            ws.WorkspaceFacilities.Select(wf => new WorkspaceFacilityDTO(
+                wf.Facility.Id,
+                wf.Facility.Name
+            )).ToList(),
+            ws.WorkspacePolicies.Select(wp => new WorkspacePolicyDTO(
+                wp.Policy.Id,
+                wp.Policy.Name
             )).ToList()
             );
         }).ToList();

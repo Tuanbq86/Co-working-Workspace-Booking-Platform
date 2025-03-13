@@ -3,6 +3,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.BuildingBlocks.Exceptions;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 
@@ -10,10 +11,13 @@ public record GetWorkSpacesByOwnerIdQuery(int Id) : IQuery<List<GetWorkSpaceByOw
 
 public record GetWorkSpaceByOwnerIdResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category, 
     string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacesPriceDTO> Prices,
-List<WorkspacesImageDTO> Images);
+List<WorkspacesImageDTO> Images, List<WorkspaceFacilityDTO> Facilities, List<WorkspacePolicyDTO> Policies);
 
 public record WorkspacesPriceDTO(int Id, decimal? Price, string Category);
 public record WorkspacesImageDTO(int Id, string ImgUrl);
+public record WorkspaceFacilityDTO(int Id, string FacilityName);
+public record WorkspacePolicyDTO(int Id, string PolicyName);
+
 
 
 public class GetWorkSpacesByOwnerIdValidator : AbstractValidator<GetWorkSpacesByOwnerIdQuery>
@@ -60,6 +64,14 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
             ws.WorkspaceImages.Select(wi => new WorkspacesImageDTO(
                 wi.Image.Id,
                 wi.Image.ImgUrl
+            )).ToList(),
+            ws.WorkspaceFacilities.Select(wf => new WorkspaceFacilityDTO(
+                wf.Facility.Id,
+                wf.Facility.Name
+            )).ToList(),
+            ws.WorkspacePolicies.Select(wp => new WorkspacePolicyDTO(
+                wp.Policy.Id,
+                wp.Policy.Name
             )).ToList()
             )).ToList();
     }
