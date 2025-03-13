@@ -13,6 +13,8 @@ public partial class WorkspaceFacility
 
     public int WorkspaceId { get; set; }
 
+    public string Status { get; set; }
+
     public virtual Facility Facility { get; set; }
 
     public virtual Workspace Workspace { get; set; }

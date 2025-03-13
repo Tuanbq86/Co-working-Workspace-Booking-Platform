@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,19 @@ public class WorkspaceFacilityRepository : GenericRepository<WorkspaceFacility>,
     public WorkspaceFacilityRepository() { }
     public WorkspaceFacilityRepository(WorkHiveContext context) => _context = context;
 
-    //To do object method
+    public async Task CreateWorkspaceFacilitiesAsync(List<WorkspaceFacility> workspaceFacilities)
+    {
+        if (workspaceFacilities == null || !workspaceFacilities.Any()) return;
+
+        await _context.WorkspaceFacilities.AddRangeAsync(workspaceFacilities);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<WorkspaceFacility>> GetWorkspaceFacilitiesByWorkspaceIdAsync(int workspaceId)
+    {
+        return await _context.WorkspaceFacilities
+                    .Where(i => i.WorkspaceId == workspaceId)
+                    .ToListAsync();
+    }
 
 }

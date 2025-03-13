@@ -1,6 +1,6 @@
 ﻿using Carter;
 using MediatR;
-using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
+using WorkHive.Services.Owners.ManageWorkSpace.GetAll;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 { 

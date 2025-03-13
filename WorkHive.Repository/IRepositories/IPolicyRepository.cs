@@ -10,4 +10,6 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IPolicyRepository : IGenericRepository<Policy>
 {
+    public Task CreatePoliciesAsync(List<Policy> policies);
+    public Task<List<Policy>> GetPoliciesByWorkspaceIdAsync(int workspaceId);
 }

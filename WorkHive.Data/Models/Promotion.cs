@@ -25,9 +25,5 @@ public partial class Promotion
 
     public int WorkspaceId { get; set; }
 
-    public int OwnerId { get; set; }
-
-    public virtual WorkspaceOwner Owner { get; set; }
-
     public virtual Workspace Workspace { get; set; }
 }

@@ -10,10 +10,10 @@ class AmenityRepository : GenericRepository<Amenity>, IAmenityRepository
     public AmenityRepository() { }
     public AmenityRepository(WorkHiveContext context) => _context =  context;
 
-    public async Task<List<Amenity>> GetAmenitiesByWorkSpaceIdAsync(int workspaceId)
+    public async Task<List<Amenity>> GetAmenitiesByOwnerIdAsync(int ownerId)
     {
         return await _context.Amenities
-            .Where(ws => ws.WorkspaceId == workspaceId)
+            .Where(ws => ws.OwnerId == ownerId)
             .ToListAsync();
     }
 

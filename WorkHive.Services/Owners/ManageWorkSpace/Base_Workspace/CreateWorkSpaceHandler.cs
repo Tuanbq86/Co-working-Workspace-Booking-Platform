@@ -12,10 +12,13 @@ using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
     public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<PriceDTO> Prices,
-    List<ImageDTO> Images) : ICommand<CreateWorkspaceResult>;
+    List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies) : ICommand<CreateWorkspaceResult>;
 
     public record PriceDTO(decimal? Price, string Category);
     public record ImageDTO(string ImgUrl);
+    public record FacilityDTO(int Id, string FacilityName);
+    public record PolicyDTO(int Id, string PolicyName);
+
     public record CreateWorkspaceResult(string Notification);
 
     public class CreateWorkSpaceValidator : AbstractValidator<CreateWorkSpaceCommand>
@@ -44,12 +47,13 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             private const string DefaultStatus = "Active";
 
             public async Task<CreateWorkspaceResult> Handle(CreateWorkSpaceCommand command, CancellationToken cancellationToken)
-             {
+            {
                 List<Image> images = command.Images.Select(i => new Image
                 {
                     ImgUrl = i.ImgUrl,
                     Title = DefaultImageTitle
                 }).ToList() ?? new List<Image>();
+
 
                 List<Price> prices = command.Prices.Select(p => new Price
                 {
@@ -57,8 +61,24 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     AveragePrice = p.Price
                 }).ToList() ?? new List<Price>();
 
+                List<Facility> facilities = command.Facilities.Select(f => new Facility
+                {
+                    Name = f.FacilityName
+                }).ToList() ?? new List<Facility>();
+
+
+                List<Policy> policies = command.Policies.Select(p => new Policy
+                {
+                    Name = p.PolicyName
+                }).ToList() ?? new List<Policy>();
+
+
+
+
                 await workSpaceManageUnit.Image.CreateImagesAsync(images);
                 await workSpaceManageUnit.Price.CreatePricesAsync(prices);
+                await workSpaceManageUnit.Policy.CreatePoliciesAsync(policies);
+                await workSpaceManageUnit.Facility.CreateFacilitiesAsync(facilities);
                 await workSpaceManageUnit.SaveAsync();
 
                 var newWorkSpace = new Workspace
@@ -86,6 +106,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     Status = DefaultStatus
                 }).ToList();
 
+
                 var workspacePrices = prices.Select(prc => new WorkspacePrice
                 {
                     WorkspaceId = newWorkSpace.Id,
@@ -93,8 +114,23 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     Status = DefaultStatus
                 }).ToList();
 
+                var workspaceFacilities = facilities.Select(fac => new WorkspaceFacility
+                {
+                    WorkspaceId = newWorkSpace.Id,
+                    FacilityId = fac.Id
+                }).ToList();
+
+                var workspacePolicies = policies.Select(pol => new WorkspacePolicy
+                {
+                    WorkspaceId = newWorkSpace.Id,
+                    PolicyId = pol.Id
+                }).ToList();
+
                 await workSpaceManageUnit.WorkspaceImage.CreateWorkspaceImagesAsync(workspaceImages);
                 await workSpaceManageUnit.WorkspacePrice.CreateWorkspacePricesAsync(workspacePrices);
+                await workSpaceManageUnit.WorkspacePolicy.CreateWorkspacePoliciesAsync(workspacePolicies);
+                await workSpaceManageUnit.WorkspaceFacility.CreateWorkspaceFacilitiesAsync(workspaceFacilities);
+
 
                 await workSpaceManageUnit.SaveAsync();
 

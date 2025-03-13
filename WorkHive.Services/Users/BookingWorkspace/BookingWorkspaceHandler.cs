@@ -79,7 +79,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 throw new PromotionNotFoundException("Mã giảm giá đã hết hạn");
 
             // Nếu mã giảm giá hợp lệ thì lưu PromotionId
-            newBooking.PromotionId = codeDiscount.Id;
+            //newBooking.PromotionId = codeDiscount.Id;
         }
 
         //Add List amenity, beverage item for payOS

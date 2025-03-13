@@ -9,9 +9,11 @@ public partial class WorkspacePolicy
 {
     public int Id { get; set; }
 
+    public int PolicyId { get; set; }
+
     public int WorkspaceId { get; set; }
 
-    public int PolicyId { get; set; }
+    public string Status { get; set; }
 
     public virtual Policy Policy { get; set; }
 
