@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkHive.Services.DTOService;
 
-public class UserTransactionHistoryDTO
+public record UserTransactionHistoryDTO
 {
     public decimal? Amount { get; set; }
     public string? Status { get; set; }

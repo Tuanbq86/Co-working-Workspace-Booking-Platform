@@ -10,11 +10,7 @@ using WorkHive.Services.DTOService;
 namespace WorkHive.Services.Wallets.UserWallet;
 
 public record GetAllTransactionHistoryByUserIdQuery(int UserId) : IQuery<GetAllTransactionHistoryByUserIdResult>;
-public record GetAllTransactionHistoryByUserIdResult(
-    List<UserTransactionHistoryDTO> UserTransactionHistoryDTOs = null!)
-{
-    public List<UserTransactionHistoryDTO> UserTransactionHistoryDTOs { get; init; } = [];
-}
+public record GetAllTransactionHistoryByUserIdResult(List<UserTransactionHistoryDTO> UserTransactionHistoryDTOs);
 
 
 public class GetAllTransactionHistoryByUserIdHandler(IUserUnitOfWork userUnit)
