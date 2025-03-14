@@ -33,6 +33,8 @@ namespace WorkHive.Repositories.UnitOfWork
         public IWorkspaceFacilityRepository WorkspaceFacility { get; private set; }
         public IWorkspacePolicyRepository WorkspacePolicy { get; private set; }
 
+        public IPromotionRepository Promotion { get; private set; }
+
 
         public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
 
@@ -52,6 +54,7 @@ namespace WorkHive.Repositories.UnitOfWork
             WorkspacePolicy = new WorkspacePolicyRepository(_context);
             Price = new PriceRepository(_context);
             Image = new ImageRepository(_context);
+            Promotion = new PromotionRepository(_context);
 
         }
         public int Save()
