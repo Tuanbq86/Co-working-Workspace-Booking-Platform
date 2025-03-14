@@ -28,7 +28,7 @@ namespace WorkHive.Services.Owners.LoginOwner
         public async Task<LoginWithWorkspaceOwnerPhoneResult> Handle(LoginWithWorkspaceOwnerPhoneCommand command,
             CancellationToken cancellationToken)
         {
-            var Owner = OwnerUnit.WorkspaceOwner.FindOwnerByPhone(command.Phone);
+            var Owner = OwnerUnit.WorkspaceOwner.FindWorkspaceOwnerByPhone(command.Phone);
 
             if (Owner is null)
                 throw new OwnerNotFoundException("Owner", command.Phone);
