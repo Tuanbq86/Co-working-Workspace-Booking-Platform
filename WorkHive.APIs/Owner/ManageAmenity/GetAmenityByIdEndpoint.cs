@@ -1,12 +1,11 @@
 ﻿using Carter;
 using Mapster;
 using MediatR;
-using WorkHive.Services.Owners.ManageWorkSpace.GetById;
-using static WorkHive.APIs.Owner.ManageWorkSpace.Beverage.GetBeverageByIdEndpoint;
+using WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity;
 
-namespace WorkHive.APIs.Owner.ManageWorkSpace.Amenity
+namespace WorkHive.APIs.Owner.ManageAmenity
 {
-    public record GetAmenityByIdResponse(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
+    public record GetAmenityByIdResponse(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status, int OwnerId);
 
     public class GetAmenityByIdEndpoint : ICarterModule
     {

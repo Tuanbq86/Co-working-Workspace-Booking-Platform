@@ -2,8 +2,8 @@
 using Mapster;
 using MediatR;
 using WorkHive.Services.Owners.ManageWorkSpace;
+using WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace;
 using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
-using WorkHive.Services.Owners.ManageWorkSpace.GetById;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {

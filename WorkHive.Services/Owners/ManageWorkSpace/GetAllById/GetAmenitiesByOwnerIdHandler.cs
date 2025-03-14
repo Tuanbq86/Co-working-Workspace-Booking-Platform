@@ -12,7 +12,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
 {
     public record GetAmenitiesByOwnerIdQuery(int OwnerId) : IQuery<List<AmenityDTO>>;
 
-    public record AmenityDTO(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
+    public record AmenityDTO(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status, int OwnerId);
 
     public class GetAmenitiesByOwnerIdValidator : AbstractValidator<GetAmenitiesByOwnerIdQuery>
     {
@@ -42,7 +42,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById
                 am.ImgUrl,
                 am.Description,
                 am.Category,
-                am.Status
+                am.Status,
+                am.OwnerId
             )).ToList();
         }
     }

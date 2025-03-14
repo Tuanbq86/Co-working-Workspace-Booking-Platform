@@ -8,10 +8,10 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.BuildingBlocks.Exceptions;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
+namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
 {
     public record GetAmenityByIdQuery(int id) : IQuery<GetAmenityByIdResult>;
-    public record GetAmenityByIdResult(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status);
+    public record GetAmenityByIdResult(int Id, string Name, decimal? Price, int? Quantity, string ImgUrl, string Description, string Category, string Status, int OwnerId);
 
 
     public class GetAmenityByIdValidator : AbstractValidator<GetAmenityByIdQuery>
@@ -41,7 +41,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
                 amenity.ImgUrl,
                 amenity.Description,
                 amenity.Category,
-                amenity.Status
+                amenity.Status,
+                amenity.OwnerId
             );
         }
 

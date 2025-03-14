@@ -12,7 +12,7 @@ using WorkHive.Services.Exceptions;
 using WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 using WorkHive.Services.Users.LoginUser;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace.GetById
+namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace
 {
     public record GetWorkSpaceByIdQuery(int id) : IQuery<GetWorkSpaceByIdResult>;
     public record GetWorkSpaceByIdResult(int Id, string Name, string Description, string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<WorkspacePriceDTO> Prices,

@@ -1,9 +1,9 @@
 ﻿using Carter;
 using Mapster;
 using MediatR;
-using WorkHive.Services.Owners.ManageWorkSpace.GetById;
+using WorkHive.Services.Owners.ManageWorkSpace.Base_Beverage;
 
-namespace WorkHive.APIs.Owner.ManageWorkSpace.Beverage
+namespace WorkHive.APIs.Owner.ManageBeverage
 {
     public class GetBeverageByIdEndpoint : ICarterModule
     {
