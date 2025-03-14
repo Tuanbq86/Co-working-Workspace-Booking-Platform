@@ -21,6 +21,7 @@ namespace WorkHive.Repositories.IUnitOfWork
         IWorkspaceFacilityRepository WorkspaceFacility { get; }
         IWorkspacePolicyRepository WorkspacePolicy { get; }
         IWorkspaceOwnerRepository WorkspaceOwner { get; }
+        IPromotionRepository Promotion { get; }
 
 
         public int Save();
