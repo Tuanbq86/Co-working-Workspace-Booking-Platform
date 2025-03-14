@@ -1,4 +1,5 @@
-﻿using WorkHive.BuildingBlocks.CQRS;
+﻿using System.Reflection.Metadata.Ecma335;
+using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Exceptions;
 using WorkHive.Services.Users.DTOs;
@@ -17,14 +18,15 @@ public class GetUserByIdHandler(IUserUnitOfWork userUnit)
         var user = userUnit.User.GetAll().FirstOrDefault(u => u.Id.Equals(query.Id));
 
         if (user is null)
-            throw new UserNotFoundException("User", query.Id);
+            return new GetUserByIdResult(new UserDTO());
+            
 
         var userDTO = new UserDTO
         {
             Id = user.Id,
             Name = user.Name,
             Phone = user.Phone,
-            Email = user.Email,
+            Email = user.Email.Trim(),
             Password = user.Password,
             Status = user.Status,
             Avatar = user.Avatar,

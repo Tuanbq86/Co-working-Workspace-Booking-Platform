@@ -28,6 +28,7 @@ public class UpdateUserPasswordEndpoint : ICarterModule
         .Produces<UpdateUserPasswordResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("UpdateUserPassword")
+        .WithTags("Update User")
         .WithDescription("UpdateUserPassword");
     }
 }

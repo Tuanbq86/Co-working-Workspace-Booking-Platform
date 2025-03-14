@@ -31,6 +31,7 @@ public class UploadImageEndpoint : ICarterModule
         .Produces<CreateWorkspaceResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Upload Image")
+        .WithTags("Upload images on cloudinary")
         .WithDescription("Upload Image");
     }
 }
