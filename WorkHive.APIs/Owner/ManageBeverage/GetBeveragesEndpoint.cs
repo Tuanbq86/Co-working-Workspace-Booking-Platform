@@ -5,7 +5,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Beverage;
 
 namespace WorkHive.APIs.Owner.ManageBeverage
 {
-    public record GetBeveragesResponse(List<Beverage> Beverages);
+    public record GetBeveragesResponse(List<BeverageDT> Beverages);
 
     public class GetBeveragesEndpoint : ICarterModule
     {
@@ -17,7 +17,7 @@ namespace WorkHive.APIs.Owner.ManageBeverage
                 var result = await sender.Send(query);
                 if (result == null || !result.Any())
                 {
-                    return Results.Json(new GetBeveragesResponse(new List<Beverage>()));
+                    return Results.Json(new GetBeveragesResponse(new List<BeverageDT>()));
                 }
                 var response = new GetBeveragesResponse(result);
                 return Results.Ok(response);
