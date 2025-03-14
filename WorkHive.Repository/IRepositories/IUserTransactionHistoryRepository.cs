@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IUserTransactionHistoryRepository : IGenericRepository<UserTransactionHistory>
 {
+    public Task<List<UserTransactionHistory>> GetAllUserTransactionHistoryByCustomerWalletId(int customerWalletId);
 }

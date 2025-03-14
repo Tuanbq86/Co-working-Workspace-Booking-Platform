@@ -27,6 +27,7 @@ public class DecodeJwtTokenEndpoint : ICarterModule
         .Produces<DecodeJwtResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Decode Jwt Token")
+        .WithTags("DecodeJWTtoken")
         .WithDescription("Decode Jwt Token");
     }
 }

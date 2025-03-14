@@ -27,6 +27,7 @@ public class LoginWithPhoneEndpoint : ICarterModule
         .Produces<LoginWithPhoneResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Check User Phone")
+        .WithTags("User Login")
         .WithDescription("Check User Phone");
     }
 }

@@ -26,6 +26,7 @@ public class RegisterUserEndpoint : ICarterModule
         .Produces<RegisterUserResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Register successfully")
+        .WithTags("Register User")
         .WithDescription("Register successfully");
     }
 }

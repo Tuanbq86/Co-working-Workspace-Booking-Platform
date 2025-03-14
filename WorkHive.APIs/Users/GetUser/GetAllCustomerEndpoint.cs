@@ -24,6 +24,7 @@ public class GetAllCustomerEndpoint : ICarterModule
         .Produces<GetAllCustomerResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get All Customer")
+        .WithTags("Get All Customer")
         .WithDescription("Get All Customer");
     }
 }
