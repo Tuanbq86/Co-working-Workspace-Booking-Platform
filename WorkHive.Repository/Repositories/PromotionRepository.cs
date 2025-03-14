@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WorkHive.Data.Base;
@@ -13,6 +15,11 @@ public class PromotionRepository : GenericRepository<Promotion>, IPromotionRepos
 {
     public PromotionRepository() { }
     public PromotionRepository(WorkHiveContext context) => _context = context;
+
+    public async Task<Promotion> GetFirstOrDefaultAsync(Expression<Func<Promotion, bool>> predicate)
+    {
+        return await _context.Promotions.FirstOrDefaultAsync(predicate);
+    }
 
     //To do object method
 }

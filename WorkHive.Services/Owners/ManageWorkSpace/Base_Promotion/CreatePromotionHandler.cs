@@ -17,6 +17,12 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
     {
         public async Task<CreatePromotionResult> Handle(CreatePromotionCommand command, CancellationToken cancellationToken)
         {
+            var existingPromotion = await unit.Promotion.GetFirstOrDefaultAsync(p => p.Code == command.Code);
+            if (existingPromotion != null)
+            {
+                return new CreatePromotionResult("Mã khuyến mãi đã tồn tại");
+            }
+
             var newPromotion = new Promotion
             {
                 Code = command.Code,
@@ -31,7 +37,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
             await unit.Promotion.CreateAsync(newPromotion);
             await unit.SaveAsync();
 
-            return new CreatePromotionResult("Promotion created successfully");
+            return new CreatePromotionResult("Tạo mã khuyến mãi thành công");
         }
     }
 }
