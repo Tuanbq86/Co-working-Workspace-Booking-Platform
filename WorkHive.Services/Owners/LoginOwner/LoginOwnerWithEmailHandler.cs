@@ -27,7 +27,7 @@ namespace WorkHive.Services.Owners.LoginOwner
     {
         public async Task<LoginWithOwnerEmailResult> Handle(LoginWithOwnerEmailCommand command, CancellationToken cancellationToken)
         {
-            var Owner = OwnerUnit.WorkspaceOwner.FindOwnerByEmail(command.Email);
+            var Owner = OwnerUnit.WorkspaceOwner.FindWorkspaceOwnerByEmail(command.Email);
 
             if (Owner is null)
                 throw new OwnerNotFoundException("Owner", command.Email);

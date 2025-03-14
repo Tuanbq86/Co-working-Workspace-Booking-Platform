@@ -15,23 +15,29 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
     public WorkspaceOwnerRepository() { }
     public WorkspaceOwnerRepository(WorkHiveContext context) => _context = context;
 
-     public WorkspaceOwner FindOwnerByEmail(string email)
+    public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword)
     {
-        return _context.WorkspaceOwners.Where(x => x.Email.Equals(email)).FirstOrDefault()!;
+        return newPassword.ToLower().Trim().Equals(confirmPassword.ToLower().Trim());
     }
 
-    public bool FindOwnerByEmailOrPhone(string auth, string password)
+    public WorkspaceOwner FindWorkspaceOwnerByEmail(string email)
     {
-        var OwnerEmail = _context.WorkspaceOwners.FirstOrDefault(u => u.Email.Equals(auth));
+        return _context.WorkspaceOwners.Where(x => x.Email.ToLower().Trim()
+        .Equals(email.ToLower().Trim())).FirstOrDefault()!;
+    }
 
-        if (OwnerEmail != null && BCrypt.Net.BCrypt.EnhancedVerify(password, OwnerEmail.Password))
+    public bool FindWorkspaceOwnerByEmailOrPhone(string auth, string password)
+    {
+        var WorkspaceOwnerEmail = _context.WorkspaceOwners.FirstOrDefault(u => u.Email.Equals(auth));
+
+        if (WorkspaceOwnerEmail != null && BCrypt.Net.BCrypt.EnhancedVerify(password, WorkspaceOwnerEmail.Password))
         {
             return true;
         }
 
-        var OwnerPhone = _context.WorkspaceOwners.FirstOrDefault(u => u.Phone.Equals(auth));
+        var WorkspaceOwnerPhone = _context.WorkspaceOwners.FirstOrDefault(u => u.Phone.Equals(auth));
 
-        if (OwnerPhone != null && BCrypt.Net.BCrypt.EnhancedVerify(password, OwnerPhone.Password))
+        if (WorkspaceOwnerPhone != null && BCrypt.Net.BCrypt.EnhancedVerify(password, WorkspaceOwnerPhone.Password))
         {
             return true;
         }
@@ -39,21 +45,66 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
         return false;
     }
 
-    public WorkspaceOwner FindOwnerByPhone(string phone)
+    public WorkspaceOwner FindWorkspaceOwnerByPhone(string phone)
     {
-        return _context.WorkspaceOwners.Where(x => x.Phone.Equals(phone)).FirstOrDefault()!;
+        return _context.WorkspaceOwners.Where(x => x.Phone.ToLower().Trim()
+        .Equals(phone.ToLower().Trim())).FirstOrDefault()!;
     }
 
-    //To do object method
-    public WorkspaceOwner RegisterOwnerByPhoneAndEmail(string email, string phone, string password)
+    public WorkspaceOwner RegisterWorkspaceOwner(string email,
+        string phone, string password)
     {
-        var workspaceOwner = new WorkspaceOwner
+        var WorkspaceOwner = new WorkspaceOwner
         {
             Email = email,
             Phone = phone,
-            Password = password
+            Password = password,
         };
-        return workspaceOwner;
+
+        return WorkspaceOwner;
+    }
+
+
+    //To do object method
+
+    public bool FindUserByEmailOrPhone(string auth, string password)
+    {
+        var userEmail = _context.Users.FirstOrDefault(u => u.Email.Equals(auth));
+
+        if (userEmail != null && BCrypt.Net.BCrypt.EnhancedVerify(password, userEmail.Password))
+        {
+            return true;
+        }
+
+        var userPhone = _context.Users.FirstOrDefault(u => u.Phone.Equals(auth));
+
+        if (userPhone != null && BCrypt.Net.BCrypt.EnhancedVerify(password, userPhone.Password))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public User FindUserByPhone(string phone)
+    {
+        return _context.Users.Where(x => x.Phone.ToLower().Trim()
+        .Equals(phone.ToLower().Trim())).FirstOrDefault()!;
+    }
+
+    public User RegisterUser(string name, string email,
+        string phone, string password, string sex)
+    {
+        var user = new User
+        {
+            Name = name,
+            Email = email,
+            Phone = phone,
+            Password = password,
+            Sex = sex
+        };
+
+        return user;
     }
 
     public async Task<List<WorkspaceOwner>> GetOwnersByIdsAsync(List<int> ownerIds)
