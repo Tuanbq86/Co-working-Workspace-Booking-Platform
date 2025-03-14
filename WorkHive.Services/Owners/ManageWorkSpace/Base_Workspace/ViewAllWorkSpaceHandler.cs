@@ -12,7 +12,7 @@ using WorkHive.Services.Owners.LoginOwner;
 using WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 using WorkHive.Services.Users.BookingWorkspace;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace.GetAll;
+namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace;
 public record GetWorkSpacesQuery() : IQuery<List<GetWorkSpacesResult>>;
 
 public record GetWorkSpacesResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category,
