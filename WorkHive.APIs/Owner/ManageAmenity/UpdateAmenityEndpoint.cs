@@ -5,7 +5,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity;
 
 namespace WorkHive.APIs.Owner.ManageAmenity
 {
-    public record UpdateAmenityRequest(string Name, string Description, string Category, string Status, string ImgUrl);
+    public record UpdateAmenityRequest(string Name, string Description, string Category, string Status, string ImgUrl, decimal? Price, int? Quantity);
     public record UpdateAmenityResponse(string Notification);
 
     public class UpdateAmenityEndpoint : ICarterModule
