@@ -7,7 +7,7 @@ namespace WorkHive.APIs.Owner.ManagePromotion
 {
     public class GetPromotionByIdEndpoint : ICarterModule
     {
-        public record GetPromotionByIdResponse(int Id, string Code, int? Discount, DateTime? StartDate, DateTime? EndDate, DateTime? CreatedAt, DateTime? UpdatedAt, string Status, int WorkspaceId);
+        public record GetPromotionByIdResponse(int Id, string Code, int? Discount, DateTime? StartDate, DateTime? EndDate, DateTime? CreatedAt, DateTime? UpdatedAt, string Status, int WorkspaceId, string Description);
 
         public void AddRoutes(IEndpointRouteBuilder app)
         {

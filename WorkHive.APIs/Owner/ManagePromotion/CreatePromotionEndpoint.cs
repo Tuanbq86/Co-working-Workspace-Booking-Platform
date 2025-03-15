@@ -5,7 +5,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion;
 
 namespace WorkHive.APIs.Owner.ManagePromotion
 {
-    public record CreatePromotionRequest(string Code, int Discount, DateTime StartDate, DateTime EndDate, string Status, int WorkspaceId);
+    public record CreatePromotionRequest(string Code, int Discount, DateTime StartDate, DateTime EndDate, string Status, int WorkspaceId, string Description);
     public record CreatePromotionResponse(string Notification);
 
     public class CreatePromotionEndpoint : ICarterModule

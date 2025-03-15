@@ -40,7 +40,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
                     pr.StartDate,
                     pr.EndDate,
                     pr.Status,
-                    pr.WorkspaceId
+                    pr.WorkspaceId,
+                    pr.Description
                 )).ToList();
         }
     }

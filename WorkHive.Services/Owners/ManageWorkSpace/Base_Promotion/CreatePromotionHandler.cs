@@ -9,7 +9,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
 {
-    public record CreatePromotionCommand(string Code, int Discount, DateTime StartDate, DateTime EndDate, string Status, int WorkspaceId) : ICommand<CreatePromotionResult>;
+    public record CreatePromotionCommand(string Code, int Discount, DateTime StartDate, DateTime EndDate, string Status, int WorkspaceId, string Description) : ICommand<CreatePromotionResult>;
 
     public record CreatePromotionResult(string Notification);
 
@@ -27,6 +27,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
             {
                 Code = command.Code,
                 Discount = command.Discount,
+                Description = command.Description,
                 StartDate = command.StartDate,
                 EndDate = command.EndDate,
                 Status = command.Status,
