@@ -8,7 +8,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
 {
-    public record UpdateAmenityCommand(int Id, string Name, string Description, string Category, string Status, string ImgUrl)
+    public record UpdateAmenityCommand(int Id, string Name, string Description, string Category, string Status, string ImgUrl, int? Quantity, decimal? Price)
         : ICommand<UpdateAmenityResult>;
 
     public record UpdateAmenityResult(string Notification);
@@ -21,6 +21,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
             if (amenity == null) return new UpdateAmenityResult("Amenity not found");
 
             amenity.Name = command.Name;
+            amenity.Price = command.Price;
+            amenity.Quantity = command.Quantity;
             amenity.Description = command.Description;
             amenity.Category = command.Category;
             amenity.Status = command.Status;
