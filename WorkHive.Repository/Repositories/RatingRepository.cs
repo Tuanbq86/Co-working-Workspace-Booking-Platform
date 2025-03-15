@@ -27,4 +27,5 @@ public class RatingRepository : GenericRepository<Rating>, IRatingRepository
             .ThenInclude(wri => wri.Image)
             .ToListAsync();
     }
+
 }

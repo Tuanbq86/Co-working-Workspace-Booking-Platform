@@ -1,12 +1,12 @@
 ﻿namespace WorkHive.Services.DTOService;
 
-public class RatingByUserIdDTO
+public class RatingByWorkspaceIdDTO
 {
     public Byte? Rate { get; set; }
     public string? Comment { get; set; }
     public DateTime? Created_At { get; set; }
     public string? Workspace_Name { get; set; }
     public string? Owner_Name { get; set; }
-    public List<RatingImageDTO>? Images { get; set; }
+    public List<RatingByWorkspaceIdImageDTO>? Images { get; set; }
 }
-public record RatingImageDTO(string Url);
+public record RatingByWorkspaceIdImageDTO(string Url);
