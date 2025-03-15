@@ -19,11 +19,11 @@ public class GetAllRatingByUserIdEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("Get All rating by userId")
+        .WithName("Get all rating by userId")
         .Produces<GetAllRatingByUserIdResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("Get All rating by userId")
+        .WithSummary("Get all rating by userId")
         .WithTags("Rating")
-        .WithDescription("Get All rating by userId");
+        .WithDescription("Get all rating by userId");
     }
 }
