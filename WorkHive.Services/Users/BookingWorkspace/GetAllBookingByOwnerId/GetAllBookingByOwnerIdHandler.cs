@@ -58,13 +58,13 @@ public class GetAllBookingByOwnerIdHandler(IBookingWorkspaceUnitOfWork bookUnit)
             foreach(var bookAmenityItem in bookingAmenities)
             {
                 bookingAmenityByOwnerIds.Add(new BookingAmenityByOwnerId(bookAmenityItem.Amenity.Id, 
-                    (int)bookAmenityItem.Quantity!));
+                    (int)bookAmenityItem.Quantity!, bookAmenityItem.Amenity.Name, bookAmenityItem.Amenity.ImgUrl, (decimal)bookAmenityItem.Amenity.Price!));
             }
 
             foreach(var bookBeverageItem in bookingbeverages)
             {
                 bookingBeverageByOwnerIds.Add(new BookingBeverageByOwnerId(bookBeverageItem.Beverage.Id, (
-                    int)bookBeverageItem.Quantity!));
+                    int)bookBeverageItem.Quantity!, bookBeverageItem.Beverage.Name, bookBeverageItem.Beverage.ImgUrl, (decimal)bookBeverageItem.Beverage.Price!));
             }
 
             bookingByOwnerIdDTO.Amenities = bookingAmenityByOwnerIds;

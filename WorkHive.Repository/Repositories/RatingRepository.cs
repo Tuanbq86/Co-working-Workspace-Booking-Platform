@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,16 @@ public class RatingRepository : GenericRepository<Rating>, IRatingRepository
     public RatingRepository() { }
     public RatingRepository(WorkHiveContext context) => _context = context;
 
-    //To do object method
-
-
+    public async Task<List<Rating>> GetAllRatingByUserId(int userId)
+    {
+        return await _context.Ratings
+            .Where(r => r.UserId.Equals(userId))
+            .Include(r => r.WorkspaceRatings)
+            .ThenInclude(wr => wr.Workspace)
+            .ThenInclude(w => w.Owner)
+            .Include(r => r.WorkspaceRatings)
+            .ThenInclude(wr => wr.WorkspaceRatingImages)
+            .ThenInclude(wri => wri.Image)
+            .ToListAsync();
+    }
 }

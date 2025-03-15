@@ -1,0 +1,61 @@
+﻿using WorkHive.BuildingBlocks.CQRS;
+using WorkHive.Data.Models;
+using WorkHive.Repositories.IUnitOfWork;
+
+namespace WorkHive.Services.Users.UserRating;
+
+public record RatingBookedWorkspaceCommand
+    (int BookingId, Byte Rate, string Comment, List<RatingImage> Images) 
+    : ICommand<RatingBookedWorkspaceResult>;
+public record RatingBookedWorkspaceResult(string Notification);
+public record RatingImage(string Url);
+
+public class RatingBookedWorkspaceHandler(IUserRatingUnitOfWork userRating)
+    : ICommandHandler<RatingBookedWorkspaceCommand, RatingBookedWorkspaceResult>
+{
+    public async Task<RatingBookedWorkspaceResult> Handle(RatingBookedWorkspaceCommand command, 
+        CancellationToken cancellationToken)
+    {
+        var booking = userRating.booking.GetById(command.BookingId);
+
+        if (booking is null)
+            return new RatingBookedWorkspaceResult("Không tìm thấy booking để đánh giá");
+
+        var rating = new Rating
+        {
+            Rate = command.Rate,
+            Comment = command.Comment,
+            CreatedAt = DateTime.Now,
+            UserId = booking.UserId
+        };
+        await userRating.rating.CreateAsync(rating);
+
+        var workspaceRating = new WorkspaceRating
+        {
+            RatingId = rating.Id,
+            WorkspaceId = booking.WorkspaceId
+        };
+        await userRating.workspaceRating.CreateAsync(workspaceRating);
+
+        foreach (var item in command.Images)
+        {
+            var image = new Image
+            {
+               ImgUrl = item.Url,
+               Title = "Rating image",
+               CreatedAt = DateTime.Now,
+               UpdatedAt = DateTime.Now
+            };
+            await userRating.image.CreateAsync(image);
+
+            var workspaceRatingImage = new WorkspaceRatingImage
+            {
+                WorkspaceRatingId = workspaceRating.Id,
+                ImageId = image.Id
+            };
+            await userRating.workspaceRatingImage.CreateAsync(workspaceRatingImage);
+        }
+
+        return new RatingBookedWorkspaceResult("Đánh giá thành công");
+    }
+}

@@ -15,7 +15,7 @@ using WorkHive.Services.Users.DTOs;
 namespace WorkHive.Services.Users.BookingWorkspace;
 
 public record BookingWorkspaceCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
-    List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price)
+    List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price, string Category)
     : ICommand<BookingWorkspaceResult>;
 public record BookingWorkspaceResult(int BookingId, string Bin, string AccountNumber, int Amount, string Description, 
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
@@ -152,7 +152,8 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
             EndDate = newBooking.EndDate,
             Status = WorkspaceTimeStatus.Handling.ToString(),
             WorkspaceId = newBooking.WorkspaceId,
-            BookingId = newBooking.Id
+            BookingId = newBooking.Id,
+            Category = command.Category
         };
 
         bookingUnitOfWork.workspaceTime.Create(newWorkspaceTime);

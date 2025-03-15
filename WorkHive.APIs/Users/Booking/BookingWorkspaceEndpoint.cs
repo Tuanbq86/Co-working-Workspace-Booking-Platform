@@ -9,7 +9,7 @@ using WorkHive.Services.Users.DTOs;
 namespace WorkHive.APIs.Users.Booking;
 
 public record BookingWorkspaceRequest(int UserId, int WorkspaceId, string StartDate, string EndDate,
-    List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price);
+    List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price, string Category);
 
 public record BookingWorkspaceResponse(int BookingId, string Bin, string AccountNumber, int Amount, string Description,
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
