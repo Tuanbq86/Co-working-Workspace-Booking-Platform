@@ -1,7 +1,6 @@
 ﻿using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
-using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.WorkspaceTimes;
 

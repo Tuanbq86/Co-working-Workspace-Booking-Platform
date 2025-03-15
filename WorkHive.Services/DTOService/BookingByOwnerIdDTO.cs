@@ -11,9 +11,9 @@ public class BookingByOwnerIdDTO
     public string? Payment_Method { get;set; }
     public int UserId { get; set; }
     public int WorkspaceId { get; set; }
-    public int? PromotionId { get; set; }
+    //public int? PromotionId { get; set; }
     public List<BookingAmenityByOwnerId>? Amenities { get; set; }
     public List<BookingBeverageByOwnerId>? Beverages { get; set; }
 }
-public record BookingAmenityByOwnerId(int AmenityId, int Quantity);
-public record BookingBeverageByOwnerId(int BeverageId, int Quantity);
+public record BookingAmenityByOwnerId(int AmenityId, int Quantity, string AmenityName, string Image, decimal UnitPrice);
+public record BookingBeverageByOwnerId(int BeverageId, int Quantity, string BeverageName, string Image, decimal UnitPrice);

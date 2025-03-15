@@ -41,7 +41,7 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
             {
                 Amount = command.Amount,
                 Status = Status.ToString(),
-                Description = "Giao dịch thành công",
+                Description = "Nạp tiền",
                 CreatedAt = DateTime.Now
             };
             await userUnit.TransactionHistory.CreateAsync(transactionHistory);
@@ -55,26 +55,27 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
             await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
             return new UpdateUserWalletAmountResult("Cập nhật thành công");
         }
-        else
-        {
-            //Create Transaction History
-            var transactionHistory = new TransactionHistory
-            {
-                Amount = command.Amount,
-                Status = Status.ToString(),
-                Description = "Giao dịch không thành công",
-                CreatedAt = DateTime.Now
-            };
-            await userUnit.TransactionHistory.CreateAsync(transactionHistory);
+        return new UpdateUserWalletAmountResult("Cập nhật thành công");
+        //else
+        //{
+        //    //Create Transaction History
+        //    var transactionHistory = new TransactionHistory
+        //    {
+        //        Amount = command.Amount,
+        //        Status = Status.ToString(),
+        //        Description = "Giao dịch thất bại",
+        //        CreatedAt = DateTime.Now
+        //    };
+        //    await userUnit.TransactionHistory.CreateAsync(transactionHistory);
 
-            var userTransactionHistory = new UserTransactionHistory
-            {
-                Status = Status.ToString(),
-                TransactionHistoryId = transactionHistory.Id,
-                CustomerWalletId = command.CustomerWalletId
-            };
-            await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
-            return new UpdateUserWalletAmountResult("Cập nhật không thành công");
-        }
+        //    var userTransactionHistory = new UserTransactionHistory
+        //    {
+        //        Status = Status.ToString(),
+        //        TransactionHistoryId = transactionHistory.Id,
+        //        CustomerWalletId = command.CustomerWalletId
+        //    };
+        //    await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
+        //    return new UpdateUserWalletAmountResult("Cập nhật không thành công");
+        //}
     }
 }
