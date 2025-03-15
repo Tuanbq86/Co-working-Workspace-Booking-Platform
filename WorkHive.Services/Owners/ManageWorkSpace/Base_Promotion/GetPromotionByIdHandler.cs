@@ -10,7 +10,7 @@ using WorkHive.Repositories.IUnitOfWork;
 namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
 {
     public record GetPromotionByIdQuery(int Id) : IQuery<GetPromotionByIdResult>;
-    public record GetPromotionByIdResult(int Id, string Code, int? Discount, DateTime? StartDate, DateTime? EndDate, DateTime? CreatedAt, DateTime? UpdatedAt, string Status, int WorkspaceId);
+    public record GetPromotionByIdResult(int Id, string Code, int? Discount, DateTime? StartDate, DateTime? EndDate, DateTime? CreatedAt, DateTime? UpdatedAt, string Status, int WorkspaceId, string Description);
 
     public class GetPromotionByIdValidator : AbstractValidator<GetPromotionByIdQuery>
     {
@@ -40,7 +40,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
                 promotion.CreatedAt,
                 promotion.UpdatedAt,
                 promotion.Status,
-                promotion.WorkspaceId
+                promotion.WorkspaceId,
+                promotion.Description
             );
         }
     }

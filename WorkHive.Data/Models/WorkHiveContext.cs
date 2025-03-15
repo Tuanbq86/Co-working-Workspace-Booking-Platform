@@ -17,6 +17,7 @@ public partial class WorkHiveContext : DbContext
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -537,6 +538,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Discount).HasColumnName("discount");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
@@ -984,7 +986,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F84E7E8B1");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F20A42628");
 
             entity.ToTable("Workspace_Time");
 

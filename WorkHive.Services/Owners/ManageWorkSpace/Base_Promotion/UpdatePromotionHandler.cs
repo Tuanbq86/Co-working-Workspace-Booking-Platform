@@ -8,7 +8,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
 {
-    public record UpdatePromotionCommand(int Id, string Code, int Discount, DateTime StartDate, DateTime EndDate, string Status)
+    public record UpdatePromotionCommand(int Id, string Code, int Discount, DateTime StartDate, DateTime EndDate, string Status, string Description)
         : ICommand<UpdatePromotionResult>;
 
     public record UpdatePromotionResult(string Notification);
@@ -34,6 +34,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
             promotion.StartDate = command.StartDate;
             promotion.EndDate = command.EndDate;
             promotion.Status = command.Status;
+            promotion.Description = command.Description;
             promotion.UpdatedAt = DateTime.UtcNow;
 
             await unit.Promotion.UpdateAsync(promotion);

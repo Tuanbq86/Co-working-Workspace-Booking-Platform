@@ -11,7 +11,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
 {
     public record GetAllPromotionsQuery() : IQuery<List<PromotionDT>>;
 
-    public record PromotionDT(int Id, string Code, int? Discount, DateTime? StartDate, DateTime? EndDate, string Status, int WorkspaceID);
+    public record PromotionDT(int Id, string Code, int? Discount, DateTime? StartDate, DateTime? EndDate, string Status, int WorkspaceID, string Description);
 
     public class GetAllPromotionsValidator : AbstractValidator<GetAllPromotionsQuery>
     {
@@ -38,7 +38,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
                 pr.StartDate,
                 pr.EndDate,
                 pr.Status,
-                pr.WorkspaceId
+                pr.WorkspaceId,
+                pr.Description
             )).ToList();
         }
     }

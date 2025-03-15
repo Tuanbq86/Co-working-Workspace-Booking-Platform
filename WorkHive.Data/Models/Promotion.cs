@@ -25,5 +25,7 @@ public partial class Promotion
 
     public int WorkspaceId { get; set; }
 
+    public string Description { get; set; }
+
     public virtual Workspace Workspace { get; set; }
 }

@@ -5,7 +5,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion;
 
 namespace WorkHive.APIs.Owner.ManagePromotion
 {
-    public record UpdatePromotionRequest(string Code, decimal Discount, DateTime StartDate, DateTime EndDate, string Status);
+    public record UpdatePromotionRequest(string Code, decimal Discount, DateTime StartDate, DateTime EndDate, string Status, string Description);
     public record UpdatePromotionResponse(string Notification);
 
     public class UpdatePromotionEndpoint : ICarterModule
