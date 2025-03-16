@@ -10,4 +10,9 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IImageFeedbackRepository : IGenericRepository<ImageFeedback>
 {
+    public Task CreateImageFeedbackAsync(List<ImageFeedback> imageFeedbacks);
+
+
+    public Task<List<ImageFeedback>> GetImageFeedbacksByFeedbackIdAsync(int feedbackId);
+
 }

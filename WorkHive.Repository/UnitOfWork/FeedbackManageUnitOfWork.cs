@@ -13,7 +13,7 @@ namespace WorkHive.Repositories.UnitOfWork
     public class FeedbackManageUnitOfWork : IFeedbackManageUnitOfWork
     {
         protected WorkHiveContext _context;
-        public IFeedbackManageUnitOfWork Feedback { get; private set; }
+        public IFeedbackRepository Feedback { get; private set; }
         public IOwnerResponseFeedbackRepository OwnerResponseFeedback { get; private set; }
         public IImageFeedbackRepository ImageFeedback { get; private set; }
         public IImageRepository Image { get; private set; }
@@ -23,7 +23,7 @@ namespace WorkHive.Repositories.UnitOfWork
         public FeedbackManageUnitOfWork(WorkHiveContext context)
         {
             _context = context;
-            Feedback = new FeedbackManageUnitOfWork(_context);
+            Feedback = new FeedbackRepository(_context);
             OwnerResponseFeedback = new OwnerResponseFeedbackRepository(_context);
             ImageFeedback = new ImageFeedbackRepository(_context);
             Image = new ImageRepository(_context);

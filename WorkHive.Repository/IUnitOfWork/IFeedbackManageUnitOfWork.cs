@@ -9,7 +9,7 @@ namespace WorkHive.Repositories.IUnitOfWork
 {
     public interface IFeedbackManageUnitOfWork
     {
-        IFeedbackManageUnitOfWork Feedback { get; }
+        IFeedbackRepository Feedback { get; }
 
         IOwnerResponseFeedbackRepository OwnerResponseFeedback { get; }
 
