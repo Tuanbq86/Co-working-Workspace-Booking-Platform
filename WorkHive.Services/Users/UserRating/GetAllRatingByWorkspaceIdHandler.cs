@@ -22,6 +22,7 @@ public class GetAllRatingByWorkspaceIdHandler(IUserRatingUnitOfWork userRating)
         foreach(var item in workspaceRatings)
         {
             var rating = userRating.rating.GetById(item.RatingId);
+            var user = userRating.user.GetById(rating.UserId);
             var workspace = userRating.workspace.GetById(item.WorkspaceId);
             var owner = userRating.owner.GetById(workspace.OwnerId);
 
@@ -43,7 +44,9 @@ public class GetAllRatingByWorkspaceIdHandler(IUserRatingUnitOfWork userRating)
                 Created_At = rating.CreatedAt,
                 Owner_Name = owner.LicenseName,
                 Workspace_Name = workspace.Name,
-                Images = images
+                Images = images,
+                User_Avatar = user.Avatar,
+                User_Name = user.Name
             });
         }
 

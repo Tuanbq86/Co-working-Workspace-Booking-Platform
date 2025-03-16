@@ -25,11 +25,15 @@ public partial class Booking
 
     public int WorkspaceId { get; set; }
 
+    public int? IsReview { get; set; }
+
     public virtual ICollection<BookingAmenity> BookingAmenities { get; set; } = new List<BookingAmenity>();
 
     public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
 
     public virtual PaymentMethod Payment { get; set; }
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual User User { get; set; }
 

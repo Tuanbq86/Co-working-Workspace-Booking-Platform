@@ -8,7 +8,7 @@ namespace WorkHive.APIs.Users.UserRating;
 
 public record RatingBookedWorkspaceRequest
     (int BookingId, Byte Rate, string Comment, List<RatingImage> Images);
-public record RatingBookedWorkspaceResponse(string Notification);
+public record RatingBookedWorkspaceResponse(string Notification, int BookingIsReview);
 public record RatingImage(string Url);
 
 public class RatingBookedWorkspaceEndpoint : ICarterModule
