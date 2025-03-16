@@ -58,14 +58,13 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             if (workspace == null)
                 return new UpdateWorkspaceResult($"Workspace Id {command.Id} không tìm thấy.");
 
-            // **Kiểm tra tên workspace có bị trùng không**
-            var existingWorkspace = await workSpaceManageUnit.Workspace
-            .GetByNameAsync(command.Name.ToLower());
+            //var existingWorkspace = await workSpaceManageUnit.Workspace
+            //.GetByNameAsync(command.Name.ToLower());
 
-            if (existingWorkspace != null && existingWorkspace.Id != command.Id)
-            {
-                return new UpdateWorkspaceResult($"Tên workspace '{command.Name}' đã tồn tại. Vui lòng chọn tên khác.");
-            }
+            //if (existingWorkspace != null && existingWorkspace.Id != command.Id)
+            //{
+            //    return new UpdateWorkspaceResult($"Tên workspace '{command.Name}' đã tồn tại. Vui lòng chọn tên khác.");
+            //}
 
 
             // Cập nhật thông tin cơ bản
