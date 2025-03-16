@@ -13,6 +13,7 @@ public partial class WorkHiveContext : DbContext
     {
     }
 
+
     public WorkHiveContext()
     {
         
@@ -305,6 +306,9 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
@@ -415,6 +419,9 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Owner_Respone_Feedback");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
@@ -992,7 +999,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F39C093BE");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FA91280A4");
 
             entity.ToTable("Workspace_Time");
 
