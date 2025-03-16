@@ -17,6 +17,10 @@ public partial class Rating
 
     public int UserId { get; set; }
 
+    public int? BookingId { get; set; }
+
+    public virtual Booking Booking { get; set; }
+
     public virtual User User { get; set; }
 
     public virtual ICollection<WorkspaceRating> WorkspaceRatings { get; set; } = new List<WorkspaceRating>();
