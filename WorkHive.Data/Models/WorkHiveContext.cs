@@ -17,6 +17,7 @@ public partial class WorkHiveContext : DbContext
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -178,6 +179,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
+            entity.Property(e => e.IsReview).HasColumnName("is_review");
             entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
@@ -537,6 +539,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Discount).HasColumnName("discount");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
@@ -565,12 +568,17 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Rating");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.BookingId).HasColumnName("booking_id");
             entity.Property(e => e.Comment).HasColumnName("comment");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Rate).HasColumnName("rate");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Booking).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.BookingId)
+                .HasConstraintName("FKRating454473");
 
             entity.HasOne(d => d.User).WithMany(p => p.Ratings)
                 .HasForeignKey(d => d.UserId)
@@ -984,7 +992,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F84E7E8B1");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F39C093BE");
 
             entity.ToTable("Workspace_Time");
 
