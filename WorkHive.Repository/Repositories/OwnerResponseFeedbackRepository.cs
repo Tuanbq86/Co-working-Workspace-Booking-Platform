@@ -13,6 +13,7 @@ namespace WorkHive.Repositories.Repositories
     {
         public OwnerResponseFeedbackRepository() { }
         public OwnerResponseFeedbackRepository(WorkHiveContext context) => _context = context;
+
         //To do object method
     }
 }

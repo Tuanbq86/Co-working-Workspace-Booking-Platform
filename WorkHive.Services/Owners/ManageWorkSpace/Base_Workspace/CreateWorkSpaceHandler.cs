@@ -51,7 +51,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 List<Image> images = command.Images.Select(i => new Image
                 {
                     ImgUrl = i.ImgUrl,
-                    Title = DefaultImageTitle
+                    Title = DefaultImageTitle,
+                    CreatedAt = DateTime.UtcNow
                 }).ToList() ?? new List<Image>();
 
 
