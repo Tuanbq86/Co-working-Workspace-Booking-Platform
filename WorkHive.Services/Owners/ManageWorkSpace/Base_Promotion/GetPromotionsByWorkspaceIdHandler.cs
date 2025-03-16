@@ -26,7 +26,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
         {
             var promotions = await unit.Promotion.GetAllAsync();
 
-            if (promotions == null || !promotions.Any())
+            if (promotions == null || !promotions.Any() )
             {
                 return new List<PromotionDT>();
             }

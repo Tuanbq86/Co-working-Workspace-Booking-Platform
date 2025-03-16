@@ -11,8 +11,6 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IImageRepository : IGenericRepository<Image>
 {
     public Task CreateImagesAsync(List<Image> images);
-    public Task<List<Image>> GetImagesByWorkspaceIdAsync(int workspaceId);
-
-
+    public Task DeleteImagesByIdsAsync(List<int> imageIds);
 
 }
