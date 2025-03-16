@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IRatingRepository : IGenericRepository<Rating>
 {
+    public Task<List<Rating>> GetAllRatingByUserId(int userId);
 }

@@ -1,7 +1,6 @@
 ﻿using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
-using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
@@ -26,10 +25,10 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
         var startTime = TimeOnly.FromDateTime(startDateTime);
         var endTime = TimeOnly.FromDateTime(endDateTime);
 
-        if (!workspace.Is24h.Equals(1))
+        if (workspace.Is24h.Equals(0))
         {
-            if((startTime < workspace.OpenTime || endTime > workspace.CloseTime) 
-                && (startDateTime.Date != endDateTime.Date))
+            if(startTime < workspace.OpenTime || endTime > workspace.CloseTime
+                || startDateTime.Date != endDateTime.Date)
             {
                 return new CheckTimesResult("Thời gian đặt phải trong cùng một ngày và trong giờ mở cửa của workspace");
             }

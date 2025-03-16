@@ -72,6 +72,7 @@ public static class DependencyInjection
         //use to work in outside controller, middleware like services 
         services.AddHttpContextAccessor();
 
+        //Add configure of cloudinary
         services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
         services.AddSingleton<Cloudinary>(provider =>
         {
@@ -86,7 +87,7 @@ public static class DependencyInjection
         services.AddScoped<ITokenRepository, TokenRepository>();
         services.AddScoped<IWorkspaceOwnerUnitOfWork, WorkspaceOwnerUnitOfWork>();
         services.AddScoped<IWorkSpaceManageUnitOfWork,WorkSpaceManageUnitOfWork>();
-        
+        services.AddScoped<IUserRatingUnitOfWork, UserRatingUnitOfWork>();
         services.AddScoped<IBookingWorkspaceUnitOfWork, BookingWorkspaceUnitOfWork>();
         services.AddScoped<IWorkSpaceManageUnitOfWork, WorkSpaceManageUnitOfWork>();
         services.AddScoped<IFeedbackManageUnitOfWork, FeedbackManageUnitOfWork>();

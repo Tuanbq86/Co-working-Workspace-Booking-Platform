@@ -25,6 +25,7 @@ public class GetUserByIdEndpoint : ICarterModule
         .Produces<GetUserByIdResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Get User By Id")
+        .WithTags("Get All User By Id")
         .WithDescription("Get User By Id");
     }
 }

@@ -25,7 +25,7 @@ public class GetAllBookingByOwnerIdEndpoint : ICarterModule
         .Produces<GetAllBookingByOwnerIdResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get all booking by ownerId")
-        .WithTags("Get all booking by ownerId")
+        .WithTags("Booking")
         .WithDescription("Get all booking by ownerId");
     }
 }
