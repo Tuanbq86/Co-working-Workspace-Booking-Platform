@@ -16,8 +16,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 
     public record PriceDTO(decimal? Price, string Category);
     public record ImageDTO(string ImgUrl);
-    public record FacilityDTO(int Id, string FacilityName);
-    public record PolicyDTO(int Id, string PolicyName);
+    public record FacilityDTO(string FacilityName);
+    public record PolicyDTO(string PolicyName);
 
     public record CreateWorkspaceResult(string Notification);
 
@@ -93,7 +93,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     OwnerId = command.OwnerId,
                     OpenTime = command.OpenTime,
                     CloseTime = command.CloseTime,
-                    Is24h = command.Is24h
+                    Is24h = command.Is24h,
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 await workSpaceManageUnit.Workspace.CreateAsync(newWorkSpace);

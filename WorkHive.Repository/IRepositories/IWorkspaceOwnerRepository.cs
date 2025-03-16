@@ -10,10 +10,11 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IWorkspaceOwnerRepository : IGenericRepository<WorkspaceOwner>
 {
-    public WorkspaceOwner RegisterOwnerByPhoneAndEmail(string email,
-        string phone, string password);
-    public WorkspaceOwner FindOwnerByEmail(string email);
-    public WorkspaceOwner FindOwnerByPhone(string phone);
-    public bool FindOwnerByEmailOrPhone(string auth, string password);
+    public WorkspaceOwner RegisterWorkspaceOwner(string email, string phone, string password);
+    public WorkspaceOwner FindWorkspaceOwnerByEmail(string email);
+    public WorkspaceOwner FindWorkspaceOwnerByPhone(string phone);
+    public bool FindWorkspaceOwnerByEmailOrPhone(string auth, string password);
+    public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword);
     public Task<List<WorkspaceOwner>> GetOwnersByIdsAsync(List<int> ownerIds);
+
 }

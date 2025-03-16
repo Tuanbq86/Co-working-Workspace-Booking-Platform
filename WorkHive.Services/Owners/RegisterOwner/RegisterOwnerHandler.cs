@@ -40,7 +40,7 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
 
         //Create new Owner for registering
 
-        var tempOwner = ownerUnit.WorkspaceOwner.RegisterOwnerByPhoneAndEmail(command.Email,
+        var tempOwner = ownerUnit.WorkspaceOwner.RegisterWorkspaceOwner(command.Email,
             command.Phone, command.Password);
 
         var newOwner = new WorkspaceOwner

@@ -21,8 +21,8 @@ public sealed class TokenRepository : ITokenRepository
     {
         Dictionary<string, string> claims = new Dictionary<string, string>();
 
-        var handler = new JwtSecurityTokenHandler(); //use to decode jwt token
-        var jwtToken = handler.ReadJwtToken(token); //convert jwt toke to JwtSecurityToken
+        var handler = new JwtSecurityTokenHandler(); 
+        var jwtToken = handler.ReadJwtToken(token); 
 
 
         foreach (var claim in jwtToken.Claims)
@@ -62,10 +62,13 @@ public sealed class TokenRepository : ITokenRepository
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[] {      
+        var claims = new[] {
         new Claim(JwtRegisteredClaimNames.Sub, Owner.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Email, Owner.Email),
-        new Claim("Phone", Owner.Phone)};
+        new Claim("Phone", Owner.Phone),
+        //new Claim("Sex", Owner.Sex.ToString()),
+        //new Claim("Status", Owner.Status.ToString()),
+        };
 
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"]!,
             _configuration["Jwt:Issuer"]!,

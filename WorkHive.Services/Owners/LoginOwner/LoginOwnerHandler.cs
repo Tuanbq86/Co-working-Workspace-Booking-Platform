@@ -10,6 +10,7 @@ using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Exceptions;
 using WorkHive.Services.Owners.LoginOwner;
+using WorkHive.Services.Users.LoginUser;
 
 namespace WorkHive.Services.Owners.LoginOwner
 {
@@ -26,23 +27,29 @@ namespace WorkHive.Services.Owners.LoginOwner
         }
     }
 
-    public class LoginOwnerHandler(IWorkspaceOwnerUnitOfWork OwnerUnit, ITokenRepository tokenRepo,
+    public class LoginOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, ITokenRepository tokenRepo,
         IHttpContextAccessor httpContext)
         : ICommandHandler<LoginOwnerCommand, LoginOwnerResult>
     {
         public async Task<LoginOwnerResult> Handle(LoginOwnerCommand command, CancellationToken cancellationToken)
         {
-            // Check Owner standing by email/phone and password
-            var IsExist = OwnerUnit.WorkspaceOwner.FindOwnerByEmailOrPhone(command.Auth, command.Password);
+            // Check user standing by email/phone and password
+            var IsExist = ownerUnit.WorkspaceOwner.FindWorkspaceOwnerByEmailOrPhone(command.Auth, command.Password);
 
             if (IsExist == false)
-                throw new OwnerNotFoundException("WorkSpaceOwner", command.Auth);
+                throw new UserNotFoundException("User", command.Auth);
 
-            // Get Owner to use generate JWT token
-            var Owner = OwnerUnit.WorkspaceOwner.GetAll().Where(u => u.Phone.Equals(command.Auth)
-            || u.Email.Equals(command.Auth)).FirstOrDefault();
+            // Get user to use generate JWT token
 
-            string token = tokenRepo.GenerateJwtToken(Owner!);
+            var userList = await ownerUnit.WorkspaceOwner.GetAllAsync();
+
+            var user = userList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
+                       u.Email.ToLower().Trim().Equals(command.Auth.ToLower().Trim()));
+
+            if (user is null)
+                throw new UserNotFoundException("User", command.Auth);
+
+            string token = tokenRepo.GenerateJwtToken(user!);
 
             //Save token into session to use in a working session
             httpContext.HttpContext!.Session.SetString("token", token);
