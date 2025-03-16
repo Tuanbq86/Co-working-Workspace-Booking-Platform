@@ -30,4 +30,17 @@ public class WorkspaceFacilityRepository : GenericRepository<WorkspaceFacility>,
                     .ToListAsync();
     }
 
+    public async Task<List<WorkspaceFacility>> GetByWorkspaceIdAsync(int workspaceId)
+    {
+        return await _context.WorkspaceFacilities
+            .Where(wf => wf.WorkspaceId == workspaceId)
+            .ToListAsync();
+    }
+
+    public async Task DeleteWorkspaceFacilitiesAsync(List<WorkspaceFacility> workspaceFacilities)
+    {
+        _context.WorkspaceFacilities.RemoveRange(workspaceFacilities);
+        await _context.SaveChangesAsync();
+    }
+
 }

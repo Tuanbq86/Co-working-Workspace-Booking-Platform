@@ -11,5 +11,10 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IWorkspaceImageRepository : IGenericRepository<WorkspaceImage>
 {
     public Task CreateWorkspaceImagesAsync(List<WorkspaceImage> WorkspaceImages);
+
     public Task<List<WorkspaceImage>> GetWorkspaceImagesByWorkspaceIdAsync(int workspaceId);
+
+    Task<List<WorkspaceImage>> GetByWorkspaceIdAsync(int workspaceId);
+
+    Task DeleteWorkspaceImagesAsync(List<WorkspaceImage> workspaceImages);
 }

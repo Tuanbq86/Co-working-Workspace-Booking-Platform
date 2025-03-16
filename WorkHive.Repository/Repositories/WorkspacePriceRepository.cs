@@ -30,4 +30,12 @@ public class WorkspacePriceRepository : GenericRepository<WorkspacePrice>, IWork
                     .ToListAsync();
     }
 
+    public async Task<List<WorkspacePrice>> GetWorkspacePricesByWorkspaceId(int workspaceId)
+    {
+        return await _context.Set<WorkspacePrice>()
+            .Where(wp => wp.WorkspaceId == workspaceId)
+            .Include(wp => wp.Price) // Load luôn thông tin Price
+            .ToListAsync();
+    }
+
 }

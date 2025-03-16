@@ -11,5 +11,8 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IWorkspacePriceRepository : IGenericRepository<WorkspacePrice>
 {
     public Task CreateWorkspacePricesAsync(List<WorkspacePrice> WorkspacePrices);
+
     public Task<List<WorkspacePrice>> GetWorkspacePricesByWorkspaceIdAsync(int workspaceId);
+
+    Task<List<WorkspacePrice>> GetWorkspacePricesByWorkspaceId(int workspaceId);
 }
