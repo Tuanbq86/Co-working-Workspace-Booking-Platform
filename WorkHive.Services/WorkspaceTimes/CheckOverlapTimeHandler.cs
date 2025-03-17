@@ -27,6 +27,36 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
 
         if (workspace.Is24h.Equals(0))
         {
+            //Kiểm tra nếu người dùng đặt theo ngày thì kiểm tra tất cả các ngày giữa khoảng đó
+            //Và các khoảng thời gian phải trống hết thì mới được cho đặt
+            if(startTime == workspace.OpenTime && endTime == workspace.CloseTime)
+            {
+                var currentDate = startDateTime.Date;
+                var lastDate = endDateTime.Date;
+
+                while (currentDate < lastDate)
+                {
+                    var dailyStart = currentDate.Add(startTime.ToTimeSpan());
+                    var dailyEnd = currentDate.Add(endTime.ToTimeSpan());
+
+                    var listtimeOfWorkspaceId = bookUnit.workspaceTime.GetAll()
+                        .Where(x => x.WorkspaceId == command.WorkspaceId).ToList();
+
+                    var ListTimesHandlingOrInuse = listtimeOfWorkspaceId
+                        .Where(x => x.Status == WorkspaceTimeStatus.InUse.ToString()
+                                 || x.Status == WorkspaceTimeStatus.Handling.ToString()).ToList();
+
+                    if (bookUnit.workspaceTime.IsOverlap(ListTimesHandlingOrInuse, dailyStart, dailyEnd))
+                    {
+                        return new CheckTimesResult($"Ngày {currentDate:dd/MM/yyyy} không trống tất cả các khoảng trong ngày");
+                    }
+
+                    currentDate = currentDate.AddDays(1);
+                }
+                return new CheckTimesResult("Khoảng thời gian phù hợp");
+            }
+            
+            //Đặt theo giờ phải đặt trong giờ mở cửa và đóng cửa trong cùng 1 ngày nha
             if(startTime < workspace.OpenTime || endTime > workspace.CloseTime
                 || startDateTime.Date != endDateTime.Date)
             {
@@ -81,7 +111,7 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
         }
         else
         {
-            return new CheckTimesResult("Request không phù hợp");
+            return new CheckTimesResult("Yêu cầu không phù hợp");
         }
     }
 }
