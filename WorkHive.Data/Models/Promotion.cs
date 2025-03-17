@@ -27,5 +27,7 @@ public partial class Promotion
 
     public string Description { get; set; }
 
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
     public virtual Workspace Workspace { get; set; }
 }
