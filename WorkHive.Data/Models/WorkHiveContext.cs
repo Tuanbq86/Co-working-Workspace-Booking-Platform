@@ -185,6 +185,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("price");
+            entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("start_date");
@@ -198,6 +199,10 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.PaymentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKBooking795232");
+
+            entity.HasOne(d => d.Promotion).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.PromotionId)
+                .HasConstraintName("FK_Booking_Promotion");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.UserId)

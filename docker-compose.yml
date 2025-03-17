@@ -1,0 +1,6 @@
+services:
+  workhive.apis:
+    image: ${DOCKER_REGISTRY-}workhiveapis
+    build:
+      context: .
+      dockerfile: WorkHive.APIs/Dockerfile

@@ -15,5 +15,6 @@ public interface IWorkspaceRepository : IGenericRepository<Workspace>
     public Task<List<Workspace>> GetAllWorkSpaceAsync();
     public Task<Workspace?> GetWorkSpaceById(int Id);
     public Task<Workspace> GetWorkspaceByIdForTime(int workspaceId);
+    public IQueryable<Workspace> GetWorkspaceForSearch();
     public Task<Workspace?> GetByNameAsync(string name);
 }
