@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
 {
     public FeedbackRepository() { }
     public FeedbackRepository(WorkHiveContext context) => _context = context;
+
+    public async Task<Feedback?> GetFeedbackById(int id)
+    {
+        return await _context.Feedbacks.Include(fb => fb.ImageFeedbacks).ThenInclude(f => f.Image).FirstOrDefaultAsync(fb => fb.Id == id);
+    }
 
     //To do object method
 
