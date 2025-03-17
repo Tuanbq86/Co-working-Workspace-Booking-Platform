@@ -10,5 +10,7 @@ namespace WorkHive.Repositories.IRepositories
 {
     public interface IOwnerResponseFeedbackRepository : IGenericRepository<OwnerResponeFeedback>
     {
+        public Task<OwnerResponeFeedback?> GetResponseFeedbackById(int Id);
+
     }
 }

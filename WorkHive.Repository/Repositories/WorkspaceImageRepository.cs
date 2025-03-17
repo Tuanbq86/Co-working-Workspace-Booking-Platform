@@ -30,4 +30,18 @@ class WorkspaceImageRepository : GenericRepository<WorkspaceImage>, IWorkspaceIm
                     .ToListAsync();
     }
 
+    public async Task<List<WorkspaceImage>> GetByWorkspaceIdAsync(int workspaceId)
+    {
+        return await _context.WorkspaceImages
+            .Where(wi => wi.WorkspaceId == workspaceId)
+            .ToListAsync();
+    }
+
+    public async Task DeleteWorkspaceImagesAsync(List<WorkspaceImage> workspaceImages)
+    {
+        _context.WorkspaceImages.RemoveRange(workspaceImages);
+        await _context.SaveChangesAsync();
+    }
+
+
 }

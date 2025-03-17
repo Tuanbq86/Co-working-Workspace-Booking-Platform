@@ -23,12 +23,17 @@ public class ImageRepository : GenericRepository<Image>, IImageRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Image>> GetImagesByWorkspaceIdAsync(int workspaceId)
+
+    public async Task DeleteImagesByIdsAsync(List<int> imageIds)
     {
-        return await _context.Images
-            .Where(i => i.WorkspaceImages.Any(wi => wi.WorkspaceId == workspaceId))
+        var imagesToDelete = await _context.Images
+            .Where(img => imageIds.Contains(img.Id))
             .ToListAsync();
+
+        if (imagesToDelete.Any())
+        {
+            _context.Images.RemoveRange(imagesToDelete);
+            await _context.SaveChangesAsync();
+        }
     }
-
-
 }

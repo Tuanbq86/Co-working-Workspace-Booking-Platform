@@ -30,5 +30,17 @@ public class WorkspacePolicyRepository : GenericRepository<WorkspacePolicy>, IWo
                     .ToListAsync();
     }
 
+    public async Task<List<WorkspacePolicy>> GetByWorkspaceIdAsync(int workspaceId)
+    {
+        return await _context.WorkspacePolicies
+            .Where(wp => wp.WorkspaceId == workspaceId)
+            .ToListAsync();
+    }
+
+    public async Task DeleteWorkspacePoliciesAsync(List<WorkspacePolicy> workspacePolicies)
+    {
+        _context.WorkspacePolicies.RemoveRange(workspacePolicies);
+        await _context.SaveChangesAsync();
+    }
 
 }

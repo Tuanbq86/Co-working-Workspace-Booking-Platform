@@ -30,4 +30,17 @@ public class FacilityRepository : GenericRepository<Facility>, IFacilityReposito
             .ToListAsync();
     }
 
+    public async Task DeleteFacilitiesByIdsAsync(List<int> facilityIds)
+    {
+        var facilitiesToDelete = await _context.Facilities
+            .Where(f => facilityIds.Contains(f.Id))
+            .ToListAsync();
+
+        if (facilitiesToDelete.Any())
+        {
+            _context.Facilities.RemoveRange(facilitiesToDelete);
+            await _context.SaveChangesAsync();
+        }
+    }
+
 }

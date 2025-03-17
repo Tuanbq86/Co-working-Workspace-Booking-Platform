@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,13 @@ namespace WorkHive.Repositories.Repositories
     {
         public OwnerResponseFeedbackRepository() { }
         public OwnerResponseFeedbackRepository(WorkHiveContext context) => _context = context;
+
+
+        public async Task<OwnerResponeFeedback?> GetResponseFeedbackById(int id)
+        {
+            return await _context.OwnerResponeFeedbacks.Include(fb => fb.ImageResponseFeedbacks).ThenInclude(f => f.Image).FirstOrDefaultAsync(fb => fb.Id == id);
+        }
+
         //To do object method
     }
 }

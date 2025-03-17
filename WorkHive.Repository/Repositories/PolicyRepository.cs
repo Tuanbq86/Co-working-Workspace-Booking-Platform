@@ -30,5 +30,18 @@ public class PolicyRepository : GenericRepository<Policy>, IPolicyRepository
             .ToListAsync();
     }
 
+    public async Task DeletePoliciesByIdsAsync(List<int> policyIds)
+    {
+        var policiesToDelete = await _context.Policies
+            .Where(p => policyIds.Contains(p.Id))
+            .ToListAsync();
+
+        if (policiesToDelete.Any())
+        {
+            _context.Policies.RemoveRange(policiesToDelete);
+            await _context.SaveChangesAsync();
+        }
+    }
+
 
 }

@@ -73,4 +73,10 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .AsQueryable();
 
     }
+    public async Task<Workspace?> GetByNameAsync(string name)
+    {
+        return await _context.Workspaces
+            .FirstOrDefaultAsync(w => w.Name.ToLower() == name.ToLower());
+    }
+
 }

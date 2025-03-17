@@ -13,6 +13,7 @@ public partial class WorkHiveContext : DbContext
     {
     }
 
+
     public WorkHiveContext()
     {
         
@@ -1003,7 +1004,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F39C093BE");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FA91280A4");
 
             entity.ToTable("Workspace_Time");
 
