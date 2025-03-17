@@ -40,18 +40,25 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
             bookingHistory.Workspace_Description = item.Workspace.Description;
             bookingHistory.Workspace_Area = item.Workspace.Area!;
             bookingHistory.Workspace_Id = item.WorkspaceId;
+            bookingHistory.Booking_Id = item.Id;
             bookingHistory.Workspace_CleanTime = item.Workspace.CleanTime!;
+
+            if (item.PromotionId.HasValue)
+            {
+                var promotionForBooking = bookingUnit.promotion.GetById(item.PromotionId.Value);
+                bookingHistory.Promotion_Code = promotionForBooking?.Code;
+                bookingHistory.Discount = promotionForBooking?.Discount ?? 0;
+            }
+            else
+            {
+                bookingHistory.Promotion_Code = null;
+                bookingHistory.Discount = 0;
+            }
+
             bookingHistory.IsReview = item.IsReview.GetValueOrDefault();
             // Add new attribute
             bookingHistory.License_Name = item.Workspace.Owner.LicenseName;
             bookingHistory.License_Address = item.Workspace.Owner.LicenseAddress;
-            //bookingHistory.google_map_url = item.Workspace.Owner.GoogleMapUrl;
-
-            //If null amenities and beverages will assign default "No Promotion"
-            //bookingHistory.Promotion_Code = item.Promotion?.Code ?? "No Promotion";
-
-            //If null amenities and beverages will assign default value: 0
-            //bookingHistory.Discount = (int)(item.Promotion?.Discount ?? 0);
 
             foreach(var amenity in item.BookingAmenities)
                 amenities.Add(new BookingHistoryAmenity 

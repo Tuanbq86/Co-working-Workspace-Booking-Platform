@@ -57,4 +57,20 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
         return await _context.Workspaces.Where(w => w.Id == workspaceId)
             .Include(w => w.WorkspaceTimes).FirstOrDefaultAsync();
     }
+
+    public IQueryable<Workspace> GetWorkspaceForSearch()
+    {
+        return _context.Workspaces
+            .Include(w => w.Owner)
+            .Include(w => w.WorkspacePrices)
+            .ThenInclude(wp => wp.Price)
+            .Include(w => w.WorkspaceImages)
+            .ThenInclude(wi => wi.Image)
+            .Include(w => w.WorkspaceFacilities)
+            .ThenInclude(wf => wf.Facility)
+            .Include(w => w.WorkspacePolicies)
+            .ThenInclude(wp => wp.Policy)
+            .AsQueryable();
+
+    }
 }

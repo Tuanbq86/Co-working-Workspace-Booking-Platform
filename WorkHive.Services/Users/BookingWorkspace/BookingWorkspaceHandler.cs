@@ -74,6 +74,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
 
             if (promotion != null)
             {
+                newBooking.PromotionId = promotion.Id;
                 newBooking.Price -= (newBooking.Price * promotion.Discount) / 100;
                 await bookingUnitOfWork.booking.UpdateAsync(newBooking);
             }
