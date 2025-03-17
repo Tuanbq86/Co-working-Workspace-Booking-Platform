@@ -21,6 +21,7 @@ public sealed class BookingHistory
     public string? License_Name { get; set; }
     public string? License_Address { get; set; }
     public int Workspace_Id { get; set; }
+    public int IsReview { get; set; }
     //public string? google_map_url { get; set; }
     public List<BookingHistoryAmenity>? BookingHistoryAmenities { get; set; }
     public List<BookingHistoryBeverage>? BookingHistoryBeverages { get; set; }

@@ -41,6 +41,7 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
             bookingHistory.Workspace_Area = item.Workspace.Area!;
             bookingHistory.Workspace_Id = item.WorkspaceId;
             bookingHistory.Workspace_CleanTime = item.Workspace.CleanTime!;
+            bookingHistory.IsReview = item.IsReview.GetValueOrDefault();
             // Add new attribute
             bookingHistory.License_Name = item.Workspace.Owner.LicenseName;
             bookingHistory.License_Address = item.Workspace.Owner.LicenseAddress;
