@@ -15,4 +15,5 @@ public interface IUserRepository : IGenericRepository<User>
     public User FindUserByPhone(string phone);
     public bool FindUserByEmailOrPhone(string auth, string password);
     public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword);
+    public Task<List<User>> GetUsersByOwnerId(int ownerId);
 }

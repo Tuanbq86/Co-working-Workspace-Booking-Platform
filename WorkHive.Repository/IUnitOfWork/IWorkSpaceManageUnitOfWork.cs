@@ -9,6 +9,7 @@ namespace WorkHive.Repositories.IUnitOfWork
 {
     public interface IWorkSpaceManageUnitOfWork
     {
+        IUserRepository User { get; }
         IFacilityRepository Facility { get; }
         IPolicyRepository Policy { get; }
         IAmenityRepository Amenity { get; }
