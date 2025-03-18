@@ -24,4 +24,22 @@ public class BeverageRepository : GenericRepository<Beverage>, IBeverageReposito
             .Where(ws => ws.OwnerId == OwnerId)
             .ToListAsync();
     }
+
+    public async Task<List<NumberOfBookingBeveragesDTO>> GetNumberOfBookingBeverage(int OwnerId)
+    {
+        var result = await _context.Beverages
+            .Where(b => b.OwnerId.Equals(OwnerId))
+            .Select(b => new NumberOfBookingBeveragesDTO
+            {
+                BeverageId = b.Id,
+                BeverageName = b.Name,
+                Category = b.Category,
+                Description = b.Description,
+                Img_Url = b.ImgUrl,
+                UnitPrice = b.Price,
+                NumberOfBooking = _context.BookingBeverages.Count(bb => bb.BeverageId == b.Id)
+            }).OrderByDescending(b => b.NumberOfBooking)
+            .ToListAsync();
+        return result;
+    }
 }
