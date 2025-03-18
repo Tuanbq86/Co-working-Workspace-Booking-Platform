@@ -66,8 +66,10 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     public async Task<List<User>> GetUsersByOwnerId(int ownerId)
     {
         return await _context.Users
-        .Where(u => u.Bookings.Any(b => b.Workspace.OwnerId == ownerId))
-        .ToListAsync();
+            .Where(u => u.Bookings.Any(b => b.Workspace.OwnerId == ownerId))
+            .GroupBy(u => u.Id) 
+            .Select(g => g.First()) 
+            .ToListAsync();
     }
 
 
