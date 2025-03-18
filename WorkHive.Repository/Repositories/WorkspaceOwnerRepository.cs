@@ -114,4 +114,14 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
             .ToListAsync();
     }
 
+    public async Task<List<WorkspaceOwner>> GetOwnersByUserId(int userId)
+    {
+        return await _context.Bookings
+            .Where(b => b.UserId == userId)
+            .GroupBy(b => b.Workspace.Owner.Id) 
+            .Select(g => g.First().Workspace.Owner) 
+            .ToListAsync();
+    }
+
+
 }

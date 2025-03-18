@@ -1,4 +1,5 @@
 ﻿using BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
 using WorkHive.Data.Base;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IRepositories;
@@ -59,6 +60,16 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         };
         
         return user;
+    }
+
+
+    public async Task<List<User>> GetUsersByOwnerId(int ownerId)
+    {
+        return await _context.Users
+            .Where(u => u.Bookings.Any(b => b.Workspace.OwnerId == ownerId))
+            .GroupBy(u => u.Id) 
+            .Select(g => g.First()) 
+            .ToListAsync();
     }
 
 

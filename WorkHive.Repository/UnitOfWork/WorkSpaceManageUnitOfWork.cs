@@ -14,6 +14,8 @@ namespace WorkHive.Repositories.UnitOfWork
     public class WorkSpaceManageUnitOfWork : IWorkSpaceManageUnitOfWork
     {
         protected WorkHiveContext _context;
+
+        public IUserRepository User { get; private set; }
         public IFacilityRepository Facility { get; private set; }
 
         public IPolicyRepository Policy { get; private set; }
@@ -42,6 +44,7 @@ namespace WorkHive.Repositories.UnitOfWork
         public WorkSpaceManageUnitOfWork(WorkHiveContext context)
         {
             _context = context;
+            User = new UserRepository(_context);
             Facility = new FacilityRepository(_context);
             Policy = new PolicyRepository(_context);
             Amenity = new AmenityRepository(_context);
