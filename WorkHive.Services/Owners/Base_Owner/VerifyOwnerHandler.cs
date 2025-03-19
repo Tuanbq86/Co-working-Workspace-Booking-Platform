@@ -10,7 +10,6 @@ namespace WorkHive.Services.Owners.Base_Owner
 {
     public record VerifyOwnerCommand(
         int Id,
-        string Phone,
         string IdentityName,
         string IdentityNumber,
         DateOnly? DateOfBirth,
@@ -39,7 +38,6 @@ namespace WorkHive.Services.Owners.Base_Owner
             var owner = await unit.WorkspaceOwner.GetByIdAsync(command.Id);
             if (owner == null) return new VerifyOwnerResult("Owner not found");
 
-            owner.Phone = command.Phone;
             owner.IdentityName = command.IdentityName;
             owner.IdentityNumber = command.IdentityNumber;
             owner.DateOfBirth = command.DateOfBirth;
@@ -59,6 +57,7 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.Instagram = command.Instagram;
             owner.Tiktok = command.Tiktok;
             owner.UpdatedAt = DateTime.UtcNow;
+            owner.Status = "Handling";
 
             await unit.WorkspaceOwner.UpdateAsync(owner);
             await unit.SaveAsync();
