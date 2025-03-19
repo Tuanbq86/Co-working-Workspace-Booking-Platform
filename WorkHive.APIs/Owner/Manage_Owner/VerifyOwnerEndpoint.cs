@@ -6,7 +6,6 @@ using WorkHive.Services.Owners.Base_Owner;
 namespace WorkHive.APIs.Owner.Manage_Owner
 {
     public record VerifyOwnerRequest(
-        string Phone,
         string IdentityName,
         string IdentityNumber,
         DateOnly? DateOfBirth,
