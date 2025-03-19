@@ -25,7 +25,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
             .WithName("GetAllWorkspaceOwners")
             .Produces<GetAllWorkspaceOwnersResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .WithTags("Workspace Owners")
+            .WithTags("Owner")
             .WithSummary("Get all workspace owners")
             .WithDescription("Retrieve all workspace owners.");
         }
