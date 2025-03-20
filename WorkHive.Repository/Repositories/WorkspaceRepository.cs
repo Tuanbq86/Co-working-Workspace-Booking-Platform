@@ -79,4 +79,11 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .FirstOrDefaultAsync(w => w.Name.ToLower() == name.ToLower());
     }
 
+    public async Task<List<Workspace>> GetByOwnerIdAsync(int ownerId)
+    {
+        return await _context.Workspaces
+            .Where(w => w.OwnerId == ownerId)
+            .ToListAsync();
+    }
+
 }
