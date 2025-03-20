@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Staffs\" />
     <Folder Include="Owners\ManageWorkSpace\GetAll\" />
     <Folder Include="Users\UserWallet\" />
   </ItemGroup>

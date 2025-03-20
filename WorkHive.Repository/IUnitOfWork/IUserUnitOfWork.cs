@@ -10,6 +10,7 @@ namespace WorkHive.Repositories.IUnitOfWork;
 public interface IUserUnitOfWork
 {
     IUserRepository User { get; }
+    IWorkspaceOwnerRepository Owner { get; }
     IRoleRepository Role { get; }
     IWalletRepository Wallet { get; }
     ICustomerWalletRepository CustomerWallet { get; }
