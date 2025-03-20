@@ -3,16 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorkHive.Data.Base;
-using WorkHive.Data.Models;
 
-namespace WorkHive.Repositories.IRepositories;
+namespace WorkHive.Services.DTOService;
 
-public interface IBeverageRepository : IGenericRepository<Beverage>
-{
-    public Task<List<Beverage>> GetBeveragesByOwnerIdAsync(int ownerId);
-    public Task<List<NumberOfBookingBeveragesDTO>> GetNumberOfBookingBeverage(int OwnerId);
-}
 public class NumberOfBookingBeveragesDTO
 {
     public int BeverageId { get; set; }

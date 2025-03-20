@@ -18,4 +18,6 @@ public interface IWorkspaceRepository : IGenericRepository<Workspace>
     public IQueryable<Workspace> GetWorkspaceForSearch();
     public Task<Workspace?> GetByNameAsync(string name);
     public Task<List<Workspace>> GetByOwnerIdAsync(int ownerId);
+    public Task<List<Workspace>> GetWorkspaceByRateSearch();
+    public IQueryable<Workspace> GetWorkspaceByCategorySearch(string Category);
 }
