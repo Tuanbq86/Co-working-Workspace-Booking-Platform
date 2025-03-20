@@ -11,6 +11,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
         DateOnly? DateOfBirth,
         string Sex,
         string Nationality,
+        string GoogleMapUrl,
         string PlaceOfOrigin,
         string PlaceOfResidence,
         DateOnly? IdentityExpiredDate,

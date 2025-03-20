@@ -31,4 +31,11 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
                                 .ToListAsync();
     }
 
+    public async Task<decimal?> GetTotalRevenueByWorkspaceIdAsync(int workspaceId, string status)
+    {
+        return await _context.Bookings
+            .Where(b => b.WorkspaceId == workspaceId && b.Status == status)
+            .SumAsync(b => b.Price);
+    }
+
 }

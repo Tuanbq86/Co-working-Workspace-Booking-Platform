@@ -15,6 +15,7 @@ namespace WorkHive.Services.Owners.Base_Owner
         DateOnly? DateOfBirth,
         string Sex,
         string Nationality,
+        string GoogleMapUrl,
         string PlaceOfOrigin,
         string PlaceOfResidence,
         DateOnly? IdentityExpiredDate,
@@ -43,6 +44,7 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.DateOfBirth = command.DateOfBirth;
             owner.Sex = command.Sex;
             owner.Nationality = command.Nationality;
+            owner.GoogleMapUrl = command.GoogleMapUrl;
             owner.PlaceOfOrigin = command.PlaceOfOrigin;
             owner.PlaceOfResidence = command.PlaceOfResidence;
             owner.IdentityExpiredDate = command.IdentityExpiredDate;

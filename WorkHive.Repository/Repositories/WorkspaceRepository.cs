@@ -111,4 +111,11 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wp => wp.Policy)
             .AsQueryable();
     }
+    public async Task<List<Workspace>> GetByOwnerIdAsync(int ownerId)
+    {
+        return await _context.Workspaces
+            .Where(w => w.OwnerId == ownerId)
+            .ToListAsync();
+    }
+
 }
