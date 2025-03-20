@@ -14,19 +14,16 @@ namespace WorkHive.APIs.Owner.Manage_Owner
             {
                 var query = new GetOwnerWorkspacesQuery(ownerId);
                 var result = await sender.Send(query);
-                if (result == null || !result.Any())
-                {
-                    return Results.NotFound();
-                }
-                var response = new GetOwnerWorkspacesResponse(result);
-                return Results.Ok(response);
+
+                // Nếu không có dữ liệu, trả về danh sách trống []
+                return Results.Ok(new GetOwnerWorkspacesResponse(result ?? new List<GetWorkspaceRevenueResult>()));
             })
             .WithName("GetOwnerWorkspaces")
             .Produces<GetOwnerWorkspacesResponse>(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Owner")
             .WithSummary("Get all workspaces of an owner with revenue")
             .WithDescription("Retrieve all workspaces of a specific owner along with their revenue.");
+
         }
     }
 }

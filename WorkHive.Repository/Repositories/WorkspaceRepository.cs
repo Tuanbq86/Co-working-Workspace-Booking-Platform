@@ -118,4 +118,13 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ToListAsync();
     }
 
+    public async Task<List<Price>> GetPricesByWorkspaceIdAsync(int workspaceId)
+{
+    return await _context.WorkspacePrices
+        .Where(wp => wp.WorkspaceId == workspaceId)
+        .Select(wp => wp.Price) 
+        .ToListAsync();
+}
+
+
 }
