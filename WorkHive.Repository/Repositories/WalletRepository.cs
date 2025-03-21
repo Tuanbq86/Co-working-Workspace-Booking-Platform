@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,18 @@ public class WalletRepository : GenericRepository<Wallet>, IWalletRepository
     public WalletRepository() { }
     public WalletRepository(WorkHiveContext context) => _context = context;
 
-    //To do object method
+    public async Task<Wallet?> GetOwnerWalletByIdAsync(int ownerId)
+    {
+        return await _context.Wallets
+        .Include(w => w.OwnerWallets)
+            .ThenInclude(ow => ow.Owner)
+        .FirstOrDefaultAsync(w => w.OwnerWallets.Any(ow => ow.OwnerId == ownerId));
+    }
 
-
+    public async Task<List<Wallet>> GetAllWalletOwnersAsync()
+    {
+        return await _context.Wallets.Include(w => w.OwnerWallets).ThenInclude(wo => wo.Owner).ToListAsync();
+    }
 }
+
+
