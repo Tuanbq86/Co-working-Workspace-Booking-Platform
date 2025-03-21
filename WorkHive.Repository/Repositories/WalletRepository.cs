@@ -25,7 +25,11 @@ public class WalletRepository : GenericRepository<Wallet>, IWalletRepository
 
     public async Task<List<Wallet>> GetAllWalletOwnersAsync()
     {
-        return await _context.Wallets.Include(w => w.OwnerWallets).ThenInclude(wo => wo.Owner).ToListAsync();
+        return await _context.Wallets
+        .Where(w => w.OwnerWallets.Any()) 
+        .Include(w => w.OwnerWallets)
+        .ThenInclude(ow => ow.Owner)
+        .ToListAsync();
     }
 }
 

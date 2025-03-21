@@ -26,7 +26,7 @@ namespace WorkHive.APIs.Wallets.OwnerWallet
             .WithName("GetWalletById")
             .Produces<GetWalletByIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .WithTags("Wallet")
+            .WithTags("Owner Wallet")
             .WithSummary("Get Owner Wallet by OwnerID")
             .WithDescription("Retrieve a wallet including owner name using its ID.");
         }
