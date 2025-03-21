@@ -15,7 +15,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
                 var query = new GetOwnerWorkspacesQuery(ownerId);
                 var result = await sender.Send(query);
 
-                // Nếu không có dữ liệu, trả về danh sách trống []
+
                 return Results.Ok(new GetOwnerWorkspacesResponse(result ?? new List<GetWorkspaceRevenueResult>()));
             })
             .WithName("GetOwnerWorkspaces")

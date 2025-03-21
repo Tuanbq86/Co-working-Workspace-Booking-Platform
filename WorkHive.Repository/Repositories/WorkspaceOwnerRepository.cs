@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WorkHive.Data.Base;
@@ -123,5 +124,10 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
             .ToListAsync();
     }
 
+    public async Task<WorkspaceOwner?> FindByEmailAsync(Expression<Func<WorkspaceOwner, bool>> predicate)
+    {
+        return await _context.Set<WorkspaceOwner>().FirstOrDefaultAsync(predicate);
+    }
 
 }
+    

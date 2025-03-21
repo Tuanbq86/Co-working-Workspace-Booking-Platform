@@ -21,7 +21,7 @@ namespace WorkHive.APIs.Staff.VerifyWorkspaceOwner
             .WithName("UpdateOwnerStatus")
             .Produces<UpdateOwnerStatusResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .WithTags("Owner")
+            .WithTags("Staff")
             .WithSummary("Update the status of an owner")
             .WithDescription("Updates the status of a workspace owner to either 'Fail' or 'Success'.");
         }
