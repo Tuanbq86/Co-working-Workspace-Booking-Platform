@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface ICustomerWalletRepository : IGenericRepository<CustomerWallet>
 {
+    public Task<CustomerWallet> GetCustomerWalletByUserId(int UserId);
 }

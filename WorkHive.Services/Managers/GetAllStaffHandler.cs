@@ -19,12 +19,14 @@ public class GetAllStaffHandler(IUserUnitOfWork userUnit)
 
         foreach(var item in staffs)
         {
+            var role = userUnit.Role.GetById(item.RoleId);
+
             var UserDto = new UserDTOForManager
             {
                 Id = item.Id,
                 Name = item.Name,
                 Phone = item.Phone,
-                Email = item.Email,
+                Email = item.Email.Trim(),
                 Status = item.Status,
                 Avatar = item.Avatar,
                 Location = item.Location,
@@ -32,7 +34,7 @@ public class GetAllStaffHandler(IUserUnitOfWork userUnit)
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
                 Sex = item.Sex,
-                RoleId = item.RoleId
+                RoleName = role.RoleName
             };
 
             result.Add(UserDto);

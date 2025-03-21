@@ -18,11 +18,11 @@ public class GetAllOwnerForManagerEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("Get all owner")
+        .WithName("Get all owner for manager, staff and admin")
         .Produces<GetAllOwnerResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("Get all owner")
+        .WithSummary("Get all owner for manager, staff and admin")
         .WithTags("Manager_Staff_Admin")
-        .WithDescription("Get all owner");
+        .WithDescription("Get all owner for manager, staff and admin");
     }
 }

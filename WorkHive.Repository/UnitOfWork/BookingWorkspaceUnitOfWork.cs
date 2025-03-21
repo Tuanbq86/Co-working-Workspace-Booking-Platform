@@ -26,6 +26,10 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
 
     public IWorkspaceTimeRepository workspaceTime { get; private set; }
 
+    public IOwnerWalletRepository ownerWallet { get; private set; }
+
+    public IWalletRepository wallet { get; private set; }
+
     public BookingWorkspaceUnitOfWork(WorkHiveContext context)
     {
         _context = context;
@@ -38,6 +42,8 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
         amenity = new AmenityRepository(_context);
         beverage = new BeverageRepository(_context);
         workspaceTime = new WorkspaceTimeRepository(_context);
+        ownerWallet = new OwnerWalletRepository(_context);
+        wallet = new WalletRepository(_context);
     }
 
     public int Save()

@@ -113,7 +113,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 {
                     Name = amenity.Name,
                     Quantity = newBookingAmenity.Quantity,
-                    Price = (int)((amenity.Price * newBookingAmenity.Quantity) * 100)!
+                    Price = (int)((amenity.Price * newBookingAmenity.Quantity))!
                 });
             }
         }
@@ -141,7 +141,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 {
                     Name = beverage.Name,
                     Quantity = newBookingBeverage.Quantity,
-                    Price = (int)((beverage.Price * newBookingBeverage.Quantity) * 100)!
+                    Price = (int)((beverage.Price * newBookingBeverage.Quantity))!
                 });
             }
         }

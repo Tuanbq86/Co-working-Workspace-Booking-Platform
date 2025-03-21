@@ -28,7 +28,7 @@ public class UserDTOForManager
 
     public DateTime? UpdatedAt { get; set; }
 
-    public int RoleId { get; set; }
+    public string RoleName { get; set; }
 
     public string Sex { get; set; }
 }
