@@ -2,9 +2,9 @@
 using Mapster;
 using MediatR;
 using WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace;
-using WorkHive.Services.UploadImages;
+using WorkHive.Services.UploadFiles;
 
-namespace WorkHive.APIs.UploadImages;
+namespace WorkHive.APIs.UploadFiles;
 
 public record UploadFileRequest(List<IFormFile> Files);
 public record UploadFileResponse(int Status, string Message, List<string> Data);

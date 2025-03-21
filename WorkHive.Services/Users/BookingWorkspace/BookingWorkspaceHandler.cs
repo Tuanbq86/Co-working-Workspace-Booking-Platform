@@ -180,16 +180,17 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         }
 
         //create order code with time increasing by time
-        var orderCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
+        var timestamp = DateTime.UtcNow.Ticks.ToString()[^6..]; // Lấy 6 chữ số cuối của timestamp
+        var orderCode = long.Parse($"{newBooking.Id}{timestamp}"); // Kết hợp bookingId và timestamp
         //Tạo thời gian hết hạn cho link thanh toán
-        var expiredAt = (int)DateTimeOffset.Now.AddMinutes(10).ToUnixTimeSeconds();
+        var expiredAt = (int)DateTimeOffset.Now.AddMinutes(3).ToUnixTimeSeconds();
 
 
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
                 orderCode: orderCode,
                 amount: (int)newBooking.Price!,
-                description: "WorkHive",
+                description: "bookingpayment",
                 returnUrl: domain + "/success",
                 cancelUrl : domain + "/fail",
                 items : items,

@@ -5,7 +5,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using FluentValidation;
 using WorkHive.BuildingBlocks.Exceptions;
 
-namespace WorkHive.Services.UploadImages;
+namespace WorkHive.Services.UploadFiles;
 
 public record UploadFileCommand(List<IFormFile> Files) : ICommand<UploadFileResult>;
 public record UploadFileResult(int Status, string Message, List<string> Data);

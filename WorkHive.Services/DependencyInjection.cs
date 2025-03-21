@@ -16,7 +16,7 @@ using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Repositories.Repositories;
 using WorkHive.Repositories.UnitOfWork;
-using WorkHive.Services.UploadImages;
+using WorkHive.Services.UploadFiles;
 
 namespace WorkHive.Services;
 
