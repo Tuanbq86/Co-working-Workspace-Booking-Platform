@@ -181,6 +181,9 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
 
         //create order code with time increasing by time
         var orderCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
+        //Tạo thời gian hết hạn cho link thanh toán
+        var expiredAt = (int)DateTimeOffset.Now.AddMinutes(10).ToUnixTimeSeconds();
+
 
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
@@ -189,7 +192,8 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
                 description: "WorkHive",
                 returnUrl: domain + "/success",
                 cancelUrl : domain + "/fail",
-                items : items
+                items : items,
+                expiredAt: expiredAt
             );
 
         var link = await payOS.createPaymentLink(paymentLinkRequest);

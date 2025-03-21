@@ -75,6 +75,8 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
 
             //create order code with time increasing by time
             var depositeCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
+            //Tạo thời gian hết hạn cho link thanh toán
+            var expiredAt = (int)DateTimeOffset.Now.AddMinutes(10).ToUnixTimeSeconds();
 
             var domain = configuration["PayOS:Domain"]!;
             var paymentLinkRequest = new PaymentData(
@@ -83,7 +85,8 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
                     description: "WorkHive",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
-            items: items
+                    expiredAt: expiredAt,
+                    items: items
             );
 
             var link = await payOS.createPaymentLink(paymentLinkRequest);

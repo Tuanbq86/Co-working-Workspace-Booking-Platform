@@ -11,5 +11,6 @@ public enum PayOSStatus
     PAID,
     PENDING,
     PROCESSING,
-    CANCELLED
+    CANCELLED,
+    EXPIRED
 }

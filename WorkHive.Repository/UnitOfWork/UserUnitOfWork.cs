@@ -20,6 +20,7 @@ public class UserUnitOfWork : IUserUnitOfWork
     public IUserTransactionHistoryRepository UserTransactionHistory { get; private set; }
     public ITransactionHistoryRepository TransactionHistory { get; private set; }
     public IWorkspaceOwnerRepository Owner { get; private set; }
+    public IOwnerTransactionHistoryRepository OwnerTransactionHistory { get; private set; }
 
     public UserUnitOfWork(WorkHiveContext context)
     {
@@ -31,6 +32,7 @@ public class UserUnitOfWork : IUserUnitOfWork
         UserTransactionHistory = new UserTransactionHistoryRepository(_context);
         TransactionHistory = new TransactionHistoryRepository(_context);
         Owner = new WorkspaceOwnerRepository(_context);
+        OwnerTransactionHistory = new OwnerTransactionHistoryRepository(_context);
     }
 
     public int Save()
