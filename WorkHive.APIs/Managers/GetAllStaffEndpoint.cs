@@ -20,11 +20,11 @@ public class GetAllStaffEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("Get all staff")
+        .WithName("Get all staff for manager")
         .Produces<GetAllStaffResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("Get all staff")
+        .WithSummary("Get all staff for manager")
         .WithTags("Manager")
-        .WithDescription("Get all staff");
+        .WithDescription("Get all staff for manager");
     }
 }

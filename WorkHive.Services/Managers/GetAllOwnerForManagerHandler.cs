@@ -24,7 +24,7 @@ public class GetAllOwnerForManagerHandler(IUserUnitOfWork userUnit)
                 CharterCapital = item.CharterCapital,
                 CreatedAt = item.CreatedAt,
                 DateOfBirth = item.DateOfBirth,
-                Email = item.Email,
+                Email = item.Email.Trim(),
                 Facebook = item.Facebook,
                 GoogleMapUrl = item.GoogleMapUrl,
                 IdentityCreatedDate = item.IdentityCreatedDate,

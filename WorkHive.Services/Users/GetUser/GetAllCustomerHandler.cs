@@ -21,13 +21,13 @@ public class GetAllCustomerHandler(IUserUnitOfWork userUnit)
 
         foreach(var item in customers)
         {
+            var role = userUnit.Role.GetById(item.RoleId);
             var UserDto = new UserDTO
             {
                 Id = item.Id,
                 Name = item.Name,
                 Phone = item.Phone,
-                Email = item.Email,
-                Password = item.Password,
+                Email = item.Email.Trim(),
                 Status = item.Status,
                 Avatar = item.Avatar,
                 Location = item.Location,
@@ -35,7 +35,7 @@ public class GetAllCustomerHandler(IUserUnitOfWork userUnit)
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
                 Sex = item.Sex,
-                RoleId = item.RoleId
+                RoleName = role.RoleName
             };
 
             customerResult.Add(UserDto);

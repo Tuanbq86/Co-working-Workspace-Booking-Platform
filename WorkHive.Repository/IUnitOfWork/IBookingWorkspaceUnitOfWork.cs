@@ -13,6 +13,8 @@ public interface IBookingWorkspaceUnitOfWork
     IAmenityRepository amenity { get; }
     IBeverageRepository beverage { get; }
     IWorkspaceTimeRepository workspaceTime { get; }
+    IOwnerWalletRepository ownerWallet { get; }
+    IWalletRepository wallet { get; }
     public int Save();
     public Task<int> SaveAsync();
 }

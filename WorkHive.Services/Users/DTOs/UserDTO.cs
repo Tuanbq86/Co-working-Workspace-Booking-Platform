@@ -16,8 +16,6 @@ public class UserDTO
 
     public string Email { get; set; }
 
-    public string Password { get; set; }
-
     public string Status { get; set; }
 
     public string Avatar { get; set; }
@@ -30,7 +28,7 @@ public class UserDTO
 
     public DateTime? UpdatedAt { get; set; }
 
-    public int RoleId { get; set; }
+    public string RoleName { get; set; }
 
     public string Sex { get; set; }
 }

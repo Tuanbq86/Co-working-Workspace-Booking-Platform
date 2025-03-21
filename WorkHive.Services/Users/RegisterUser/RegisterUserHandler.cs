@@ -4,6 +4,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.Constant.Wallet;
 using WorkHive.Services.Exceptions;
 
 namespace WorkHive.Services.Users.RegisterUser;
@@ -69,8 +70,23 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
             RoleId = 4
         };
 
-        userUnit.User.Create(newUser);
-        
+        await userUnit.User.CreateAsync(newUser);
+
+        var wallet = new Wallet
+        {
+            Balance = 0,
+            Status = WalletStatus.Active.ToString()
+        };
+        await userUnit.Wallet.CreateAsync(wallet);
+
+        var customerWallet = new CustomerWallet
+        {
+            Status = WalletStatus.Active.ToString(),
+            WalletId = wallet.Id,
+            UserId = newUser.Id
+        };
+        userUnit.CustomerWallet.Create(customerWallet);
+
         await userUnit.SaveAsync();
 
         var token = tokenRepo.GenerateJwtToken(newUser);
