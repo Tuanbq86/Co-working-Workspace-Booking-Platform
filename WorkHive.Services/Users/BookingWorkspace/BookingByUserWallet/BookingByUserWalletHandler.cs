@@ -146,9 +146,44 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             Category = command.WorkspaceTimeCategory
         };
 
-        bookingUnit.workspaceTime.Create(newWorkspaceTime);
+        await bookingUnit.workspaceTime.CreateAsync(newWorkspaceTime);
 
-        await bookingUnit.SaveAsync();
+        //-------------------------------------------------------------------
+        //Create Transaction History for user
+        var transactionHistoryOfUser = new TransactionHistory
+        {
+            Amount = newBooking.Price,
+            Status = "PAID",
+            Description = $"Thanh toán đơn booking: {newBooking.Id}",
+            CreatedAt = DateTime.Now
+        };
+        await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfUser);
+
+        var userTransactionHistory = new UserTransactionHistory
+        {
+            Status = "PAID",
+            TransactionHistoryId = transactionHistoryOfUser.Id,
+            CustomerWalletId = customerWallet.Id
+        };
+        await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
+
+        //Create Transaction History for owner
+        var transactionHistoryOfOwner = new TransactionHistory
+        {
+            Amount = (newBooking.Price * 90) / 100,
+            Status = "PAID",
+            Description = $"Nhận tiền đơn booking: {newBooking.Id}",
+            CreatedAt = DateTime.Now
+        };
+        await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
+
+        var ownerTransactionHistory = new OwnerTransactionHistory
+        {
+            Status = "PAID",
+            TransactionHistoryId = transactionHistoryOfOwner.Id,
+            OwnerWalletId = ownerWallet.Id
+        };
+        await userUnit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
 
         return new BookingByUserWalletResult("booking thành công");
     }
