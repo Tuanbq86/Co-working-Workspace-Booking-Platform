@@ -1,7 +1,7 @@
 ﻿using Carter;
 using Mapster;
 using MediatR;
-using WorkHive.Services.Owners.ManageWorkSpace.Base_OwnerWallet;
+using WorkHive.Services.Wallets.Base_OwnerWallet;
 
 namespace WorkHive.APIs.Wallets.OwnerWallet
 {
