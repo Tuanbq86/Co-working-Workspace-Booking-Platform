@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.ManageWorkSpace.Base_OwnerWallet
+namespace WorkHive.Services.Wallets.Base_OwnerWallet
 {
     public record GetWalletByOwnerIdQuery(int Id) : IQuery<GetWalletByOwnerIdResult>;
     public record GetWalletByOwnerIdResult(int Id, decimal? Balance, string Status, int OwnerId, string OwnerName, string LicenseName);
