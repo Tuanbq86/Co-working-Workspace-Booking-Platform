@@ -63,10 +63,37 @@ public class WebhookProccessingHandler(IConfiguration configuration,
                 booking.Status = BookingStatus.Success.ToString();
                 workspaceTime!.Status = WorkspaceTimeStatus.InUse.ToString();
 
-                bookUnit.booking.Update(booking);
-                bookUnit.workspaceTime.Update(workspaceTime);
+                await bookUnit.booking.UpdateAsync(booking);
+                await bookUnit.workspaceTime.UpdateAsync(workspaceTime);
 
-                await bookUnit.SaveAsync();
+                //Cộng tiền 90 cho ví owner và ghi lại lịch sử giao dịch cho bên owner
+                var workspace = bookUnit.workspace.GetById(booking.WorkspaceId);
+                var owner = userUnit.Owner.GetById(workspace.OwnerId);
+
+                var ownerWallet = await bookUnit.ownerWallet.GetOwnerWalletByOwnerIdForBooking(owner.Id);
+                var walletOfOwner = userUnit.Wallet.GetById(ownerWallet.WalletId);
+                walletOfOwner.Balance += (command.WebhookData.data.amount * 90) / 100;
+
+                //Create Transaction History for owner
+                var transactionHistoryOfOwner = new TransactionHistory
+                {
+                    Amount = (command.WebhookData.data.amount * 90) / 100,
+                    Status = "PAID",
+                    Description = $"Nhận tiền đơn booking: {bookingId}",
+                    CreatedAt = DateTime.Now
+                };
+                await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
+
+                var ownerTransactionHistory = new OwnerTransactionHistory
+                {
+                    Status = "PAID",
+                    TransactionHistoryId = transactionHistoryOfOwner.Id,
+                    OwnerWalletId = ownerWallet.Id
+                };
+                await userUnit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
+
+
+                await bookUnit.wallet.UpdateAsync(walletOfOwner);
             }
         }
 

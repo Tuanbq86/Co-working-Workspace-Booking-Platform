@@ -29,11 +29,11 @@ public class UploadFileEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .Accepts<UploadFileRequest>("multipart/form-data")
-        .WithName("UploadFile")
+        .WithName("Upload PDF File")
         .Produces<UploadFileResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Upload File")
-        .WithTags("Upload files on cloudinary")
-        .WithDescription("Upload File");
+        .WithTags("Upload on cloudinary")
+        .WithDescription("Upload PDF File");
     }
 }

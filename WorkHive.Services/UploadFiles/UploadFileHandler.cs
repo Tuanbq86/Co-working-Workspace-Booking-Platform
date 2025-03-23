@@ -19,8 +19,8 @@ public class UploadFileValidator : AbstractValidator<UploadFileCommand>
 
         RuleForEach(x => x.Files)
             .NotNull().WithMessage("File is required")
-            .Must(x => x.ContentType.Contains("image") || x.ContentType.Contains("pdf"))
-            .WithMessage("Only image and PDF files are allowed");
+            .Must(x => /*x.ContentType.Contains("image") || */x.ContentType.Contains("pdf"))
+            .WithMessage("Only PDF files are allowed");
     }
 }
 
@@ -39,16 +39,14 @@ public class UploadFileHandler(Cloudinary cloudinary)
         //Duyệt và tải tham số lên cho cloudinary
         foreach (var file in request.Files)
         {
-            var uploadParams = new ImageUploadParams
+            var uploadParams = new RawUploadParams
             {
                 //Đọc nội dung để gửi lên cloudinary
                 File = new FileDescription(file.FileName, file.OpenReadStream()),
                 //Định nghĩa thư mục chứa tệp trên cloudinary
                 Folder = "FILES",
-                //Nếu là ảnh xử lý sao cho đúng tỷ lệ
-                Transformation = file.ContentType.Contains("image")
-                    ? new Transformation().Width(500).Height(500).Crop("fill")
-                    : null
+                //Thiết lập thành public để có thể xem file
+                AccessMode = "public"
             };
 
             //Tải lên và kiểm tra
