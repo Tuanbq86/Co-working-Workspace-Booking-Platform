@@ -2,9 +2,9 @@
 using Mapster;
 using MediatR;
 using WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace;
-using WorkHive.Services.UploadImages;
+using WorkHive.Services.UploadFiles;
 
-namespace WorkHive.APIs.UploadImages;
+namespace WorkHive.APIs.UploadFiles;
 
 public record UploadFileRequest(List<IFormFile> Files);
 public record UploadFileResponse(int Status, string Message, List<string> Data);
@@ -29,11 +29,11 @@ public class UploadFileEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .Accepts<UploadFileRequest>("multipart/form-data")
-        .WithName("UploadFile")
+        .WithName("Upload PDF File")
         .Produces<UploadFileResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Upload File")
-        .WithTags("Upload files on cloudinary")
-        .WithDescription("Upload File");
+        .WithTags("Upload on cloudinary")
+        .WithDescription("Upload PDF File");
     }
 }
