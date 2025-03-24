@@ -19,15 +19,14 @@ public class GetUserByIdHandler(IUserUnitOfWork userUnit)
 
         if (user is null)
             return new GetUserByIdResult(new UserDTO());
-            
 
+        var role = userUnit.Role.GetById(user.RoleId);
         var userDTO = new UserDTO
         {
             Id = user.Id,
             Name = user.Name,
             Phone = user.Phone,
             Email = user.Email.Trim(),
-            Password = user.Password,
             Status = user.Status,
             Avatar = user.Avatar,
             Location = user.Location,
@@ -35,7 +34,7 @@ public class GetUserByIdHandler(IUserUnitOfWork userUnit)
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,
             Sex = user.Sex,
-            RoleId = user.RoleId
+            RoleName = role.RoleName
         };
 
         return new GetUserByIdResult(userDTO);

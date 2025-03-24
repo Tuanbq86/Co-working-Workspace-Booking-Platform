@@ -1,28 +1,27 @@
 ﻿using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
-using WorkHive.Services.Users.DTOs;
+using WorkHive.Services.DTOService;
 
-namespace WorkHive.Services.Users.GetUser;
+namespace WorkHive.Services.Managers;
 
-public record GetAllUserQuery() : IQuery<GetAllUserResult>;
-public record GetAllUserResult(List<UserDTO> Users);
+public record GetAllStaffQuery() : IQuery<GetAllStaffResult>;
+public record GetAllStaffResult(List<UserDTOForManager> Staffs);
 
-public class GetAllUserHandler(IUserUnitOfWork userUnit)
-    : IQueryHandler<GetAllUserQuery, GetAllUserResult>
+public class GetAllStaffHandler(IUserUnitOfWork userUnit)
+    : IQueryHandler<GetAllStaffQuery, GetAllStaffResult>
 {
-    public async Task<GetAllUserResult> Handle(GetAllUserQuery query, 
+    public async Task<GetAllStaffResult> Handle(GetAllStaffQuery query, 
         CancellationToken cancellationToken)
     {
-        var users = await userUnit.User.GetAllAsync();
+        var staffs = userUnit.User.GetAll().Where(x => x.RoleId.Equals(3)).ToList();
 
-        var others = users.Where(x => !x.RoleId.Equals(4)).ToList();
+        List<UserDTOForManager> result = new List<UserDTOForManager>();
 
-        List<UserDTO> otherResult = new List<UserDTO>();
-
-        foreach (var item in others)
+        foreach(var item in staffs)
         {
             var role = userUnit.Role.GetById(item.RoleId);
-            var UserDto = new UserDTO
+
+            var UserDto = new UserDTOForManager
             {
                 Id = item.Id,
                 Name = item.Name,
@@ -38,9 +37,9 @@ public class GetAllUserHandler(IUserUnitOfWork userUnit)
                 RoleName = role.RoleName
             };
 
-            otherResult.Add(UserDto);
+            result.Add(UserDto);
         }
 
-        return new GetAllUserResult(otherResult);
+        return new GetAllStaffResult(result);
     }
 }

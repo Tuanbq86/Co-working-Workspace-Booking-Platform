@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkHive.Services.Users.DTOs;
+namespace WorkHive.Services.DTOService;
 
-public class UserDTO
+public class UserDTOForManager
 {
     public int Id { get; set; }
 

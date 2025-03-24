@@ -2,9 +2,9 @@
 using Mapster;
 using MediatR;
 using WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace;
-using WorkHive.Services.UploadImages;
+using WorkHive.Services.UploadFiles;
 
-namespace WorkHive.APIs.UploadImages;
+namespace WorkHive.APIs.UploadFiles;
 
 public record UploadImageRequest(List<IFormFile> Images);
 public record UploadImageResponse(int Status, string Message, List<string> Data);
@@ -13,7 +13,7 @@ public class UploadImageEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/images/upload", async(HttpContext context, ISender sender) =>
+        app.MapPost("/images/upload", async (HttpContext context, ISender sender) =>
         {
             var form = await context.Request.ReadFormAsync();
             var files = form.Files.ToList();
@@ -31,7 +31,7 @@ public class UploadImageEndpoint : ICarterModule
         .Produces<CreateWorkspaceResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Upload Image")
-        .WithTags("Upload images on cloudinary")
+        .WithTags("Upload on cloudinary")
         .WithDescription("Upload Image");
     }
 }

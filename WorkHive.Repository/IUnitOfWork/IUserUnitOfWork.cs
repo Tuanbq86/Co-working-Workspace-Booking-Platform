@@ -10,12 +10,13 @@ namespace WorkHive.Repositories.IUnitOfWork;
 public interface IUserUnitOfWork
 {
     IUserRepository User { get; }
+    IWorkspaceOwnerRepository Owner { get; }
     IRoleRepository Role { get; }
     IWalletRepository Wallet { get; }
     ICustomerWalletRepository CustomerWallet { get; }
     IUserTransactionHistoryRepository UserTransactionHistory { get; }
     ITransactionHistoryRepository TransactionHistory { get; }
-
+    IOwnerTransactionHistoryRepository OwnerTransactionHistory { get; }
     public int Save();
     public Task<int> SaveAsync();
 }

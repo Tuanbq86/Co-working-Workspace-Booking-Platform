@@ -19,6 +19,8 @@ public class UserUnitOfWork : IUserUnitOfWork
     public ICustomerWalletRepository CustomerWallet { get; private set; }
     public IUserTransactionHistoryRepository UserTransactionHistory { get; private set; }
     public ITransactionHistoryRepository TransactionHistory { get; private set; }
+    public IWorkspaceOwnerRepository Owner { get; private set; }
+    public IOwnerTransactionHistoryRepository OwnerTransactionHistory { get; private set; }
 
     public UserUnitOfWork(WorkHiveContext context)
     {
@@ -29,6 +31,8 @@ public class UserUnitOfWork : IUserUnitOfWork
         CustomerWallet = new CustomerWalletRepository(_context);
         UserTransactionHistory = new UserTransactionHistoryRepository(_context);
         TransactionHistory = new TransactionHistoryRepository(_context);
+        Owner = new WorkspaceOwnerRepository(_context);
+        OwnerTransactionHistory = new OwnerTransactionHistoryRepository(_context);
     }
 
     public int Save()

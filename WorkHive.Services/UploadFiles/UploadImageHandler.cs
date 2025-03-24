@@ -5,7 +5,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using FluentValidation;
 using WorkHive.BuildingBlocks.Exceptions;
 
-namespace WorkHive.Services.UploadImages;
+namespace WorkHive.Services.UploadFiles;
 
 public record UploadImageCommand(List<IFormFile> Images) : ICommand<UploadImageResult>;
 public record UploadImageResult(int Status, string Message, List<string> Data);
@@ -27,7 +27,7 @@ public class UploadImageValidator : AbstractValidator<UploadImageCommand>
 public class UploadImageHandler(Cloudinary cloudinary)
     : ICommandHandler<UploadImageCommand, UploadImageResult>
 {
-    public async Task<UploadImageResult> Handle(UploadImageCommand request, 
+    public async Task<UploadImageResult> Handle(UploadImageCommand request,
         CancellationToken cancellationToken)
     {
         if (request.Images == null || !request.Images.Any())
@@ -56,4 +56,3 @@ public class UploadImageHandler(Cloudinary cloudinary)
 
     }
 }
-
