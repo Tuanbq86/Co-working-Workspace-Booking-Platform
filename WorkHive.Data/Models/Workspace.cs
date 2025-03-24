@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace WorkHive.Data.Models;
 
@@ -37,7 +36,7 @@ public partial class Workspace
     public int? Is24h { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
-    [JsonIgnore]
+
     public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();

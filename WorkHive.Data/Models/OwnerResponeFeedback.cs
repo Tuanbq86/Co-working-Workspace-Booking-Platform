@@ -19,6 +19,10 @@ public partial class OwnerResponeFeedback
 
     public DateTime? CreatedAt { get; set; }
 
+    public int? FeedbackId { get; set; }
+
+    public virtual Feedback Feedback { get; set; }
+
     public virtual ICollection<ImageResponseFeedback> ImageResponseFeedbacks { get; set; } = new List<ImageResponseFeedback>();
 
     public virtual WorkspaceOwner Owner { get; set; }

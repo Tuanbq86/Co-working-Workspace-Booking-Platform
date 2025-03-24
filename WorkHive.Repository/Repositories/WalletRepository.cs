@@ -31,6 +31,19 @@ public class WalletRepository : GenericRepository<Wallet>, IWalletRepository
         .ThenInclude(ow => ow.Owner)
         .ToListAsync();
     }
+
+    //public async Task<Wallet?> GetByOwnerIdAsync(int ownerId)
+    //{
+    //    return await _context.Set<Wallet>()
+    //        .Include(w => w.OwnerWallets)
+    //        .FirstOrDefaultAsync(w => w.OwnerWallets.Any(ow => ow.OwnerId == ownerId));
+    //}
+
+    //public async Task UpdateWalletAsync(Wallet wallet)
+    //{
+    //    _context.Set<Wallet>().Update(wallet);
+    //    await _context.SaveChangesAsync();
+    //}
 }
 
 

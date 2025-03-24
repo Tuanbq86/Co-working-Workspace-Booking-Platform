@@ -33,6 +33,8 @@ public partial class Booking
 
     public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
 
+    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
     public virtual PaymentMethod Payment { get; set; }
 
     public virtual Promotion Promotion { get; set; }

@@ -15,6 +15,12 @@ public partial class CustomerWallet
 
     public int UserId { get; set; }
 
+    public string BankName { get; set; }
+
+    public string BankNumber { get; set; }
+
+    public string BankAccountName { get; set; }
+
     public virtual User User { get; set; }
 
     public virtual ICollection<UserTransactionHistory> UserTransactionHistories { get; set; } = new List<UserTransactionHistory>();
