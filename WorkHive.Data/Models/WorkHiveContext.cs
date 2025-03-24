@@ -15,8 +15,9 @@ public partial class WorkHiveContext : DbContext
 
     public WorkHiveContext()
     {
-        
+         
     }
+
 
     public virtual DbSet<Amenity> Amenities { get; set; }
 
@@ -47,6 +48,8 @@ public partial class WorkHiveContext : DbContext
     public virtual DbSet<OwnerTransactionHistory> OwnerTransactionHistories { get; set; }
 
     public virtual DbSet<OwnerWallet> OwnerWallets { get; set; }
+
+    public virtual DbSet<OwnerWithdrawalRequest> OwnerWithdrawalRequests { get; set; }
 
     public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
 
@@ -519,6 +522,35 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.WalletId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKOwner_Wall535444");
+        });
+
+        modelBuilder.Entity<OwnerWithdrawalRequest>(entity =>
+        {
+            entity.ToTable("Owner_Withdrawal_Request");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .HasColumnName("title");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.WorkspaceOwnerId).HasColumnName("workspace_owner_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OwnerWithdrawalRequests)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Withdrawal_Request_User");
+
+            entity.HasOne(d => d.WorkspaceOwner).WithMany(p => p.OwnerWithdrawalRequests)
+                .HasForeignKey(d => d.WorkspaceOwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Withdrawal_Request_Workspace_Owner");
         });
 
         modelBuilder.Entity<PaymentMethod>(entity =>

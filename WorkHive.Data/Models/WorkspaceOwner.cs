@@ -73,5 +73,7 @@ public partial class WorkspaceOwner
 
     public virtual ICollection<OwnerWallet> OwnerWallets { get; set; } = new List<OwnerWallet>();
 
+    public virtual ICollection<OwnerWithdrawalRequest> OwnerWithdrawalRequests { get; set; } = new List<OwnerWithdrawalRequest>();
+
     public virtual ICollection<Workspace> Workspaces { get; set; } = new List<Workspace>();
 }
