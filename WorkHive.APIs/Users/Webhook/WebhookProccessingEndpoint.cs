@@ -11,7 +11,7 @@ public class WebhookProccessingEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/workhive/webhook", async (ProcessWebhookRequest request, ISender sender) =>
+        app.MapPost("/webhook", async (ProcessWebhookRequest request, ISender sender) =>
         {
             var command = request.Adapt<ProcessWebhookCommand>();
 

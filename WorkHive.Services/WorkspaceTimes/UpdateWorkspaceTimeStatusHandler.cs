@@ -5,13 +5,14 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
+using WorkHive.Data.Models;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
 public record UpdateTimeCommand(long OrderCode, int BookingId) : ICommand<UpdateTimeResult>;
 public record UpdateTimeResult(string Notification);
 
-public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUnit, IConfiguration configuration)
+public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBookingWorkspaceUnitOfWork bookUnit, IConfiguration configuration)
     : ICommandHandler<UpdateTimeCommand, UpdateTimeResult>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
@@ -79,6 +80,34 @@ public class UpdateWorkspaceTimeStatusHandler(IBookingWorkspaceUnitOfWork bookUn
             bookUnit.workspaceTime.Update(workspaceTime);
 
             await bookUnit.SaveAsync();
+
+            //Cộng tiền 90 cho ví owner và ghi lại lịch sử giao dịch cho bên owner
+            var workspace = bookUnit.workspace.GetById(booking.WorkspaceId);
+            var owner = userUnit.Owner.GetById(workspace.OwnerId);
+
+            var ownerWallet = await bookUnit.ownerWallet.GetOwnerWalletByOwnerIdForBooking(owner.Id);
+            var walletOfOwner = userUnit.Wallet.GetById(ownerWallet.WalletId);
+            walletOfOwner.Balance += (booking.Price * 90) / 100;
+
+            await bookUnit.wallet.UpdateAsync(walletOfOwner);
+
+            //Create Transaction History for owner
+            var transactionHistoryOfOwner = new TransactionHistory
+            {
+                Amount = (booking.Price * 90) / 100,
+                Status = "PAID",
+                Description = $"Nhận tiền đơn booking: {booking.Id}",
+                CreatedAt = DateTime.Now
+            };
+            await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
+
+            var ownerTransactionHistory = new OwnerTransactionHistory
+            {
+                Status = "PAID",
+                TransactionHistoryId = transactionHistoryOfOwner.Id,
+                OwnerWalletId = ownerWallet.Id
+            };
+            await userUnit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
         }
 
         return new UpdateTimeResult("Cập nhật trạng thái thành công");
