@@ -46,7 +46,9 @@ public class GetAllRatingByWorkspaceIdHandler(IUserRatingUnitOfWork userRating)
                 Workspace_Name = workspace.Name,
                 Images = images,
                 User_Avatar = user.Avatar,
-                User_Name = user.Name
+                User_Name = user.Name,
+                RatingId = rating.Id,
+                UserId = user.Id
             });
         }
 

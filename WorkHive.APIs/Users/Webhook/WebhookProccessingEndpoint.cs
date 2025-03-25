@@ -13,11 +13,17 @@ public class WebhookProccessingEndpoint : ICarterModule
     {
         app.MapPost("/webhook", async (ProcessWebhookRequest request, ISender sender) =>
         {
-            var command = request.Adapt<ProcessWebhookCommand>();
-
-            var result = await sender.Send(command);
-
-            return Results.Ok(result);
+            try
+            {
+                var command = request.Adapt<ProcessWebhookCommand>();
+                await sender.Send(command);
+                return Results.Ok();
+            }
+            catch
+            {
+                // Log error here if needed
+                return Results.Ok();
+            }
         })
         .WithName("Call Webhook")
         .WithSummary("Call Webhook")
