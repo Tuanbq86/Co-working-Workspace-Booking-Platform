@@ -18,6 +18,7 @@ namespace WorkHive.Repositories.IUnitOfWork
         IOwnerTransactionHistoryRepository OwnerTransactionHistory { get; }
         ITransactionHistoryRepository TransactionHistory { get; }
         IOwnerWalletRepository OwnerWallet { get; }
+        IOwnerWithdrawalRequestRepository OwnerWithdrawalRequest { get; }
 
 
 

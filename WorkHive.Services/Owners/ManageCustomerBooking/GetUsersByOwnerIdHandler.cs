@@ -16,6 +16,7 @@ namespace WorkHive.Services.Owners.ManageCustomerBooking
         string Email,
         string Phone,
         string Status,
+        string Avatar,
         DateTime? CreatedAt,
         string Sex,
         DateOnly? DateOfBirth
@@ -33,6 +34,7 @@ namespace WorkHive.Services.Owners.ManageCustomerBooking
                 user.Email,
                 user.Phone,
                 user.Status,
+                user.Avatar,
                 user.CreatedAt,
                 user.Sex ?? "Unknown",
                 user.DateOfBirth
