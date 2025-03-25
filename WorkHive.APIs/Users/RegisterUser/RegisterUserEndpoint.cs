@@ -22,7 +22,7 @@ public class RegisterUserEndpoint : ICarterModule
 
             return Results.Created($"/users/register", new { Token = response.Token, Notification = response.Notification });
         })
-        .WithName("RegisterUser")
+        .WithName("Register User")
         .Produces<RegisterUserResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Register successfully")
