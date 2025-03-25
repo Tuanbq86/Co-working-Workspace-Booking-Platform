@@ -31,8 +31,8 @@ public class DeleteRatingHandler(IUserRatingUnitOfWork userRating)
             if (item.WorkspaceRatingId.Equals(workspaceRating!.Id))
             {
                 var image = userRating.image.GetById(item.ImageId);
-                await userRating.image.RemoveAsync(image);
                 await userRating.workspaceRatingImage.RemoveAsync(item);
+                await userRating.image.RemoveAsync(image);
             }
         }
 

@@ -7,7 +7,7 @@ using WorkHive.Services.Users.BookingWorkspace;
 namespace WorkHive.APIs.Users.Booking;
 
 public record DecodeJwtRequest(string Token);
-public record DecodeJwtResponse(Dictionary<string, string> Claims);
+public record DecodeJwtResponse(Dictionary<string, string> Claims, string AvatarUrl);
 
 public class DecodeJwtTokenEndpoint : ICarterModule
 {

@@ -136,9 +136,10 @@ public class WebhookProccessingHandler(IConfiguration configuration,
                 }
                 //return Unit.Value;
             }
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            Console.WriteLine(ex);
         }
         return Unit.Value;
     }
