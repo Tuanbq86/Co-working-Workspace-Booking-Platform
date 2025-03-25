@@ -16,10 +16,15 @@ public class PromotionRepository : GenericRepository<Promotion>, IPromotionRepos
     public PromotionRepository() { }
     public PromotionRepository(WorkHiveContext context) => _context = context;
 
+    public async Task<List<Promotion>> GetAllPromotionsByWorkspaceOwnerIdAsync(int workspaceOwnerId)
+    {
+        return await _context.Promotions.Where(p => p.Workspace.OwnerId == workspaceOwnerId).Include(p => p.Workspace).ToListAsync();
+    }
+
     public async Task<Promotion> GetFirstOrDefaultAsync(Expression<Func<Promotion, bool>> predicate)
     {
         return await _context.Promotions.FirstOrDefaultAsync(predicate);
     }
 
-    //To do object method
+
 }
