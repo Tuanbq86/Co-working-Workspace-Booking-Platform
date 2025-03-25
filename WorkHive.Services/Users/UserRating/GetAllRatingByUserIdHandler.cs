@@ -24,6 +24,9 @@ public class GetAllRatingByUserIdHandler(IUserRatingUnitOfWork userRating)
             ratingDTO.Rate = item.Rate;
             ratingDTO.Created_At = item.CreatedAt;
             ratingDTO.Comment = item.Comment;
+
+            ratingDTO.UserId = item.UserId;
+            ratingDTO.RatingId = item.Id;
             ratingDTO.Images = new List<RatingImageDTO>();
 
             var workspaceRating = item.WorkspaceRatings

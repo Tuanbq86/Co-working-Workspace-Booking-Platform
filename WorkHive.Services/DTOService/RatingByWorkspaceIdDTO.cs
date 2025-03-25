@@ -9,6 +9,8 @@ public class RatingByWorkspaceIdDTO
     public string? Owner_Name { get; set; }
     public string? User_Name { get; set; }
     public string? User_Avatar { get; set; }
+    public int RatingId { get; set; }
+    public int UserId { get; set; }
     public List<RatingByWorkspaceIdImageDTO>? Images { get; set; }
 }
 public record RatingByWorkspaceIdImageDTO(string Url);
