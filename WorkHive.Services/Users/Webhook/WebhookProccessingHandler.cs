@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Net.payOS;
 using Net.payOS.Types;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
@@ -9,12 +11,13 @@ using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Wallets.UserWallet;
 using WorkHive.Services.WorkspaceTimes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WorkHive.Services.Users.Webhook;
 public record ProcessWebhookCommand(WebhookType WebhookData) : ICommand<Unit>;
 
 public class WebhookProccessingHandler(IConfiguration configuration, 
-    IBookingWorkspaceUnitOfWork bookUnit, IUserUnitOfWork userUnit)
+    IBookingWorkspaceUnitOfWork bookUnit, IUserUnitOfWork userUnit, ILogger<WebhookProccessingHandler> logger)
     : ICommandHandler<ProcessWebhookCommand, Unit>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
@@ -27,16 +30,19 @@ public class WebhookProccessingHandler(IConfiguration configuration,
         {
             var payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
 
-            payOS.verifyPaymentWebhookData(command.WebhookData);
-            var description = command.WebhookData.data.description;
+            WebhookData data  = payOS.verifyPaymentWebhookData(command.WebhookData);
+
+            //var description = data.description;
             string depo = "depopayment";
             string book = "bookpayment";
 
+            logger.LogDebug("Thông tin data:" + data.ToString());
+
             //Xử lý cho api Booking bằng ví PayOS
-            if (Regex.Match(description, @"\S+$").Value.Equals(book.Trim().ToLower().ToString()))
+            if (data.description.EndsWith(book, StringComparison.OrdinalIgnoreCase))
             {
                 PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation
-                    (command.WebhookData.data.orderCode);
+                    (data.orderCode);
                 var Status = paymentLinkInformation.status.ToString();
 
                 if (!(Status.Equals(PayOSStatus.PAID.ToString())))
@@ -85,7 +91,7 @@ public class WebhookProccessingHandler(IConfiguration configuration,
                     //Create Transaction History for owner
                     var transactionHistoryOfOwner = new TransactionHistory
                     {
-                        Amount = (command.WebhookData.data.amount * 90) / 100,
+                        Amount = (data.amount * 90) / 100,
                         Status = "PAID",
                         Description = $"Nhận tiền đơn booking: {bookingId}",
                         CreatedAt = DateTime.Now
@@ -104,25 +110,25 @@ public class WebhookProccessingHandler(IConfiguration configuration,
             }
 
             //Xử lý cho api User deposit
-            if (Regex.Match(description, @"\S+$").Value.Equals(depo.Trim().ToLower().ToString()))
+            if (data.description.EndsWith(depo, StringComparison.OrdinalIgnoreCase))
             {
                 PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation
-                    (command.WebhookData.data.orderCode);
+                    (data.orderCode);
                 var Status = paymentLinkInformation.status.ToString();
 
                 if (Status.Equals(PayOSStatus.PAID.ToString()))
                 {
-                    var CustomerWalletId = command.WebhookData.data.orderCode / 1_000_000;
+                    var CustomerWalletId = data.orderCode / 1_000_000;
                     //Update amount in wallet
                     var customerWallet = userUnit.CustomerWallet.GetById((int)CustomerWalletId);
                     var wallet = userUnit.Wallet.GetById(customerWallet.WalletId);
-                    wallet.Balance += command.WebhookData.data.amount;
+                    wallet.Balance += data.amount;
                     await userUnit.Wallet.UpdateAsync(wallet);
 
                     //Create Transaction History
                     var transactionHistory = new TransactionHistory
                     {
-                        Amount = command.WebhookData.data.amount,
+                        Amount = data.amount,
                         Status = Status.ToString(),
                         Description = "Nạp tiền",
                         CreatedAt = DateTime.Now
