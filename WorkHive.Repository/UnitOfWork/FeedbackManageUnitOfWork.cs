@@ -20,6 +20,9 @@ namespace WorkHive.Repositories.UnitOfWork
         public IImageResponseFeedbackRepository ImageResponseFeedback { get; private set; }
         public IUserRepository User { get; private set; }
         public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
+        public IBookingRepository Booking { get; private set; }
+
+
         public FeedbackManageUnitOfWork(WorkHiveContext context)
         {
             _context = context;
@@ -30,6 +33,7 @@ namespace WorkHive.Repositories.UnitOfWork
             ImageResponseFeedback = new ImageResponseFeedbackRepository(_context);
             User = new UserRepository(_context);
             WorkspaceOwner = new WorkspaceOwnerRepository(_context);
+            Booking = new BookingRepository(_context);
         }
         public int Save()
         {

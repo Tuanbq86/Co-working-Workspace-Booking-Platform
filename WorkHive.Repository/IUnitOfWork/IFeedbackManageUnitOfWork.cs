@@ -23,6 +23,8 @@ namespace WorkHive.Repositories.IUnitOfWork
 
         IWorkspaceOwnerRepository WorkspaceOwner { get; }
 
+        IBookingRepository Booking { get; }
+
         public int Save();
         public Task<int> SaveAsync();
 
