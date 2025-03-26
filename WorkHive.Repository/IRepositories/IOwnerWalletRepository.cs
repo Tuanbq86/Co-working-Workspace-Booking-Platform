@@ -11,4 +11,5 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IOwnerWalletRepository :IGenericRepository<OwnerWallet>
 {
     public Task<OwnerWallet> GetOwnerWalletByOwnerIdForBooking(int OwnerId);
+    public Task<OwnerWallet?> GetByOwnerIdAsync(int ownerId);
 }

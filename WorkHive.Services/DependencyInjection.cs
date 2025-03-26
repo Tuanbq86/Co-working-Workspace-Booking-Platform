@@ -91,6 +91,7 @@ public static class DependencyInjection
         services.AddScoped<IBookingWorkspaceUnitOfWork, BookingWorkspaceUnitOfWork>();
         services.AddScoped<IWorkSpaceManageUnitOfWork, WorkSpaceManageUnitOfWork>();
         services.AddScoped<IFeedbackManageUnitOfWork, FeedbackManageUnitOfWork>();
+        services.AddScoped<IWalletUnitOfWork, WalletUnitOfWork>();
 
         return services;
     }

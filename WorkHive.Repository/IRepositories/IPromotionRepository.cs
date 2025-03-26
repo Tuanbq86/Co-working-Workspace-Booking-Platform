@@ -12,4 +12,6 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IPromotionRepository : IGenericRepository<Promotion>
 {
     Task<Promotion> GetFirstOrDefaultAsync(Expression<Func<Promotion, bool>> predicate);
+
+    Task<List<Promotion>>  GetAllPromotionsByWorkspaceOwnerIdAsync(int workspaceOwnerId);
 }

@@ -25,7 +25,7 @@ namespace WorkHive.APIs.Owner.ManageCustomerBooking
             .WithName("GetUsersByOwnerId")
             .Produces<GetUsersByOwnerIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .WithTags("Users")
+            .WithTags("User")
             .WithSummary("Get Users by Owner ID")
             .WithDescription("Retrieve a list of users who have booked workspaces owned by the specified owner.");
         }
