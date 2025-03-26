@@ -31,7 +31,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
                 responeFeedback.Id,
                 responeFeedback.Description,
                 responeFeedback.Status,
-                responeFeedback.UserId,
+                responeFeedback.Feedback.Booking.User.Id,
                 responeFeedback.OwnerId,
                 responeFeedback.FeedbackId,
                 responeFeedback.CreatedAt,

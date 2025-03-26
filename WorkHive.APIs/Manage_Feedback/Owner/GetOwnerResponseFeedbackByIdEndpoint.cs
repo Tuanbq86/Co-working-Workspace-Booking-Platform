@@ -6,7 +6,7 @@ using WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response;
 namespace WorkHive.APIs.Manage_Feedback.Owner
 {
     public record GetOwnerResponseFeedbackByIdResponse(int Id, string Description, string Status, int UserId, int OwnerId, int? FeedbackId, DateTime? CreatedAt, List<string> ImageUrls);
-    public class GetOwnerResponseFeedbackEndpoint : ICarterModule
+    public class GetOwnerResponseFeedbackByIdEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {

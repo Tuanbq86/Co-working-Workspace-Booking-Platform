@@ -18,9 +18,13 @@ namespace WorkHive.Repositories.Repositories
 
         public async Task<OwnerResponeFeedback?> GetResponseFeedbackById(int id)
         {
-            return await _context.OwnerResponeFeedbacks.Include(fb => fb.ImageResponseFeedbacks).ThenInclude(f => f.Image).FirstOrDefaultAsync(fb => fb.Id == id);
+            return await _context.OwnerResponeFeedbacks
+                .Include(fb => fb.ImageResponseFeedbacks)
+                .ThenInclude(f => f.Image)
+                .Include(fb => fb.Feedback)
+                .ThenInclude(fb => fb.User).ThenInclude(fb => fb.Bookings).ThenInclude(fb => fb.Workspace)
+                .FirstOrDefaultAsync(fb => fb.Id == id);
         }
 
-        //To do object method
     }
 }
