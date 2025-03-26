@@ -54,7 +54,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
-                    description: "DepositPayment",
+                    description: "depopayment",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
             items: items
@@ -77,7 +77,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             var timestamp = DateTime.UtcNow.Ticks.ToString()[^6..]; // Lấy 6 chữ số cuối của timestamp
             var depositeCode = long.Parse($"{checkUserWallet.Id}{timestamp}"); // Kết hợp bookingId và timestamp
             //Tạo thời gian hết hạn cho link thanh toán
-            var expiredAt = DateTimeOffset.Now.AddMinutes(1).ToUnixTimeSeconds();
+            var expiredAt = DateTimeOffset.Now.AddMinutes(2).ToUnixTimeSeconds();
 
             var domain = configuration["PayOS:Domain"]!;
             var paymentLinkRequest = new PaymentData(

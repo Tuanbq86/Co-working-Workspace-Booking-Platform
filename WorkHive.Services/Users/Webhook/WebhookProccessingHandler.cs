@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
+using System.Text.RegularExpressions;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
@@ -28,9 +29,11 @@ public class WebhookProccessingHandler(IConfiguration configuration,
 
             payOS.verifyPaymentWebhookData(command.WebhookData);
             var description = command.WebhookData.data.description;
+            string depo = "depopayment";
+            string book = "bookpayment";
 
             //Xử lý cho api Booking bằng ví PayOS
-            if (description.Trim().Equals("bookingpayment"))
+            if (Regex.Match(description, @"\S+$").Value.Equals(book.Trim().ToLower().ToString()))
             {
                 PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation
                     (command.WebhookData.data.orderCode);
@@ -101,7 +104,7 @@ public class WebhookProccessingHandler(IConfiguration configuration,
             }
 
             //Xử lý cho api User deposit
-            if (description.Trim().Equals("userdeposit"))
+            if (Regex.Match(description, @"\S+$").Value.Equals(depo.Trim().ToLower().ToString()))
             {
                 PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation
                     (command.WebhookData.data.orderCode);
