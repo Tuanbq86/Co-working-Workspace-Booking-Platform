@@ -5,7 +5,7 @@ using WorkHive.Services.Manage_Feedback.User_Feedback;
 
 namespace WorkHive.APIs.Manage_Feedback.User
 {
-    public record GetFeedbackByIdResponse(int Id, string Description, string Status, int UserId, int OwnerId, int? BookingId, DateTime? CreatedAt, List<string> ImageUrls);
+    public record GetFeedbackByIdResponse(int Id, string Description, string Status, int UserId, int OwnerId, int? BookingId, int WorkspaceId ,string WorkspaceName, DateTime? CreatedAt, List<string> ImageUrls);
 
     public class GetFeedbackByIdEndpoint : ICarterModule
     {
@@ -25,6 +25,8 @@ namespace WorkHive.APIs.Manage_Feedback.User
                         result.UserId,
                         result.OwnerId,
                         result.BookingId,
+                        result.WorkspaceId,
+                        result.WorkspaceName,
                         result.CreatedAt,
                         result.ImageUrls));
             })

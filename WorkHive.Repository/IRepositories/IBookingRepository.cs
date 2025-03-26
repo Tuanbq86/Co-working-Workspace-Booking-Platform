@@ -15,4 +15,5 @@ public interface IBookingRepository : IGenericRepository<Booking>
     public Task<decimal?> GetTotalRevenueByWorkspaceIdAsync(int workspaceId, string status);
 
     public Task<int> CountByWorkspaceIdAsync(int workspaceId, string status);
+
 }

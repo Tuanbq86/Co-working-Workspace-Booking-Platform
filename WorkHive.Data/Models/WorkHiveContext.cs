@@ -15,9 +15,8 @@ public partial class WorkHiveContext : DbContext
 
     public WorkHiveContext()
     {
-         
+        
     }
-
 
     public virtual DbSet<Amenity> Amenities { get; set; }
 
@@ -333,12 +332,11 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnName("status");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Owner).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.OwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+            entity.HasOne(d => d.Booking).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.BookingId)
                 .HasConstraintName("FK_Feedback_Booking");
 
-            entity.HasOne(d => d.OwnerNavigation).WithMany(p => p.Feedbacks)
+            entity.HasOne(d => d.Owner).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Feedback_Workspace_Owner");
@@ -1064,7 +1062,7 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F7C8D63E2");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F0D7F91C0");
 
             entity.ToTable("Workspace_Time");
 

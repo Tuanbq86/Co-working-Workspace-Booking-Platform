@@ -21,11 +21,11 @@ public partial class Feedback
 
     public int? BookingId { get; set; }
 
+    public virtual Booking Booking { get; set; }
+
     public virtual ICollection<ImageFeedback> ImageFeedbacks { get; set; } = new List<ImageFeedback>();
 
-    public virtual Booking Owner { get; set; }
-
-    public virtual WorkspaceOwner OwnerNavigation { get; set; }
+    public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; } = new List<OwnerResponeFeedback>();
 
