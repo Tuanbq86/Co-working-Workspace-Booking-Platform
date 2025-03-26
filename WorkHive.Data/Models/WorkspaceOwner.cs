@@ -65,8 +65,6 @@ public partial class WorkspaceOwner
 
     public virtual ICollection<Beverage> Beverages { get; set; } = new List<Beverage>();
 
-    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
-
     public virtual ICollection<OwnerNotification> OwnerNotifications { get; set; } = new List<OwnerNotification>();
 
     public virtual ICollection<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; } = new List<OwnerResponeFeedback>();

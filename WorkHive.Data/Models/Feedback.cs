@@ -15,17 +15,13 @@ public partial class Feedback
 
     public int UserId { get; set; }
 
-    public int OwnerId { get; set; }
-
     public DateTime? CreatedAt { get; set; }
 
-    public int? BookingId { get; set; }
+    public int BookingId { get; set; }
 
     public virtual Booking Booking { get; set; }
 
     public virtual ICollection<ImageFeedback> ImageFeedbacks { get; set; } = new List<ImageFeedback>();
-
-    public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; } = new List<OwnerResponeFeedback>();
 

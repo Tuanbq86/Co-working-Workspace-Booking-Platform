@@ -32,7 +32,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
                 feedback.Description,
                 feedback.Status,
                 feedback.UserId,
-                feedback.OwnerId,
+                feedback.Booking.Workspace.Owner.Id,
                 feedback.BookingId,
                 feedback.Booking.Workspace.Id,
                 feedback.Booking.Workspace.Name,

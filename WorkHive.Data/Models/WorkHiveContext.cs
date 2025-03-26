@@ -326,7 +326,6 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -334,12 +333,8 @@ public partial class WorkHiveContext : DbContext
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.BookingId)
-                .HasConstraintName("FK_Feedback_Booking");
-
-            entity.HasOne(d => d.Owner).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Feedback_Workspace_Owner");
+                .HasConstraintName("FK_Feedback_Booking");
 
             entity.HasOne(d => d.User).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.UserId)
@@ -448,21 +443,16 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Feedback).WithMany(p => p.OwnerResponeFeedbacks)
                 .HasForeignKey(d => d.FeedbackId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Owner_Respone_Feedback_Feedback");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerResponeFeedbacks)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Owner_Respone_Feedback_Workspace_Owner");
-
-            entity.HasOne(d => d.User).WithMany(p => p.OwnerResponeFeedbacks)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Owner_Respone_Feedback_User");
         });
 
         modelBuilder.Entity<OwnerTransactionHistory>(entity =>

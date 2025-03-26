@@ -19,8 +19,7 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
     {
         return await _context.Feedbacks.Include(fb => fb.ImageFeedbacks)
             .ThenInclude(f => f.Image)
-            .Include(f => f.Booking).ThenInclude(b => b.Workspace)
-            .Include(f => f.Owner)
+            .Include(f => f.Booking).ThenInclude(b => b.Workspace).ThenInclude(w => w.Owner)
             .FirstOrDefaultAsync(fb => fb.Id == id);
     }
 
