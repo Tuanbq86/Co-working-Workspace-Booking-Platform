@@ -1,8 +1,8 @@
 ﻿using Carter;
 using MediatR;
-using WorkHive.Services.Staff.VerifyOwnerWithdrawalRequest;
+using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
-namespace WorkHive.APIs.Staffs.VerifyOwnerWithdrawalRequest
+namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
     public record GetAllOwnerWithdrawalRequestsResponse(List<OwnerWithdrawalRequestDTO> Requests);
 
@@ -18,7 +18,7 @@ namespace WorkHive.APIs.Staffs.VerifyOwnerWithdrawalRequest
             })
             .WithName("GetAllOwnerWithdrawalRequests")
             .Produces<GetAllOwnerWithdrawalRequestsResponse>(StatusCodes.Status200OK)
-            .WithTags("OwnerWithdrawalRequests")
+            .WithTags("Manager")
             .WithSummary("Get all owner withdrawal requests")
             .WithDescription("Retrieve all withdrawal requests made by owners.");
         }

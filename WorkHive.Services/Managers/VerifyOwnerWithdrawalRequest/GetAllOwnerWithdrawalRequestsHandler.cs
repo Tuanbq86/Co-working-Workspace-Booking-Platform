@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Staff.VerifyOwnerWithdrawalRequest
+namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 {
     public record GetAllOwnerWithdrawalRequestsQuery() : IQuery<List<OwnerWithdrawalRequestDTO>>;
 
@@ -16,8 +16,15 @@ namespace WorkHive.Services.Staff.VerifyOwnerWithdrawalRequest
     {
         public async Task<List<OwnerWithdrawalRequestDTO>> Handle(GetAllOwnerWithdrawalRequestsQuery query, CancellationToken cancellationToken)
         {
-            var requests = await unit.OwnerWithdrawalRequest.GetAllAsync();
-            return requests.Select(r => new OwnerWithdrawalRequestDTO(r.Id, r.Title, r.Description, r.Status, r.CreatedAt, r.WorkspaceOwnerId, r.UserId)).ToList();
+            try
+            {
+                var requests = await unit.OwnerWithdrawalRequest.GetAllAsync();
+                return requests?.Select(r => new OwnerWithdrawalRequestDTO(r.Id, r.Title, r.Description, r.Status, r.CreatedAt, r.WorkspaceOwnerId, r.UserId)).ToList() ?? new List<OwnerWithdrawalRequestDTO>();
+            }
+            catch
+            {
+                return new List<OwnerWithdrawalRequestDTO>(); 
+            }
         }
     }
 }
