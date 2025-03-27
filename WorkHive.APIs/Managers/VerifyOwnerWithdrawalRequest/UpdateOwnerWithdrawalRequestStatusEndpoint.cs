@@ -11,7 +11,7 @@ using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
 namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record UpdateOwnerWithdrawalRequestStatusRequest(int Id, string Status);
+    public record UpdateOwnerWithdrawalRequestStatusRequest(string Status);
 
     public record UpdateOwnerWithdrawalRequestStatusResponse(string Notification);
 
@@ -21,10 +21,7 @@ namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
         {
             app.MapPut("/owner-withdrawal-requests/{id}/status", async (int id, UpdateOwnerWithdrawalRequestStatusRequest request, ISender sender) =>
             {
-                if (id != request.Id)
-                    return Results.BadRequest("Mismatched ID in route and body.");
-
-                var command = new UpdateOwnerWithdrawalRequestStatusCommand(request.Id, request.Status);
+                var command = new UpdateOwnerWithdrawalRequestStatusCommand(id, request.Status);
                 var result = await sender.Send(command);
                 return result != null ? Results.Ok(new UpdateOwnerWithdrawalRequestStatusResponse(result.Notification)) : Results.NotFound("Request not found.");
             })
