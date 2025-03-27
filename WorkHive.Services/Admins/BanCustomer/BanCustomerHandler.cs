@@ -6,8 +6,7 @@ using WorkHive.Repositories.IUnitOfWork;
 namespace WorkHive.Services.Admins.BanCustomer;
 
 public record BanCustomerCommand(int CustomerId) : ICommand<BanCusomerResult>;
-public record BanCusomerResult(string Notification, int? IsBan, BanCustomerNotification BanCustomerNotification);
-public record BanCustomerNotification(string Description, DateTime? CreatedAt, string Status, int? IsRead);
+public record BanCusomerResult(string Notification, int? IsBan);
 
 public class BanCustomerHandler(IUserUnitOfWork userUnit)
     : ICommandHandler<BanCustomerCommand, BanCusomerResult>
@@ -19,9 +18,7 @@ public class BanCustomerHandler(IUserUnitOfWork userUnit)
 
         if (customer is null || customer.RoleId != 4)
         {
-            return new BanCusomerResult("Không tìm thấy tài khoản khách hàng phù hợp", 0,
-                new BanCustomerNotification("Không tìm thấy tài khoản khách hàng phù hợp",
-                DateTime.Now, "Active", 0));
+            return new BanCusomerResult("Không tìm thấy tài khoản khách hàng phù hợp", 0);
         }
 
         //Ban và gửi thông báo
@@ -39,8 +36,6 @@ public class BanCustomerHandler(IUserUnitOfWork userUnit)
         };
         await userUnit.UserNotification.CreateAsync(userNotification);
 
-        return new BanCusomerResult("Cập nhật trạng thái tài khoản thành công", customer.IsBan,
-            new BanCustomerNotification(userNotification.Description, userNotification.CreatedAt,
-            userNotification.Status, userNotification.IsRead));
+        return new BanCusomerResult("Cập nhật trạng thái tài khoản thành công", customer.IsBan);
     }
 }

@@ -6,7 +6,7 @@ using WorkHive.Services.Admins.BanStaff;
 
 namespace WorkHive.APIs.Admins.BanStaff;
 
-public record BanStaffResponse(string Notification, int? IsBan, BanStaffNotification BanStaffNotification);
+public record BanStaffResponse(string Notification, int? IsBan);
 
 public class BanStaffEndpoint : ICarterModule
 {
@@ -24,7 +24,7 @@ public class BanStaffEndpoint : ICarterModule
         .Produces<BanStaffResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Ban staff")
-        .WithTags("Ban account")
+        .WithTags("Moderate account")
         .WithDescription("Ban staff");
     }
 }

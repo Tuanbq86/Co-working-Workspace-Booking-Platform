@@ -5,7 +5,7 @@ using WorkHive.Services.Admins.BanCustomer;
 
 namespace WorkHive.APIs.Admins.BanCustomer;
 
-public record BanCusomerResponse(string Notification, int? IsBan, BanCustomerNotification BanCustomerNotification);
+public record BanCusomerResponse(string Notification, int? IsBan);
 
 public class BanCustomerEndpoint : ICarterModule
 {
@@ -23,7 +23,7 @@ public class BanCustomerEndpoint : ICarterModule
         .Produces<BanCusomerResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Ban customer")
-        .WithTags("Ban account")
+        .WithTags("Moderate account")
         .WithDescription("Ban customer");
     }
 }
