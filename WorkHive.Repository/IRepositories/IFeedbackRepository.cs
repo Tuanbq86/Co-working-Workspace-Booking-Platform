@@ -11,4 +11,6 @@ namespace WorkHive.Repositories.IRepositories;
 public interface IFeedbackRepository : IGenericRepository<Feedback>
 {
     public Task<Feedback?> GetFeedbackById(int Id);
+    public Task<List<Feedback>> GetAllFeedbacks();
+
 }

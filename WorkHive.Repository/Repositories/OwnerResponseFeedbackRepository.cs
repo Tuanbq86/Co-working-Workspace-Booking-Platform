@@ -15,15 +15,26 @@ namespace WorkHive.Repositories.Repositories
         public OwnerResponseFeedbackRepository() { }
         public OwnerResponseFeedbackRepository(WorkHiveContext context) => _context = context;
 
-
-        public async Task<OwnerResponseFeedback> GetResponseFeedbackById(int id)
+        public async Task<OwnerResponseFeedback?> GetResponseFeedbackById(int id)
         {
             return await _context.OwnerResponseFeedbacks
-                .Include(fb => fb.ImageResponseFeedbacks)
-                .ThenInclude(f => f.Image)
-                .Include(fb => fb.Feedback)
-                .ThenInclude(fb => fb.User).ThenInclude(fb => fb.Bookings).ThenInclude(fb => fb.Workspace)
+                .Include(r => r.Feedback)
+                .ThenInclude(f => f.Booking)
+                .ThenInclude(b => b.User)
+                .Include(r => r.ImageResponseFeedbacks)
+                .ThenInclude(img => img.Image)
                 .FirstOrDefaultAsync(fb => fb.Id == id);
+        }
+
+        public async Task<List<OwnerResponseFeedback>> GetAllResponseFeedbacks()
+        {
+            return await _context.OwnerResponseFeedbacks
+                .Include(r => r.Feedback)
+                .ThenInclude(f => f.Booking)
+                .ThenInclude(b => b.User)
+                .Include(r => r.ImageResponseFeedbacks)
+                .ThenInclude(img => img.Image)
+                .ToListAsync();
         }
 
     }
