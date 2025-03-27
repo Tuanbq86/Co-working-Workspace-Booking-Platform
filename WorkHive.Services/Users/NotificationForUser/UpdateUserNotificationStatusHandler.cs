@@ -7,7 +7,7 @@ using System.Windows.Input;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Users.UserNotification;
+namespace WorkHive.Services.Users.NotificationForUser;
 
 public record UpdateUserNotificationStatusCommand(int UserNotificationId) 
     : ICommand<UpdateUserNotificationStatusResult>;

@@ -1,6 +1,6 @@
 ﻿using Carter;
 using MediatR;
-using WorkHive.Services.Users.UserNotification;
+using WorkHive.Services.Users.NotificationForUser;
 
 namespace WorkHive.APIs.Users.UserNotification;
 
@@ -10,9 +10,9 @@ public class UpdateUserNotificationStatusEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/users/updateusernotification/{Id}", async (int Id, ISender sender) =>
+        app.MapGet("/users/updateusernotification/{UserNotificationId}", async (int UserNotificationId, ISender sender) =>
         {
-            var result = await sender.Send(new UpdateUserNotificationStatusCommand(Id));
+            var result = await sender.Send(new UpdateUserNotificationStatusCommand(UserNotificationId));
 
             var response = new UpdateUserNotificationStatusResponse(result.Notification, result.IsRead);
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Users.UserNotification;
+namespace WorkHive.Services.Users.NotificationForUser;
 
 public record GetListNotificationByCustomerIdQuery(int CustomerId)
     : IQuery<GetListNotificationByCustomerIdResult>;

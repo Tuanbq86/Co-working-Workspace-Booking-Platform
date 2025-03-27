@@ -108,6 +108,17 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
                 OwnerWalletId = ownerWallet.Id
             };
             await userUnit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
+
+            //Tạo thông báo
+            var userNotifi = new UserNotification
+            {
+                UserId = bookWorkspace.UserId,
+                IsRead = 0,
+                CreatedAt = DateTime.Now,
+                Description = $"Đặt chỗ thành công workspace: {bookWorkspace.WorkspaceId}",
+                Status = "Active"
+            };
+            await userUnit.UserNotification.CreateAsync(userNotifi);
         }
 
         return new UpdateTimeResult("Cập nhật trạng thái thành công");

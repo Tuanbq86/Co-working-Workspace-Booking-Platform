@@ -1,9 +1,8 @@
 ﻿using Carter;
 using MediatR;
-using WorkHive.APIs.Users.Booking;
-using WorkHive.Services.Users.UserNotification;
+using WorkHive.Services.Users.NotificationForUser;
 
-namespace WorkHive.APIs.Users.UserNotification;
+namespace WorkHive.APIs.Users.NotificationForUser;
 public record GetListNotificationByCustomerIdResponse(List<CustomerNotificationDTO> CustomerNotificationDTOs);
 
 public class GetListNotificationByCustomerIdEndpoint : ICarterModule

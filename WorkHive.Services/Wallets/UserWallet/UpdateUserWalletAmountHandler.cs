@@ -53,6 +53,18 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
                 CustomerWalletId = command.CustomerWalletId
             };
             await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
+
+            //Thông báo
+            var userNotifi = new UserNotification
+            {
+                UserId = customerWallet.UserId,
+                IsRead = 0,
+                CreatedAt = DateTime.Now,
+                Description = $"Nạp thành công số tiền: {command.Amount} vào ví người dùng",
+                Status = "Active"
+            };
+            await userUnit.UserNotification.CreateAsync(userNotifi);
+
             return new UpdateUserWalletAmountResult("Cập nhật thành công");
         }
         return new UpdateUserWalletAmountResult("Cập nhật thành công");
