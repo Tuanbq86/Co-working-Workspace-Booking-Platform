@@ -13,19 +13,15 @@ public partial class OwnerResponeFeedback
 
     public string Status { get; set; }
 
-    public int UserId { get; set; }
-
     public int OwnerId { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
-    public int? FeedbackId { get; set; }
+    public int FeedbackId { get; set; }
 
     public virtual Feedback Feedback { get; set; }
 
     public virtual ICollection<ImageResponseFeedback> ImageResponseFeedbacks { get; set; } = new List<ImageResponseFeedback>();
 
     public virtual WorkspaceOwner Owner { get; set; }
-
-    public virtual User User { get; set; }
 }

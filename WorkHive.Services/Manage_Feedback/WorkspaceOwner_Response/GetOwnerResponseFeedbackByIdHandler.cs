@@ -12,7 +12,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
 
     public record GetOwnerResponseFeedbackByIdQuery(int Id) : IQuery<GetOwnerResponseFeedbackByIdResult>;
 
-    public record GetOwnerResponseFeedbackByIdResult(int Id, string Description, string Status, int UserId, int OwnerId, DateTime? CreatedAt, List<string> ImageUrls);
+    public record GetOwnerResponseFeedbackByIdResult(int Id, string Description, string Status, int UserId, int OwnerId, int? FeedbackId, DateTime? CreatedAt, List<string> ImageUrls);
     class GetOwnerResponseFeedbackByIdHandler(IFeedbackManageUnitOfWork unit)
     : IQueryHandler<GetOwnerResponseFeedbackByIdQuery, GetOwnerResponseFeedbackByIdResult>
     {
@@ -31,8 +31,9 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
                 responeFeedback.Id,
                 responeFeedback.Description,
                 responeFeedback.Status,
-                responeFeedback.UserId,
+                responeFeedback.Feedback.Booking.User.Id,
                 responeFeedback.OwnerId,
+                responeFeedback.FeedbackId,
                 responeFeedback.CreatedAt,
                 imageUrls
                 );

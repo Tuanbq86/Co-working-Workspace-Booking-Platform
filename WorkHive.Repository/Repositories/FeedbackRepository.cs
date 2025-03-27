@@ -17,7 +17,10 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
 
     public async Task<Feedback?> GetFeedbackById(int id)
     {
-        return await _context.Feedbacks.Include(fb => fb.ImageFeedbacks).ThenInclude(f => f.Image).FirstOrDefaultAsync(fb => fb.Id == id);
+        return await _context.Feedbacks.Include(fb => fb.ImageFeedbacks)
+            .ThenInclude(f => f.Image)
+            .Include(f => f.Booking).ThenInclude(b => b.Workspace).ThenInclude(w => w.Owner)
+            .FirstOrDefaultAsync(fb => fb.Id == id);
     }
 
     //To do object method
