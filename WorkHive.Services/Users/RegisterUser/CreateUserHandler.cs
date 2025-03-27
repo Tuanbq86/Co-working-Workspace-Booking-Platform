@@ -75,7 +75,8 @@ public class CreateUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenR
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempUser.Password, 13),
-            RoleId = command.RoleId
+            RoleId = command.RoleId,
+            IsBan = 0
         };
 
         await userUnit.User.CreateAsync(newUser);
@@ -96,6 +97,17 @@ public class CreateUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenR
         userUnit.CustomerWallet.Create(customerWallet);
 
         await userUnit.SaveAsync();
+
+        //Tạo thông báo
+        //var userNotifi = new UserNotification
+        //{
+        //    UserId = newUser.Id,
+        //    IsRead = 0,
+        //    CreatedAt = DateTime.Now,
+        //    Description = "Tạo người dùng thành công",
+        //    Status = "Active"
+        //};
+        //await userUnit.UserNotification.CreateAsync(userNotifi);
 
         var token = tokenRepo.GenerateJwtToken(newUser);
 

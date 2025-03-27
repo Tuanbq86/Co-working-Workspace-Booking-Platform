@@ -25,7 +25,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
 
-// Đọc giá trị cổng từ biến môi trường (mặc định là 8080)
+//Đọc giá trị cổng từ biến môi trường (mặc định là 8080)
 //var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
 //builder.WebHost.UseUrls($"http://*:{port}"); // Lắng nghe trên tất cả địa chỉ IP
@@ -34,7 +34,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-if (app.Environment.IsDevelopment()/* || app.Environment.IsProduction()*/)
+if (app.Environment.IsDevelopment() /*|| app.Environment.IsProduction()*/)
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>

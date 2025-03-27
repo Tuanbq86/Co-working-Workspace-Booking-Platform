@@ -535,7 +535,6 @@ public partial class WorkHiveContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.OwnerWithdrawalRequests)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Owner_Withdrawal_Request_User");
 
             entity.HasOne(d => d.WorkspaceOwner).WithMany(p => p.OwnerWithdrawalRequests)
