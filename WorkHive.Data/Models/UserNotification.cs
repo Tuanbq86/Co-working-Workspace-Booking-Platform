@@ -17,5 +17,7 @@ public partial class UserNotification
 
     public DateTime? CreatedAt { get; set; }
 
+    public int? IsRead { get; set; }
+
     public virtual User User { get; set; }
 }

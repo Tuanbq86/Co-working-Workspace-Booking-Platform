@@ -695,6 +695,7 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("email");
+            entity.Property(e => e.IsBan).HasColumnName("is_ban");
             entity.Property(e => e.Location).HasColumnName("location");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
@@ -734,6 +735,7 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.IsRead).HasColumnName("is_read");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");

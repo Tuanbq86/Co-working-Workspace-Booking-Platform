@@ -67,7 +67,8 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempUser.Password, 13),
-            RoleId = 4
+            RoleId = 4,
+            IsBan = 0
         };
 
         await userUnit.User.CreateAsync(newUser);
