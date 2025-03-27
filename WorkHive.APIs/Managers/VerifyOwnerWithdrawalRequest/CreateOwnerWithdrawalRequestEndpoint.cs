@@ -5,7 +5,7 @@ using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
 namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record CreateOwnerWithdrawalRequestRequest(string Title, string Description, int WorkspaceOwnerId, int UserId);
+    public record CreateOwnerWithdrawalRequestRequest(string Title, string Description, int WorkspaceOwnerId);
 
     public record CreateOwnerWithdrawalRequestResponse(string Notification);
     public class CreateOwnerWithdrawalRequestEndpoint : ICarterModule
