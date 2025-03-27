@@ -32,7 +32,7 @@ namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
             .Produces<UpdateOwnerWithdrawalRequestStatusResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .WithTags("OwnerWithdrawalRequest")
+            .WithTags("Manager")
             .WithSummary("Update status of an owner withdrawal request")
             .WithDescription("Updates the status of a withdrawal request to 'Reject' or 'Success'.");
         }
