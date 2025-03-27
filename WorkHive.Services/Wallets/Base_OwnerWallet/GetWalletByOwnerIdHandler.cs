@@ -10,7 +10,7 @@ using WorkHive.Repositories.IUnitOfWork;
 namespace WorkHive.Services.Wallets.Base_OwnerWallet
 {
     public record GetWalletByOwnerIdQuery(int Id) : IQuery<GetWalletByOwnerIdResult>;
-    public record GetWalletByOwnerIdResult(int Id, decimal? Balance, string Status, int OwnerId, string OwnerName, string LicenseName);
+    public record GetWalletByOwnerIdResult(int Id, decimal? Balance, string Status,string BankName, string BankAccountName, string BankNumber, int OwnerId, string OwnerName, string LicenseName);
 
 
     public class GetWalletByOwnerIdValidator : AbstractValidator<GetWalletByOwnerIdQuery>
@@ -38,6 +38,9 @@ namespace WorkHive.Services.Wallets.Base_OwnerWallet
                 wallet.Id,
                 wallet.Balance,
                 wallet.Status,
+                ownerWallet.BankName,
+                ownerWallet.BankAccountName,
+                ownerWallet.BankNumber,
                 owner?.Id ?? 0,  
                 owner?.IdentityName ?? "Unknown", 
                 owner?.LicenseName ?? "N/A" 

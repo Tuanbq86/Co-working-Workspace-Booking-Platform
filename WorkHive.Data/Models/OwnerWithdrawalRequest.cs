@@ -19,7 +19,7 @@ public partial class OwnerWithdrawalRequest
 
     public int WorkspaceOwnerId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
     public virtual User User { get; set; }
 
