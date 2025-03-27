@@ -90,15 +90,15 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
 
         await userUnit.SaveAsync();
 
-        var userNotifi = new UserNotification
-        {
-            UserId = newUser.Id,
-            IsRead = 0,
-            CreatedAt = DateTime.Now,
-            Description = "Đăng ký thành công",
-            Status = "Active"
-        };
-        await userUnit.UserNotification.CreateAsync(userNotifi);
+        //var userNotifi = new UserNotification
+        //{
+        //    UserId = newUser.Id,
+        //    IsRead = 0,
+        //    CreatedAt = DateTime.Now,
+        //    Description = "Đăng ký thành công",
+        //    Status = "Active"
+        //};
+        //await userUnit.UserNotification.CreateAsync(userNotifi);
 
         var token = tokenRepo.GenerateJwtToken(newUser);
 

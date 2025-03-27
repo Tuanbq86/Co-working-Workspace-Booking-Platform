@@ -10,15 +10,15 @@ using WorkHive.Repositories.IRepositories;
 
 namespace WorkHive.Repositories.Repositories
 {
-    public class OwnerResponseFeedbackRepository : GenericRepository<OwnerResponeFeedback>, IOwnerResponseFeedbackRepository
+    public class OwnerResponseFeedbackRepository : GenericRepository<OwnerResponseFeedback>, IOwnerResponseFeedbackRepository
     {
         public OwnerResponseFeedbackRepository() { }
         public OwnerResponseFeedbackRepository(WorkHiveContext context) => _context = context;
 
 
-        public async Task<OwnerResponeFeedback?> GetResponseFeedbackById(int id)
+        public async Task<OwnerResponseFeedback> GetResponseFeedbackById(int id)
         {
-            return await _context.OwnerResponeFeedbacks
+            return await _context.OwnerResponseFeedbacks
                 .Include(fb => fb.ImageResponseFeedbacks)
                 .ThenInclude(f => f.Image)
                 .Include(fb => fb.Feedback)

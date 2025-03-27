@@ -43,15 +43,15 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
         if (user is null)
             throw new UserNotFoundException("User", command.Auth);
 
-        var userNotifi = new UserNotification
-        {
-            UserId = user.Id,
-            IsRead = 0,
-            CreatedAt = DateTime.Now,
-            Description = "Đăng nhập thành công",
-            Status = "Active"
-        };
-        await userUnit.UserNotification.CreateAsync(userNotifi);
+        //var userNotifi = new UserNotification
+        //{
+        //    UserId = user.Id,
+        //    IsRead = 0,
+        //    CreatedAt = DateTime.Now,
+        //    Description = "Đăng nhập thành công",
+        //    Status = "Active"
+        //};
+        //await userUnit.UserNotification.CreateAsync(userNotifi);
 
         string token = tokenRepo.GenerateJwtToken(user!);
 

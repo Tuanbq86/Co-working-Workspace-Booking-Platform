@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class OwnerResponeFeedback
+public partial class OwnerResponseFeedback
 {
     public int Id { get; set; }
 

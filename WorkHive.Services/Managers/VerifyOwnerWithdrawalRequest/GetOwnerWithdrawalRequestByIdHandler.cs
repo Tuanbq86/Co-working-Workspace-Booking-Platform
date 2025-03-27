@@ -23,7 +23,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
             }
             catch
             {
-                return null; 
+                return null;
             }
         }
     }

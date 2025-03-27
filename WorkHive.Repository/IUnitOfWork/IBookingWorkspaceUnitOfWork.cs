@@ -15,6 +15,8 @@ public interface IBookingWorkspaceUnitOfWork
     IWorkspaceTimeRepository workspaceTime { get; }
     IOwnerWalletRepository ownerWallet { get; }
     IWalletRepository wallet { get; }
+    IOwnerNotificationRepository ownerNotification { get; }
+    IWorkspaceOwnerRepository Owner { get; }
     public int Save();
     public Task<int> SaveAsync();
 }

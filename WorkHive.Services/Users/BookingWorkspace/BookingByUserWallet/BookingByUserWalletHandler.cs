@@ -195,6 +195,18 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         };
         await userUnit.UserNotification.CreateAsync(userNotifi);
 
+        var workspacefornoti = bookingUnit.workspace.GetById(newBooking.WorkspaceId);
+        var ownerfornoti = bookingUnit.Owner.GetAll().FirstOrDefault(o => o.Id.Equals(workspacefornoti.OwnerId));
+        var ownerNotifi = new OwnerNotification
+        {
+            OwnerId = ownerfornoti!.Id,
+            CreatedAt = DateTime.Now,
+            Description = $"Workspace: {newBooking.WorkspaceId} đã được đặt",
+            IsRead = 0,
+            Status = "Active"
+        };
+        await bookingUnit.ownerNotification.CreateAsync(ownerNotifi);
+
         return new BookingByUserWalletResult("booking thành công");
     }
 }

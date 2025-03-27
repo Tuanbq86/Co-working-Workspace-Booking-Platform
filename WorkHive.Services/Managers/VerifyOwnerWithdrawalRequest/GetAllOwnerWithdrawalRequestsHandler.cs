@@ -10,7 +10,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 {
     public record GetAllOwnerWithdrawalRequestsQuery() : IQuery<List<OwnerWithdrawalRequestDTO>>;
 
-    public record OwnerWithdrawalRequestDTO(int Id, string Title, string Description, string Status, DateTime? CreatedAt, int WorkspaceOwnerId, int UserId);
+    public record OwnerWithdrawalRequestDTO(int Id, string Title, string Description, string Status, DateTime? CreatedAt, int WorkspaceOwnerId, int? UserId);
 
     class GetAllOwnerWithdrawalRequestsHandler(IWalletUnitOfWork unit) : IQueryHandler<GetAllOwnerWithdrawalRequestsQuery, List<OwnerWithdrawalRequestDTO>>
     {
@@ -23,7 +23,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
             }
             catch
             {
-                return new List<OwnerWithdrawalRequestDTO>(); 
+                return new List<OwnerWithdrawalRequestDTO>();
             }
         }
     }
