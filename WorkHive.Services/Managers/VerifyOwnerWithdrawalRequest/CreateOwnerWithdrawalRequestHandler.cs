@@ -9,7 +9,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record CreateOwnerWithdrawalRequestCommand(string Title, string Description, int WorkspaceOwnerId, int UserId) : ICommand<CreateOwnerWithdrawalRequestResult>;
+    public record CreateOwnerWithdrawalRequestCommand(string Title, string Description, int WorkspaceOwnerId) : ICommand<CreateOwnerWithdrawalRequestResult>;
 
     public record CreateOwnerWithdrawalRequestResult(string Notification);
 
@@ -26,7 +26,6 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 Status = DefaultStatus,
                 CreatedAt = DateTime.UtcNow,
                 WorkspaceOwnerId = command.WorkspaceOwnerId,
-                UserId = command.UserId
             };
 
             await unit.OwnerWithdrawalRequest.CreateAsync(newRequest);

@@ -9,7 +9,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record UpdateOwnerWithdrawalRequestStatusCommand(int Id, string Status)
+    public record UpdateOwnerWithdrawalRequestStatusCommand(int Id, int UserId, string Status)
         : ICommand<UpdateOwnerWithdrawalRequestStatusResult>;
 
     public record UpdateOwnerWithdrawalRequestStatusResult(string Notification);
@@ -33,8 +33,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 if (wallet == null)
                     return new UpdateOwnerWithdrawalRequestStatusResult("Không tìm thấy ví.");
 
-                if (wallet.Balance == null || wallet.Balance <= 0)
-                    return new UpdateOwnerWithdrawalRequestStatusResult("Ví không có tiền để rút.");
+                //if (wallet.Balance == null || wallet.Balance <= 0)
+                //    return new UpdateOwnerWithdrawalRequestStatusResult("Ví không có tiền để rút.");
 
                 decimal withdrawAmount = wallet.Balance.Value;
                 wallet.Balance = 0;
@@ -65,6 +65,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 
             // Cập nhật trạng thái yêu cầu rút tiền
             request.Status = command.Status;
+            request.UserId = command.UserId;
             await unit.OwnerWithdrawalRequest.UpdateAsync(request);
             await unit.SaveAsync();
 
