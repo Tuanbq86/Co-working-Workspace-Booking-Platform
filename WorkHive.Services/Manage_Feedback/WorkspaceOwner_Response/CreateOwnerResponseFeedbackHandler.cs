@@ -27,7 +27,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
                 CreatedAt = DateTime.UtcNow
             }).ToList() ?? new List<Image>();
 
-            var newResponseFeedback = new OwnerResponeFeedback
+            var newResponseFeedback = new OwnerResponseFeedback
             {
                 Description = command.Description,
                 OwnerId = command.OwnerId,

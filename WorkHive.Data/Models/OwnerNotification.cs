@@ -17,5 +17,7 @@ public partial class OwnerNotification
 
     public DateTime CreatedAt { get; set; }
 
+    public int? IsRead { get; set; }
+
     public virtual WorkspaceOwner Owner { get; set; }
 }

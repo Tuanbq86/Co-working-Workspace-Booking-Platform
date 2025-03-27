@@ -23,6 +23,17 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
             .FirstOrDefaultAsync(fb => fb.Id == id);
     }
 
+    public async Task<List<Feedback>> GetAllFeedbacks()
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Booking)
+                .ThenInclude(b => b.Workspace)
+                    .ThenInclude(w => w.Owner)
+            .Include(f => f.ImageFeedbacks)
+                .ThenInclude(ifb => ifb.Image)
+            .ToListAsync();
+    }
+
     //To do object method
 
 
