@@ -17,5 +17,5 @@ public partial class ImageResponseFeedback
 
     public virtual Image Image { get; set; }
 
-    public virtual OwnerResponeFeedback ResponseFeedback { get; set; }
+    public virtual OwnerResponseFeedback ResponseFeedback { get; set; }
 }

@@ -8,9 +8,10 @@ using WorkHive.Data.Models;
 
 namespace WorkHive.Repositories.IRepositories
 {
-    public interface IOwnerResponseFeedbackRepository : IGenericRepository<OwnerResponeFeedback>
+    public interface IOwnerResponseFeedbackRepository : IGenericRepository<OwnerResponseFeedback>
     {
-        public Task<OwnerResponeFeedback?> GetResponseFeedbackById(int Id);
+        public Task<OwnerResponseFeedback?> GetResponseFeedbackById(int Id);
+        public Task<List<OwnerResponseFeedback>> GetAllResponseFeedbacks();
 
     }
 }

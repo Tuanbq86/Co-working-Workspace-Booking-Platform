@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Staffs\" />
     <Folder Include="Owners\ManageWorkSpace\GetAll\" />
   </ItemGroup>
 

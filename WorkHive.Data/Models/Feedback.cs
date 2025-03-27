@@ -23,7 +23,7 @@ public partial class Feedback
 
     public virtual ICollection<ImageFeedback> ImageFeedbacks { get; set; } = new List<ImageFeedback>();
 
-    public virtual ICollection<OwnerResponeFeedback> OwnerResponeFeedbacks { get; set; } = new List<OwnerResponeFeedback>();
+    public virtual ICollection<OwnerResponseFeedback> OwnerResponseFeedbacks { get; set; } = new List<OwnerResponseFeedback>();
 
     public virtual User User { get; set; }
 }

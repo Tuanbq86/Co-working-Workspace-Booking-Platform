@@ -33,6 +33,8 @@ public partial class User
 
     public string Sex { get; set; }
 
+    public int? IsBan { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<CustomerWallet> CustomerWallets { get; set; } = new List<CustomerWallet>();
