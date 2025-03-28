@@ -25,6 +25,7 @@ public class OwnerWalletRepository : GenericRepository<OwnerWallet>, IOwnerWalle
     public async Task<OwnerWallet?> GetByOwnerIdAsync(int ownerId)
     {
         return await _context.OwnerWallets
+            .Include(ow => ow.Owner)
             .Include(ow => ow.Wallet)
             .FirstOrDefaultAsync(ow => ow.OwnerId == ownerId);
     }

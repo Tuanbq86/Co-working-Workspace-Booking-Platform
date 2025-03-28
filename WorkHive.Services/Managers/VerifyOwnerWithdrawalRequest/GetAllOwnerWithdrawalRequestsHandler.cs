@@ -22,7 +22,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
         string BankName,
         string BankNumber,
         string BankAccountName,
-        decimal Balance
+        decimal Balance,
+        string Message
     );
 
 
@@ -52,7 +53,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                         ownerWallet?.BankName ?? "N/A",
                         ownerWallet?.BankNumber ?? "N/A",
                         ownerWallet?.BankAccountName ?? "N/A",
-                        ownerWallet?.Wallet?.Balance ?? 0
+                        ownerWallet?.Wallet?.Balance ?? 0,
+                        ownerWallet?.Owner.Message ?? "N/A"
                     ));
                 }
 
