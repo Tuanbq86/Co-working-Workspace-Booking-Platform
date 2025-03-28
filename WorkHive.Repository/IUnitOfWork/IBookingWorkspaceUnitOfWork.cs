@@ -17,6 +17,10 @@ public interface IBookingWorkspaceUnitOfWork
     IWalletRepository wallet { get; }
     IOwnerNotificationRepository ownerNotification { get; }
     IWorkspaceOwnerRepository Owner { get; }
+    ICustomerWalletRepository customerWallet { get; }
+    IUserTransactionHistoryRepository userTransactionHistory { get; }
+    IOwnerTransactionHistoryRepository ownerTransactionHistory { get; }
+    ITransactionHistoryRepository transactionHistory { get; }
     public int Save();
     public Task<int> SaveAsync();
 }
