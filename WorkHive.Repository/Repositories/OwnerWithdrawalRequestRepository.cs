@@ -15,5 +15,12 @@ namespace WorkHive.Repositories.Repositories
         public OwnerWithdrawalRequestRepository() { }
         public OwnerWithdrawalRequestRepository(WorkHiveContext context) => _context = context;
 
+        public async Task<List<OwnerWithdrawalRequest>> GetByOwnerIdAsync(int ownerId)
+        {
+            return await _context.OwnerWithdrawalRequests
+                .Where(r => r.WorkspaceOwnerId == ownerId)
+                .ToListAsync();
+        }
+
     }
 }

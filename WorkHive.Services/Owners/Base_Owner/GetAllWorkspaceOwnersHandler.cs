@@ -38,7 +38,8 @@ namespace WorkHive.Services.Owners.Base_Owner
         string Facebook,
         string Instagram,
         string Tiktok,
-        string PhoneStatus
+        string PhoneStatus,
+        string Message
     );
 
 
@@ -87,7 +88,8 @@ namespace WorkHive.Services.Owners.Base_Owner
            owner.Facebook,
            owner.Instagram,
            owner.Tiktok,
-           owner.PhoneStatus
+           owner.PhoneStatus,
+           owner.Message
        )).ToList();
         }
     }
