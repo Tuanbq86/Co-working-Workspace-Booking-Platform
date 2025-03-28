@@ -933,6 +933,7 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(13)
                 .IsFixedLength()
                 .HasColumnName("license_number");
+            entity.Property(e => e.Message).HasColumnName("message");
             entity.Property(e => e.Nationality)
                 .HasMaxLength(50)
                 .HasColumnName("nationality");

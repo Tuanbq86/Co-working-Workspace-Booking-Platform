@@ -61,6 +61,8 @@ public partial class WorkspaceOwner
 
     public string PhoneStatus { get; set; }
 
+    public string Message { get; set; }
+
     public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
 
     public virtual ICollection<Beverage> Beverages { get; set; } = new List<Beverage>();
