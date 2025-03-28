@@ -5,7 +5,7 @@ using WorkHive.Services.Wallets.Base_OwnerWallet;
 
 namespace WorkHive.APIs.Wallets.OwnerWallet
 {
-    public record GetWalletByIdResponse(int Id, decimal? Balance, string Status, string BankName, string BankAccountName, string BankNumber, int OwnerId, string OwnerName, string LicenseName);
+    public record GetWalletByIdResponse(int Id, int OwnerWalletId, decimal? Balance, string Status, string BankName, string BankAccountName, string BankNumber, int OwnerId, string OwnerName, string LicenseName);
 
     public class GetWalletByOwnerIdEndpoint : ICarterModule
     {

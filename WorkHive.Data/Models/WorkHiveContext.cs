@@ -502,12 +502,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.WalletId).HasColumnName("wallet_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKOwner_Wall547001");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OwnerWallets)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_Owner_Wallet_User");
 
             entity.HasOne(d => d.Wallet).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.WalletId)
@@ -524,6 +529,7 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.ManagerResponse).HasColumnName("manager_response");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");

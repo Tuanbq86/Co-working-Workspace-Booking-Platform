@@ -33,8 +33,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 if (wallet == null)
                     return new UpdateOwnerWithdrawalRequestStatusResult("Không tìm thấy ví.");
 
-                //if (wallet.Balance == null || wallet.Balance <= 0)
-                //    return new UpdateOwnerWithdrawalRequestStatusResult("Ví không có tiền để rút.");
+                if (wallet.Balance == null || wallet.Balance <= 0)
+                    return new UpdateOwnerWithdrawalRequestStatusResult("Ví không có tiền để rút.");
 
                 decimal withdrawAmount = wallet.Balance.Value;
                 wallet.Balance = 0;
