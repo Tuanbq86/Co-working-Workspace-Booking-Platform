@@ -11,7 +11,7 @@ using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
 namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record UpdateOwnerWithdrawalRequestStatusRequest(int UserId, string Status);
+    public record UpdateOwnerWithdrawalRequestStatusRequest(int UserId, string ManagerResponse , string Status);
 
     public record UpdateOwnerWithdrawalRequestStatusResponse(string Notification);
 
@@ -21,7 +21,7 @@ namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
         {
             app.MapPut("/owner-withdrawal-requests/{id}/status", async (int id, UpdateOwnerWithdrawalRequestStatusRequest request, ISender sender) =>
             {
-                var command = new UpdateOwnerWithdrawalRequestStatusCommand(id, request.UserId,request.Status);
+                var command = new UpdateOwnerWithdrawalRequestStatusCommand(id, request.UserId, request.ManagerResponse, request.Status);
                 var result = await sender.Send(command);
                 return result != null ? Results.Ok(new UpdateOwnerWithdrawalRequestStatusResponse(result.Notification)) : Results.NotFound("Request not found.");
             })

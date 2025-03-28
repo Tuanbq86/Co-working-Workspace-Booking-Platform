@@ -9,7 +9,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record UpdateOwnerWithdrawalRequestStatusCommand(int Id, int UserId, string Status)
+    public record UpdateOwnerWithdrawalRequestStatusCommand(int Id, int UserId, string ManagerResponse, string Status)
         : ICommand<UpdateOwnerWithdrawalRequestStatusResult>;
 
     public record UpdateOwnerWithdrawalRequestStatusResult(string Notification);
@@ -66,6 +66,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
             // Cập nhật trạng thái yêu cầu rút tiền
             request.Status = command.Status;
             request.UserId = command.UserId;
+            request.ManagerResponse = command.ManagerResponse;
             await unit.OwnerWithdrawalRequest.UpdateAsync(request);
             await unit.SaveAsync();
 
