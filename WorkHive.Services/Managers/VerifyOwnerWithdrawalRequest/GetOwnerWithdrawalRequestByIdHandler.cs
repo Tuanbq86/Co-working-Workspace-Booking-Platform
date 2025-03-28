@@ -33,7 +33,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     ownerWallet?.BankName ?? "N/A",
                     ownerWallet?.BankNumber ?? "N/A",
                     ownerWallet?.BankAccountName ?? "N/A",
-                    ownerWallet?.Wallet?.Balance ?? 0);
+                    ownerWallet?.Wallet?.Balance ?? 0,
+                    ownerWallet?.Owner?.Message ?? "N/A");
 
             }
             catch
