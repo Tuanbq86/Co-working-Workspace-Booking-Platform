@@ -5,7 +5,7 @@ using WorkHive.Services.Staff;
 
 namespace WorkHive.APIs.Staff.VerifyWorkspaceOwner
 {
-    public record UpdateOwnerStatusRequest(string Status);
+    public record UpdateOwnerStatusRequest(int UserId ,string Status);
     public record UpdateOwnerStatusResponse(string Notification);
     public class UpdateOwnerStatusEndpoint : ICarterModule
     {
@@ -13,7 +13,7 @@ namespace WorkHive.APIs.Staff.VerifyWorkspaceOwner
         {
             app.MapPut("/owners/{id}/status", async (int id, UpdateOwnerStatusRequest request, ISender sender) =>
             {
-                var command = new UpdateOwnerStatusCommand(id, request.Status);
+                var command = new UpdateOwnerStatusCommand(id, request.UserId, request.Status);
                 var result = await sender.Send(command);
                 var response = result.Adapt<UpdateOwnerStatusResponse>();
                 return Results.Ok(response);

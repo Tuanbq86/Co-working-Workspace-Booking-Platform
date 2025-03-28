@@ -9,7 +9,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Staff
 {
-    public record UpdateOwnerStatusCommand(int Id, string Status) : ICommand<UpdateOwnerStatusResult>;
+    public record UpdateOwnerStatusCommand(int Id, int UserId, string Status) : ICommand<UpdateOwnerStatusResult>;
 
     public record UpdateOwnerStatusResult(string Notification);
 
@@ -43,6 +43,7 @@ namespace WorkHive.Services.Staff
                     {
                         OwnerId = owner.Id,
                         WalletId = newWallet.Id,
+                        UserId = command.UserId,
                         Status = "Active"
                     };
 

@@ -21,6 +21,8 @@ public partial class OwnerWithdrawalRequest
 
     public int? UserId { get; set; }
 
+    public string ManagerResponse { get; set; }
+
     public virtual User User { get; set; }
 
     public virtual WorkspaceOwner WorkspaceOwner { get; set; }

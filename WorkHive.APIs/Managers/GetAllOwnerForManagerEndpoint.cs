@@ -22,7 +22,7 @@ public class GetAllOwnerForManagerEndpoint : ICarterModule
         .Produces<GetAllOwnerResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get all owner for manager, staff and admin")
-        .WithTags("Manager_Staff_Admin")
+        .WithTags("Manager")
         .WithDescription("Get all owner for manager, staff and admin");
     }
 }

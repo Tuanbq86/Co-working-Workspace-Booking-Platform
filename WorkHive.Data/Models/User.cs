@@ -41,6 +41,8 @@ public partial class User
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
+    public virtual ICollection<OwnerWallet> OwnerWallets { get; set; } = new List<OwnerWallet>();
+
     public virtual ICollection<OwnerWithdrawalRequest> OwnerWithdrawalRequests { get; set; } = new List<OwnerWithdrawalRequest>();
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
