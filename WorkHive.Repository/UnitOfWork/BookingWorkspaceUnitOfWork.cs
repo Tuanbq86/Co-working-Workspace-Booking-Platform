@@ -34,6 +34,14 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
 
     public IWorkspaceOwnerRepository Owner { get; private set; }
 
+    public ICustomerWalletRepository customerWallet { get; private set; }
+
+    public IUserTransactionHistoryRepository userTransactionHistory { get; private set; }
+
+    public IOwnerTransactionHistoryRepository ownerTransactionHistory { get; private set; }
+
+    public ITransactionHistoryRepository transactionHistory { get; private set; }
+
     public BookingWorkspaceUnitOfWork(WorkHiveContext context)
     {
         _context = context;
@@ -50,6 +58,10 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
         wallet = new WalletRepository(_context);
         ownerNotification = new OwnerNontificationRepository(_context);
         Owner = new WorkspaceOwnerRepository(_context);
+        customerWallet = new CustomerWalletRepository(_context);
+        userTransactionHistory = new UserTransactionHistoryRepository(_context);
+        ownerTransactionHistory = new OwnerTransactionHistoryRepository(_context);
+        transactionHistory = new TransactionHistoryRepository(_context);
     }
 
     public int Save()
