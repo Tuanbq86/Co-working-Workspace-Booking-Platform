@@ -18,9 +18,11 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
         DateTime? CreatedAt,
         int WorkspaceOwnerId,
         int? UserId,
+        int WalletId,
         string BankName,
         string BankNumber,
-        string BankAccountName
+        string BankAccountName,
+        decimal Balance
     );
 
 
@@ -46,9 +48,11 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                         request.CreatedAt,
                         request.WorkspaceOwnerId,
                         request.UserId,
+                        ownerWallet?.WalletId ?? 0,
                         ownerWallet?.BankName ?? "N/A",
                         ownerWallet?.BankNumber ?? "N/A",
-                        ownerWallet?.BankAccountName ?? "N/A"
+                        ownerWallet?.BankAccountName ?? "N/A",
+                        ownerWallet?.Wallet?.Balance ?? 0
                     ));
                 }
 

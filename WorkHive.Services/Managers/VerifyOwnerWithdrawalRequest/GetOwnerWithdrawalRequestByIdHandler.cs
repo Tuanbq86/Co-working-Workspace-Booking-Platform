@@ -29,9 +29,12 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     request.CreatedAt,
                     request.WorkspaceOwnerId,
                     request.UserId,
+                    ownerWallet?.WalletId ?? 0,
                     ownerWallet?.BankName ?? "N/A",
                     ownerWallet?.BankNumber ?? "N/A",
-                    ownerWallet?.BankAccountName ?? "N/A");
+                    ownerWallet?.BankAccountName ?? "N/A",
+                    ownerWallet?.Wallet?.Balance ?? 0);
+
             }
             catch
             {

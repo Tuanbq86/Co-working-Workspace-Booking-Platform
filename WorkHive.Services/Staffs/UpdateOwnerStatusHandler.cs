@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
@@ -9,7 +10,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Staff
 {
-    public record UpdateOwnerStatusCommand(int Id, int UserId, string Status) : ICommand<UpdateOwnerStatusResult>;
+    public record UpdateOwnerStatusCommand(int Id, int UserId, string Message, string Status) : ICommand<UpdateOwnerStatusResult>;
 
     public record UpdateOwnerStatusResult(string Notification);
 
@@ -24,6 +25,7 @@ namespace WorkHive.Services.Staff
                 return new UpdateOwnerStatusResult("Invalid status value. Use 'Fail' or 'Success'.");
 
             owner.Status = command.Status;
+            owner.Message = command.Message;
             owner.UpdatedAt = DateTime.UtcNow;
             if (command.Status == "Success")
             {
@@ -48,6 +50,12 @@ namespace WorkHive.Services.Staff
                     };
 
                     await unit.OwnerWallet.CreateAsync(ownerWallet);
+                    await unit.SaveAsync();
+                }
+                else
+                {
+                    existingWallet.UserId = command.UserId;
+                    await unit.OwnerWallet.UpdateAsync(existingWallet);
                     await unit.SaveAsync();
                 }
             }
