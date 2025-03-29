@@ -34,7 +34,17 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
             .ToListAsync();
     }
 
-    //To do object method
+    public async Task<List<Feedback>> GetFeedbacksByUserId(int userId)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Booking)
+                .ThenInclude(b => b.Workspace)
+                .ThenInclude(w => w.Owner)
+            .Include(f => f.ImageFeedbacks)
+                .ThenInclude(imgFeedback => imgFeedback.Image)
+            .Where(f => f.UserId == userId)
+            .ToListAsync();
+    }
 
 
 }
