@@ -54,7 +54,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                         ownerWallet?.BankNumber ?? "N/A",
                         ownerWallet?.BankAccountName ?? "N/A",
                         ownerWallet?.Wallet?.Balance ?? 0,
-                        ownerWallet?.Owner.Message ?? "N/A"
+                        request.ManagerResponse ?? "N/A"
                     ));
                 }
 
