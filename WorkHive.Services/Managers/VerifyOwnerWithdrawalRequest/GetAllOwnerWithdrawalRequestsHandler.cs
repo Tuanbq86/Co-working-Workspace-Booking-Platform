@@ -23,7 +23,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
         string BankNumber,
         string BankAccountName,
         decimal Balance,
-        string Message
+        string ManagerResponse
     );
 
 
