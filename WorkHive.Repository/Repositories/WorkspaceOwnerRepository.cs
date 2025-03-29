@@ -110,17 +110,24 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
 
     public async Task<List<WorkspaceOwner>> GetOwnersByIdsAsync(List<int> ownerIds)
     {
-        return await _context.WorkspaceOwners
+        return await _context.WorkspaceOwners.Include(o => o.OwnerWallets).ThenInclude(ow => ow.User)
             .Where(o => ownerIds.Contains(o.Id))
             .ToListAsync();
     }
+
+    public async Task<List<WorkspaceOwner>> GetAllOwnersAsync()
+    {
+        return await _context.WorkspaceOwners.Include(o => o.OwnerWallets).ThenInclude(ow => ow.User)
+            .ToListAsync();
+    }
+
 
     public async Task<List<WorkspaceOwner>> GetOwnersByUserId(int userId)
     {
         return await _context.Bookings
             .Where(b => b.UserId == userId)
             .GroupBy(b => b.Workspace.Owner.Id) 
-            .Select(g => g.First().Workspace.Owner) 
+            .Select(g => g.First().Workspace.Owner)     
             .ToListAsync();
     }
 
@@ -129,5 +136,12 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
         return await _context.Set<WorkspaceOwner>().FirstOrDefaultAsync(predicate);
     }
 
+    public async Task<WorkspaceOwner?> GetOwnerByIdAsync(int id)
+    {
+        return await _context.WorkspaceOwners
+            .Include(o => o.OwnerWallets)
+            .ThenInclude(ow => ow.User)
+            .FirstOrDefaultAsync(o => o.Id == id);
+    }
+
 }
-    

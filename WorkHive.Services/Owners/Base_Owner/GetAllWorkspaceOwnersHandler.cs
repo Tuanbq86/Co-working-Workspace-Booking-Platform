@@ -39,7 +39,8 @@ namespace WorkHive.Services.Owners.Base_Owner
         string Instagram,
         string Tiktok,
         string PhoneStatus,
-        string Message
+        string Message,
+        int? UserId
     );
 
 
@@ -56,7 +57,7 @@ namespace WorkHive.Services.Owners.Base_Owner
         public async Task<List<GetWorkspaceOwnersResult>> Handle(GetAllWorkspaceOwnersQuery query,
             CancellationToken cancellationToken)
         {
-            var owners = await workSpaceManageUnit.WorkspaceOwner.GetAllAsync();
+            var owners = await workSpaceManageUnit.WorkspaceOwner.GetAllOwnersAsync();
             if (owners == null || !owners.Any())
             {
                 return new List<GetWorkspaceOwnersResult>();
@@ -89,7 +90,8 @@ namespace WorkHive.Services.Owners.Base_Owner
            owner.Instagram,
            owner.Tiktok,
            owner.PhoneStatus,
-           owner.Message
+           owner.Message,
+           owner.OwnerWallets.FirstOrDefault()?.UserId 
        )).ToList();
         }
     }
