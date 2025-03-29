@@ -37,5 +37,16 @@ namespace WorkHive.Repositories.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<OwnerResponseFeedback>> GetResponseFeedbacksByOwnerId(int ownerId)
+        {
+            return await _context.OwnerResponseFeedbacks
+                .Include(rf => rf.Feedback)
+                    .ThenInclude(fb => fb.Booking)
+                    .ThenInclude(b => b.User)
+                .Include(rf => rf.ImageResponseFeedbacks)
+                    .ThenInclude(imgFeedback => imgFeedback.Image)
+                .Where(rf => rf.OwnerId == ownerId)
+                .ToListAsync();
+        }
     }
 }
