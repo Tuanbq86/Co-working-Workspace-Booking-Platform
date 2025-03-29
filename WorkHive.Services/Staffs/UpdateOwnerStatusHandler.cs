@@ -29,7 +29,7 @@ namespace WorkHive.Services.Staff
             owner.UpdatedAt = DateTime.UtcNow;
             if (command.Status == "Success")
             {
-                var existingWallet = await unit.OwnerWallet.GetByOwnerIdAsync(owner.Id);
+                var existingWallet = await unit.OwnerWallet.GetByOwnerIdAsync(command.Id);
                 if (existingWallet == null)
                 {
                     var newWallet = new Wallet
