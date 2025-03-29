@@ -38,7 +38,8 @@ namespace WorkHive.Services.Owners.Base_Owner
         string Instagram,
         string Tiktok,
         string PhoneStatus,
-        string Message
+        string Message,
+        int? UserId
     );
 
     public class GetWorkspaceOwnerByIdValidator : AbstractValidator<GetWorkspaceOwnerByIdQuery>
@@ -55,7 +56,7 @@ namespace WorkHive.Services.Owners.Base_Owner
         public async Task<GetWorkspaceOwnerByIdResult> Handle(GetWorkspaceOwnerByIdQuery query,
             CancellationToken cancellationToken)
         {
-            var owner = await workSpaceManageUnit.WorkspaceOwner.GetByIdAsync(query.Id);
+            var owner = await workSpaceManageUnit.WorkspaceOwner.GetOwnerByIdAsync(query.Id);
             if (owner == null)
             {
                 return null;
@@ -88,7 +89,8 @@ namespace WorkHive.Services.Owners.Base_Owner
                 owner.Instagram,
                 owner.Tiktok,
                 owner.PhoneStatus,
-                owner.Message
+                owner.Message,
+                owner.OwnerWallets.FirstOrDefault()?.UserId
             );
         }
     }

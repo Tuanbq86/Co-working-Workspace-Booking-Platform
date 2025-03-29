@@ -17,5 +17,7 @@ public interface IWorkspaceOwnerRepository : IGenericRepository<WorkspaceOwner>
     public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword);
     public Task<List<WorkspaceOwner>> GetOwnersByIdsAsync(List<int> ownerIds);
     public Task<List<WorkspaceOwner>> GetOwnersByUserId(int userId);
+    public Task<List<WorkspaceOwner>> GetAllOwnersAsync();
+    public Task<WorkspaceOwner?> GetOwnerByIdAsync(int id);
 
 }
