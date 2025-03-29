@@ -10,5 +10,6 @@ public enum BookingStatus
 {
     Handling,
     Success,
-    Fail
+    Fail,
+    Cancelled
 }

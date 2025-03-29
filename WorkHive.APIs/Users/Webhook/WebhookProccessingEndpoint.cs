@@ -1,6 +1,7 @@
 ﻿using Carter;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Net.payOS.Types;
 using WorkHive.Services.Users.Webhook;
 
@@ -11,7 +12,7 @@ public class WebhookProccessingEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/webhook", async (ProcessWebhookRequest request, ISender sender) =>
+        app.MapPost("/webhook", async ([FromBody]ProcessWebhookRequest request, ISender sender) =>
         {
             try
             {

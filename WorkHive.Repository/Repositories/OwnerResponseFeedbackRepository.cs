@@ -15,7 +15,6 @@ namespace WorkHive.Repositories.Repositories
         public OwnerResponseFeedbackRepository() { }
         public OwnerResponseFeedbackRepository(WorkHiveContext context) => _context = context;
 
-
         public async Task<OwnerResponseFeedback?> GetResponseFeedbackById(int id)
         {
             return await _context.OwnerResponseFeedbacks

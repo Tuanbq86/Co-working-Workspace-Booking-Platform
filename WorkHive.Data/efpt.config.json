@@ -164,7 +164,6 @@
    "UseAsyncStoredProcedureCalls": true,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
-   "UseDatabaseNamesForRoutines": true,
    "UseDateOnlyTimeOnly": true,
    "UseDbContextSplitting": false,
    "UseDecimalDataAnnotationForSprocResult": true,
@@ -172,7 +171,6 @@
    "UseHandleBars": false,
    "UseHierarchyId": false,
    "UseInflector": true,
-   "UseInternalAccessModifiersForSprocsAndFunctions": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,
@@ -184,6 +182,5 @@
    "UseSchemaFolders": false,
    "UseSchemaNamespaces": false,
    "UseSpatial": false,
-   "UseT4": false,
-   "UseT4Split": false
+   "UseT4": false
 }
