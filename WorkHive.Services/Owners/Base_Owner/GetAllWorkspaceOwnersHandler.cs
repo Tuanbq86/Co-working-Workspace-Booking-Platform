@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using Azure.Core;
+using FluentValidation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +53,7 @@ namespace WorkHive.Services.Owners.Base_Owner
         }
     }
 
-    public class GetAllWorkspaceOwnersHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
+    public class GetAllWorkspaceOwnersHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit, IWalletUnitOfWork unit)
     : IQueryHandler<GetAllWorkspaceOwnersQuery, List<GetWorkspaceOwnersResult>>
     {
         public async Task<List<GetWorkspaceOwnersResult>> Handle(GetAllWorkspaceOwnersQuery query,
