@@ -27,6 +27,10 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
         RuleFor(x => x.Phone)
             .Length(10).WithMessage("The number of characterics is exact 10 characterics");
+
+        RuleFor(x => x.DateOfBirth)
+            .Must(dob => dob == null || (dob >= new DateOnly(1955, 1, 1) && dob <= new DateOnly(2013, 1, 1)))
+            .WithMessage("Date of birth must be between 01/01/1955 and 01/01/2013");
     }
 }
 
@@ -40,20 +44,20 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
 
         //Check null user
         if (user is null)
-            throw new UserNotFoundException("Can not find user to update");
+            return new UpdateUserResult("Không tìm thấy người dùng để cập nhật");
 
         //Check email and phone of user who get in database with others in database
         bool isDuplicate = userUnit.User.GetAll()
                 .Any(u => u.Id != user.Id &&
-              (u.Email == command.Email || u.Phone == command.Phone));
+              (u.Email.ToLower().Trim() == command.Email.ToLower().Trim() || u.Phone.ToLower().Trim() == command.Phone.ToLower().Trim()));
 
         if (isDuplicate)
         {
-            throw new UserBadRequestException("Email or password has been used");
+            return new UpdateUserResult("Email và số điện thoại đã được sử dụng");
         }
 
         user.Name = command.Name;
-        user.Email = command.Email;
+        user.Email = command.Email.Trim();
         user.Location = command.Location;
         user.Phone = command.Phone;
         user.DateOfBirth = command.DateOfBirth;
@@ -63,6 +67,6 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
         userUnit.User.Update(user);
         await userUnit.SaveAsync();
 
-        return new UpdateUserResult("Update Successfully");
+        return new UpdateUserResult("Cập nhật thông tin thành công");
     }
 }

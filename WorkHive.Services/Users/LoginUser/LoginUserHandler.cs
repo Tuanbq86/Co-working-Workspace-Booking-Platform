@@ -31,7 +31,7 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
         var IsExist = userUnit.User.FindUserByEmailOrPhone(command.Auth, command.Password);
 
         if (IsExist == false)
-            throw new UserNotFoundException("User", command.Auth);
+            return new LoginUserResult("", "Không tìm thấy người dùng");
 
         // Get user to use generate JWT token
 
@@ -40,7 +40,7 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
         var user = userList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
                    u.Email.ToLower().Trim().Equals(command.Auth.ToLower().Trim()));
 
-        if (user is null || user.IsBan!.Value.Equals(1))
+        if (user is null)
             return new LoginUserResult("", "Sai thông tin đăng nhập");
 
         if (user.IsBan!.Value.Equals(1))

@@ -9,9 +9,9 @@ using WorkHive.Repositories.IRepositories;
 
 namespace WorkHive.Repositories.Repositories
 {
-    public class OwnerNontificationRepository : GenericRepository<OwnerNotification>, IOwnerNotificationRepository
+    public class OwnerNotificationRepository : GenericRepository<OwnerNotification>, IOwnerNotificationRepository
     {
-        public OwnerNontificationRepository() { }
-        public OwnerNontificationRepository(WorkHiveContext context) => _context = context;
+        public OwnerNotificationRepository() { }
+        public OwnerNotificationRepository(WorkHiveContext context) => _context = context;
     }
 }

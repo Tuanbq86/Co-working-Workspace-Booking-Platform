@@ -52,14 +52,14 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             {
                 Amount = placeBooking.Price,
                 Description = $"Hoàn {placeBooking.Price} đơn booking {placeBooking.Id}",
-                Status = "Active",
+                Status = "REFUND",
                 CreatedAt = now
             };
             await bookUnit.transactionHistory.CreateAsync(transactionHistoryOfUser);
 
             var userTransactionHistory = new UserTransactionHistory
             {
-                Status = "Active",
+                Status = "REFUND",
                 TransactionHistoryId = transactionHistoryOfUser.Id,
                 CustomerWalletId = customerWallet.Id,
             };
@@ -71,7 +71,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
                 CreatedAt = now,
                 Description = $"Hoàn {placeBooking.Price} đơn booking {placeBooking.Id}",
                 IsRead = 0,
-                Status = "Active",
+                Status = "REFUND",
                 UserId = placeBooking.UserId
             };
             await userUnit.UserNotification.CreateAsync(userNotification);
@@ -88,14 +88,14 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             {
                 Amount = (placeBooking.Price * 90) / 100,
                 Description = $"Trừ {(placeBooking.Price * 90) / 100} hoàn tiền đơn booking {placeBooking.Id}",
-                Status = "Active",
+                Status = "REFUND",
                 CreatedAt = now
             };
             await bookUnit.transactionHistory.CreateAsync(transactionHistoryOfOwner);
 
             var ownerTransactionHistory = new OwnerTransactionHistory
             {
-                Status = "Active",
+                Status = "REFUND",
                 TransactionHistoryId = transactionHistoryOfOwner.Id,
                 OwnerWalletId = ownerWallet.Id,
             };
@@ -107,7 +107,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
                 CreatedAt = now,
                 Description = $"Trừ {(placeBooking.Price * 90) / 100} hoàn tiền đơn booking {placeBooking.Id}",
                 IsRead = 0,
-                Status = "Active",
+                Status = "REFUND",
                 OwnerId = owner.Id
             };
             await bookUnit.ownerNotification.CreateAsync(ownerNotification);

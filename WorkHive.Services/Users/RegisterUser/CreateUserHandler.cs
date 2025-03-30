@@ -52,8 +52,8 @@ public class CreateUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenR
         //Checking exist used email and phone number for registering
 
         var existEmailOrPhoneUser = userUnit.User.GetAll().
-            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) ||
-            x.Phone.ToLower().Equals(command.Phone.ToLower())).FirstOrDefault();
+            Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
+            x.Phone.Trim().ToLower().Equals(command.Phone.Trim().ToLower())).FirstOrDefault();
 
         if (existEmailOrPhoneUser is not null)
             throw new BadRequestEmailOrPhoneException("Email or Phone has been used");
@@ -66,8 +66,8 @@ public class CreateUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenR
         var newUser = new User
         {
             Name = tempUser.Name,
-            Email = tempUser.Email,
-            Phone = tempUser.Phone,
+            Email = tempUser.Email.Trim(),
+            Phone = tempUser.Phone.Trim(),
             Sex = tempUser.Sex,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,

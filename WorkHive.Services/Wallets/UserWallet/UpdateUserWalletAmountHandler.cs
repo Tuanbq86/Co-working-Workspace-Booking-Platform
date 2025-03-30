@@ -61,7 +61,7 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
                 IsRead = 0,
                 CreatedAt = DateTime.Now,
                 Description = $"Nạp thành công số tiền: {command.Amount} vào ví người dùng",
-                Status = "Active"
+                Status = "PAID"
             };
             await userUnit.UserNotification.CreateAsync(userNotifi);
 

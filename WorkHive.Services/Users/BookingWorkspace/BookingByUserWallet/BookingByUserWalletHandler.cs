@@ -191,7 +191,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             IsRead = 0,
             CreatedAt = DateTime.Now,
             Description = $"Đặt chỗ thành công workspace: {newBooking.WorkspaceId}",
-            Status = "Active"
+            Status = "PAID"
         };
         await userUnit.UserNotification.CreateAsync(userNotifi);
 
@@ -203,7 +203,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             CreatedAt = DateTime.Now,
             Description = $"Workspace: {newBooking.WorkspaceId} đã được đặt",
             IsRead = 0,
-            Status = "Active"
+            Status = "PAID"
         };
         await bookingUnit.ownerNotification.CreateAsync(ownerNotifi);
 

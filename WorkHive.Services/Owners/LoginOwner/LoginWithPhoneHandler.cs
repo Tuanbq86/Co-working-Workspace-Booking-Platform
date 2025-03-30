@@ -31,9 +31,9 @@ namespace WorkHive.Services.Owners.LoginOwner
             var Owner = OwnerUnit.WorkspaceOwner.FindWorkspaceOwnerByPhone(command.Phone);
 
             if (Owner is null)
-                throw new OwnerNotFoundException("Owner", command.Phone);
+                return new LoginWithWorkspaceOwnerPhoneResult($"Không tìm thấy owner với số điện thoại: {command.Phone}");
 
-            return new LoginWithWorkspaceOwnerPhoneResult(Owner.Phone.ToString());
+            return new LoginWithWorkspaceOwnerPhoneResult(Owner.LicenseName);
         }
     }
 }

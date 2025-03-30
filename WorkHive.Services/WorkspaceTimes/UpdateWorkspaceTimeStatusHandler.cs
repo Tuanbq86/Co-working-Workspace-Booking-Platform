@@ -116,7 +116,7 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
                 IsRead = 0,
                 CreatedAt = DateTime.Now,
                 Description = $"Đặt chỗ thành công workspace: {bookWorkspace.WorkspaceId}",
-                Status = "Active"
+                Status = "PAID"
             };
             await userUnit.UserNotification.CreateAsync(userNotifi);
 
@@ -128,7 +128,7 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
                 CreatedAt = DateTime.Now,
                 Description = $"Workspace: {bookWorkspace.WorkspaceId} đã được đặt",
                 IsRead = 0,
-                Status = "Active"
+                Status = "PAID"
             };
             await bookUnit.ownerNotification.CreateAsync(ownerNotifi);
 

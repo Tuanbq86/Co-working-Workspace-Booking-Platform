@@ -12,12 +12,10 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
-
     public WorkHiveContext()
     {
         
     }
-
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -964,6 +962,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Instagram)
                 .HasColumnType("text")
                 .HasColumnName("instagram");
+            entity.Property(e => e.IsBan).HasColumnName("is_ban");
             entity.Property(e => e.LicenseAddress)
                 .HasMaxLength(255)
                 .HasColumnName("license_address");

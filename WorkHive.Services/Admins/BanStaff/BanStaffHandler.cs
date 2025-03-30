@@ -35,7 +35,7 @@ public class BanStaffHandler(IUserUnitOfWork userUnit)
         {
             UserId = staff.Id,
             Description = "Tài khoản đã bị cấm",
-            Status = "Active",
+            Status = "InActive",
             IsRead = 0,
             CreatedAt = DateTime.Now
         };

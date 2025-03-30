@@ -44,8 +44,8 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
         //Checking exist used email and phone number for registering
 
         var existEmailAndPhoneUser = userUnit.User.GetAll().
-            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) &&
-            x.Phone.ToLower().Equals(command.Phone.ToLower())).FirstOrDefault();
+            Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
+            x.Phone.Trim().ToLower().Equals(command.Phone.Trim().ToLower())).FirstOrDefault();
 
         if (existEmailAndPhoneUser is not null)
             return new RegisterUserResult("", "Email và số điện thoại đã được sử dụng");
@@ -59,7 +59,7 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
         {
             Name = tempUser.Name,
             Email = tempUser.Email.Trim(),
-            Phone = tempUser.Phone,
+            Phone = tempUser.Phone.Trim(),
             Sex = tempUser.Sex,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
