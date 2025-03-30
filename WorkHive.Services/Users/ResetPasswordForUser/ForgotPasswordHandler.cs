@@ -25,7 +25,7 @@ public class ForgotPasswordHandler(IUserUnitOfWork userUnit, IEmailService email
     {
         //Hàm xóa tất cả các token cũ trước khi tạo token mới
         //Tạo token ngẫu nhiên theo thời gian 6 chữ số
-        //Hạn token sẽ là thời điểm hiện tại thêm 2 giờ
+        //Hạn token sẽ là thời điểm hiện tại thêm 45p
         var token = await userUnit.PasswordResetToken.CreatePasswordResetToken(command.Email);
 
         if(token is null)

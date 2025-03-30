@@ -10,4 +10,6 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IOwnerPasswordResetTokenRepository : IGenericRepository<OwnerPasswordResetToken>
 {
+    public Task<string> CreatePasswordResetToken(string email);
+    public Task<WorkspaceOwner> ValidatePasswordResetToken(string token);
 }

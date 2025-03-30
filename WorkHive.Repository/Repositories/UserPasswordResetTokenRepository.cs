@@ -31,7 +31,7 @@ public class UserPasswordResetTokenRepository : GenericRepository<UserPasswordRe
         
         //Tạo token để reset password
         var token = DateTime.UtcNow.Ticks.ToString()[^6..];
-        var expired_Date = DateTime.Now.AddHours(2);
+        var expired_Date = DateTime.Now.AddMinutes(30);
 
         var resetToken = new UserPasswordResetToken
         {
