@@ -46,7 +46,7 @@ public class SearchWorkspaceByFourHandler(IBookingWorkspaceUnitOfWork bookUnit)
 
         if (query.Capacity.HasValue)
         {
-            workspaces = workspaces.Where(w => w.Capacity >= query.Capacity.Value);
+            workspaces = workspaces.Where(w => w.Capacity == query.Capacity.Value);
         }
 
         var result = await workspaces.Select(w => new WorkspaceSearch4DTO(

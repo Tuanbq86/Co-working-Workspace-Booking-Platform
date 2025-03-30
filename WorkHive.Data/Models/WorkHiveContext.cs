@@ -42,6 +42,8 @@ public partial class WorkHiveContext : DbContext
 
     public virtual DbSet<OwnerNotification> OwnerNotifications { get; set; }
 
+    public virtual DbSet<OwnerPasswordResetToken> OwnerPasswordResetTokens { get; set; }
+
     public virtual DbSet<OwnerResponseFeedback> OwnerResponseFeedbacks { get; set; }
 
     public virtual DbSet<OwnerTransactionHistory> OwnerTransactionHistories { get; set; }
@@ -67,6 +69,8 @@ public partial class WorkHiveContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserNotification> UserNotifications { get; set; }
+
+    public virtual DbSet<UserPasswordResetToken> UserPasswordResetTokens { get; set; }
 
     public virtual DbSet<UserTransactionHistory> UserTransactionHistories { get; set; }
 
@@ -430,6 +434,26 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FK_Owner_Notification_Workspace_Owner");
         });
 
+        modelBuilder.Entity<OwnerPasswordResetToken>(entity =>
+        {
+            entity.ToTable("Owner_Password_Reset_Token");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ExpiredAt)
+                .HasColumnType("datetime")
+                .HasColumnName("expired_at");
+            entity.Property(e => e.IsUsed).HasColumnName("is_used");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.Token)
+                .IsUnicode(false)
+                .HasColumnName("token");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.OwnerPasswordResetTokens)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Password_Reset_Token_Workspace_Owner");
+        });
+
         modelBuilder.Entity<OwnerResponseFeedback>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_Owner_Respone_Feedback");
@@ -502,12 +526,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.WalletId).HasColumnName("wallet_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKOwner_Wall547001");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OwnerWallets)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_Owner_Wallet_User");
 
             entity.HasOne(d => d.Wallet).WithMany(p => p.OwnerWallets)
                 .HasForeignKey(d => d.WalletId)
@@ -524,6 +553,7 @@ public partial class WorkHiveContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.ManagerResponse).HasColumnName("manager_response");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -749,6 +779,26 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FK_User_Notification_User");
         });
 
+        modelBuilder.Entity<UserPasswordResetToken>(entity =>
+        {
+            entity.ToTable("User_Password_Reset_Token");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ExpriedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("expried_at");
+            entity.Property(e => e.IsUsed).HasColumnName("is_used");
+            entity.Property(e => e.Token)
+                .IsUnicode(false)
+                .HasColumnName("token");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserPasswordResetTokens)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_User_Password_Reset_Token_User");
+        });
+
         modelBuilder.Entity<UserTransactionHistory>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__User_Tra__3214EC27E1037409");
@@ -927,6 +977,7 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(13)
                 .IsFixedLength()
                 .HasColumnName("license_number");
+            entity.Property(e => e.Message).HasColumnName("message");
             entity.Property(e => e.Nationality)
                 .HasMaxLength(50)
                 .HasColumnName("nationality");

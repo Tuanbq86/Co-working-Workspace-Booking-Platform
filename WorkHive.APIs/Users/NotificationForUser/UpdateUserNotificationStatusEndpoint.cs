@@ -10,7 +10,7 @@ public class UpdateUserNotificationStatusEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/users/updateusernotification/{UserNotificationId}", async (int UserNotificationId, ISender sender) =>
+        app.MapPatch("/users/updateusernotification/{UserNotificationId}", async (int UserNotificationId, ISender sender) =>
         {
             var result = await sender.Send(new UpdateUserNotificationStatusCommand(UserNotificationId));
 

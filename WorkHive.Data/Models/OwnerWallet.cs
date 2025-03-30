@@ -21,9 +21,13 @@ public partial class OwnerWallet
 
     public string BankAccountName { get; set; }
 
+    public int? UserId { get; set; }
+
     public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<OwnerTransactionHistory> OwnerTransactionHistories { get; set; } = new List<OwnerTransactionHistory>();
+
+    public virtual User User { get; set; }
 
     public virtual Wallet Wallet { get; set; }
 }

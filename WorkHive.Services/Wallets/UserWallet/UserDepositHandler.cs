@@ -83,7 +83,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
-                    description: "userdeposit",
+                    description: "NẠP TIỀN VÍ WORKHIVE",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
                     expiredAt: expiredAt,

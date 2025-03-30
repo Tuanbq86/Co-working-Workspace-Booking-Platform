@@ -40,8 +40,11 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
         var user = userList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
                    u.Email.ToLower().Trim().Equals(command.Auth.ToLower().Trim()));
 
-        if (user is null)
-            throw new UserNotFoundException("User", command.Auth);
+        if (user is null || user.IsBan!.Value.Equals(1))
+            return new LoginUserResult("", "Sai thông tin đăng nhập");
+
+        if (user.IsBan!.Value.Equals(1))
+            return new LoginUserResult("", "Tài khoản bị cấm");
 
         //var userNotifi = new UserNotification
         //{
@@ -58,6 +61,6 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
         //Save token into session to use in a working session
         httpContext.HttpContext!.Session.SetString("token", token);
 
-        return new LoginUserResult(token, "Login successfully");
+        return new LoginUserResult(token, "Đăng nhập thành công");
     }
 }

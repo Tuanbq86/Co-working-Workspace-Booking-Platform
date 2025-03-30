@@ -16,6 +16,7 @@ using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Repositories.Repositories;
 using WorkHive.Repositories.UnitOfWork;
+using WorkHive.Services.EmailServices;
 using WorkHive.Services.UploadFiles;
 
 namespace WorkHive.Services;
@@ -81,7 +82,8 @@ public static class DependencyInjection
             return new Cloudinary(account);
         });
 
-
+        //Add EmailService
+        services.AddTransient<IEmailService, EmailService>();
 
         services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
         services.AddScoped<ITokenRepository, TokenRepository>();

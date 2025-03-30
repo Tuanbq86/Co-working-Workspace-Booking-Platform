@@ -63,6 +63,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Owner_Password_Reset_Token]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Owner_Response_Feedback]",
          "ObjectType": 0
       },
@@ -112,6 +116,10 @@
       },
       {
          "Name": "[dbo].[User_Notification]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[User_Password_Reset_Token]",
          "ObjectType": 0
       },
       {
