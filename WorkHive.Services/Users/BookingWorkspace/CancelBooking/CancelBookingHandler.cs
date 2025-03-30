@@ -1,6 +1,7 @@
 ﻿using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.Common;
 using WorkHive.Services.Constant;
 
 namespace WorkHive.Services.Users.BookingWorkspace.CancelBooking;
@@ -51,7 +52,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var transactionHistoryOfUser = new TransactionHistory
             {
                 Amount = placeBooking.Price,
-                Description = $"Hoàn {placeBooking.Price} đơn booking {placeBooking.Id}",
+                Description = $"Hoàn {placeBooking.Price.ToVnd()} đơn booking {placeBooking.Id}",
                 Status = "REFUND",
                 CreatedAt = now
             };
@@ -69,7 +70,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var userNotification = new UserNotification
             {
                 CreatedAt = now,
-                Description = $"Hoàn {placeBooking.Price} đơn booking {placeBooking.Id}",
+                Description = $"Hoàn {placeBooking.Price.ToVnd()} đơn booking {placeBooking.Id}",
                 IsRead = 0,
                 Status = "REFUND",
                 UserId = placeBooking.UserId
@@ -87,7 +88,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var transactionHistoryOfOwner = new TransactionHistory
             {
                 Amount = (placeBooking.Price * 90) / 100,
-                Description = $"Trừ {(placeBooking.Price * 90) / 100} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Trừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
                 Status = "REFUND",
                 CreatedAt = now
             };
@@ -105,7 +106,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var ownerNotification = new OwnerNotification
             {
                 CreatedAt = now,
-                Description = $"Trừ {(placeBooking.Price * 90) / 100} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Trừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
                 IsRead = 0,
                 Status = "REFUND",
                 OwnerId = owner.Id

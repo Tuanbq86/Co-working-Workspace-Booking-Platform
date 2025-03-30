@@ -1,6 +1,7 @@
 ﻿using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.Common;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Users.DTOs;
 
