@@ -32,11 +32,11 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
         //Checking exist used email and phone number for registering
 
         var existEmailOrPhoneOwner = ownerUnit.WorkspaceOwner.GetAll().
-            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) ||
+            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) &&
             x.Phone.ToLower().Equals(command.Phone.ToLower())).FirstOrDefault();
 
         if (existEmailOrPhoneOwner is not null)
-            throw new BadRequestEmailOrPhoneException("Email or Phone has been used");
+            return new RegisterOwnerResult("Email và số điện thoại đã được sử dụng");
 
         //Create new Owner for registering
 
@@ -56,6 +56,6 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
 
         await ownerUnit.SaveAsync();
 
-        return new RegisterOwnerResult("Register successfully");
+        return new RegisterOwnerResult("Đăng ký thành công");
     }
 }
