@@ -14,7 +14,7 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/owner-feedbacks/{ownerId:int}", async (int ownerId, ISender sender) =>
+            app.MapGet("/feedbacks/owners/{ownerId:int}", async (int ownerId, ISender sender) =>
             {
                 var query = new ListFeedbackByOwnerIdQuery(ownerId);
                 var result = await sender.Send(query);
