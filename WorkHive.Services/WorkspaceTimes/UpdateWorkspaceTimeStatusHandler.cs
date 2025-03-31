@@ -6,6 +6,7 @@ using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
 using WorkHive.Data.Models;
+using WorkHive.Services.Common;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
@@ -91,13 +92,25 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
 
             await bookUnit.wallet.UpdateAsync(walletOfOwner);
 
+            //create Transaction of user
+            var transactionHistoryOfUser = new TransactionHistory
+            {
+                Amount = bookWorkspace.Price,
+                Status = "PAID",
+                Description = $"Nội dung:\r\nThanh toán của bạn cho {workspace.Name} đã được xử lý thành công.\r\nSố tiền: {bookWorkspace.Price.ToVnd()}\r\nPhương thức thanh toán: PAYOS\r\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi!",
+                CreatedAt = DateTime.Now,
+                Title = "Thanh toán thành công"
+            };
+            await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfUser);
+
             //Create Transaction History for owner
             var transactionHistoryOfOwner = new TransactionHistory
             {
                 Amount = (booking.Price * 90) / 100,
                 Status = "PAID",
-                Description = $"Nhận tiền đơn booking: {booking.Id}",
-                CreatedAt = DateTime.Now
+                Description = $"Nội dung:\r\nNhận {((booking.Price * 90) / 100).ToVnd()} đơn booking: {booking.Id}",
+                CreatedAt = DateTime.Now,
+                Title = "Đặt chỗ"
             };
             await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
 
@@ -115,8 +128,9 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
                 UserId = bookWorkspace.UserId,
                 IsRead = 0,
                 CreatedAt = DateTime.Now,
-                Description = $"Đặt chỗ thành công workspace: {bookWorkspace.WorkspaceId}",
-                Status = "PAID"
+                Description = $"Nội dung:\r\nBạn đã đặt chỗ thành công cho {workspace.Name} từ {workspaceTime.StartDate} đến {workspaceTime.EndDate}.\r\nVui lòng kiểm tra lại thông tin trong mục Lịch sử đặt chỗ. Chúng tôi mong được phục vụ bạn!",
+                Status = "PAID",
+                Title = "Đặt chỗ thành công"
             };
             await userUnit.UserNotification.CreateAsync(userNotifi);
 
@@ -126,9 +140,10 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             {
                 OwnerId = ownerfornoti!.Id,
                 CreatedAt = DateTime.Now,
-                Description = $"Workspace: {bookWorkspace.WorkspaceId} đã được đặt",
+                Description = $"Nội dung:\r\nWorkspace: {bookWorkspace.WorkspaceId} đã được đặt",
                 IsRead = 0,
-                Status = "PAID"
+                Status = "PAID",
+                Title = "Đặt chỗ"
             };
             await bookUnit.ownerNotification.CreateAsync(ownerNotifi);
 

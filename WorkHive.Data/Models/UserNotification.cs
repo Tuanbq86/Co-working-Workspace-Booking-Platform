@@ -19,5 +19,7 @@ public partial class UserNotification
 
     public int? IsRead { get; set; }
 
+    public string Title { get; set; }
+
     public virtual User User { get; set; }
 }

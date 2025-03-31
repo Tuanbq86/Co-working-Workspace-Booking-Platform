@@ -16,7 +16,7 @@ public static class DecimalExtensions
     /// <param name="value">Giá trị tiền (decimal)</param>
     /// <param name="alwaysShowDecimals">Luôn hiển thị 3 số thập phân (mặc định: false)</param>
     /// <param name="useThousandSeparator">Sử dụng dấu phân cách hàng nghìn (mặc định: true)</param>
-    /// <returns>Chuỗi đã format (ví dụ: "250,560₫" hoặc "1,000,000₫")</returns>
+    /// <returns>Chuỗi đã format (ví dụ: "250.560₫" hoặc "1.000.000₫")</returns>
     //public static string ToVnd(this decimal? value, bool alwaysShowDecimals = false, bool useThousandSeparator = true)
     //{
     //    if (!value.HasValue) return "0₫"; // hoặc trả về string.Empty tùy nhu cầu

@@ -19,6 +19,8 @@ public partial class Feedback
 
     public int BookingId { get; set; }
 
+    public string Title { get; set; }
+
     public virtual Booking Booking { get; set; }
 
     public virtual ICollection<ImageFeedback> ImageFeedbacks { get; set; } = new List<ImageFeedback>();

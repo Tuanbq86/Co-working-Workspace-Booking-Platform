@@ -331,6 +331,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .HasColumnName("title");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Feedbacks)
@@ -425,6 +428,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Title).HasColumnName("title");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerNotifications)
                 .HasForeignKey(d => d.OwnerId)
@@ -468,6 +472,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .HasColumnName("title");
 
             entity.HasOne(d => d.Feedback).WithMany(p => p.OwnerResponseFeedbacks)
                 .HasForeignKey(d => d.FeedbackId)
@@ -705,6 +712,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Title).HasColumnName("title");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -769,6 +777,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserNotifications)
@@ -930,6 +939,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Workspace_Owner");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.CharterCapital)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("charter_capital");

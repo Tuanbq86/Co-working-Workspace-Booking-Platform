@@ -52,9 +52,10 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var transactionHistoryOfUser = new TransactionHistory
             {
                 Amount = placeBooking.Price,
-                Description = $"Hoàn {placeBooking.Price.ToVnd()} đơn booking {placeBooking.Id}",
+                Description = $"Nội dung:\r\nYêu cầu hoàn tiền của bạn đã được xử lý thành công.\r\nSố tiền hoàn lại: {placeBooking.Price.ToVnd()} cho đơn booking: {placeBooking.Id}",
                 Status = "REFUND",
-                CreatedAt = now
+                CreatedAt = now,
+                Title = "Hoàn tiền thành công"
             };
             await bookUnit.transactionHistory.CreateAsync(transactionHistoryOfUser);
 
@@ -70,10 +71,11 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var userNotification = new UserNotification
             {
                 CreatedAt = now,
-                Description = $"Hoàn {placeBooking.Price.ToVnd()} đơn booking {placeBooking.Id}",
+                Description = $"Nội dung:\r\nYêu cầu hoàn tiền của bạn đã được xử lý thành công.\r\nSố tiền hoàn lại: {placeBooking.Price.ToVnd()}\r\nVui lòng kiểm tra số dư trong ví hệ thống",
                 IsRead = 0,
                 Status = "REFUND",
-                UserId = placeBooking.UserId
+                UserId = placeBooking.UserId,
+                Title = "Hoàn tiền thành công"
             };
             await userUnit.UserNotification.CreateAsync(userNotification);
 
@@ -88,9 +90,10 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var transactionHistoryOfOwner = new TransactionHistory
             {
                 Amount = (placeBooking.Price * 90) / 100,
-                Description = $"Trừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Nội dung:\r\nTrừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
                 Status = "REFUND",
-                CreatedAt = now
+                CreatedAt = now,
+                Title = "Hoàn tiền"
             };
             await bookUnit.transactionHistory.CreateAsync(transactionHistoryOfOwner);
 
@@ -102,14 +105,15 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             };
             await bookUnit.ownerTransactionHistory.CreateAsync(ownerTransactionHistory);
 
-            //Tạo user notification
+            //Tạo owner notification
             var ownerNotification = new OwnerNotification
             {
                 CreatedAt = now,
-                Description = $"Trừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Nội dung:\r\nTrừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
                 IsRead = 0,
                 Status = "REFUND",
-                OwnerId = owner.Id
+                OwnerId = owner.Id,
+                Title = "Hoàn tiền"
             };
             await bookUnit.ownerNotification.CreateAsync(ownerNotification);
         }

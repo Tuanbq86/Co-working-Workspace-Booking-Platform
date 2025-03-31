@@ -155,8 +155,9 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         {
             Amount = newBooking.Price,
             Status = "PAID",
-            Description = $"Thanh toán đơn booking: {newBooking.Id}",
-            CreatedAt = DateTime.Now
+            Description = $"Nội dung:\r\nThanh toán của bạn cho {workspaceOfOwner.Name} đã được xử lý thành công.\r\nSố tiền: {newBooking.Price.ToVnd()}\r\nPhương thức thanh toán: WorkHive wallet\r\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi!",
+            CreatedAt = DateTime.Now,
+            Title = "Thanh toán thành công"
         };
         await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfUser);
 
@@ -173,8 +174,9 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         {
             Amount = (newBooking.Price * 90) / 100,
             Status = "PAID",
-            Description = $"Nhận tiền đơn booking: {newBooking.Id}",
-            CreatedAt = DateTime.Now
+            Description = $"Nội dung:\r\nNhận {((newBooking.Price * 90) / 100).ToVnd()} đơn booking: {newBooking.Id}",
+            CreatedAt = DateTime.Now,
+            Title = "Đặt chỗ"
         };
         await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
 
@@ -191,8 +193,9 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             UserId = newBooking.UserId,
             IsRead = 0,
             CreatedAt = DateTime.Now,
-            Description = $"Đặt chỗ thành công workspace: {newBooking.WorkspaceId}",
-            Status = "PAID"
+            Description = $"Nội dung:\r\nBạn đã đặt chỗ thành công cho {workspaceOfOwner.Name} từ {command.StartDate} đến {command.EndDate}.\r\nVui lòng kiểm tra lại thông tin trong mục Lịch sử đặt chỗ. Chúng tôi mong được phục vụ bạn!",
+            Status = "PAID",
+            Title = "Đặt chỗ thành công"
         };
         await userUnit.UserNotification.CreateAsync(userNotifi);
 
@@ -202,9 +205,10 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         {
             OwnerId = ownerfornoti!.Id,
             CreatedAt = DateTime.Now,
-            Description = $"Workspace: {newBooking.WorkspaceId} đã được đặt",
+            Description = $"Nội dung:\r\nWorkspace: {newBooking.WorkspaceId} đã được đặt",
             IsRead = 0,
-            Status = "PAID"
+            Status = "PAID",
+            Title = "Đặt chỗ"
         };
         await bookingUnit.ownerNotification.CreateAsync(ownerNotifi);
 
