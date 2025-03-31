@@ -58,4 +58,14 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
 
 
     }
+
+    public async Task<Feedback?> GetFirstFeedbackByBookingId(int bookingId)
+    {
+        return await _context.Feedbacks.Include(f => f.ImageFeedbacks)
+            .ThenInclude(f => f.Image)
+            .Include(f => f.Booking).ThenInclude(b => b.Workspace).ThenInclude(w => w.Owner)
+            .Where(f => f.BookingId == bookingId)
+            .FirstOrDefaultAsync();
+    }
+
 }
