@@ -22,6 +22,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
 
             return feedbacks.Select(feedback => new GetAllFeedbackResult(
                 feedback.Id,
+                feedback.Title,
                 feedback.Description,
                 feedback.Status,
                 feedback.UserId,

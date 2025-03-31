@@ -24,7 +24,7 @@ namespace WorkHive.APIs.Owner.LoginOwner
                 return Results.Ok(response.UserName);
             })
             .WithName("checkOwnerPhone")
-            .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+            .Produces<LoginWithOwnerPhoneResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Owner")
             .WithSummary("Check Owner Phone")

@@ -6,7 +6,7 @@ using WorkHive.Services.Manage_Feedback.User_Feedback;
 namespace WorkHive.APIs.Manage_Feedback.User
 {
 
-    public record CreateFeedbackRequest(string Description, int UserId, int BookingId, List<ImageFeedbackDTO> Images);
+    public record CreateFeedbackRequest(string Title, string Description, int UserId, int BookingId, List<ImageFeedbackDTO> Images);
 
     public record CreateFeedbackResponse(string Notification);
 

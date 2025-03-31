@@ -5,7 +5,7 @@ using WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response;
 namespace WorkHive.APIs.Manage_Feedback.Owner
 {
     public record ListFeedbackByOwnerIdResponse(
-       int Id, string Description, string Status, int UserId, int OwnerId,
+       int Id, string Title, string Description, string Status, int UserId, int OwnerId,
        int? BookingId, int WorkspaceId, string WorkspaceName,
        DateTime? CreatedAt, List<string> ImageUrls
    );
@@ -14,7 +14,7 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/owner-feedbacks/{ownerId:int}", async (int ownerId, ISender sender) =>
+            app.MapGet("/feedbacks/owners/{ownerId:int}", async (int ownerId, ISender sender) =>
             {
                 var query = new ListFeedbackByOwnerIdQuery(ownerId);
                 var result = await sender.Send(query);
@@ -23,6 +23,7 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
                     ? Results.NotFound($"No feedbacks found for owner with ID {ownerId}")
                     : Results.Ok(result.Select(f => new ListFeedbackByOwnerIdResponse(
                         f.Id,
+                        f.Title,
                         f.Description,
                         f.Status,
                         f.UserId,

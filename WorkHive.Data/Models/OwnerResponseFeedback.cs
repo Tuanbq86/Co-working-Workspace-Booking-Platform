@@ -19,6 +19,8 @@ public partial class OwnerResponseFeedback
 
     public int FeedbackId { get; set; }
 
+    public string Title { get; set; }
+
     public virtual Feedback Feedback { get; set; }
 
     public virtual ICollection<ImageResponseFeedback> ImageResponseFeedbacks { get; set; } = new List<ImageResponseFeedback>();

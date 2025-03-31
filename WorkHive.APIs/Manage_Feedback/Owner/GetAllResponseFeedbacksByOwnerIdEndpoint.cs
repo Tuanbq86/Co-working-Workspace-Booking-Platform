@@ -5,7 +5,7 @@ using WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response;
 namespace WorkHive.APIs.Manage_Feedback.Owner
 {
     public record GetAllResponseFeedbacksByOwnerIdResponse(
-        int Id, string Description, string Status, int UserId, int OwnerId, int? FeedbackId,
+        int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? FeedbackId,
         DateTime? CreatedAt, List<string> ImageUrls
     );
 
@@ -22,6 +22,7 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
                     ? Results.NotFound($"No owner response feedbacks found for owner with ID {ownerId}")
                     : Results.Ok(result.Select(r => new GetAllResponseFeedbacksByOwnerIdResponse(
                         r.Id,
+                        r.Title,
                         r.Description,
                         r.Status,
                         r.UserId,

@@ -5,21 +5,17 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class OwnerNotification
+public partial class OwnerPasswordResetToken
 {
     public int Id { get; set; }
 
-    public string Description { get; set; }
+    public string Token { get; set; }
 
-    public string Status { get; set; }
+    public DateTime? ExpiredAt { get; set; }
+
+    public int? IsUsed { get; set; }
 
     public int OwnerId { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-
-    public int? IsRead { get; set; }
-
-    public string Title { get; set; }
 
     public virtual WorkspaceOwner Owner { get; set; }
 }

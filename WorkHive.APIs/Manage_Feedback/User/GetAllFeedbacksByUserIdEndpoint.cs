@@ -5,7 +5,7 @@ using WorkHive.Services.Manage_Feedback.User_Feedback;
 namespace WorkHive.APIs.Manage_Feedback.User
 {
     public record GetAllFeedbacksByUserIdResponse(
-         int Id, string Description, string Status, int UserId, int OwnerId, int? BookingId,
+         int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? BookingId,
          int WorkspaceId, string WorkspaceName, DateTime? CreatedAt, List<string> ImageUrls
      );
 
@@ -22,6 +22,7 @@ namespace WorkHive.APIs.Manage_Feedback.User
                     ? Results.NotFound($"No feedbacks found for user with ID {userId}")
                     : Results.Ok(result.Select(f => new GetAllFeedbacksByUserIdResponse(
                         f.Id,
+                        f.Title,
                         f.Description,
                         f.Status,
                         f.UserId,

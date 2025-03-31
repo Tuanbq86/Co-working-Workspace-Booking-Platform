@@ -23,7 +23,7 @@ public class LoginWithOwnerEmailEndpoint : ICarterModule
             return Results.Ok(response.UserName);
         })
         .WithName("checkOwnerEmail")
-        .Produces<RegisterUserResponse>(StatusCodes.Status200OK)
+        .Produces<LoginWithOwnerEmailResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithTags("Owner")
         .WithSummary("Check Owner Email")

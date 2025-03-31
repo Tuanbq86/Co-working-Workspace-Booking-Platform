@@ -17,6 +17,8 @@ public partial class TransactionHistory
 
     public DateTime? CreatedAt { get; set; }
 
+    public string Title { get; set; }
+
     public virtual ICollection<OwnerTransactionHistory> OwnerTransactionHistories { get; set; } = new List<OwnerTransactionHistory>();
 
     public virtual ICollection<UserTransactionHistory> UserTransactionHistories { get; set; } = new List<UserTransactionHistory>();

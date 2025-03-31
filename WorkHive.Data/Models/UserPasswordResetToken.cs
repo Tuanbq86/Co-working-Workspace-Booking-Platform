@@ -5,21 +5,17 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class UserNotification
+public partial class UserPasswordResetToken
 {
     public int Id { get; set; }
 
-    public string Description { get; set; }
+    public string Token { get; set; }
 
-    public string Status { get; set; }
+    public DateTime? ExpriedAt { get; set; }
+
+    public int? IsUsed { get; set; }
 
     public int UserId { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public int? IsRead { get; set; }
-
-    public string Title { get; set; }
 
     public virtual User User { get; set; }
 }

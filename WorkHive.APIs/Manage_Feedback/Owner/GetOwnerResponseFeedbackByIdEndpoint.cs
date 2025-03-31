@@ -5,7 +5,7 @@ using WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response;
 
 namespace WorkHive.APIs.Manage_Feedback.Owner
 {
-    public record GetOwnerResponseFeedbackByIdResponse(int Id, string Description, string Status, int UserId, int OwnerId, int? FeedbackId, DateTime? CreatedAt, List<string> ImageUrls);
+    public record GetOwnerResponseFeedbackByIdResponse(int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? FeedbackId, DateTime? CreatedAt, List<string> ImageUrls);
     public class GetOwnerResponseFeedbackByIdEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
@@ -19,6 +19,7 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
                     ? Results.NotFound("Feedback not found")
                     : Results.Ok(new GetOwnerResponseFeedbackByIdResponse(
                         result.Id,
+                        result.Title,
                         result.Description,
                         result.Status,
                         result.UserId,

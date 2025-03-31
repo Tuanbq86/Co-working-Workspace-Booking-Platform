@@ -9,7 +9,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Manage_Feedback.User_Feedback
 {
-    public record CreateFeedbackCommand(string Description, int UserId, int BookingId , List<ImageFeedbackDTO>? Images = null) : ICommand<CreateFeedbackResult>;
+    public record CreateFeedbackCommand(string Title, string Description, int UserId, int BookingId , List<ImageFeedbackDTO>? Images = null) : ICommand<CreateFeedbackResult>;
 
     public record ImageFeedbackDTO(string ImgUrl);
 
@@ -31,6 +31,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
 
             var newFeedback = new Feedback
             {
+                Title = command.Title,
                 Description = command.Description,
                 UserId = command.UserId,
                 BookingId = command.BookingId,
