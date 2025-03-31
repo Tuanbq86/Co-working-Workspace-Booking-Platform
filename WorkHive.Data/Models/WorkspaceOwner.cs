@@ -63,11 +63,17 @@ public partial class WorkspaceOwner
 
     public string Message { get; set; }
 
+    public int? IsBan { get; set; }
+
+    public string Avatar { get; set; }
+
     public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
 
     public virtual ICollection<Beverage> Beverages { get; set; } = new List<Beverage>();
 
     public virtual ICollection<OwnerNotification> OwnerNotifications { get; set; } = new List<OwnerNotification>();
+
+    public virtual ICollection<OwnerPasswordResetToken> OwnerPasswordResetTokens { get; set; } = new List<OwnerPasswordResetToken>();
 
     public virtual ICollection<OwnerResponseFeedback> OwnerResponseFeedbacks { get; set; } = new List<OwnerResponseFeedback>();
 

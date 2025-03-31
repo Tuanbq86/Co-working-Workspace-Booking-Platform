@@ -10,7 +10,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
 {
     public record GetFeedbackByIdQuery(int Id) : IQuery<GetFeedbackByIdResult>;
 
-    public record GetFeedbackByIdResult(int Id, string Description, string Status, int UserId, int OwnerId, int? BookingId, int WorkspaceId ,string WorkspaceName, DateTime? CreatedAt, List<string> ImageUrls);
+    public record GetFeedbackByIdResult(int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? BookingId, int WorkspaceId ,string WorkspaceName, DateTime? CreatedAt, List<string> ImageUrls);
 
     public class GetFeedbackByIdHandler(IFeedbackManageUnitOfWork unit)
     : IQueryHandler<GetFeedbackByIdQuery, GetFeedbackByIdResult>
@@ -29,6 +29,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
 
             return new GetFeedbackByIdResult(
                 feedback.Id,
+                feedback.Title,
                 feedback.Description,
                 feedback.Status,
                 feedback.UserId,

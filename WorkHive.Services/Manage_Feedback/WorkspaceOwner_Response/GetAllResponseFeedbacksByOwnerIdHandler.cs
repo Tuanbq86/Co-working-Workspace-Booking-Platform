@@ -22,6 +22,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
 
             return responseFeedbacks.Select(responseFeedback => new GetAllOwnerResponseFeedbackResult(
                 responseFeedback.Id,
+                responseFeedback.Title,
                 responseFeedback.Description,
                 responseFeedback.Status,
                 responseFeedback.Feedback.Booking.User.Id,

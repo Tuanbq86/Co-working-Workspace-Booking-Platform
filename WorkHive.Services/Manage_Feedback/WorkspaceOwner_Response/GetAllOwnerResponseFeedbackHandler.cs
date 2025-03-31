@@ -13,6 +13,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
 
     public record GetAllOwnerResponseFeedbackResult(
         int Id,
+        string Title,
         string Description,
         string Status,
         int UserId,
@@ -34,6 +35,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
 
             return responseFeedbacks.Select(responeFeedback => new GetAllOwnerResponseFeedbackResult(
                 responeFeedback.Id,
+                responeFeedback.Title,
                 responeFeedback.Description,
                 responeFeedback.Status,
                 responeFeedback.Feedback.Booking.User.Id,

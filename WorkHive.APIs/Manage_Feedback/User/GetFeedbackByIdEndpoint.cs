@@ -5,7 +5,7 @@ using WorkHive.Services.Manage_Feedback.User_Feedback;
 
 namespace WorkHive.APIs.Manage_Feedback.User
 {
-    public record GetFeedbackByIdResponse(int Id, string Description, string Status, int UserId, int OwnerId, int? BookingId, int WorkspaceId ,string WorkspaceName, DateTime? CreatedAt, List<string> ImageUrls);
+    public record GetFeedbackByIdResponse(int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? BookingId, int WorkspaceId ,string WorkspaceName, DateTime? CreatedAt, List<string> ImageUrls);
 
     public class GetFeedbackByIdEndpoint : ICarterModule
     {
@@ -20,6 +20,7 @@ namespace WorkHive.APIs.Manage_Feedback.User
                     ? Results.NotFound("Feedback not found")
                     : Results.Ok(new GetFeedbackByIdResponse(
                         result.Id,
+                        result.Title,
                         result.Description,
                         result.Status,
                         result.UserId,

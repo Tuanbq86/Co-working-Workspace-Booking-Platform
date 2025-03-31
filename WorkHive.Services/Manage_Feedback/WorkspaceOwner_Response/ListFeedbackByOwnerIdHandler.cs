@@ -11,7 +11,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
     public record ListFeedbackByOwnerIdQuery(int OwnerId) : IQuery<List<ListFeedbackByOwnerIdResult>>;
 
     public record ListFeedbackByOwnerIdResult(
-        int Id, string Description, string Status, int UserId, int OwnerId,
+        int Id, string Title, string Description, string Status, int UserId, int OwnerId,
         int? BookingId, int WorkspaceId, string WorkspaceName,
         DateTime? CreatedAt, List<string> ImageUrls
     );
@@ -28,6 +28,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
 
             return feedbacks.Select(feedback => new ListFeedbackByOwnerIdResult(
                 feedback.Id,
+                feedback.Title,
                 feedback.Description,
                 feedback.Status,
                 feedback.UserId,
