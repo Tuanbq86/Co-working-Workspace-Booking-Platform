@@ -13,6 +13,7 @@ namespace WorkHive.Repositories.IRepositories
         public Task<OwnerResponseFeedback?> GetResponseFeedbackById(int Id);
         public Task<List<OwnerResponseFeedback>> GetAllResponseFeedbacks();
         public Task<List<OwnerResponseFeedback>> GetResponseFeedbacksByOwnerId(int ownerId);
+        Task<List<OwnerResponseFeedback>> GetResponseFeedbacksByUserId(int userId);
 
     }
 }
