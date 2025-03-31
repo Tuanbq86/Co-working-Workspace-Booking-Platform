@@ -33,28 +33,31 @@ namespace WorkHive.Services.Owners.LoginOwner
     {
         public async Task<LoginOwnerResult> Handle(LoginOwnerCommand command, CancellationToken cancellationToken)
         {
-            // Check user standing by email/phone and password
+            // Check owner standing by email/phone and password
             var IsExist = ownerUnit.WorkspaceOwner.FindWorkspaceOwnerByEmailOrPhone(command.Auth, command.Password);
 
             if (IsExist == false)
-                throw new UserNotFoundException("User", command.Auth);
+                return new LoginOwnerResult("", "Không tìm thấy owner");
 
-            // Get user to use generate JWT token
+            // Get owner to use generate JWT token
 
-            var userList = await ownerUnit.WorkspaceOwner.GetAllAsync();
+            var ownerList = await ownerUnit.WorkspaceOwner.GetAllAsync();
 
-            var user = userList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
+            var owner = ownerList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
                        u.Email.ToLower().Trim().Equals(command.Auth.ToLower().Trim()));
 
-            if (user is null)
-                throw new UserNotFoundException("User", command.Auth);
+            if (owner is null)
+                return new LoginOwnerResult("", "Sai thông tin đăng nhập");
 
-            string token = tokenRepo.GenerateJwtToken(user!);
+            if (owner.IsBan!.Value.Equals(1))
+                return new LoginOwnerResult("", "Tài khoản bị cấm");
+
+            string token = tokenRepo.GenerateJwtToken(owner!);
 
             //Save token into session to use in a working session
             httpContext.HttpContext!.Session.SetString("token", token);
 
-            return new LoginOwnerResult(token, "Login successfully");
+            return new LoginOwnerResult(token, "Đăng nhập thành công");
         }
     }
 }

@@ -30,7 +30,7 @@ public class BanCustomerHandler(IUserUnitOfWork userUnit)
         {
             UserId = customer.Id,
             Description = "Tài khoản đã bị cấm",
-            Status = "Active",
+            Status = "InActive",
             IsRead = 0,
             CreatedAt = DateTime.Now
         };

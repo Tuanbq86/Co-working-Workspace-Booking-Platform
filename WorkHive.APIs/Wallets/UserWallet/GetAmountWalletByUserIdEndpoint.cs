@@ -6,7 +6,7 @@ using WorkHive.Services.Wallets.UserWallet;
 namespace WorkHive.APIs.Wallets.UserWallet;
 
 public record GetAmountWalletByUserIdRequest(int UserId);
-public record GetAmountWalletByUserIdResponse(decimal? Amount, string Notification);
+public record GetAmountWalletByUserIdResponse(string? Amount, string Notification);
 
 public class GetAmountWalletByUserIdEndpoint : ICarterModule
 {

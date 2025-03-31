@@ -14,10 +14,17 @@ public class WorkspaceOwnerUnitOfWork : IWorkspaceOwnerUnitOfWork
 {
     protected WorkHiveContext _context;
     public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
+
+    public IOwnerNotificationRepository OwnerNotification { get; private set; }
+
+    public IOwnerPasswordResetTokenRepository OwnerPasswordResetToken { get; private set; }
+
     public WorkspaceOwnerUnitOfWork(WorkHiveContext context)
     {
         _context = context;
         WorkspaceOwner = new WorkspaceOwnerRepository(_context);
+        OwnerNotification = new OwnerNotificationRepository(_context);
+        OwnerPasswordResetToken = new OwnerPasswordResetTokenRepository(_context);
     }
     public int Save()
     {

@@ -18,9 +18,9 @@ public class LoginWithOwnerEmailEndpoint : ICarterModule
 
             var result = await sender.Send(command);
 
-            var response = result.Adapt<LoginWithOwnerEmailResponse>();
+            var response = new LoginWithOwnerEmailResponse(result.OwnerName);
 
-            return Results.Ok(response.UserName);
+            return Results.Ok(response);
         })
         .WithName("checkOwnerEmail")
         .Produces<LoginWithOwnerEmailResponse>(StatusCodes.Status200OK)

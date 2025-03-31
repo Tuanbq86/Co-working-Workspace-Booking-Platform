@@ -31,7 +31,7 @@ public class LoginWithPhoneHandler(IUserUnitOfWork userUnit)
         var user = userUnit.User.FindUserByPhone(command.Phone);
 
         if (user is null)
-            throw new UserNotFoundException("User", command.Phone);
+            return new LoginWithPhoneResult($"Không tìm thấy người dùng với số điện thoại: {command.Phone}");
 
         return new LoginWithPhoneResult(user.Name.ToString());
     }

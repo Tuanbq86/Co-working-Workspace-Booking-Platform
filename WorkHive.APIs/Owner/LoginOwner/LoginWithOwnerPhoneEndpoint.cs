@@ -19,9 +19,9 @@ namespace WorkHive.APIs.Owner.LoginOwner
 
                 var result = await sender.Send(command);
 
-                var response = result.Adapt<LoginWithOwnerPhoneResponse>();
+                var response = new LoginWithOwnerPhoneResponse(result.OwnerName);
 
-                return Results.Ok(response.UserName);
+                return Results.Ok(response);
             })
             .WithName("checkOwnerPhone")
             .Produces<LoginWithOwnerPhoneResponse>(StatusCodes.Status200OK)

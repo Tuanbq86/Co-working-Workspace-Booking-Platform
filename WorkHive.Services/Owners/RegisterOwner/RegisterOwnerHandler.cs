@@ -31,12 +31,12 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
     {
         //Checking exist used email and phone number for registering
 
-        var existEmailOrPhoneOwner = ownerUnit.WorkspaceOwner.GetAll().
-            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) ||
-            x.Phone.ToLower().Equals(command.Phone.ToLower())).FirstOrDefault();
+        var existEmailAndPhoneOwner = ownerUnit.WorkspaceOwner.GetAll().
+            Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
+            x.Phone.Trim().ToLower().Equals(command.Phone.Trim().ToLower())).FirstOrDefault();
 
-        if (existEmailOrPhoneOwner is not null)
-            throw new BadRequestEmailOrPhoneException("Email or Phone has been used");
+        if (existEmailAndPhoneOwner is not null)
+            return new RegisterOwnerResult("Email và số điện thoại đã được sử dụng");
 
         //Create new Owner for registering
 
@@ -45,8 +45,8 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
 
         var newOwner = new WorkspaceOwner
         {
-            Email = tempOwner.Email,
-            Phone = tempOwner.Phone,
+            Email = tempOwner.Email.Trim(),
+            Phone = tempOwner.Phone.Trim(),
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempOwner.Password, 13),
@@ -56,6 +56,6 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
 
         await ownerUnit.SaveAsync();
 
-        return new RegisterOwnerResult("Register successfully");
+        return new RegisterOwnerResult("Đăng ký thành công");
     }
 }

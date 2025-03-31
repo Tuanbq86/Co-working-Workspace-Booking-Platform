@@ -30,9 +30,9 @@ namespace WorkHive.Services.Owners.LoginOwner
             var Owner = OwnerUnit.WorkspaceOwner.FindWorkspaceOwnerByEmail(command.Email);
 
             if (Owner is null)
-                throw new OwnerNotFoundException("Owner", command.Email);
+                return new LoginWithOwnerEmailResult($"Không tìm thấy owner với email: {command.Email}");
 
-            return new LoginWithOwnerEmailResult(Owner.Email.ToString());
+            return new LoginWithOwnerEmailResult(Owner.LicenseName);
         }
     }
 }

@@ -56,7 +56,7 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
         workspaceTime = new WorkspaceTimeRepository(_context);
         ownerWallet = new OwnerWalletRepository(_context);
         wallet = new WalletRepository(_context);
-        ownerNotification = new OwnerNontificationRepository(_context);
+        ownerNotification = new OwnerNotificationRepository(_context);
         Owner = new WorkspaceOwnerRepository(_context);
         customerWallet = new CustomerWalletRepository(_context);
         userTransactionHistory = new UserTransactionHistoryRepository(_context);

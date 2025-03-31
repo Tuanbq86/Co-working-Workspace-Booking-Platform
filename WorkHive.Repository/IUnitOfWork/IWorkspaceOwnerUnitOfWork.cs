@@ -11,6 +11,8 @@ public interface IWorkspaceOwnerUnitOfWork
 {
 
     IWorkspaceOwnerRepository WorkspaceOwner { get; }
+    IOwnerNotificationRepository OwnerNotification { get; }
+    IOwnerPasswordResetTokenRepository OwnerPasswordResetToken { get; }
     public int Save();
     public Task<int> SaveAsync();
 }

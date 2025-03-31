@@ -32,7 +32,7 @@ public class LoginWithEmailHandler(IUserUnitOfWork userUnit)
         var user = userUnit.User.FindUserByEmail(command.Email);
 
         if (user is null)
-            throw new UserNotFoundException("User", command.Email);
+            return new LoginWithEmailResult($"Không tìm thấy người dùng với email: {command.Email}");
 
         return new LoginWithEmailResult(user.Name.ToString());
     }

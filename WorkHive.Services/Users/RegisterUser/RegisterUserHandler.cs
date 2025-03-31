@@ -43,12 +43,12 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
     {
         //Checking exist used email and phone number for registering
 
-        var existEmailOrPhoneUser = userUnit.User.GetAll().
-            Where(x => x.Email.ToLower().Equals(command.Email.ToLower()) || 
-            x.Phone.ToLower().Equals(command.Phone.ToLower())).FirstOrDefault();
+        var existEmailAndPhoneUser = userUnit.User.GetAll().
+            Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
+            x.Phone.Trim().ToLower().Equals(command.Phone.Trim().ToLower())).FirstOrDefault();
 
-        if (existEmailOrPhoneUser is not null)
-            throw new BadRequestEmailOrPhoneException("Email or Phone has been used");
+        if (existEmailAndPhoneUser is not null)
+            return new RegisterUserResult("", "Email và số điện thoại đã được sử dụng");
         
         //Create new user for registering
 
@@ -58,8 +58,8 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
         var newUser = new User
         {
             Name = tempUser.Name,
-            Email = tempUser.Email,
-            Phone = tempUser.Phone,
+            Email = tempUser.Email.Trim(),
+            Phone = tempUser.Phone.Trim(),
             Sex = tempUser.Sex,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
@@ -104,6 +104,6 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
 
         httpContext.HttpContext!.Session.SetString("token", token);
 
-        return new RegisterUserResult(token, "Register successfully");
+        return new RegisterUserResult(token, "Đăng ký thành công");
     }
 }

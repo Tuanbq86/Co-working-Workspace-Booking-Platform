@@ -12,7 +12,7 @@ public record GetListNotificationByCustomerIdQuery(int CustomerId)
     : IQuery<GetListNotificationByCustomerIdResult>;
 public record GetListNotificationByCustomerIdResult(List<CustomerNotificationDTO> CustomerNotificationDTOs);
 public record CustomerNotificationDTO(int UserNotificationId, string Description, string Status, int UserId, 
-    DateTime? CreateAt, int? IsRead);
+    DateTime? CreateAt, int? IsRead, string Title);
 
 public class GetListNotificationByCustomerIdHandler(IUserUnitOfWork userUnit)
     : IQueryHandler<GetListNotificationByCustomerIdQuery, GetListNotificationByCustomerIdResult>
@@ -28,7 +28,7 @@ public class GetListNotificationByCustomerIdHandler(IUserUnitOfWork userUnit)
         foreach (var item in userNotificationList)
         {
             result.Add(new CustomerNotificationDTO(item.Id, item.Description, item.Status, item.UserId, 
-                item.CreatedAt, item.IsRead));
+                item.CreatedAt, item.IsRead, item.Title));
         }
 
         return new GetListNotificationByCustomerIdResult(result);
