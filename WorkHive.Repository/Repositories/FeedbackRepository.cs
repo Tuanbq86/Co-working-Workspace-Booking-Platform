@@ -46,5 +46,16 @@ public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackReposito
             .ToListAsync();
     }
 
+    public async Task<List<Feedback>> GetFeedbacksByOwnerId(int ownerId)
+    {
+        return await _context.Feedbacks
+            .Include(fb => fb.Booking)
+                .ThenInclude(b => b.Workspace)
+            .Include(fb => fb.ImageFeedbacks)
+                .ThenInclude(imgFeedback => imgFeedback.Image)
+            .Where(fb => fb.Booking.Workspace.Owner.Id == ownerId) 
+            .ToListAsync();
 
+
+    }
 }

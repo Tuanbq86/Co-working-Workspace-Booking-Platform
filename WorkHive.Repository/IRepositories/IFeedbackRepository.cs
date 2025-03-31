@@ -13,5 +13,6 @@ public interface IFeedbackRepository : IGenericRepository<Feedback>
     public Task<Feedback?> GetFeedbackById(int Id);
     public Task<List<Feedback>> GetAllFeedbacks();
     public Task<List<Feedback>> GetFeedbacksByUserId(int userId);
+    public Task<List<Feedback>> GetFeedbacksByOwnerId(int ownerId);
 
 }
