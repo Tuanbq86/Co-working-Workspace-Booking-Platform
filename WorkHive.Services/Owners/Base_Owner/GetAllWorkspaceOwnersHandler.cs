@@ -42,6 +42,7 @@ namespace WorkHive.Services.Owners.Base_Owner
         string Tiktok,
         string PhoneStatus,
         string Message,
+        string Avatar,
         int? UserId
     );
 
@@ -93,6 +94,7 @@ namespace WorkHive.Services.Owners.Base_Owner
            owner.Tiktok,
            owner.PhoneStatus,
            owner.Message,
+           owner.Avatar,
            owner.OwnerWallets.FirstOrDefault()?.UserId 
        )).ToList();
         }
