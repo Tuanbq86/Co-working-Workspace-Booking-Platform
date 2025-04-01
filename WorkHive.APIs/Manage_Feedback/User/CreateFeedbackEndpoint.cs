@@ -18,6 +18,10 @@ namespace WorkHive.APIs.Manage_Feedback.User
             {
                 var query = request.Adapt<CreateFeedbackCommand>();
                 var result = await sender.Send(query);
+                if (result.Notification.Contains("already has feedback"))
+                {
+                    return Results.BadRequest(result);
+                }
                 var response = result.Adapt<CreateFeedbackResponse>();
                 return Results.Created($"/feedbacks", response);
             })
@@ -26,8 +30,7 @@ namespace WorkHive.APIs.Manage_Feedback.User
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Feedback")
             .WithSummary("Create a new feedback")
-            .WithDescription("Creates a new feedback with the provided details.");
+            .WithDescription("Creates a new feedback with the provided details, ensuring a booking has only one feedback.");
         }
     }
-
 }

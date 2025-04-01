@@ -55,4 +55,14 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
             .ToListAsync();
     }
 
+    public async Task<List<Booking>> GetBookingsWithFeedbackByUserId(int userId)
+    {
+        return await _context.Bookings
+            .Where(b => b.IsFeedback == 1 && b.UserId == userId)
+            .Include(b => b.User)
+            .Include(b => b.Workspace)
+            .Include(b => b.Feedbacks)
+            .ToListAsync();
+    }
+
 }
