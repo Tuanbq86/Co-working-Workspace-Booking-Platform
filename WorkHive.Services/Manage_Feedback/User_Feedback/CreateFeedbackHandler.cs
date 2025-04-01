@@ -20,8 +20,15 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
         private const string DefaultImageTitle = "Feedback Image";
         private const string DefaultStatus = "Active";
 
+
         public async Task<CreateFeedbackResult> Handle(CreateFeedbackCommand command, CancellationToken cancellationToken)
         {
+            var existingFeedback = await unit.Feedback.GetFirstFeedbackByBookingId(command.BookingId);
+            if (existingFeedback != null)
+            {
+                return new CreateFeedbackResult("Booking already has feedback. Cannot create another feedback.");
+            }
+
             List<Image> images = command.Images?.Select(i => new Image
             {
                 ImgUrl = i.ImgUrl,

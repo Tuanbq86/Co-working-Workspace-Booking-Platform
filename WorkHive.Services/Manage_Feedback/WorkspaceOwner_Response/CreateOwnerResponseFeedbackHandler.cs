@@ -20,6 +20,11 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
         private const string DefaultStatus = "Active";
         public async Task<CreateResponseFeedbackResult> Handle(CreateOwnerResponseFeedbackCommand command, CancellationToken cancellationToken)
         {
+            var existingResponse = await unit.OwnerResponseFeedback.GetFirstResponseFeedbackByFeedbackId(command.FeedbackId);
+            if (existingResponse != null)
+            {
+                return new CreateResponseFeedbackResult("Feedback đã được phản hồi trước đó.");
+            }
             List<Image> images = command.Images?.Select(i => new Image
             {
                 ImgUrl = i.ImgUrl,

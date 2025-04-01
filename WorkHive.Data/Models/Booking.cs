@@ -29,6 +29,8 @@ public partial class Booking
 
     public int? PromotionId { get; set; }
 
+    public int? IsFeedback { get; set; }
+
     public virtual ICollection<BookingAmenity> BookingAmenities { get; set; } = new List<BookingAmenity>();
 
     public virtual ICollection<BookingBeverage> BookingBeverages { get; set; } = new List<BookingBeverage>();
