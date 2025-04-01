@@ -45,5 +45,14 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
             .CountAsync();
     }
 
+    public async Task<List<Booking>> GetBookingsWithFeedbackByOwnerId(int ownerId)
+    {
+        return await _context.Bookings
+            .Where(b => b.IsFeedback == 1 && b.Workspace.OwnerId == ownerId)
+            .Include(b => b.User)
+            .Include(b => b.Workspace)
+            .Include(b => b.Feedbacks)
+            .ToListAsync();
+    }
 
 }

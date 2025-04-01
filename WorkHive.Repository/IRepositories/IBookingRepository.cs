@@ -16,4 +16,5 @@ public interface IBookingRepository : IGenericRepository<Booking>
 
     public Task<int> CountByWorkspaceIdAsync(int workspaceId, string status);
 
+    public Task<List<Booking>> GetBookingsWithFeedbackByOwnerId(int ownerId);
 }

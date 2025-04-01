@@ -185,6 +185,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
+            entity.Property(e => e.IsFeedback).HasColumnName("is_feedback");
             entity.Property(e => e.IsReview).HasColumnName("is_review");
             entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.Price)
