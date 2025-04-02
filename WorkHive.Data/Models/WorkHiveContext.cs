@@ -557,6 +557,18 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Owner_Withdrawal_Request");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Balance)
+                .HasColumnType("decimal(18, 3)")
+                .HasColumnName("balance");
+            entity.Property(e => e.BankAccountName)
+                .HasMaxLength(50)
+                .HasColumnName("bank_account_name");
+            entity.Property(e => e.BankName)
+                .HasMaxLength(50)
+                .HasColumnName("bank_name");
+            entity.Property(e => e.BankNumber)
+                .HasMaxLength(50)
+                .HasColumnName("bank_number");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");

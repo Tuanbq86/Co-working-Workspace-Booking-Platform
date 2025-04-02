@@ -18,7 +18,6 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
         DateTime? CreatedAt,
         int WorkspaceOwnerId,
         int? UserId,
-        int TransactionHistoryId,
         string BankName,
         string BankNumber,
         string BankAccountName,
@@ -50,11 +49,10 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                         request.CreatedAt,
                         request.WorkspaceOwnerId,
                         request.UserId,
-                        ownerTransaction?.TransactionHistoryId ?? 0,
-                        ownerTransaction?.TransactionHistory?.BankName ?? "N/A",
-                        ownerTransaction?.TransactionHistory?.BankNumber ?? "N/A",
-                        ownerTransaction?.TransactionHistory?.BankAccountName ?? "N/A",
-                        ownerTransaction?.TransactionHistory?.Amount ?? 0,
+                        request.BankName,
+                        request.BankNumber,
+                        request.BankAccountName,
+                        request.Balance ?? 0,
                         request.ManagerResponse ?? "N/A"
                     ));
                 }

@@ -9,7 +9,7 @@ namespace WorkHive.Services.Owners.LoginOwner.Decode_JWT
 {
 
     public record DecodeJwtOwnerCommand(string Token) : ICommand<DecodeJwtOwnerResult>;
-    public record DecodeJwtOwnerResult(Dictionary<string, string> Claims);
+    public record DecodeJwtOwnerResult(Dictionary<string, string> Claims, string Avatar);
 
 
     class DecodeJwtTokenOwnerHandler(ITokenRepository tokenRepo, IWorkSpaceManageUnitOfWork ownerUnit)
@@ -24,7 +24,7 @@ namespace WorkHive.Services.Owners.LoginOwner.Decode_JWT
 
             var owner = ownerUnit.WorkspaceOwner.GetById(Convert.ToInt32(ownerId));
 
-            return new DecodeJwtOwnerResult(claims);
+            return new DecodeJwtOwnerResult(claims, owner.Avatar);
         }
     }
 }

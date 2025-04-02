@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 
         public async Task<CreateOwnerWithdrawalRequestResult> Handle(CreateOwnerWithdrawalRequestCommand command, CancellationToken cancellationToken)
         {
+            var ownerWallet = await unit.OwnerWallet.GetByOwnerIdAsync(command.WorkspaceOwnerId);
+
             var newRequest = new OwnerWithdrawalRequest
             {
                 Title = command.Title,
@@ -26,6 +29,10 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 Status = DefaultStatus,
                 CreatedAt = DateTime.UtcNow,
                 WorkspaceOwnerId = command.WorkspaceOwnerId,
+                BankAccountName = ownerWallet.BankAccountName,
+                BankName = ownerWallet.BankName,
+                BankNumber = ownerWallet.BankNumber,
+                Balance = ownerWallet.Wallet.Balance ?? 0
             };
 
             await unit.OwnerWithdrawalRequest.CreateAsync(newRequest);

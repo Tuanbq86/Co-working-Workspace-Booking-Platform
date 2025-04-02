@@ -38,14 +38,18 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 
                 decimal withdrawAmount = wallet.Balance.Value;
                 wallet.Balance = 0;
-
+                                        
                 // Ghi lại giao dịch
                 var transaction = new TransactionHistory
                 {
                     Amount = withdrawAmount,
                     Status = "Withdraw Success",
                     Description = "Withdraw from owner wallet",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    BankAccountName = ownerWallet.BankAccountName,
+                    BankName = ownerWallet.BankName,
+                    BankNumber = ownerWallet.BankNumber
+
                 };
 
                 await unit.TransactionHistory.CreateAsync(transaction);
