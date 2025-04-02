@@ -11,7 +11,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
     public record GetAllOwnerWithdrawalRequestsByOwnerIdQuery(int OwnerId) : IQuery<List<OwnerWithdrawalRequestDTO>>;
 
     public class GetAllOwnerWithdrawalRequestsByOwnerIdHandler(IWalletUnitOfWork unit)
-        : IQueryHandler<GetAllOwnerWithdrawalRequestsByOwnerIdQuery, List<OwnerWithdrawalRequestDTO>>
+    : IQueryHandler<GetAllOwnerWithdrawalRequestsByOwnerIdQuery, List<OwnerWithdrawalRequestDTO>>
     {
         public async Task<List<OwnerWithdrawalRequestDTO>> Handle(GetAllOwnerWithdrawalRequestsByOwnerIdQuery query, CancellationToken cancellationToken)
         {
@@ -22,7 +22,9 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 
                 foreach (var request in requests)
                 {
-                    var ownerWallet = await unit.OwnerWallet.GetByOwnerIdAsync(request.WorkspaceOwnerId);
+                    // Lấy thông tin giao dịch gần nhất của Owner
+                    var ownerTransaction = await unit.OwnerTransactionHistory
+                        .GetLatestTransactionByOwnerIdAsync(request.WorkspaceOwnerId);
 
                     result.Add(new OwnerWithdrawalRequestDTO(
                         request.Id,
@@ -32,12 +34,11 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                         request.CreatedAt,
                         request.WorkspaceOwnerId,
                         request.UserId,
-                        ownerWallet?.WalletId ?? 0,
-                        ownerWallet?.BankName ?? "N/A",
-                        ownerWallet?.BankNumber ?? "N/A",
-                        ownerWallet?.BankAccountName ?? "N/A",
-                        ownerWallet?.Wallet?.Balance ?? 0,
-                        request.ManagerResponse ?? "N/A"    
+                        request.BankName,
+                        request.BankNumber,
+                        request.BankAccountName,
+                        request.Balance ?? 0,
+                        request.ManagerResponse ?? "N/A"
                     ));
                 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,19 @@ public class OwnerTransactionHistoryRepository : GenericRepository<OwnerTransact
     public OwnerTransactionHistoryRepository() { }
     public OwnerTransactionHistoryRepository(WorkHiveContext context) => _context = context;
 
-    //To do object method
+    public async Task<List<OwnerTransactionHistory>> GetByOwnerIdAsync(int ownerId)
+    {
+        return await _context.OwnerTransactionHistories
+            .Where(r => r.OwnerWallet.OwnerId == ownerId)
+            .ToListAsync();
+    }
 
+    public async Task<OwnerTransactionHistory?> GetLatestTransactionByOwnerIdAsync(int ownerId)
+    {
+        return await _context.OwnerTransactionHistories
+            .Where(oth => oth.OwnerWallet.OwnerId == ownerId)
+            .OrderByDescending(oth => oth.TransactionHistory.CreatedAt)
+            .FirstOrDefaultAsync();
+    }
 
 }

@@ -7,7 +7,7 @@ using WorkHive.Services.Owners.LoginOwner.Decode_JWT;
 namespace WorkHive.APIs.Owner.LoginOwner.Decode_JWT
 {
     public record DecodeJwtOwnerRequest(string Token);
-    public record DecodeJwtOnwerResponse(Dictionary<string, string> Claims);
+    public record DecodeJwtOnwerResponse(Dictionary<string, string> Claims, string Avatar);
 
     public class DecodeJwtTokenOwnerEndpoint : ICarterModule
     {

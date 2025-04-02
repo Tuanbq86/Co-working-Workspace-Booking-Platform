@@ -19,6 +19,12 @@ public partial class TransactionHistory
 
     public string Title { get; set; }
 
+    public string BankName { get; set; }
+
+    public string BankNumber { get; set; }
+
+    public string BankAccountName { get; set; }
+
     public virtual ICollection<OwnerTransactionHistory> OwnerTransactionHistories { get; set; } = new List<OwnerTransactionHistory>();
 
     public virtual ICollection<UserTransactionHistory> UserTransactionHistories { get; set; } = new List<UserTransactionHistory>();

@@ -18,7 +18,6 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
         DateTime? CreatedAt,
         int WorkspaceOwnerId,
         int? UserId,
-        int WalletId,
         string BankName,
         string BankNumber,
         string BankAccountName,
@@ -39,7 +38,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 
                 foreach (var request in requests)
                 {
-                    var ownerWallet = await unit.OwnerWallet.GetByOwnerIdAsync(request.WorkspaceOwnerId);
+                    var ownerTransaction = await unit.OwnerTransactionHistory
+                        .GetLatestTransactionByOwnerIdAsync(request.WorkspaceOwnerId);
 
                     result.Add(new OwnerWithdrawalRequestDTO(
                         request.Id,
@@ -49,11 +49,10 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                         request.CreatedAt,
                         request.WorkspaceOwnerId,
                         request.UserId,
-                        ownerWallet?.WalletId ?? 0,
-                        ownerWallet?.BankName ?? "N/A",
-                        ownerWallet?.BankNumber ?? "N/A",
-                        ownerWallet?.BankAccountName ?? "N/A",
-                        ownerWallet?.Wallet?.Balance ?? 0,
+                        request.BankName,
+                        request.BankNumber,
+                        request.BankAccountName,
+                        request.Balance ?? 0,
                         request.ManagerResponse ?? "N/A"
                     ));
                 }

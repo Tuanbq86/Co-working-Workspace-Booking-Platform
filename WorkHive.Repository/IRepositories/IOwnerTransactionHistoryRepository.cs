@@ -10,4 +10,5 @@ namespace WorkHive.Repositories.IRepositories;
 
 public interface IOwnerTransactionHistoryRepository : IGenericRepository<OwnerTransactionHistory>
 {
+    public Task<OwnerTransactionHistory?> GetLatestTransactionByOwnerIdAsync(int ownerId);
 }

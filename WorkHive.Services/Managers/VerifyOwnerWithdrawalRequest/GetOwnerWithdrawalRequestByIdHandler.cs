@@ -20,7 +20,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 var request = await unit.OwnerWithdrawalRequest.GetByIdAsync(query.Id);
                 if (request == null) return null;
 
-                var ownerWallet = await unit.OwnerWallet.GetByOwnerIdAsync(request.WorkspaceOwnerId);
+                var ownerTransaction = await unit.OwnerTransactionHistory
+    .GetLatestTransactionByOwnerIdAsync(request.WorkspaceOwnerId);
                 return new OwnerWithdrawalRequestDTO(
                     request.Id, 
                     request.Title,
@@ -29,11 +30,10 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     request.CreatedAt,
                     request.WorkspaceOwnerId,
                     request.UserId,
-                    ownerWallet?.WalletId ?? 0,
-                    ownerWallet?.BankName ?? "N/A",
-                    ownerWallet?.BankNumber ?? "N/A",
-                    ownerWallet?.BankAccountName ?? "N/A",
-                    ownerWallet?.Wallet?.Balance ?? 0,
+                    request.BankName,
+                    request.BankNumber,
+                    request.BankAccountName,
+                    request.Balance ?? 0,
                     request.ManagerResponse ?? "N/A");
 
             }

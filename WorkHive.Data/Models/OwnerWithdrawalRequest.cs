@@ -23,6 +23,14 @@ public partial class OwnerWithdrawalRequest
 
     public string ManagerResponse { get; set; }
 
+    public string BankName { get; set; }
+
+    public string BankNumber { get; set; }
+
+    public string BankAccountName { get; set; }
+
+    public decimal? Balance { get; set; }
+
     public virtual User User { get; set; }
 
     public virtual WorkspaceOwner WorkspaceOwner { get; set; }
