@@ -54,6 +54,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         newBooking.CreatedAt = DateTime.Now;
         newBooking.Status = BookingStatus.Handling.ToString(); //
         newBooking.IsReview = 0; //
+        newBooking.IsFeedback = 0; //
 
         newBooking.StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy",
             System.Globalization.CultureInfo.InvariantCulture); //
