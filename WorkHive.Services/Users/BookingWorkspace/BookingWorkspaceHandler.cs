@@ -191,7 +191,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         var paymentLinkRequest = new PaymentData(
                 orderCode: orderCode,
                 amount: (int)newBooking.Price!,
-                description: $"THANH TOÁN ĐƠN ĐẶT CHỖ {orderCode}",
+                description: $"ĐẶT CHỖ",
                 returnUrl: domain + "/success",
                 cancelUrl : domain + "/fail",
                 items : items,

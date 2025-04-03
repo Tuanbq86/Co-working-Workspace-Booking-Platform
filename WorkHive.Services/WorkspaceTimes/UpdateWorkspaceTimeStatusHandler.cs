@@ -9,13 +9,14 @@ using WorkHive.Data.Models;
 using WorkHive.Services.Common;
 using System.Text;
 using WorkHive.Services.Users.DTOs;
+using WorkHive.Services.EmailServices;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
 public record UpdateTimeCommand(long OrderCode, int BookingId) : ICommand<UpdateTimeResult>;
 public record UpdateTimeResult(string Notification);
 
-public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBookingWorkspaceUnitOfWork bookUnit, IConfiguration configuration)
+public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBookingWorkspaceUnitOfWork bookUnit, IConfiguration configuration, IEmailService emailService)
     : ICommandHandler<UpdateTimeCommand, UpdateTimeResult>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
@@ -149,9 +150,82 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             };
             await bookUnit.ownerNotification.CreateAsync(ownerNotifi);
 
+            //Gửi mail cho user
+            var user = userUnit.User.GetById(bookWorkspace.UserId);
+            var bookingOfEmail = new BookingHistory();
+
+            //If null amenities and beverages will assign default list[]
+            var amenities = bookingOfEmail.BookingHistoryAmenities ?? new List<BookingHistoryAmenity>();
+            var beverages = bookingOfEmail.BookingHistoryBeverages ?? new List<BookingHistoryBeverage>();
+            var workspaceImages = bookingOfEmail.BookingHistoryWorkspaceImages ?? new List<BookingHistoryWorkspaceImage>();
+
+            bookingOfEmail.Booking_Id = bookWorkspace.Id;
+            bookingOfEmail.Workspace_Id = bookWorkspace.WorkspaceId;
+            bookingOfEmail.User_Name = user.Name;
+            bookingOfEmail.Booking_StartDate = bookWorkspace.StartDate;
+            bookingOfEmail.Booking_EndDate = bookWorkspace.EndDate;
+            bookingOfEmail.Booking_Status = bookWorkspace.Status;
+            bookingOfEmail.Booking_CreatedAt = bookWorkspace.CreatedAt;
+            bookingOfEmail.Payment_Method = "PAYOS";
+            bookingOfEmail.License_Name = ownerfornoti.LicenseName;
+            bookingOfEmail.License_Address = ownerfornoti.LicenseAddress;
+            bookingOfEmail.Workspace_Name = workspacefornoti.Name;
+            bookingOfEmail.Workspace_Category = workspacefornoti.Category;
+            bookingOfEmail.Workspace_Capacity = workspacefornoti.Capacity;
+            bookingOfEmail.Workspace_Area = workspacefornoti.Area;
+
+            //Promotion for send email
+            if(bookWorkspace.PromotionId != null)
+            {
+                var promotion = bookUnit.promotion.GetById((int)bookWorkspace.PromotionId);
+                bookingOfEmail.Discount = promotion.Discount;
+                bookingOfEmail.Promotion_Code = promotion.Code;
+            }
+            else
+            {
+                bookingOfEmail.Discount = 0;
+                bookingOfEmail.Promotion_Code = "N/A";
+            }
+
+            bookingOfEmail.Booking_Price = bookWorkspace.Price;
+
+            //amenity
+            var amenitiesForSendEmail = bookUnit.bookAmenity.GetAll().Where(b => b.BookingId == command.BookingId).ToList();
+            if(amenitiesForSendEmail.Count > 0)
+            {
+                foreach (var item in amenitiesForSendEmail)
+                {
+                    var amenity = bookUnit.amenity.GetById(item.AmenityId);
+
+                    if (amenity is null)
+                        continue;
+
+                    amenities.Add(new BookingHistoryAmenity((int)item.Quantity!, amenity.Name, (decimal)amenity.Price!, amenity.ImgUrl));
+                }
+            }
+
+            //beverage
+            var beveragesForSendEmail = bookUnit.bookBeverage.GetAll().Where(b => b.BookingWorkspaceId == command.BookingId).ToList();
+            if (beveragesForSendEmail.Count > 0)
+            {
+                foreach (var item in beveragesForSendEmail)
+                {
+                    var beverage = bookUnit.beverage.GetById(item.BeverageId);
+
+                    if(beverage is null)
+                        continue;
+
+                    beverages.Add(new BookingHistoryBeverage((int)item.Quantity!, beverage.Name, (decimal)beverage.Price!, beverage.ImgUrl));
+                }
+            }
+            bookingOfEmail.BookingHistoryAmenities = amenities;
+            bookingOfEmail.BookingHistoryBeverages = beverages;
+
+            var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail);
+            await emailService.SendEmailAsync(user.Email, "Thông tin đặt chỗ", emailBody);
         }
 
-        return new UpdateTimeResult("Cập nhật trạng thái thành công");
+        return new UpdateTimeResult("Cập nhật trạng thái thành công, vui lòng kiểm tra email để xem thông tin chi tiết");
     }
     private string GenerateBookingDetailsEmailContent(BookingHistory booking)
     {

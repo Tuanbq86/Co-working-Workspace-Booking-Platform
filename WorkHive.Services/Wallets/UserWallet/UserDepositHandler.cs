@@ -54,7 +54,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
-                    description: "depopayment",
+                    description: "NẠP TIỀN",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
             items: items
