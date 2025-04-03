@@ -65,6 +65,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         newBooking.Status = BookingStatus.Success.ToString(); //
         newBooking.IsReview = 0; //
         newBooking.Price = bookingPrice; //
+        newBooking.IsFeedback = 0; //
 
         newBooking.StartDate = DateTime.ParseExact(command.StartDate, "HH:mm dd/MM/yyyy",
             System.Globalization.CultureInfo.InvariantCulture); //
