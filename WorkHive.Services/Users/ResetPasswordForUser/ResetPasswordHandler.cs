@@ -1,4 +1,6 @@
-﻿using WorkHive.BuildingBlocks.CQRS;
+﻿using System.Text;
+using WorkHive.BuildingBlocks.CQRS;
+using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Users.ResetPasswordForUser;
