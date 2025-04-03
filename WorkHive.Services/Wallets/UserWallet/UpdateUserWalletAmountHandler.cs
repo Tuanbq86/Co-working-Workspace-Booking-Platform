@@ -42,7 +42,7 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
             {
                 Amount = command.Amount,
                 Status = Status.ToString(),
-                Description = $"Nội dung:\r\nNạp tiền vào ví đã được xử lý thành công.\r\nSố tiền: {((decimal)command.Amount).ToVnd()}\r\nPhương thức thanh toán: PAYOS\r\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi!",
+                Description = $"Nạp tiền vào ví đã được xử lý thành công.",
                 CreatedAt = DateTime.Now,
                 Title = "Nạp tiền thành công"
             };
@@ -62,7 +62,7 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
                 UserId = customerWallet.UserId,
                 IsRead = 0,
                 CreatedAt = DateTime.Now,
-                Description = $"Nội dung:\r\nBạn đã nạp tiền thành công.\r\nVui lòng kiểm tra lại thông tin trong mục Lịch sử giao dịch. Chúng tôi mong được phục vụ bạn!",
+                Description = $"Nội dung:\r\nBạn đã nạp tiền thành công.\r\nSố tiền: {((decimal)command.Amount).ToVnd()}\r\nVui lòng kiểm tra lại thông tin trong mục Lịch sử giao dịch. Chúng tôi mong được phục vụ bạn!",
                 Status = "PAID",
                 Title = "Nạp tiền thành công"
             };

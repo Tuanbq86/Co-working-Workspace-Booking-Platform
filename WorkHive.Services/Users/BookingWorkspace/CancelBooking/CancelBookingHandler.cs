@@ -52,7 +52,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var transactionHistoryOfUser = new TransactionHistory
             {
                 Amount = placeBooking.Price,
-                Description = $"Nội dung:\r\nYêu cầu hoàn tiền của bạn đã được xử lý thành công.\r\nSố tiền hoàn lại: {placeBooking.Price.ToVnd()} cho đơn booking: {placeBooking.Id}",
+                Description = $"Hoàn tiền cho đơn booking: {placeBooking.Id}",
                 Status = "REFUND",
                 CreatedAt = now,
                 Title = "Hoàn tiền thành công"
@@ -90,7 +90,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var transactionHistoryOfOwner = new TransactionHistory
             {
                 Amount = (placeBooking.Price * 90) / 100,
-                Description = $"Nội dung:\r\nTrừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Hoàn tiền đơn booking: {placeBooking.Id}",
                 Status = "REFUND",
                 CreatedAt = now,
                 Title = "Hoàn tiền"

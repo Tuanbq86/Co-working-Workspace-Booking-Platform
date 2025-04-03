@@ -161,7 +161,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         {
             Amount = newBooking.Price,
             Status = "PAID",
-            Description = $"Nội dung:\r\nThanh toán của bạn cho {workspaceOfOwner.Name} đã được xử lý thành công.\r\nSố tiền: {newBooking.Price.ToVnd()}\r\nPhương thức thanh toán: WorkHive wallet\r\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi!",
+            Description = $"Thanh toán đơn booking: {newBooking.Id}",
             CreatedAt = DateTime.Now,
             Title = "Thanh toán thành công"
         };
@@ -180,7 +180,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         {
             Amount = (newBooking.Price * 90) / 100,
             Status = "PAID",
-            Description = $"Nội dung:\r\nNhận {((newBooking.Price * 90) / 100).ToVnd()} đơn booking: {newBooking.Id}",
+            Description = $"Nhận tiền đơn booking: {newBooking.Id}",
             CreatedAt = DateTime.Now,
             Title = "Đặt chỗ"
         };
@@ -211,7 +211,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         {
             OwnerId = ownerfornoti!.Id,
             CreatedAt = DateTime.Now,
-            Description = $"Nội dung:\r\nWorkspace: {newBooking.WorkspaceId} đã được đặt",
+            Description = $"Workspace: {workspaceOfOwner.Name} đã được đặt",
             IsRead = 0,
             Status = "PAID",
             Title = "Đặt chỗ"

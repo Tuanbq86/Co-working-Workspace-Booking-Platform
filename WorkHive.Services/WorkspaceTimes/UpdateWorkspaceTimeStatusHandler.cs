@@ -100,7 +100,7 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             {
                 Amount = bookWorkspace.Price,
                 Status = "PAID",
-                Description = $"Nội dung:\r\nThanh toán của bạn cho {workspace.Name} đã được xử lý thành công.\r\nSố tiền: {bookWorkspace.Price.ToVnd()}\r\nPhương thức thanh toán: PAYOS\r\nCảm ơn bạn đã sử dụng dịch vụ của chúng tôi!",
+                Description = $"Thanh toán đơn booking: {booking.Id}",
                 CreatedAt = DateTime.Now,
                 Title = "Thanh toán thành công"
             };
@@ -111,7 +111,7 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             {
                 Amount = (booking.Price * 90) / 100,
                 Status = "PAID",
-                Description = $"Nội dung:\r\nNhận {((booking.Price * 90) / 100).ToVnd()} đơn booking: {booking.Id}",
+                Description = $"Nhận tiền đơn booking: {booking.Id}",
                 CreatedAt = DateTime.Now,
                 Title = "Đặt chỗ"
             };
@@ -143,7 +143,7 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             {
                 OwnerId = ownerfornoti!.Id,
                 CreatedAt = DateTime.Now,
-                Description = $"Nội dung:\r\nWorkspace: {bookWorkspace.WorkspaceId} đã được đặt",
+                Description = $"Workspace: {workspacefornoti.Name} đã được đặt",
                 IsRead = 0,
                 Status = "PAID",
                 Title = "Đặt chỗ"
