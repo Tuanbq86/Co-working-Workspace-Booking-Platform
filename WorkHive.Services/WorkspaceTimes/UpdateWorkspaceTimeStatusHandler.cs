@@ -7,6 +7,8 @@ using WorkHive.Services.Constant;
 using WorkHive.Services.Exceptions;
 using WorkHive.Data.Models;
 using WorkHive.Services.Common;
+using System.Text;
+using WorkHive.Services.Users.DTOs;
 
 namespace WorkHive.Services.WorkspaceTimes;
 
@@ -150,5 +152,164 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
         }
 
         return new UpdateTimeResult("Cập nhật trạng thái thành công");
+    }
+    private string GenerateBookingDetailsEmailContent(BookingHistory booking)
+    {
+        var sb = new StringBuilder();
+
+        // Hình ảnh tiêu đề
+        sb.AppendLine($@"
+    <div style='text-align: center; margin-bottom: 20px;'>
+        <img src='https://res.cloudinary.com/dcq99dv8p/image/upload/v1743492632/mailWorkHive_gmegks.jpg' 
+             style='width: 100%; max-width: 1350px; height: auto; display: block; margin: 0 auto;' 
+             alt='Booking Image'>
+    </div>");
+
+        // Bảng thông tin thanh toán
+        sb.AppendLine($@"
+    <div style='display: flex; justify-content: center;'>
+        <table style='border-collapse: collapse; width: 100%; max-width: 1350px; margin: 0 auto; font-family: Arial, sans-serif; border: 1px solid #ddd;'>
+            <tr>
+                <th colspan='3' 
+                    style='background-color: #f8f3d4; 
+                           padding: 15px; 
+                           font-size: 22px; 
+                           text-align: center;'>
+                    THÔNG TIN ĐẶT CHỖ
+                </th>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã đặt chỗ</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Booking_Id}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã không gian</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Id}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên khách hàng</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.User_Name ?? "N/A"}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Nhận chỗ</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Booking_StartDate}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Trả chỗ</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Booking_EndDate}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Trạng thái</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Booking_Status}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Ngày tạo</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Booking_CreatedAt}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Phương thức thanh toán</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Payment_Method}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên quán</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.License_Name}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Địa chỉ quán</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.License_Address}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên không gian</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Name}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Loại không gian</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Category}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Số lượng</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Capacity}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Khu vực</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Area}</td>
+            </tr>");
+
+        // Amenity
+        if (booking.BookingHistoryAmenities!.Any())
+        {
+            sb.AppendLine($@"
+        <tr style='background-color: #ffff00;'>
+            <td colspan='3' style='padding: 10px; font-size: 16px; font-weight: bold; text-align: center; border: 1px solid #ddd;'>Tiện ích</td>
+        </tr>
+        <tr>
+            <th style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên tiện ích</th>
+            <th style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Số lượng</th>
+            <th style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Đơn giá (VNĐ)</th>
+        </tr>");
+            foreach (var amenity in booking.BookingHistoryAmenities!)
+            {
+                sb.AppendLine($@"
+            <tr>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;'>{amenity.Name}</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;'>{amenity.Quantity}</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;'>{amenity.UnitPrice}</td>
+            </tr>");
+            }
+        }
+
+        // Beverages
+        if (booking.BookingHistoryBeverages!.Any())
+        {
+            sb.AppendLine($@"
+        <tr style='background-color: #ffff00;'>
+            <td colspan='3' style='padding: 10px; font-size: 16px; font-weight: bold; text-align: center; border: 1px solid #ddd;'>Thực phẩm</td>
+        </tr>
+        <tr>
+            <th style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên thực phẩm</th>
+            <th style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Số lượng</th>
+            <th style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Đơn giá (VNĐ)</th>
+        </tr>");
+            foreach (var beverage in booking.BookingHistoryBeverages!)
+            {
+                sb.AppendLine($@"
+            <tr>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;'>{beverage.Name}</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;'>{beverage.Quantity}</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;'>{beverage.UnitPrice}</td>
+            </tr>");
+            }
+        }
+
+        // Tổng kết
+        sb.AppendLine($@"
+    <tr>
+        <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã giảm giá</td>
+        <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Promotion_Code ?? "N/A"}</td>
+    </tr>
+    <tr>
+        <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Giảm giá</td>
+        <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Discount ?? 0}</td>
+    </tr>
+    <tr>
+        <td style='padding: 10px; font-size: 16px; font-weight: bold; color: red; border: 1px solid #ddd;'>Tổng tiền (sau giảm giá)</td>
+        <td style='padding: 10px; font-size: 16px; font-weight: bold; color: red; border: 1px solid #ddd;' colspan='2'>{booking.Booking_Price}</td>
+    </tr>
+    </table>
+    </div>");
+
+        // Phần liên hệ (Contact Info)
+        sb.AppendLine($@"
+    <div style='background-color: #f8d7da; padding: 20px; margin-top: 20px; border-radius: 8px; max-width: 1350px; margin: 0 auto;'>
+        <h2 style='text-align: center; font-family: Arial, sans-serif; color: #d63384;'>Liên hệ</h2>
+        <p style='text-align: center; font-size: 16px; color: #d63384;'>
+            Mail: <a href='mailto:workhive.vn.official@gmail.com' style='color: #d63384;'>workhive.vn.official@gmail.com</a><br>
+            Hotline: 0867435157<br>
+        </p>
+    </div>");
+
+        return sb.ToString();
+
+
     }
 }

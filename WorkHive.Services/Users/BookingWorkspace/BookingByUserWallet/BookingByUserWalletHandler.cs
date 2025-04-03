@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet.Actions;
+using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 using System.Text;
 using WorkHive.BuildingBlocks.CQRS;
@@ -6,6 +7,7 @@ using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Common;
 using WorkHive.Services.Constant;
+using WorkHive.Services.EmailServices;
 using WorkHive.Services.Users.DTOs;
 
 namespace WorkHive.Services.Users.BookingWorkspace.BookingByUserWallet;
@@ -15,7 +17,7 @@ public record BookingByUserWalletCommand(int UserId, int WorkspaceId, string Sta
     : ICommand<BookingByUserWalletResult>;
 public record BookingByUserWalletResult(string Notification);
 
-public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit, IUserUnitOfWork userUnit)
+public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit, IUserUnitOfWork userUnit, IEmailService emailService)
     : ICommandHandler<BookingByUserWalletCommand, BookingByUserWalletResult>
 {
     public async Task<BookingByUserWalletResult> Handle(BookingByUserWalletCommand command, 
@@ -216,7 +218,89 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         };
         await bookingUnit.ownerNotification.CreateAsync(ownerNotifi);
 
-        return new BookingByUserWalletResult("booking thành công");
+        //Send email to user
+        var user = userUnit.User.GetById(newBooking.UserId);
+
+        var bookingOfEmail = new BookingHistory();
+
+        //If null amenities and beverages will assign default list[]
+        var amenities = bookingOfEmail.BookingHistoryAmenities ?? new List<BookingHistoryAmenity>();
+        var beverages = bookingOfEmail.BookingHistoryBeverages ?? new List<BookingHistoryBeverage>();
+        var workspaceImages = bookingOfEmail.BookingHistoryWorkspaceImages ?? new List<BookingHistoryWorkspaceImage>();
+
+        bookingOfEmail.Booking_Id = newBooking.Id;
+        bookingOfEmail.Workspace_Id = newBooking.WorkspaceId;
+        bookingOfEmail.User_Name = user.Name;
+        bookingOfEmail.Booking_StartDate = newBooking.StartDate;
+        bookingOfEmail.Booking_EndDate = newBooking.EndDate;
+        bookingOfEmail.Booking_Status = newBooking.Status;
+        bookingOfEmail.Booking_CreatedAt = newBooking.CreatedAt;
+        bookingOfEmail.Payment_Method = "Ví WorkHive";
+        bookingOfEmail.License_Name = ownerfornoti.LicenseName;
+        bookingOfEmail.License_Address = ownerfornoti.LicenseAddress;
+        bookingOfEmail.Workspace_Name = workspaceOfOwner.Name;
+        bookingOfEmail.Workspace_Category = workspaceOfOwner.Category;
+        bookingOfEmail.Workspace_Capacity = workspaceOfOwner.Capacity;
+        bookingOfEmail.Workspace_Area = workspaceOfOwner.Area;
+
+        if (!string.IsNullOrWhiteSpace(command.PromotionCode))
+        {
+            var promotion = bookingUnit.promotion.GetAll()
+                                .FirstOrDefault(p => p.WorkspaceId == command.WorkspaceId
+                          && p.Code.Trim().ToLower() == command.PromotionCode.Trim().ToLower());
+
+            if (promotion != null)
+            {
+                bookingOfEmail.Promotion_Code = promotion.Code;
+                bookingOfEmail.Discount = promotion.Discount;
+            }
+            else
+            {
+                bookingOfEmail.Promotion_Code = "N/A";
+                bookingOfEmail.Discount = 0;
+            }
+        }
+
+        //amenity
+        if(command.Amenities is not null && command.Amenities.Any())
+        {
+            foreach (var item in command.Amenities)
+            {
+                var amenity = bookingUnit.amenity.GetById(item.Id);
+                if (amenity is null)
+                    continue;
+                
+                var bookingAmenity = bookingUnit.bookAmenity.GetAll()
+                    .FirstOrDefault(ba => ba.BookingId == newBooking.Id && ba.AmenityId == amenity.Id);
+
+                amenities.Add(new BookingHistoryAmenity((int)bookingAmenity!.Quantity!, amenity.Name, (decimal)amenity.Price!, amenity.ImgUrl));
+            }
+        }
+
+        //beverage
+        if (command.Beverages is not null && command.Beverages.Any())
+        {
+            foreach (var item in command.Beverages)
+            {
+                var beverage = bookingUnit.beverage.GetById(item.Id);
+                if (beverage is null)
+                    continue;
+
+                var bookingBeverage = bookingUnit.bookBeverage.GetAll()
+                    .FirstOrDefault(ba => ba.BookingWorkspaceId == newBooking.Id && ba.BeverageId == beverage.Id);
+
+                beverages.Add(new BookingHistoryBeverage((int)bookingBeverage!.Quantity!, beverage.Name, (decimal)beverage.Price!, beverage.ImgUrl));
+            }
+        }
+
+        bookingOfEmail.BookingHistoryAmenities = amenities;
+        bookingOfEmail.BookingHistoryBeverages = beverages;
+        bookingOfEmail.Booking_Price = newBooking.Price;
+
+        var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail);
+        await emailService.SendEmailAsync(user.Email, "Thông tin đặt chỗ", emailBody);
+
+        return new BookingByUserWalletResult("Đặt chỗ thành công, vui lòng kiểm tra email để xem thông tin chi tiết");
     }
 
     private string GenerateBookingDetailsEmailContent(BookingHistory booking)
