@@ -46,6 +46,14 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
                 CreatedAt = DateTime.UtcNow
             };
 
+            var booking = await unit.Booking.GetByIdAsync(command.BookingId);
+            if (booking != null)
+            {
+                booking.IsFeedback = 1;
+                await unit.Booking.UpdateAsync(booking);
+                await unit.SaveAsync();
+            }
+
             if (images.Any())
             {
                 await unit.Image.CreateImagesAsync(images);
