@@ -56,6 +56,7 @@ public class GetBookingHistoryListByIdHandler(IBookingWorkspaceUnitOfWork bookin
             }
 
             bookingHistory.IsReview = item.IsReview.GetValueOrDefault();
+            bookingHistory.IsFeedback = item.IsFeedback.GetValueOrDefault();
             // Add new attribute
             bookingHistory.License_Name = item.Workspace.Owner.LicenseName;
             bookingHistory.License_Address = item.Workspace.Owner.LicenseAddress;

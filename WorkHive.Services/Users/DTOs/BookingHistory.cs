@@ -22,7 +22,9 @@ public sealed class BookingHistory
     public string? License_Address { get; set; }
     public int Workspace_Id { get; set; }
     public int Booking_Id { get; set; }
+    public string? User_Name { get; set; }
     public int IsReview { get; set; }
+    public int IsFeedback { get; set; }
     //public string? google_map_url { get; set; }
     public List<BookingHistoryAmenity>? BookingHistoryAmenities { get; set; }
     public List<BookingHistoryBeverage>? BookingHistoryBeverages { get; set; }
