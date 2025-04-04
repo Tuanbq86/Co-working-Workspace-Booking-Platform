@@ -53,6 +53,7 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IEmailSer
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempOwner.Password, 13),
+            IsBan = 0
         };
 
         ownerUnit.WorkspaceOwner.Create(newOwner);

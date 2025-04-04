@@ -31,4 +31,5 @@ public class UserDTO
     public string RoleName { get; set; }
 
     public string Sex { get; set; }
+    public int? IsBan { get; set; }
 }

@@ -15,7 +15,7 @@ public class GetAllUserHandler(IUserUnitOfWork userUnit)
     {
         var users = await userUnit.User.GetAllAsync();
 
-        var others = users.Where(x => !x.RoleId.Equals(4)).ToList();
+        var others = users.Where(x => !x.RoleId.Equals(4) && !x.RoleId.Equals(1)).ToList();
 
         List<UserDTO> otherResult = new List<UserDTO>();
 
@@ -35,7 +35,8 @@ public class GetAllUserHandler(IUserUnitOfWork userUnit)
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
                 Sex = item.Sex,
-                RoleName = role.RoleName
+                RoleName = role.RoleName,
+                IsBan = item.IsBan
             };
 
             otherResult.Add(UserDto);

@@ -59,4 +59,5 @@ public class OwnerDTO
     public string Tiktok { get; set; }
 
     public string PhoneStatus { get; set; }
+    public int? IsBan { get; set; }
 }

@@ -34,7 +34,8 @@ public class GetAllStaffHandler(IUserUnitOfWork userUnit)
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
                 Sex = item.Sex,
-                RoleName = role.RoleName
+                RoleName = role.RoleName,
+                IsBan = item.IsBan,
             };
 
             result.Add(UserDto);

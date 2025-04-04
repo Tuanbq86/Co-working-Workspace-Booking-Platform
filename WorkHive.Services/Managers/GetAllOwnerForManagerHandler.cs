@@ -45,7 +45,8 @@ public class GetAllOwnerForManagerHandler(IUserUnitOfWork userUnit)
                 Sex = item.Sex,
                 Status = item.Status,
                 Tiktok = item.Tiktok,
-                UpdatedAt = item.UpdatedAt  
+                UpdatedAt = item.UpdatedAt,
+                IsBan = item.IsBan,
             });
         }
 

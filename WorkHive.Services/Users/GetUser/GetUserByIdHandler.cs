@@ -34,7 +34,8 @@ public class GetUserByIdHandler(IUserUnitOfWork userUnit)
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,
             Sex = user.Sex,
-            RoleName = role.RoleName
+            RoleName = role.RoleName,
+            IsBan = user.IsBan
         };
 
         return new GetUserByIdResult(userDTO);
