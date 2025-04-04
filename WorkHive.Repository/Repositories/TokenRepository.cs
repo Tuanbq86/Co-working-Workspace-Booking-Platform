@@ -12,9 +12,11 @@ namespace WorkHive.Repositories.Repositories;
 public sealed class TokenRepository : ITokenRepository
 {
     private readonly IConfiguration _configuration;
-    public TokenRepository(IConfiguration configuration)
+    private readonly WorkHiveContext _context;
+    public TokenRepository(IConfiguration configuration, WorkHiveContext context)
     {
         _configuration = configuration;
+        _context = context;
     }
 
     public Dictionary<string, string> DecodeJwtToken(string token)
@@ -35,6 +37,9 @@ public sealed class TokenRepository : ITokenRepository
 
     public string GenerateJwtToken(User user)
     {
+        //Lấy role để phân quyền
+        var roleForAuthorize = _context.Roles.FirstOrDefault(r => r.Id == user.RoleId);
+
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -45,7 +50,9 @@ public sealed class TokenRepository : ITokenRepository
         new Claim("Phone", user.Phone.ToString()),
         new Claim("Sex", user.Sex.ToString()),
         new Claim("Status", user.Status.ToString()),
-        new Claim("RoleId", user.RoleId.ToString())
+        new Claim("RoleId", user.RoleId.ToString()),
+        //Lấy role để phân quyền
+        new Claim(ClaimTypes.Role, roleForAuthorize!.RoleName)
     };
 
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"]!,
