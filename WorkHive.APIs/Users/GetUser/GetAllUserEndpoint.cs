@@ -22,11 +22,11 @@ public class GetAllUserEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("GetAllUser")
+        .WithName("Get All User Except Customer and Admin")
         .Produces<GetAllUserResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("Get All User")
-        .WithTags("Get All User Except Customer")
-        .WithDescription("Get All User");
+        .WithSummary("Get All User Except Customer and Admin")
+        .WithTags("Get All User Except Customer and Admin")
+        .WithDescription("Get All User Except Customer and Admin");
     }
 }

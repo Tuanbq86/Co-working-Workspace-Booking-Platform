@@ -35,7 +35,8 @@ public class GetAllCustomerHandler(IUserUnitOfWork userUnit)
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
                 Sex = item.Sex,
-                RoleName = role.RoleName
+                RoleName = role.RoleName,
+                IsBan = item.IsBan
             };
 
             customerResult.Add(UserDto);
