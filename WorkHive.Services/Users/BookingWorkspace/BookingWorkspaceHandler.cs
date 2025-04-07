@@ -184,7 +184,7 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         var timestamp = DateTime.UtcNow.Ticks.ToString()[^6..]; // Lấy 6 chữ số cuối của timestamp
         var orderCode = long.Parse($"{newBooking.Id}{timestamp}"); // Kết hợp bookingId và timestamp
         //Tạo thời gian hết hạn cho link thanh toán
-        var expiredAt = DateTimeOffset.Now.AddMinutes(3).ToUnixTimeSeconds();
+        var expiredAt = DateTimeOffset.Now.AddMinutes(10).ToUnixTimeSeconds();
 
 
         var domain = configuration["PayOS:Domain"]!;

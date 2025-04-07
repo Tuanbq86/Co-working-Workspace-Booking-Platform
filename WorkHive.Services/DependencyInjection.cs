@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using WorkHive.BuildingBlocks.Behaviors;
 using WorkHive.Data.Models;
@@ -44,17 +45,24 @@ public static class DependencyInjection
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = configuration["Jwt:Issuer"],
                 ValidAudience = configuration["Jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+                RoleClaimType = "RoleId"
             };
         });
 
-        services.AddAuthorization();
+        services.AddAuthorization(op =>
+        {
+            op.AddPolicy("Admin", policy => policy.RequireClaim("RoleId", "1"));
+            op.AddPolicy("Manager", policy => policy.RequireClaim("RoleId", "2"));
+            op.AddPolicy("Staff", policy => policy.RequireClaim("RoleId", "3"));
+            op.AddPolicy("Customer", policy => policy.RequireClaim("RoleId", "4"));
+        });
 
         //Save session into Ram when I restart all data will delete
         services.AddDistributedMemoryCache();
@@ -100,8 +108,6 @@ public static class DependencyInjection
 
     public static WebApplication UseServiceServices(this WebApplication app)
     {
-        app.UseAuthentication();
-        app.UseAuthorization();
         app.UseSession();
         return app;
     }

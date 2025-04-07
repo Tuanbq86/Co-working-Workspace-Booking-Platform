@@ -4,9 +4,16 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 443
 
+# Enable HTTP v� HTTPS
+ENV ASPNETCORE_URLS="http://+:80;https://+:443"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/workhive.pfx
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=24Quochuyho.
+
+# volume to mount the certificate out of container
+VOLUME ["/https"]
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -31,5 +38,4 @@ RUN dotnet publish "./WorkHive.APIs.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://+:8080
 ENTRYPOINT ["dotnet", "WorkHive.APIs.dll"]

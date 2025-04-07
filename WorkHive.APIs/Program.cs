@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.OpenApi.Models;
 using WorkHive.APIs;
 using WorkHive.Services;
 
@@ -9,7 +10,41 @@ var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//Add for authorization
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "My WorkHive API",
+        Version = "v1"
+    });
+
+    // Thêm cấu hình để Swagger hỗ trợ JWT Authentication
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Nhập JWT token vào đây. VD: Bearer {token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 builder.Services.AddServiceServices(builder.Configuration);
 builder.Services.AddApiServices(builder.Configuration);
@@ -25,10 +60,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
 
-//Đọc giá trị cổng từ biến môi trường (mặc định là 8080)
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-
-//builder.WebHost.UseUrls($"http://*:{port}"); // Lắng nghe trên tất cả địa chỉ IP
 
 var app = builder.Build();
 
@@ -42,6 +73,9 @@ if (app.Environment.IsDevelopment() /*|| app.Environment.IsProduction()*/)
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My WorkHive API");
     });
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseApiServices();
 app.UseServiceServices();

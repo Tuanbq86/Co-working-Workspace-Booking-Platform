@@ -1,6 +1,7 @@
 ﻿using Carter;
 using Mapster;
 using MediatR;
+using WorkHive.Data.Models;
 using WorkHive.Services.Users.BookingWorkspace.BookingByUserWallet;
 using WorkHive.Services.Users.DTOs;
 
@@ -29,6 +30,7 @@ public class BookingByUserWalletEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Booking workspace by workhive wallet")
         .WithTags("Booking")
+        .RequireAuthorization("Customer")
         .WithDescription("Booking workspace by workhive wallet");
     }
 }
