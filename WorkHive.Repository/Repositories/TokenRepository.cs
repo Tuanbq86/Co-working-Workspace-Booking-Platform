@@ -50,9 +50,8 @@ public sealed class TokenRepository : ITokenRepository
         new Claim("Phone", user.Phone.ToString()),
         new Claim("Sex", user.Sex.ToString()),
         new Claim("Status", user.Status.ToString()),
-        new Claim("RoleId", user.RoleId.ToString()),
-        //Lấy role để phân quyền
-        new Claim(ClaimTypes.Role, roleForAuthorize!.RoleName)
+        //Phân quyền bằng roleId
+        new Claim("RoleId", user.RoleId.ToString())
     };
 
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"]!,
