@@ -21,6 +21,13 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
         public async Task<CreateResponseFeedbackResult> Handle(CreateOwnerResponseFeedbackCommand command, CancellationToken cancellationToken)
         {
             var existingResponse = await unit.OwnerResponseFeedback.GetFirstResponseFeedbackByFeedbackId(command.FeedbackId);
+            var existingFeedback = await unit.Feedback.GetByIdAsync(command.FeedbackId);
+            var existingOwner = await unit.WorkspaceOwner.GetByIdAsync(command.OwnerId);
+
+            if (existingFeedback == null)
+            {
+                return new CreateResponseFeedbackResult("Không tìm thấy phản hồi.");
+            }   
             if (existingResponse != null)
             {
                 return new CreateResponseFeedbackResult("Feedback đã được phản hồi trước đó.");
@@ -46,6 +53,19 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
             {
                 await unit.Image.CreateImagesAsync(images);
             }
+
+
+            var userNotificaiton = new UserNotification
+            {
+                Description = $"{newResponseFeedback.Description}",
+                Status = "Active",
+                UserId = existingFeedback.UserId,
+                CreatedAt = DateTime.UtcNow,
+                IsRead = 0,
+                Title = $"Phản hổi từ {existingOwner.LicenseName}. {newResponseFeedback.Title}"
+            };
+
+            await unit.UserNotification.CreateAsync(userNotificaiton);
             await unit.OwnerResponseFeedback.CreateAsync(newResponseFeedback);
             await unit.SaveAsync();
 
