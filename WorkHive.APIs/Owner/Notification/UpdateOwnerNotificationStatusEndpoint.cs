@@ -1,6 +1,6 @@
 ﻿using Carter;
 using MediatR;
-using WorkHive.Services.Owners.OwnerNotification;
+using WorkHive.Services.Owners.Notification;
 namespace WorkHive.APIs.Owner.OwnerNotification
 {
     public record UpdateOwnerNotificationStatusResponse(string Notification, int IsRead);

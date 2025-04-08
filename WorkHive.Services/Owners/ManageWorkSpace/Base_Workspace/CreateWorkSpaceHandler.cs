@@ -128,6 +128,17 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     PolicyId = pol.Id
                 }).ToList();
 
+                var ownerNotification = new OwnerNotification
+                {
+                    Description = $"You have created a new workspace: {newWorkSpace.Name}",
+                    Status = DefaultStatus,
+                    OwnerId = command.OwnerId,
+                    CreatedAt = DateTime.UtcNow,
+                    IsRead = 0,
+                    Title = "New Workspace Created"
+                };
+
+                await workSpaceManageUnit.OwnerNotification.CreateAsync(ownerNotification);
                 await workSpaceManageUnit.WorkspaceImage.CreateWorkspaceImagesAsync(workspaceImages);
                 await workSpaceManageUnit.WorkspacePrice.CreateWorkspacePricesAsync(workspacePrices);
                 await workSpaceManageUnit.WorkspacePolicy.CreateWorkspacePoliciesAsync(workspacePolicies);
