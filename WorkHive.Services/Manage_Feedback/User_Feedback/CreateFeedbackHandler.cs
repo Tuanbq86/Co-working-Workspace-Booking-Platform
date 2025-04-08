@@ -24,6 +24,16 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
         public async Task<CreateFeedbackResult> Handle(CreateFeedbackCommand command, CancellationToken cancellationToken)
         {
             var existingFeedback = await unit.Feedback.GetFirstFeedbackByBookingId(command.BookingId);
+            var existingBooking = await unit.Booking.GetByIdAsync(command.BookingId);
+            var workspace = await unit.Workspace.GetByIdAsync(existingBooking.WorkspaceId);
+            var existingUser = await unit.User.GetByIdAsync(command.UserId);
+            //var owner = await unit.WorkspaceOwner.GetByIdAsync(workspace.OwnerId);
+
+
+            if (existingUser == null)
+            {
+                return new CreateFeedbackResult("User not found.");
+            }
             if (existingFeedback != null)
             {
                 return new CreateFeedbackResult("Booking already has feedback. Cannot create another feedback.");
@@ -59,7 +69,19 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
                 await unit.Image.CreateImagesAsync(images);
             }
 
+            var ownerNotification = new OwnerNotification
+            {
+                Description = $"{newFeedback.Description}.",
+                Status = "Active",
+                OwnerId = workspace.OwnerId,
+                CreatedAt = DateTime.UtcNow,
+                IsRead = 0,
+                Title = $"Phản hổi từ {existingUser.Name}. {newFeedback.Title}"
+            };
+
+
             await unit.Feedback.CreateAsync(newFeedback);
+            await unit.OwnerNotification.CreateAsync(ownerNotification);
             await unit.SaveAsync();
 
             if (images.Any())
