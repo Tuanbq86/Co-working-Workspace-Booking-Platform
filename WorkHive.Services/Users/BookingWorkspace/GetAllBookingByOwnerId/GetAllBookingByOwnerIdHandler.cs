@@ -46,29 +46,29 @@ public class GetAllBookingByOwnerIdHandler(IBookingWorkspaceUnitOfWork bookUnit)
             bookingByOwnerIdDTO.WorkspaceId = item.WorkspaceId;
             //bookingByOwnerIdDTO.PromotionId = item.PromotionId;
 
-            var payment = bookUnit.payment.GetById(item.PaymentId);
-            bookingByOwnerIdDTO.Payment_Method = payment.Method;
+            //var payment = bookUnit.payment.GetById(item.PaymentId);
+            //bookingByOwnerIdDTO.Payment_Method = payment.Method;
 
-            var bookingAmenities = await bookUnit.bookAmenity.GetAllBookingAmenityByBookingId(item.Id);
-            var bookingbeverages = await bookUnit.bookBeverage.GetAllBookingBeverageByBookingId(item.Id);
+            //var bookingAmenities = await bookUnit.bookAmenity.GetAllBookingAmenityByBookingId(item.Id);
+            //var bookingbeverages = await bookUnit.bookBeverage.GetAllBookingBeverageByBookingId(item.Id);
 
-            List<BookingAmenityByOwnerId> bookingAmenityByOwnerIds = new List<BookingAmenityByOwnerId>();
-            List<BookingBeverageByOwnerId> bookingBeverageByOwnerIds = new List<BookingBeverageByOwnerId>();
+            //List<BookingAmenityByOwnerId> bookingAmenityByOwnerIds = new List<BookingAmenityByOwnerId>();
+            //List<BookingBeverageByOwnerId> bookingBeverageByOwnerIds = new List<BookingBeverageByOwnerId>();
 
-            foreach(var bookAmenityItem in bookingAmenities)
-            {
-                bookingAmenityByOwnerIds.Add(new BookingAmenityByOwnerId(bookAmenityItem.Amenity.Id, 
-                    (int)bookAmenityItem.Quantity!, bookAmenityItem.Amenity.Name, bookAmenityItem.Amenity.ImgUrl, (decimal)bookAmenityItem.Amenity.Price!));
-            }
+            //foreach(var bookAmenityItem in bookingAmenities)
+            //{
+            //    bookingAmenityByOwnerIds.Add(new BookingAmenityByOwnerId(bookAmenityItem.Amenity.Id, 
+            //        (int)bookAmenityItem.Quantity!, bookAmenityItem.Amenity.Name, bookAmenityItem.Amenity.ImgUrl, (decimal)bookAmenityItem.Amenity.Price!));
+            //}
 
-            foreach(var bookBeverageItem in bookingbeverages)
-            {
-                bookingBeverageByOwnerIds.Add(new BookingBeverageByOwnerId(bookBeverageItem.Beverage.Id, (
-                    int)bookBeverageItem.Quantity!, bookBeverageItem.Beverage.Name, bookBeverageItem.Beverage.ImgUrl, (decimal)bookBeverageItem.Beverage.Price!));
-            }
+            //foreach(var bookBeverageItem in bookingbeverages)
+            //{
+            //    bookingBeverageByOwnerIds.Add(new BookingBeverageByOwnerId(bookBeverageItem.Beverage.Id, (
+            //        int)bookBeverageItem.Quantity!, bookBeverageItem.Beverage.Name, bookBeverageItem.Beverage.ImgUrl, (decimal)bookBeverageItem.Beverage.Price!));
+            //}
 
-            bookingByOwnerIdDTO.Amenities = bookingAmenityByOwnerIds;
-            bookingByOwnerIdDTO.Beverages = bookingBeverageByOwnerIds;
+            //bookingByOwnerIdDTO.Amenities = bookingAmenityByOwnerIds;
+            //bookingByOwnerIdDTO.Beverages = bookingBeverageByOwnerIds;
 
             result.Add(bookingByOwnerIdDTO);
         }
