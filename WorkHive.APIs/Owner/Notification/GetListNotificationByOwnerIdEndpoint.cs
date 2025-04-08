@@ -1,9 +1,9 @@
 ﻿using Carter;
 using MediatR;
-using WorkHive.Services.Owners.OwnerNotification;
+using WorkHive.Services.Owners.Notification;
 using WorkHive.Services.Users.NotificationForUser;
 
-namespace WorkHive.APIs.Owner.OwnerNotification
+namespace WorkHive.APIs.Owner.Notification
 {
     public record GetListNotificationByOwnerIdResponse(List<OwnerNotificationDTO> OwnerNotificationDTOs);
 

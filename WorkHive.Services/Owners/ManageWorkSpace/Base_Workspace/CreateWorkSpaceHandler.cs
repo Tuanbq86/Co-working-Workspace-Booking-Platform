@@ -128,6 +128,17 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     PolicyId = pol.Id
                 }).ToList();
 
+                var ownerNotification = new OwnerNotification
+                {
+                    Description = $"Chúc mừng! Bạn đã tạo thành công một không gian làm việc mới có tên {newWorkSpace.Name}. Hãy bắt đầu tổ chức các công việc của bạn ngay thôi.",
+                    Status = DefaultStatus,
+                    OwnerId = command.OwnerId,
+                    CreatedAt = DateTime.UtcNow,
+                    IsRead = 0,
+                    Title = "Không gian làm việc mới đã được tạo"
+                };
+
+                await workSpaceManageUnit.OwnerNotification.CreateAsync(ownerNotification);
                 await workSpaceManageUnit.WorkspaceImage.CreateWorkspaceImagesAsync(workspaceImages);
                 await workSpaceManageUnit.WorkspacePrice.CreateWorkspacePricesAsync(workspacePrices);
                 await workSpaceManageUnit.WorkspacePolicy.CreateWorkspacePoliciesAsync(workspacePolicies);

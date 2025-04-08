@@ -29,15 +29,14 @@ namespace WorkHive.Services.Staff
             owner.UpdatedAt = DateTime.UtcNow;
 
             var existingWallet = await unit.OwnerWallet.GetByOwnerIdAsync(command.Id);
-            var walletStatus = command.Status == "Success" ? "Active" : "Inactive"; // 🔥 Nếu Success → Active, Fail → Inactive
+            var walletStatus = command.Status == "Success" ? "Active" : "Inactive"; 
 
             if (existingWallet == null)
             {
-                // ✅ Nếu chưa có ví, tạo mới
                 var newWallet = new Wallet
                 {
                     Balance = 0,
-                    Status = walletStatus // 🔥 Set trạng thái theo Status
+                    Status = walletStatus 
                 };
 
                 await unit.Wallet.CreateAsync(newWallet);
@@ -47,21 +46,31 @@ namespace WorkHive.Services.Staff
                     OwnerId = owner.Id,
                     WalletId = newWallet.Id,
                     UserId = command.UserId,
-                    Status = walletStatus // 🔥 Set trạng thái theo Status
+                    Status = walletStatus 
                 };
 
+                var ownerNotification = new OwnerNotification
+                {
+                    Description = $"Tài khoản {owner.LicenseName} của bạn đã được phê duyệt và xác thực thành công. Bây giờ bạn có thể truy cập các tính năng đầy đủ.",
+                    Status = "Active",
+                    OwnerId = command.Id,
+                    CreatedAt = DateTime.UtcNow,
+                    IsRead = 0,
+                    Title = "Xác thực tài khoản thành công"
+                };
+
+                await unit.OwnerNotification.CreateAsync(ownerNotification);
                 await unit.OwnerWallet.CreateAsync(ownerWallet);
             }
             else
-            {
-                // ✅ Nếu đã có ví, cập nhật trạng thái & UserId
+            {               
                 existingWallet.UserId = command.UserId;
-                existingWallet.Status = walletStatus; // 🔥 Cập nhật trạng thái ví theo Status
+                existingWallet.Status = walletStatus; 
                 await unit.OwnerWallet.UpdateAsync(existingWallet);
             }
 
             await unit.WorkspaceOwner.UpdateAsync(owner);
-            await unit.SaveAsync(); // 🔥 Chỉ gọi SaveAsync() một lần để tối ưu hiệu suất
+            await unit.SaveAsync(); 
 
             return new UpdateOwnerStatusResult($"Owner status updated to {command.Status} and wallet set to '{walletStatus}'");
         }

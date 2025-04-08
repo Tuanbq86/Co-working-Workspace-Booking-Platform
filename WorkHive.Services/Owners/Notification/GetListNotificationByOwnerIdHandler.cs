@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.OwnerNotification
+namespace WorkHive.Services.Owners.Notification
 {
     public record GetListNotificationByOwnerIdQuery(int OwnerId)
     : IQuery<GetListNotificationByOwnerIdResult>;

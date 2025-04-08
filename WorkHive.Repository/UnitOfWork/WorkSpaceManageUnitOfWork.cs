@@ -43,6 +43,8 @@ namespace WorkHive.Repositories.UnitOfWork
 
         public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
 
+        public IOwnerNotificationRepository OwnerNotification { get; private set; }
+
 
         public WorkSpaceManageUnitOfWork(WorkHiveContext context)
         {
@@ -62,6 +64,7 @@ namespace WorkHive.Repositories.UnitOfWork
             Image = new ImageRepository(_context);
             Booking = new BookingRepository(_context);
             Promotion = new PromotionRepository(_context);
+            OwnerNotification = new OwnerNotificationRepository(_context);
 
         }
         public int Save()
