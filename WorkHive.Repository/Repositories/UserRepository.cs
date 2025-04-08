@@ -72,5 +72,13 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .ToListAsync();
     }
 
-
+    public async Task<List<User>> GetUsersByOwnerIdWithBookingStatus(int ownerId, string status)
+    {
+        return await _context.Users
+            .Include(u => u.Bookings)
+            .ThenInclude(b => b.Workspace)
+            .ThenInclude(w => w.Owner)
+            .Where(u => u.Bookings.Any(b => b.Workspace.OwnerId == ownerId && b.Status == status)) 
+            .ToListAsync();
+    }
 }

@@ -21,24 +21,28 @@ namespace WorkHive.Services.Owners.ManageCustomerBooking
         string Sex,
         DateOnly? DateOfBirth
     );
+
     public class GetUsersByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceManageUnit)
-        : IQueryHandler<GetUsersByOwnerIdQuery, List<GetUsersByOwnerIdResult>>
+    : IQueryHandler<GetUsersByOwnerIdQuery, List<GetUsersByOwnerIdResult>>
     {
         public async Task<List<GetUsersByOwnerIdResult>> Handle(GetUsersByOwnerIdQuery query, CancellationToken cancellationToken)
         {
-            var users = await workSpaceManageUnit.User.GetUsersByOwnerId(query.OwnerId);
+            // Truy vấn và lọc người dùng có trạng thái Success từ bảng Booking
+            var users = await workSpaceManageUnit.User
+                .GetUsersByOwnerIdWithBookingStatus(query.OwnerId, "Success");
 
+            // Chuyển đổi các user thành kết quả trả về
             return users.Select(user => new GetUsersByOwnerIdResult(
                 user.Id,
                 user.Name,
                 user.Email,
                 user.Phone,
-                user.Status,
+                user.Status,  // Trạng thái user có thể lấy từ bảng User
                 user.Avatar,
                 user.CreatedAt,
                 user.Sex ?? "Unknown",
                 user.DateOfBirth
-                )).ToList();
+            )).ToList();
         }
     }
 }
