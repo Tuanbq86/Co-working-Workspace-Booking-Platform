@@ -21,6 +21,7 @@ namespace WorkHive.Repositories.UnitOfWork
         public IUserRepository User { get; private set; }
         public IWorkspaceOwnerRepository WorkspaceOwner { get; private set; }
         public IBookingRepository Booking { get; private set; }
+        public IWorkspaceRepository Workspace { get; private set; }
         public IOwnerNotificationRepository OwnerNotification { get; private set; }
         public IUserNotificationRepository UserNotification { get; private set; }
 
@@ -38,6 +39,7 @@ namespace WorkHive.Repositories.UnitOfWork
             Booking = new BookingRepository(_context);
             OwnerNotification = new OwnerNotificationRepository(_context);
             UserNotification = new UserNotificationRepository(_context);
+            Workspace = new WorkspaceRepository(_context);
         }
         public int Save()
         {

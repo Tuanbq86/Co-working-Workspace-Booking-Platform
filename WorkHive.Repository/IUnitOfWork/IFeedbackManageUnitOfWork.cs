@@ -29,6 +29,8 @@ namespace WorkHive.Repositories.IUnitOfWork
 
         IUserNotificationRepository UserNotification { get; }
 
+        IWorkspaceRepository Workspace { get; }
+
         public int Save();
         public Task<int> SaveAsync();
 
