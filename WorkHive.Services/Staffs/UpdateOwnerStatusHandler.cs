@@ -51,12 +51,12 @@ namespace WorkHive.Services.Staff
 
                 var ownerNotification = new OwnerNotification
                 {
-                    Description = $"Tài khoản {owner.LicenseName} đã được phê duyệt",
+                    Description = $"Tài khoản {owner.LicenseName} của bạn đã được phê duyệt và xác thực thành công. Bây giờ bạn có thể truy cập các tính năng đầy đủ.",
                     Status = "Active",
                     OwnerId = command.Id,
                     CreatedAt = DateTime.UtcNow,
                     IsRead = 0,
-                    Title = "Yêu cầu xác thực tài khoản"
+                    Title = "Xác thực tài khoản thành công"
                 };
 
                 await unit.OwnerNotification.CreateAsync(ownerNotification);

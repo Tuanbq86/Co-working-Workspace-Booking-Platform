@@ -64,12 +64,12 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 
                 var ownerNotification = new OwnerNotification
                 {
-                    Description = $"Yêu cầu rút tiền đã được phê duyệt",
+                    Description = $"Yêu cầu rút tiền của bạn đã được phê duyệt và đang trong trạng thái hoạt động. Bạn có thể kiểm tra lại lịch sử giao dịch.",
                     Status = "Active",
                     OwnerId = ownerWallet.OwnerId,
                     CreatedAt = DateTime.UtcNow,
                     IsRead = 0,
-                    Title = "Yêu cầu rút tiền"
+                    Title = "Yêu cầu rút tiền đã được duyệt"
                 };
 
                 await unit.OwnerNotification.CreateAsync(ownerNotification);
