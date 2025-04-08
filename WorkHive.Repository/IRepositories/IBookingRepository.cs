@@ -19,4 +19,6 @@ public interface IBookingRepository : IGenericRepository<Booking>
     public Task<List<Booking>> GetBookingsWithFeedbackByOwnerId(int ownerId);
 
     public Task<List<Booking>> GetBookingsWithFeedbackByUserId(int userId);
+    public Task<List<Booking>> GetAllWithWorkspaceAndOwner();
+
 }

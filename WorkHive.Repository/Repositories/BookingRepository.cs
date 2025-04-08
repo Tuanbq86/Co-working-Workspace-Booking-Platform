@@ -65,4 +65,12 @@ public class BookingRepository : GenericRepository<Booking>, IBookingRepository
             .ToListAsync();
     }
 
+    public async Task<List<Booking>> GetAllWithWorkspaceAndOwner()
+    {
+        return await _context.Bookings
+            .Include(b => b.Workspace)
+                .ThenInclude(w => w.Owner)
+            .ToListAsync();
+    }
+
 }
