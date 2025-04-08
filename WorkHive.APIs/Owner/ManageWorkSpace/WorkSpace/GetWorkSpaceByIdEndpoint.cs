@@ -30,6 +30,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Workspace")
             .WithSummary("Get Workspace by ID")
+            //.RequireAuthorization("Owner")
             .WithDescription("Retrieve a workspace using its ID.");
         }
     }

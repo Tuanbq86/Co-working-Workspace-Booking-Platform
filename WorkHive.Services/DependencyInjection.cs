@@ -62,6 +62,7 @@ public static class DependencyInjection
             op.AddPolicy("Manager", policy => policy.RequireClaim("RoleId", "2"));
             op.AddPolicy("Staff", policy => policy.RequireClaim("RoleId", "3"));
             op.AddPolicy("Customer", policy => policy.RequireClaim("RoleId", "4"));
+            op.AddPolicy("Owner", policy => policy.RequireClaim("RoleId", "5"));
         });
 
         //Save session into Ram when I restart all data will delete
