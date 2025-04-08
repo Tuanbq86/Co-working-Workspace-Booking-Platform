@@ -59,7 +59,7 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             await bookUnit.SaveAsync();
         }
 
-
+         
         //Pay successfully
         if (Status.Equals(PayOSStatus.PAID.ToString()))
         {
