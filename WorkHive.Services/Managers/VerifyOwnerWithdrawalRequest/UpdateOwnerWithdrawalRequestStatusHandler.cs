@@ -62,6 +62,18 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     Status = "Withdraw Success"
                 };
 
+                var ownerNotification = new OwnerNotification
+                {
+                    Description = $"Yêu cầu rút tiền đã được phê duyệt",
+                    Status = "Active",
+                    OwnerId = ownerWallet.OwnerId,
+                    CreatedAt = DateTime.UtcNow,
+                    IsRead = 0,
+                    Title = "Yêu cầu rút tiền"
+                };
+
+                await unit.OwnerNotification.CreateAsync(ownerNotification);
+
                 await unit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
                 await unit.Wallet.UpdateAsync(wallet);
                 await unit.SaveAsync();
