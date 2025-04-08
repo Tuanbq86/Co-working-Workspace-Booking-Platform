@@ -32,6 +32,8 @@ namespace WorkHive.Repositories.UnitOfWork
         
         public IOwnerWithdrawalRequestRepository OwnerWithdrawalRequest { get; private set; }
 
+        public IOwnerNotificationRepository OwnerNotification { get; private set; }
+
 
         public WalletUnitOfWork(WorkHiveContext context)
         {
@@ -45,6 +47,7 @@ namespace WorkHive.Repositories.UnitOfWork
             OwnerWallet = new OwnerWalletRepository(_context);
             Booking = new BookingRepository(_context);
             OwnerWithdrawalRequest = new OwnerWithdrawalRequestRepository(_context);
+            OwnerNotification = new OwnerNotificationRepository(_context);
 
         }
         public int Save()
