@@ -130,12 +130,12 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 
                 var ownerNotification = new OwnerNotification
                 {
-                    Description = $"You have created a new workspace: {newWorkSpace.Name}",
+                    Description = $"Chúc mừng! Bạn đã tạo thành công một không gian làm việc mới có tên {newWorkSpace.Name}. Hãy bắt đầu tổ chức các công việc của bạn ngay thôi.",
                     Status = DefaultStatus,
                     OwnerId = command.OwnerId,
                     CreatedAt = DateTime.UtcNow,
                     IsRead = 0,
-                    Title = "New Workspace Created"
+                    Title = "Không gian làm việc mới đã được tạo"
                 };
 
                 await workSpaceManageUnit.OwnerNotification.CreateAsync(ownerNotification);
