@@ -16,4 +16,5 @@ public interface IUserRepository : IGenericRepository<User>
     public bool FindUserByEmailOrPhone(string auth, string password);
     public bool CheckNewAndConfrimPassword(string newPassword, string confirmPassword);
     public Task<List<User>> GetUsersByOwnerId(int ownerId);
+    public Task<List<User>> GetUsersByOwnerIdWithBookingStatus(int ownerId, string status);
 }
