@@ -7,7 +7,7 @@ using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Repositories.IRepositories;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.OwnerNotification
+namespace WorkHive.Services.Owners.Notification
 {
     public record UpdateOwnerNotificationStatusCommand(int OwnerNotificationId)
     : ICommand<UpdateOwnerNotificationStatusResult>;

@@ -27,17 +27,15 @@ namespace WorkHive.Services.Owners.ManageCustomerBooking
     {
         public async Task<List<GetUsersByOwnerIdResult>> Handle(GetUsersByOwnerIdQuery query, CancellationToken cancellationToken)
         {
-            // Truy vấn và lọc người dùng có trạng thái Success từ bảng Booking
             var users = await workSpaceManageUnit.User
                 .GetUsersByOwnerIdWithBookingStatus(query.OwnerId, "Success");
 
-            // Chuyển đổi các user thành kết quả trả về
             return users.Select(user => new GetUsersByOwnerIdResult(
                 user.Id,
                 user.Name,
                 user.Email,
                 user.Phone,
-                user.Status,  // Trạng thái user có thể lấy từ bảng User
+                user.Status,  
                 user.Avatar,
                 user.CreatedAt,
                 user.Sex ?? "Unknown",
