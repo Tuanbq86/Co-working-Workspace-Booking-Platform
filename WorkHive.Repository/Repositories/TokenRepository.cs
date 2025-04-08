@@ -72,6 +72,7 @@ public sealed class TokenRepository : ITokenRepository
         new Claim(JwtRegisteredClaimNames.Sub, Owner.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Email, Owner.Email),
         new Claim("Phone", Owner.Phone),
+        new Claim("RoleId", "5")
         //new Claim("Avatar", Owner.Avatar),
         //new Claim("Sex", Owner.Sex.ToString()),
         //new Claim("Status", Owner.Status.ToString()),
