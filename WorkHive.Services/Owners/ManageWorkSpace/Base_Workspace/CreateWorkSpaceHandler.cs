@@ -52,7 +52,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 {
                     ImgUrl = i.ImgUrl,
                     Title = DefaultImageTitle,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 }).ToList() ?? new List<Image>();
 
 
@@ -95,7 +95,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     OpenTime = command.OpenTime,
                     CloseTime = command.CloseTime,
                     Is24h = command.Is24h,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 };
 
                 await workSpaceManageUnit.Workspace.CreateAsync(newWorkSpace);
@@ -133,8 +133,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     Description = $"Chúc mừng! Bạn đã tạo thành công một không gian làm việc mới có tên {newWorkSpace.Name}. Hãy bắt đầu tổ chức các công việc của bạn ngay thôi.",
                     Status = DefaultStatus,
                     OwnerId = command.OwnerId,
-                    CreatedAt = DateTime.UtcNow,
-                    IsRead = 0,
+                    CreatedAt = DateTime.Now,
+                    IsRead = 0, 
                     Title = "Không gian làm việc mới đã được tạo"
                 };
 

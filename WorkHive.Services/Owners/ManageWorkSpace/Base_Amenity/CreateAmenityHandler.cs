@@ -28,7 +28,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
                 Category = command.Category,
                 Status = command.Status,
                 OwnerId = command.OwnerId,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             await unit.Amenity.CreateAsync(newAmenity);

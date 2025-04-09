@@ -43,7 +43,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
             {
                 ImgUrl = i.ImgUrl,
                 Title = DefaultImageTitle,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             }).ToList() ?? new List<Image>();
 
             var newFeedback = new Feedback
@@ -53,7 +53,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
                 UserId = command.UserId,
                 BookingId = command.BookingId,
                 Status = DefaultStatus,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             var booking = await unit.Booking.GetByIdAsync(command.BookingId);
@@ -74,7 +74,7 @@ namespace WorkHive.Services.Manage_Feedback.User_Feedback
                 Description = $"{newFeedback.Description}.",
                 Status = "Active",
                 OwnerId = workspace.OwnerId,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 IsRead = 0,
                 Title = $"Phản hổi từ {existingUser.Name}. {newFeedback.Title}"
             };

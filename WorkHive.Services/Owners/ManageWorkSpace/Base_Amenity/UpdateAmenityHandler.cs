@@ -27,7 +27,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Amenity
             amenity.Category = command.Category;
             amenity.Status = command.Status;
             amenity.ImgUrl = command.ImgUrl;
-            amenity.UpdatedAt = DateTime.UtcNow;
+            amenity.UpdatedAt = DateTime.Now;
 
             await unit.Amenity.UpdateAsync(amenity);
             await unit.SaveAsync();

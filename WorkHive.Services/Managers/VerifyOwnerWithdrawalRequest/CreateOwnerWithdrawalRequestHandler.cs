@@ -27,7 +27,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 Title = command.Title,
                 Description = command.Description,
                 Status = DefaultStatus,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 WorkspaceOwnerId = command.WorkspaceOwnerId,
                 BankAccountName = ownerWallet.BankAccountName,
                 BankName = ownerWallet.BankName,

@@ -27,7 +27,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Beverage
             beverage.Description = command.Description;
             beverage.Category = command.Category;
             beverage.Status = command.Status;
-            beverage.UpdatedAt = DateTime.UtcNow;
+            beverage.UpdatedAt = DateTime.Now;
 
             await unit.Beverage.UpdateAsync(beverage);
             await unit.SaveAsync();

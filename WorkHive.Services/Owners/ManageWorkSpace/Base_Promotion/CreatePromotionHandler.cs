@@ -32,7 +32,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
                 EndDate = command.EndDate,
                 Status = command.Status,
                 WorkspaceId = command.WorkspaceId,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             await unit.Promotion.CreateAsync(newPromotion);
