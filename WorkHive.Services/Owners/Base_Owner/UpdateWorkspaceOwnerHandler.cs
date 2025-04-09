@@ -8,7 +8,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.Base_Owner
 {
-    public record UpdateWorkspaceOwnerCommand(int Id, string Phone, string Email, string IdentityName, string IdentityNumber, DateOnly? DateOfBirth, string Sex, string Nationality, string PlaceOfOrigin, string GoogleMapUrl, string Status, string PlaceOfResidence, DateOnly? IdentityExpiredDate, DateOnly? IdentityCreatedDate, string IdentityFile, string LicenseName, string LicenseNumber, string LicenseAddress, decimal? CharterCapital, string LicenseFile, string Facebook, string Instagram, string Tiktok, string PhoneStatus)
+    public record UpdateWorkspaceOwnerCommand(int Id, string Phone, string Email, string IdentityName, string IdentityNumber, DateOnly? DateOfBirth, string Sex, string Nationality, string PlaceOfOrigin, string GoogleMapUrl, string Status, string PlaceOfResidence, DateOnly? IdentityExpiredDate, DateOnly? IdentityCreatedDate, string IdentityFile, string LicenseName, string LicenseNumber, string LicenseAddress, decimal? CharterCapital, string LicenseFile, string? Facebook, string? Instagram, string? Tiktok, string PhoneStatus)
         : ICommand<UpdateWorkspaceOwnerResult>;
 
     public record UpdateWorkspaceOwnerResult(string Notification);
@@ -43,7 +43,7 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.Instagram = command.Instagram;
             owner.Tiktok = command.Tiktok;
             owner.PhoneStatus = command.PhoneStatus;
-            owner.UpdatedAt = DateTime.UtcNow;
+            owner.UpdatedAt = DateTime.Now;
 
             await unit.WorkspaceOwner.UpdateAsync(owner);
             await unit.SaveAsync();

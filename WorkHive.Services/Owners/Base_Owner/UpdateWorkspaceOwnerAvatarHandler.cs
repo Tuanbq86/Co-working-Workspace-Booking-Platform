@@ -23,7 +23,7 @@ namespace WorkHive.Services.Owners.Base_Owner
                 return new UpdateWorkspaceOwnerAvatarResult("Invalid Avatar URL");
 
             owner.Avatar = command.AvatarUrl;
-            owner.UpdatedAt = DateTime.UtcNow;
+            owner.UpdatedAt = DateTime.Now;
 
             await unit.WorkspaceOwner.UpdateAsync(owner);
             await unit.SaveAsync();
