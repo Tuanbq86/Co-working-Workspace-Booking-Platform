@@ -13,13 +13,13 @@ namespace WorkHive.APIs.Manage_Feedback.User
                 var query = new GetBookingsWithFeedbackByOwnerIdQuery(ownerId);
                 var result = await sender.Send(query);
 
-                return result == null || !result.Any()
-                    ? Results.NotFound($"No bookings with feedback found for OwnerId {ownerId}")
-                    : Results.Ok(result);
+                // Trả về [] nếu null hoặc không có kết quả
+                var safeResult = result ?? new List<GetBookingsWithFeedbackByOwnerIdResult>();
+
+                return Results.Ok(safeResult);
             })
             .WithName("GetBookingsWithFeedbackByOwnerId")
             .Produces<List<GetBookingsWithFeedbackByOwnerIdResult>>(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Feedback")
             .WithSummary("Get all bookings with feedback by OwnerId")
             .WithDescription("Retrieves all bookings where is_feedback == 1 for a given OwnerId.");
