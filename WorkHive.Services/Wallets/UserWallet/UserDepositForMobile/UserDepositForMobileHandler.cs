@@ -1,4 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Net.payOS.Types;
 using Net.payOS;
 using WorkHive.BuildingBlocks.CQRS;
@@ -6,25 +11,26 @@ using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant.Wallet;
 
-namespace WorkHive.Services.Wallets.UserWallet;
-public record UserDepositCommand(int UserId, int Amount) 
-    : ICommand<UserDepositResult>;
-public record UserDepositResult(int CustomerWalletId, string Bin, string AccountNumber, int Amount, string Description,
+namespace WorkHive.Services.Wallets.UserWallet.UserDepositForMobile;
+
+public record UserDepositForMobileCommand(int UserId, int Amount)
+    : ICommand<UserDepositForMobileResult>;
+public record UserDepositForMobileResult(int CustomerWalletId, string Bin, string AccountNumber, int Amount, string Description,
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
 
-public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configuration)
-    : ICommandHandler<UserDepositCommand, UserDepositResult>
+public class UserDepositForMobileHandler(IUserUnitOfWork userUnit, IConfiguration configuration)
+    : ICommandHandler<UserDepositForMobileCommand, UserDepositForMobileResult>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
     private readonly string ApiKey = configuration["PayOS:ApiKey"]!;
     private readonly string CheckSumKey = configuration["PayOS:CheckSumKey"]!;
-    public async Task<UserDepositResult> Handle(UserDepositCommand command, 
+    public async Task<UserDepositForMobileResult> Handle(UserDepositForMobileCommand command,
         CancellationToken cancellationToken)
     {
         var checkUserWallet = userUnit.CustomerWallet.GetAll()
             .Where(cw => cw.UserId.Equals(command.UserId)).FirstOrDefault();
 
-        if(checkUserWallet is null)
+        if (checkUserWallet is null)
         {
             var wallet = new Wallet
             {
@@ -50,18 +56,22 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             //create order code with time increasing by time
             var depositeCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
 
+            //Return url and cancel url
+            var returnurl = $"mobile://success?DepositCode={depositeCode}&CustomerWalletId={customerWallet.Id}";
+            var cancelurl = $"mobile://cancel";
+
             var domain = configuration["PayOS:Domain"]!;
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
                     description: "NẠP TIỀN",
-                    returnUrl: domain + "/success",
-                    cancelUrl: domain + "/fail",
+                    returnUrl: returnurl,
+                    cancelUrl: cancelurl,
             items: items
             );
 
             var link = await payOS.createPaymentLink(paymentLinkRequest);
-            return new UserDepositResult(customerWallet.Id, link.bin, link.accountNumber, link.amount, link.description,
+            return new UserDepositForMobileResult(customerWallet.Id, link.bin, link.accountNumber, link.amount, link.description,
             link.orderCode, link.paymentLinkId, link.status, link.checkoutUrl, link.qrCode);
         }
         else
@@ -79,20 +89,24 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             //Tạo thời gian hết hạn cho link thanh toán
             var expiredAt = DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds();
 
+            //Return url and cancel url
+            var returnurl = $"mobile://success?DepositCode={depositeCode}&CustomerWalletId={checkUserWallet.Id}";
+            var cancelurl = $"mobile://cancel";
+
             var domain = configuration["PayOS:Domain"]!;
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
                     description: "NẠP TIỀN VÍ WORKHIVE",
-                    returnUrl: domain + "/success",
-                    cancelUrl: domain + "/fail",
+                    returnUrl: returnurl,
+                    cancelUrl: cancelurl,
                     expiredAt: expiredAt,
                     items: items
             );
 
             var link = await payOS.createPaymentLink(paymentLinkRequest);
 
-            return new UserDepositResult(checkUserWallet.Id, link.bin, link.accountNumber, link.amount, link.description,
+            return new UserDepositForMobileResult(checkUserWallet.Id, link.bin, link.accountNumber, link.amount, link.description,
             link.orderCode, link.paymentLinkId, link.status, link.checkoutUrl, link.qrCode);
         }
     }

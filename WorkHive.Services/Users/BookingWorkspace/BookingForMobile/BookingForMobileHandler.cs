@@ -1,51 +1,35 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Net.payOS.Types;
+using Net.payOS;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 using WorkHive.Services.Constant;
-using WorkHive.Services.Exceptions;
-using WorkHive.Repositories.IRepositories;
-using Microsoft.Extensions.Configuration;
-using Net.payOS;
-using Net.payOS.Types;
-using Microsoft.IdentityModel.JsonWebTokens;
 using WorkHive.Services.Users.DTOs;
 
-namespace WorkHive.Services.Users.BookingWorkspace;
+namespace WorkHive.Services.Users.BookingWorkspace.BookingForMobile;
 
-public record BookingWorkspaceCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
+public record BookingForMobileCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price, string WorkspaceTimeCategory)
-    : ICommand<BookingWorkspaceResult>;
-public record BookingWorkspaceResult(int BookingId, string Bin, string AccountNumber, int Amount, string Description, 
+    : ICommand<BookingForMobileResult>;
+public record BookingForMobileResult(int BookingId, string Bin, string AccountNumber, int Amount, string Description,
     long OrderCode, string PaymentLinkId, string Status, string CheckoutUrl, string QRCode);
 
-/*
-public class BookingWorkspaceValidator : AbstractValidator<BookingWorkspaceCommand>
-{
-    public BookingWorkspaceValidator()
-    {
-
-    }
-}
-*/
-
-public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWork, IConfiguration configuration)
-    : ICommandHandler<BookingWorkspaceCommand, BookingWorkspaceResult>
+public class BookingForMobileHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWork, IConfiguration configuration)
+    : ICommandHandler<BookingForMobileCommand, BookingForMobileResult>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
     private readonly string ApiKey = configuration["PayOS:ApiKey"]!;
     private readonly string CheckSumKey = configuration["PayOS:CheckSumKey"]!;
-    public async Task<BookingWorkspaceResult> Handle(BookingWorkspaceCommand command, 
+    public async Task<BookingForMobileResult> Handle(BookingForMobileCommand command, 
         CancellationToken cancellationToken)
     {
         var newBooking = new Booking();
-
-        //Get userId and roleId for Booking in session containing token in a session working
-        //var token = httpContext.HttpContext!.Session.GetString("token")!.ToString();
-        //var listInfo = tokenRepo.DecodeJwtToken(token);
-
-        //var userId = listInfo[JwtRegisteredClaimNames.Sub];
 
         newBooking.UserId = command.UserId;//Add userId for booking
         newBooking.Price = command.Price; //
@@ -186,21 +170,24 @@ public class BookingWorkspaceHandler(IBookingWorkspaceUnitOfWork bookingUnitOfWo
         //Tạo thời gian hết hạn cho link thanh toán
         var expiredAt = DateTimeOffset.Now.AddMinutes(10).ToUnixTimeSeconds();
 
+        //Return url and cancel url
+        var returnurl = $"mobile://success?OrderCode={orderCode}&BookingId={newBooking.Id}";
+        var cancelurl = $"mobile://cancel";
 
         var domain = configuration["PayOS:Domain"]!;
         var paymentLinkRequest = new PaymentData(
                 orderCode: orderCode,
                 amount: (int)newBooking.Price!,
                 description: $"ĐẶT CHỖ",
-                returnUrl: domain + "/success",
-                cancelUrl : domain + "/fail",
-                items : items,
+                returnUrl: returnurl,
+                cancelUrl: cancelurl,
+                items: items,
                 expiredAt: expiredAt
             );
 
         var link = await payOS.createPaymentLink(paymentLinkRequest);
 
-        return new BookingWorkspaceResult(newBooking.Id, link.bin, link.accountNumber, link.amount, link.description, 
+        return new BookingForMobileResult(newBooking.Id, link.bin, link.accountNumber, link.amount, link.description,
             link.orderCode, link.paymentLinkId, link.status, link.checkoutUrl, link.qrCode);
     }
 }
