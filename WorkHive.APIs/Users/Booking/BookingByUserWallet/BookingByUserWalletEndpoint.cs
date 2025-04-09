@@ -30,7 +30,7 @@ public class BookingByUserWalletEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Booking workspace by workhive wallet")
         .WithTags("Booking")
-        .RequireAuthorization("Customer")
+        //.RequireAuthorization("Customer")
         .WithDescription("Booking workspace by workhive wallet");
     }
 }
