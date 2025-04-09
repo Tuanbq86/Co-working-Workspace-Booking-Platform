@@ -25,7 +25,7 @@ public class GetAllCustomerEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get All Customer")
         .WithTags("Get All Customer")
-        .RequireAuthorization("Manager")
+        //.RequireAuthorization("Manager")
         .WithDescription("Get All Customer");
     }
 }
