@@ -18,21 +18,36 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
                 var query = new GetAllResponseFeedbacksByOwnerIdQuery(ownerId);
                 var result = await sender.Send(query);
 
-                return result == null || !result.Any()
-                    ? Results.NotFound($"No owner response feedbacks found for owner with ID {ownerId}")
-                    : Results.Ok(result.Select(r => new GetAllResponseFeedbacksByOwnerIdResponse(
-                        r.Id,
-                        r.Title,
-                        r.Description,
-                        r.Status,
-                        r.UserId,
-                        r.OwnerId,
-                        r.FeedbackId,
-                        r.CreatedAt,
-                        r.ImageUrls
-                    )));
+                //return result == null || !result.Any()
+                //    ? Results.NotFound($"No owner response feedbacks found for owner with ID {ownerId}")
+                //    : Results.Ok(result.Select(r => new GetAllResponseFeedbacksByOwnerIdResponse(
+                //        r.Id,
+                //        r.Title,
+                //        r.Description,
+                //        r.Status,
+                //        r.UserId,
+                //        r.OwnerId,
+                //        r.FeedbackId,
+                //        r.CreatedAt,
+                //        r.ImageUrls
+                //    )));
+                return Results.Ok(
+                result?.Select(r => new GetAllResponseFeedbacksByOwnerIdResponse(
+                    r.Id,
+                    r.Title,
+                    r.Description,
+                    r.Status,
+                    r.UserId,
+                    r.OwnerId,
+                    r.FeedbackId,
+                    r.CreatedAt,
+                    r.ImageUrls
+                )) ?? new List<GetAllResponseFeedbacksByOwnerIdResponse>()
+            );
+
             })
             .WithName("GetAllResponseFeedbacksByOwnerId")
+            //.Produces<List<GetAllResponseFeedbacksByOwnerIdResponse>>(StatusCodes.Status200OK)
             .Produces<List<GetAllResponseFeedbacksByOwnerIdResponse>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Owner Response Feedback")
