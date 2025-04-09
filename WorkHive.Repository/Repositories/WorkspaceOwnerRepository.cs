@@ -21,10 +21,10 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
         return newPassword.ToLower().Trim().Equals(confirmPassword.ToLower().Trim());
     }
 
-    public WorkspaceOwner FindWorkspaceOwnerByEmail(string email)
+    public async Task<WorkspaceOwner?> FindWorkspaceOwnerByEmail(string email)
     {
-        return _context.WorkspaceOwners.Where(x => x.Email.ToLower().Trim()
-        .Equals(email.ToLower().Trim())).FirstOrDefault()!;
+        return await _context.WorkspaceOwners.Where(x => x.Email.ToLower().Trim()
+        .Equals(email.ToLower().Trim())).FirstOrDefaultAsync()!;
     }
 
     public bool FindWorkspaceOwnerByEmailOrPhone(string auth, string password)
@@ -46,10 +46,10 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
         return false;
     }
 
-    public WorkspaceOwner FindWorkspaceOwnerByPhone(string phone)
+    public  async Task<WorkspaceOwner?> FindWorkspaceOwnerByPhone(string phone)
     {
-        return _context.WorkspaceOwners.Where(x => x.Phone.ToLower().Trim()
-        .Equals(phone.ToLower().Trim())).FirstOrDefault()!;
+        return await _context.WorkspaceOwners.Where(x => x.Phone.ToLower().Trim()
+        .Equals(phone.ToLower().Trim())).FirstOrDefaultAsync()!;
     }
 
     public WorkspaceOwner RegisterWorkspaceOwner(string email,
