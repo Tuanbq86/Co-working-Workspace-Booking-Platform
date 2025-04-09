@@ -34,7 +34,7 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
                 var currentDate = startDateTime.Date;
                 var lastDate = endDateTime.Date;
 
-                while (currentDate < lastDate)
+                while (currentDate <= lastDate)
                 {
                     var dailyStart = currentDate.Add(startTime.ToTimeSpan());
                     var dailyEnd = currentDate.Add(endTime.ToTimeSpan());
@@ -48,7 +48,7 @@ public class CheckOverlapTimeHandler(IBookingWorkspaceUnitOfWork bookUnit)
 
                     if (bookUnit.workspaceTime.IsOverlap(ListTimesHandlingOrInuse, dailyStart, dailyEnd))
                     {
-                        return new CheckTimesResult($"Ngày {currentDate:dd/MM/yyyy} không trống tất cả các khoảng trong ngày");
+                        return new CheckTimesResult($"Khoảng thời gian đã được sử dụng");
                     }
 
                     currentDate = currentDate.AddDays(1);
