@@ -78,7 +78,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             workspace.OpenTime = command.OpenTime;
             workspace.CloseTime = command.CloseTime;
             workspace.Is24h = command.Is24h;
-            workspace.UpdatedAt = DateTime.UtcNow;
+            workspace.UpdatedAt = DateTime.Now;
 
 
             // **Lấy danh sách WorkspacePrice hiện tại**

@@ -26,7 +26,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Beverage
                 Category = command.Category,
                 Status = command.Status,
                 OwnerId = command.OwnerId,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             await unit.Beverage.CreateAsync(newBeverage);

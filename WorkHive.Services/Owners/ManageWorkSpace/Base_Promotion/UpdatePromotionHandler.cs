@@ -35,7 +35,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
             promotion.EndDate = command.EndDate;
             promotion.Status = command.Status;
             promotion.Description = command.Description;
-            promotion.UpdatedAt = DateTime.UtcNow;
+            promotion.UpdatedAt = DateTime.Now;
 
             await unit.Promotion.UpdateAsync(promotion);
             await unit.SaveAsync();

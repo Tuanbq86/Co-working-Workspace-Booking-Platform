@@ -35,8 +35,8 @@ namespace WorkHive.Services.Wallets.Base_OwnerWallet
             {
                 Amount = withdrawAmount,
                 Status = "Withdraw Success",
-                Description = "Withdraw from owner wallet",// Chỉnh lại cái này sau
-                CreatedAt = DateTime.UtcNow
+                Description = "Withdraw from owner wallet",
+                CreatedAt = DateTime.Now
             };
 
             await unit.TransactionHistory.CreateAsync(transaction);

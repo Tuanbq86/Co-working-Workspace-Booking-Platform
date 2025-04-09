@@ -26,7 +26,7 @@ namespace WorkHive.Services.Staff
 
             owner.Status = command.Status;
             owner.Message = command.Message;
-            owner.UpdatedAt = DateTime.UtcNow;
+            owner.UpdatedAt = DateTime.Now;
 
             var existingWallet = await unit.OwnerWallet.GetByOwnerIdAsync(command.Id);
             var walletStatus = command.Status == "Success" ? "Active" : "Inactive"; 
@@ -54,7 +54,7 @@ namespace WorkHive.Services.Staff
                     Description = $"Tài khoản {owner.LicenseName} của bạn đã được phê duyệt và xác thực thành công. Bây giờ bạn có thể truy cập các tính năng đầy đủ.",
                     Status = "Active",
                     OwnerId = command.Id,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Now,
                     IsRead = 0,
                     Title = "Xác thực tài khoản thành công"
                 };

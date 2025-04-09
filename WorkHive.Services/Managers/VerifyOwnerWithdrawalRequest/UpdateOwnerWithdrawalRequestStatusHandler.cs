@@ -45,7 +45,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     Amount = withdrawAmount,
                     Status = "Withdraw Success",
                     Description = "Withdraw from owner wallet",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Now,
                     BankAccountName = ownerWallet.BankAccountName,
                     BankName = ownerWallet.BankName,
                     BankNumber = ownerWallet.BankNumber
@@ -67,7 +67,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     Description = $"Yêu cầu rút tiền của bạn đã được phê duyệt và đang trong trạng thái hoạt động. Bạn có thể kiểm tra lại lịch sử giao dịch.",
                     Status = "Active",
                     OwnerId = ownerWallet.OwnerId,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Now,
                     IsRead = 0,
                     Title = "Yêu cầu rút tiền đã được duyệt"
                 };

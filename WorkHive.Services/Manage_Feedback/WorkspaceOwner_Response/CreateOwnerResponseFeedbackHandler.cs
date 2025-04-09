@@ -36,7 +36,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
             {
                 ImgUrl = i.ImgUrl,
                 Title = DefaultImageTitle,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             }).ToList() ?? new List<Image>();
 
             var newResponseFeedback = new OwnerResponseFeedback
@@ -46,7 +46,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
                 OwnerId = command.OwnerId,
                 FeedbackId = command.FeedbackId,
                 Status = DefaultStatus,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             if (images.Any())
@@ -60,7 +60,7 @@ namespace WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response
                 Description = $"{newResponseFeedback.Description}",
                 Status = "Active",
                 UserId = existingFeedback.UserId,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 IsRead = 0,
                 Title = $"Phản hổi từ {existingOwner.LicenseName}. {newResponseFeedback.Title}"
             };
