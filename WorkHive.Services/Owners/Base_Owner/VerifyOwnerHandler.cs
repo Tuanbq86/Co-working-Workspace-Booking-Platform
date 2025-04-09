@@ -26,9 +26,9 @@ namespace WorkHive.Services.Owners.Base_Owner
         string LicenseAddress,
         decimal? CharterCapital,
         string LicenseFile,
-        string Facebook,
-        string Instagram,
-        string Tiktok) : ICommand<VerifyOwnerResult>;
+        string? Facebook,
+        string? Instagram,
+        string? Tiktok) : ICommand<VerifyOwnerResult>;
 
     public record VerifyOwnerResult(string Notification);
 
@@ -58,7 +58,7 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.Facebook = command.Facebook;
             owner.Instagram = command.Instagram;
             owner.Tiktok = command.Tiktok;
-            owner.UpdatedAt = DateTime.UtcNow;
+            owner.UpdatedAt = DateTime.Now;
             owner.Status = "Handling";
 
             await unit.WorkspaceOwner.UpdateAsync(owner);

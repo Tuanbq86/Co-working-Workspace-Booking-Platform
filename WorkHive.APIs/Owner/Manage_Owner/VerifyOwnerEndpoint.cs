@@ -22,9 +22,9 @@ namespace WorkHive.APIs.Owner.Manage_Owner
         string LicenseAddress,
         decimal? CharterCapital,
         string LicenseFile,
-        string Facebook,
-        string Instagram,
-        string Tiktok);
+        string? Facebook,
+        string? Instagram,
+        string? Tiktok);
 
     public record VerifyOwnerResponse(string Notification);
 
