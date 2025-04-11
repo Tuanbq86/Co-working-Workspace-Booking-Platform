@@ -35,7 +35,7 @@ namespace WorkHive.Services.Wallets.Base_OwnerWallet
                     ownerWallet.BankAccountName,
                     ownerWallet.BankNumber,
                     owner?.Id ?? 0,
-                    owner?.IdentityName ?? "Unknown",
+                    owner?.OwnerName ?? "Unknown",
                     owner?.LicenseName ?? "N/A"
                 );
             }).ToList();

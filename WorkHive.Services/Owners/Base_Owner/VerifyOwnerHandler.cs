@@ -10,17 +10,8 @@ namespace WorkHive.Services.Owners.Base_Owner
 {
     public record VerifyOwnerCommand(
         int Id,
-        string IdentityName,
-        string IdentityNumber,
-        DateOnly? DateOfBirth,
         string Sex,
-        string Nationality,
         string GoogleMapUrl,
-        string PlaceOfOrigin,
-        string PlaceOfResidence,
-        DateOnly? IdentityExpiredDate,
-        DateOnly? IdentityCreatedDate,
-        string IdentityFile,
         string LicenseName,
         string LicenseNumber,
         string LicenseAddress,
@@ -39,17 +30,8 @@ namespace WorkHive.Services.Owners.Base_Owner
             var owner = await unit.WorkspaceOwner.GetByIdAsync(command.Id);
             if (owner == null) return new VerifyOwnerResult("Owner not found");
 
-            owner.IdentityName = command.IdentityName;
-            owner.IdentityNumber = command.IdentityNumber;
-            owner.DateOfBirth = command.DateOfBirth;
             owner.Sex = command.Sex;
-            owner.Nationality = command.Nationality;
             owner.GoogleMapUrl = command.GoogleMapUrl;
-            owner.PlaceOfOrigin = command.PlaceOfOrigin;
-            owner.PlaceOfResidence = command.PlaceOfResidence;
-            owner.IdentityExpiredDate = command.IdentityExpiredDate;
-            owner.IdentityCreatedDate = command.IdentityCreatedDate;
-            owner.IdentityFile = command.IdentityFile;
             owner.LicenseName = command.LicenseName;
             owner.LicenseNumber = command.LicenseNumber;
             owner.LicenseAddress = command.LicenseAddress;

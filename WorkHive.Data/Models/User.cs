@@ -39,7 +39,11 @@ public partial class User
 
     public virtual ICollection<CustomerWallet> CustomerWallets { get; set; } = new List<CustomerWallet>();
 
+    public virtual ICollection<CustomerWithdrawalRequest> CustomerWithdrawalRequests { get; set; } = new List<CustomerWithdrawalRequest>();
+
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
+    public virtual ICollection<OwnerVerifyRequest> OwnerVerifyRequests { get; set; } = new List<OwnerVerifyRequest>();
 
     public virtual ICollection<OwnerWallet> OwnerWallets { get; set; } = new List<OwnerWallet>();
 

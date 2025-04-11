@@ -15,17 +15,7 @@ public partial class WorkspaceOwner
 
     public string Password { get; set; }
 
-    public string IdentityName { get; set; }
-
-    public string IdentityNumber { get; set; }
-
-    public DateOnly? DateOfBirth { get; set; }
-
     public string Sex { get; set; }
-
-    public string Nationality { get; set; }
-
-    public string PlaceOfOrigin { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
@@ -34,14 +24,6 @@ public partial class WorkspaceOwner
     public string GoogleMapUrl { get; set; }
 
     public string Status { get; set; }
-
-    public string PlaceOfResidence { get; set; }
-
-    public DateOnly? IdentityExpiredDate { get; set; }
-
-    public DateOnly? IdentityCreatedDate { get; set; }
-
-    public string IdentityFile { get; set; }
 
     public string LicenseName { get; set; }
 
@@ -61,11 +43,13 @@ public partial class WorkspaceOwner
 
     public string PhoneStatus { get; set; }
 
-    public string Message { get; set; }
-
     public int? IsBan { get; set; }
 
     public string Avatar { get; set; }
+
+    public string OwnerName { get; set; }
+
+    public DateOnly? RegistrationDate { get; set; }
 
     public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
 
@@ -76,6 +60,8 @@ public partial class WorkspaceOwner
     public virtual ICollection<OwnerPasswordResetToken> OwnerPasswordResetTokens { get; set; } = new List<OwnerPasswordResetToken>();
 
     public virtual ICollection<OwnerResponseFeedback> OwnerResponseFeedbacks { get; set; } = new List<OwnerResponseFeedback>();
+
+    public virtual ICollection<OwnerVerifyRequest> OwnerVerifyRequests { get; set; } = new List<OwnerVerifyRequest>();
 
     public virtual ICollection<OwnerWallet> OwnerWallets { get; set; } = new List<OwnerWallet>();
 

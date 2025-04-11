@@ -5,15 +5,23 @@ using System.Collections.Generic;
 
 namespace WorkHive.Data.Models;
 
-public partial class CustomerWallet
+public partial class CustomerWithdrawalRequest
 {
     public int Id { get; set; }
 
+    public string Title { get; set; }
+
+    public string Description { get; set; }
+
     public string Status { get; set; }
 
-    public int WalletId { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     public int UserId { get; set; }
+
+    public int? ManagerId { get; set; }
+
+    public string ManagerResponse { get; set; }
 
     public string BankName { get; set; }
 
@@ -21,11 +29,7 @@ public partial class CustomerWallet
 
     public string BankAccountName { get; set; }
 
-    public int? IsLock { get; set; }
+    public decimal? Balance { get; set; }
 
     public virtual User User { get; set; }
-
-    public virtual ICollection<UserTransactionHistory> UserTransactionHistories { get; set; } = new List<UserTransactionHistory>();
-
-    public virtual Wallet Wallet { get; set; }
 }
