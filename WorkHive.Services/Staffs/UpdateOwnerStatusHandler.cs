@@ -25,7 +25,6 @@ namespace WorkHive.Services.Staff
                 return new UpdateOwnerStatusResult("Invalid status value. Use 'Fail' or 'Success'.");
 
             owner.Status = command.Status;
-            owner.Message = command.Message;
             owner.UpdatedAt = DateTime.Now;
 
             var existingWallet = await unit.OwnerWallet.GetByOwnerIdAsync(command.Id);

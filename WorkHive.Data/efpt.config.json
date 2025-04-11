@@ -39,6 +39,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Customer_Withdrawal_Request]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Detail]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Facility]",
          "ObjectType": 0
       },
@@ -72,6 +80,10 @@
       },
       {
          "Name": "[dbo].[Owner_Transaction_History]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Owner_Verify_Request]",
          "ObjectType": 0
       },
       {
@@ -132,6 +144,10 @@
       },
       {
          "Name": "[dbo].[Workspace]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Workspace_Detail]",
          "ObjectType": 0
       },
       {

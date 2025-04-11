@@ -35,11 +35,15 @@ public partial class Workspace
 
     public int? Is24h { get; set; }
 
+    public string Code { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual ICollection<Promotion> Promotions { get; set; } = new List<Promotion>();
+
+    public virtual ICollection<WorkspaceDetail> WorkspaceDetails { get; set; } = new List<WorkspaceDetail>();
 
     public virtual ICollection<WorkspaceFacility> WorkspaceFacilities { get; set; } = new List<WorkspaceFacility>();
 

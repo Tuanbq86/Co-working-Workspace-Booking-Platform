@@ -8,7 +8,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Owners.Base_Owner
 {
-    public record UpdateWorkspaceOwnerCommand(int Id, string Phone, string Email, string IdentityName, string IdentityNumber, DateOnly? DateOfBirth, string Sex, string Nationality, string PlaceOfOrigin, string GoogleMapUrl, string Status, string PlaceOfResidence, DateOnly? IdentityExpiredDate, DateOnly? IdentityCreatedDate, string IdentityFile, string LicenseName, string LicenseNumber, string LicenseAddress, decimal? CharterCapital, string LicenseFile, string? Facebook, string? Instagram, string? Tiktok, string PhoneStatus)
+    public record UpdateWorkspaceOwnerCommand(int Id, string Phone, string Email, string Sex, string GoogleMapUrl, string Status, string LicenseName, string LicenseNumber, string LicenseAddress, decimal? CharterCapital, string LicenseFile, string? Facebook, string? Instagram, string? Tiktok, string PhoneStatus)
         : ICommand<UpdateWorkspaceOwnerResult>;
 
     public record UpdateWorkspaceOwnerResult(string Notification);
@@ -22,18 +22,9 @@ namespace WorkHive.Services.Owners.Base_Owner
 
             owner.Phone = command.Phone;
             owner.Email = command.Email;
-            owner.IdentityName = command.IdentityName;
-            owner.IdentityNumber = command.IdentityNumber;
-            owner.DateOfBirth = command.DateOfBirth;
             owner.Sex = command.Sex;
-            owner.Nationality = command.Nationality;
-            owner.PlaceOfOrigin = command.PlaceOfOrigin;
             owner.GoogleMapUrl = command.GoogleMapUrl;
             owner.Status = command.Status;
-            owner.PlaceOfResidence = command.PlaceOfResidence;
-            owner.IdentityExpiredDate = command.IdentityExpiredDate;
-            owner.IdentityCreatedDate = command.IdentityCreatedDate;
-            owner.IdentityFile = command.IdentityFile;
             owner.LicenseName = command.LicenseName;
             owner.LicenseNumber = command.LicenseNumber;
             owner.LicenseAddress = command.LicenseAddress;
