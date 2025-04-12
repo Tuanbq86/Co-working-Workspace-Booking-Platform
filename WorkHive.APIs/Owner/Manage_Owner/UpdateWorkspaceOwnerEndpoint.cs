@@ -5,7 +5,7 @@ using WorkHive.Services.Owners.Base_Owner;
 
 namespace WorkHive.APIs.Owner.Manage_Owner
 {
-    public record UpdateWorkspaceOwnerRequest(string Phone, string Email, string IdentityName, string IdentityNumber, DateOnly? DateOfBirth, string Sex, string Nationality, string PlaceOfOrigin, string GoogleMapUrl, string Status, string PlaceOfResidence, DateOnly? IdentityExpiredDate, DateOnly? IdentityCreatedDate, string IdentityFile, string LicenseName, string LicenseNumber, string LicenseAddress, decimal? CharterCapital, string LicenseFile, string? Facebook, string? Instagram, string? Tiktok, string PhoneStatus);
+    public record UpdateWorkspaceOwnerRequest(string Phone, string Email, string Sex, string GoogleMapUrl, string Status, string LicenseName, string LicenseNumber, string LicenseAddress, decimal? CharterCapital, string LicenseFile, string? Facebook, string? Instagram, string? Tiktok, string PhoneStatus);
     public record UpdateWorkspaceOwnerResponse(string Notification);
 
     public class UpdateWorkspaceOwnerEndpoint : ICarterModule
