@@ -19,6 +19,7 @@ public interface IUserUnitOfWork
     IOwnerTransactionHistoryRepository OwnerTransactionHistory { get; }
     IUserNotificationRepository UserNotification { get; }
     IUserPasswordResetTokenRepository PasswordResetToken { get; }
+    ICustomerWithdrawalRequestRepository CustomerWithdrawalRequest { get; }
     public int Save();
     public Task<int> SaveAsync();
 }
