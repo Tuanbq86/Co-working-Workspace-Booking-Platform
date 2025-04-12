@@ -12,10 +12,12 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
+
     public WorkHiveContext()
     {
         
     }
+
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -27,6 +29,10 @@ public partial class WorkHiveContext : DbContext
     public virtual DbSet<BookingBeverage> BookingBeverages { get; set; }
 
     public virtual DbSet<CustomerWallet> CustomerWallets { get; set; }
+
+    public virtual DbSet<CustomerWithdrawalRequest> CustomerWithdrawalRequests { get; set; }
+
+    public virtual DbSet<Detail> Details { get; set; }
 
     public virtual DbSet<Facility> Facilities { get; set; }
 
@@ -45,6 +51,8 @@ public partial class WorkHiveContext : DbContext
     public virtual DbSet<OwnerResponseFeedback> OwnerResponseFeedbacks { get; set; }
 
     public virtual DbSet<OwnerTransactionHistory> OwnerTransactionHistories { get; set; }
+
+    public virtual DbSet<OwnerVerifyRequest> OwnerVerifyRequests { get; set; }
 
     public virtual DbSet<OwnerWallet> OwnerWallets { get; set; }
 
@@ -76,6 +84,8 @@ public partial class WorkHiveContext : DbContext
 
     public virtual DbSet<Workspace> Workspaces { get; set; }
 
+    public virtual DbSet<WorkspaceDetail> WorkspaceDetails { get; set; }
+
     public virtual DbSet<WorkspaceFacility> WorkspaceFacilities { get; set; }
 
     public virtual DbSet<WorkspaceImage> WorkspaceImages { get; set; }
@@ -101,19 +111,13 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Amenity");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(50)
-                .HasColumnName("category");
+            entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.ImgUrl)
-                .HasMaxLength(255)
-                .HasColumnName("img_url");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
+            entity.Property(e => e.ImgUrl).HasColumnName("img_url");
+            entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
@@ -140,19 +144,13 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Beverage");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(50)
-                .HasColumnName("category");
+            entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.ImgUrl)
-                .HasMaxLength(255)
-                .HasColumnName("img_url");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
+            entity.Property(e => e.ImgUrl).HasColumnName("img_url");
+            entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.OwnerId).HasColumnName("owner_id");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(18, 3)")
@@ -276,15 +274,12 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Customer_Wallet");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.BankAccountName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_account_name");
-            entity.Property(e => e.BankName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_name");
+            entity.Property(e => e.BankAccountName).HasColumnName("bank_account_name");
+            entity.Property(e => e.BankName).HasColumnName("bank_name");
             entity.Property(e => e.BankNumber)
                 .HasMaxLength(50)
                 .HasColumnName("bank_number");
+            entity.Property(e => e.IsLock).HasColumnName("is_lock");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -302,6 +297,48 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FKCustomer_W786976");
         });
 
+        modelBuilder.Entity<CustomerWithdrawalRequest>(entity =>
+        {
+            entity.ToTable("Customer_Withdrawal_Request");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Balance)
+                .HasColumnType("decimal(18, 3)")
+                .HasColumnName("balance");
+            entity.Property(e => e.BankAccountName).HasColumnName("bank_account_name");
+            entity.Property(e => e.BankName).HasColumnName("bank_name");
+            entity.Property(e => e.BankNumber)
+                .HasMaxLength(50)
+                .HasColumnName("bank_number");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.ManagerId).HasColumnName("manager_id");
+            entity.Property(e => e.ManagerResponse).HasColumnName("manager_response");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.CustomerWithdrawalRequests)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Customer_Withdrawal_Request_User");
+        });
+
+        modelBuilder.Entity<Detail>(entity =>
+        {
+            entity.ToTable("Detail");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+        });
+
         modelBuilder.Entity<Facility>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__facility__3214EC27D1442BBE");
@@ -309,9 +346,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Facility");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
+            entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -332,9 +367,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasColumnName("title");
+            entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Feedbacks)
@@ -358,12 +391,8 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.ImgUrl)
-                .HasMaxLength(255)
-                .HasColumnName("img_url");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasColumnName("title");
+            entity.Property(e => e.ImgUrl).HasColumnName("img_url");
+            entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
@@ -473,9 +502,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasColumnName("title");
+            entity.Property(e => e.Title).HasColumnName("title");
 
             entity.HasOne(d => d.Feedback).WithMany(p => p.OwnerResponseFeedbacks)
                 .HasForeignKey(d => d.FeedbackId)
@@ -512,6 +539,47 @@ public partial class WorkHiveContext : DbContext
                 .HasConstraintName("FKOwner_Tran330923");
         });
 
+        modelBuilder.Entity<OwnerVerifyRequest>(entity =>
+        {
+            entity.ToTable("Owner_Verify_Request");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CharterCapital)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("charter_capital");
+            entity.Property(e => e.GoogleMapUrl).HasColumnName("google_map_url");
+            entity.Property(e => e.LicenseAddress).HasColumnName("license_address");
+            entity.Property(e => e.LicenseFile)
+                .HasColumnType("text")
+                .HasColumnName("license_file");
+            entity.Property(e => e.LicenseName)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("license_name");
+            entity.Property(e => e.LicenseNumber)
+                .HasMaxLength(13)
+                .IsFixedLength()
+                .HasColumnName("license_number");
+            entity.Property(e => e.Message).HasColumnName("message");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.OwnerName).HasColumnName("owner_name");
+            entity.Property(e => e.RegistrationDate).HasColumnName("registration_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.OwnerVerifyRequests)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Verify_Request_Workspace_Owner");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OwnerVerifyRequests)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Owner_Verify_Request_User");
+        });
+
         modelBuilder.Entity<OwnerWallet>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Owner_Wa__3214EC275B1946D5");
@@ -519,12 +587,8 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Owner_Wallet");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.BankAccountName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_account_name");
-            entity.Property(e => e.BankName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_name");
+            entity.Property(e => e.BankAccountName).HasColumnName("bank_account_name");
+            entity.Property(e => e.BankName).HasColumnName("bank_name");
             entity.Property(e => e.BankNumber)
                 .HasMaxLength(50)
                 .HasColumnName("bank_number");
@@ -558,12 +622,8 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Balance)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("balance");
-            entity.Property(e => e.BankAccountName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_account_name");
-            entity.Property(e => e.BankName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_name");
+            entity.Property(e => e.BankAccountName).HasColumnName("bank_account_name");
+            entity.Property(e => e.BankName).HasColumnName("bank_name");
             entity.Property(e => e.BankNumber)
                 .HasMaxLength(50)
                 .HasColumnName("bank_number");
@@ -575,9 +635,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasColumnName("title");
+            entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.WorkspaceOwnerId).HasColumnName("workspace_owner_id");
 
@@ -613,9 +671,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Policy");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
+            entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
@@ -631,9 +687,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.AveragePrice)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("average_price");
-            entity.Property(e => e.Category)
-                .HasMaxLength(50)
-                .HasColumnName("category");
+            entity.Property(e => e.Category).HasColumnName("category");
         });
 
         modelBuilder.Entity<Promotion>(entity =>
@@ -643,9 +697,7 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Promotion");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Code)
-                .HasMaxLength(50)
-                .HasColumnName("code");
+            entity.Property(e => e.Code).HasColumnName("code");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -715,18 +767,20 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("Transaction_History");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AfterTransactionAmount)
+                .HasColumnType("decimal(18, 3)")
+                .HasColumnName("after_transaction_amount");
             entity.Property(e => e.Amount)
                 .HasColumnType("decimal(18, 3)")
                 .HasColumnName("amount");
-            entity.Property(e => e.BankAccountName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_account_name");
-            entity.Property(e => e.BankName)
-                .HasMaxLength(50)
-                .HasColumnName("bank_name");
+            entity.Property(e => e.BankAccountName).HasColumnName("bank_account_name");
+            entity.Property(e => e.BankName).HasColumnName("bank_name");
             entity.Property(e => e.BankNumber)
                 .HasMaxLength(50)
                 .HasColumnName("bank_number");
+            entity.Property(e => e.BeforeTransactionAmount)
+                .HasColumnType("decimal(18, 3)")
+                .HasColumnName("before_transaction_amount");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
@@ -744,22 +798,18 @@ public partial class WorkHiveContext : DbContext
             entity.ToTable("User");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Avatar)
-                .HasMaxLength(255)
-                .HasColumnName("avatar");
+            entity.Property(e => e.Avatar).HasColumnName("avatar");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .IsFixedLength()
                 .HasColumnName("email");
             entity.Property(e => e.IsBan).HasColumnName("is_ban");
             entity.Property(e => e.Location).HasColumnName("location");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
+            entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Password)
                 .HasColumnType("text")
                 .HasColumnName("password");
@@ -876,21 +926,18 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Area).HasColumnName("area");
             entity.Property(e => e.Capacity).HasColumnName("capacity");
-            entity.Property(e => e.Category)
-                .HasMaxLength(50)
-                .HasColumnName("category");
+            entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.CleanTime).HasColumnName("clean_time");
             entity.Property(e => e.CloseTime)
                 .HasPrecision(0)
                 .HasColumnName("close_time");
+            entity.Property(e => e.Code).HasColumnName("code");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Is24h).HasColumnName("is_24h");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
+            entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.OpenTime)
                 .HasPrecision(0)
                 .HasColumnName("open_time");
@@ -906,6 +953,28 @@ public partial class WorkHiveContext : DbContext
                 .HasForeignKey(d => d.OwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FKWorkspace521536");
+        });
+
+        modelBuilder.Entity<WorkspaceDetail>(entity =>
+        {
+            entity.ToTable("Workspace_Detail");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.DetailId).HasColumnName("detail_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
+
+            entity.HasOne(d => d.Detail).WithMany(p => p.WorkspaceDetails)
+                .HasForeignKey(d => d.DetailId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Workspace_Detail_Detail");
+
+            entity.HasOne(d => d.Workspace).WithMany(p => p.WorkspaceDetails)
+                .HasForeignKey(d => d.WorkspaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Workspace_Detail_Workspace");
         });
 
         modelBuilder.Entity<WorkspaceFacility>(entity =>
@@ -968,9 +1037,8 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .IsFixedLength()
                 .HasColumnName("email");
             entity.Property(e => e.Facebook)
@@ -979,39 +1047,20 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.GoogleMapUrl)
                 .HasColumnType("text")
                 .HasColumnName("google_map_url");
-            entity.Property(e => e.IdentityCreatedDate).HasColumnName("identity_created_date");
-            entity.Property(e => e.IdentityExpiredDate).HasColumnName("identity_expired_date");
-            entity.Property(e => e.IdentityFile)
-                .HasColumnType("text")
-                .HasColumnName("identity_file");
-            entity.Property(e => e.IdentityName)
-                .HasMaxLength(50)
-                .HasColumnName("identity_name");
-            entity.Property(e => e.IdentityNumber)
-                .HasMaxLength(12)
-                .IsFixedLength()
-                .HasColumnName("identity_number");
             entity.Property(e => e.Instagram)
                 .HasColumnType("text")
                 .HasColumnName("instagram");
             entity.Property(e => e.IsBan).HasColumnName("is_ban");
-            entity.Property(e => e.LicenseAddress)
-                .HasMaxLength(255)
-                .HasColumnName("license_address");
+            entity.Property(e => e.LicenseAddress).HasColumnName("license_address");
             entity.Property(e => e.LicenseFile)
                 .HasColumnType("text")
                 .HasColumnName("license_file");
-            entity.Property(e => e.LicenseName)
-                .HasMaxLength(50)
-                .HasColumnName("license_name");
+            entity.Property(e => e.LicenseName).HasColumnName("license_name");
             entity.Property(e => e.LicenseNumber)
                 .HasMaxLength(13)
                 .IsFixedLength()
                 .HasColumnName("license_number");
-            entity.Property(e => e.Message).HasColumnName("message");
-            entity.Property(e => e.Nationality)
-                .HasMaxLength(50)
-                .HasColumnName("nationality");
+            entity.Property(e => e.OwnerName).HasColumnName("owner_name");
             entity.Property(e => e.Password)
                 .HasColumnType("text")
                 .HasColumnName("password");
@@ -1022,12 +1071,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.PhoneStatus)
                 .HasMaxLength(50)
                 .HasColumnName("phone_status");
-            entity.Property(e => e.PlaceOfOrigin)
-                .HasMaxLength(50)
-                .HasColumnName("place_of_origin");
-            entity.Property(e => e.PlaceOfResidence)
-                .HasMaxLength(50)
-                .HasColumnName("place_of_residence");
+            entity.Property(e => e.RegistrationDate).HasColumnName("registration_date");
             entity.Property(e => e.Sex)
                 .HasMaxLength(50)
                 .HasColumnName("sex");
@@ -1138,15 +1182,13 @@ public partial class WorkHiveContext : DbContext
 
         modelBuilder.Entity<WorkspaceTime>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83F0D7F91C0");
+            entity.HasKey(e => e.Id).HasName("PK__Workspac__3213E83FB47D7C8C");
 
             entity.ToTable("Workspace_Time");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(50)
-                .HasColumnName("category");
+            entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");

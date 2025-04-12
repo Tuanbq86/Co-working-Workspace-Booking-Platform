@@ -21,6 +21,8 @@ public partial class CustomerWallet
 
     public string BankAccountName { get; set; }
 
+    public int? IsLock { get; set; }
+
     public virtual User User { get; set; }
 
     public virtual ICollection<UserTransactionHistory> UserTransactionHistories { get; set; } = new List<UserTransactionHistory>();

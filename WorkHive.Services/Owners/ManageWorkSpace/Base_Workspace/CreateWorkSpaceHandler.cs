@@ -56,7 +56,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 }).ToList() ?? new List<Image>();
 
 
-                List<Price> prices = command.Prices.Select(p => new Price
+                 List<Price> prices = command.Prices.Select(p => new Price
                 {
                     Category = p.Category,
                     AveragePrice = p.Price
@@ -78,8 +78,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 
                 await workSpaceManageUnit.Image.CreateImagesAsync(images);
                 await workSpaceManageUnit.Price.CreatePricesAsync(prices);
-                await workSpaceManageUnit.Policy.CreatePoliciesAsync(policies);
                 await workSpaceManageUnit.Facility.CreateFacilitiesAsync(facilities);
+                await workSpaceManageUnit.Policy.CreatePoliciesAsync(policies);
                 await workSpaceManageUnit.SaveAsync();
 
                 var newWorkSpace = new Workspace

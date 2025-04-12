@@ -25,6 +25,10 @@ public partial class TransactionHistory
 
     public string BankAccountName { get; set; }
 
+    public decimal? BeforeTransactionAmount { get; set; }
+
+    public decimal? AfterTransactionAmount { get; set; }
+
     public virtual ICollection<OwnerTransactionHistory> OwnerTransactionHistories { get; set; } = new List<OwnerTransactionHistory>();
 
     public virtual ICollection<UserTransactionHistory> UserTransactionHistories { get; set; } = new List<UserTransactionHistory>();
