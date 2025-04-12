@@ -31,4 +31,30 @@ public class EmailService(IConfiguration _configuration)
             await client.SendMailAsync(mailMessage);
         }
     }
+
+    public async Task SendEmailForCustomerAsync(string fromEmail, string fromName, string toEmail, string subject, string message)
+    {
+        var emailSettings = _configuration.GetSection("EmailSettings");
+
+        using (var client = new SmtpClient(emailSettings["SmtpServer"], int.Parse(emailSettings["SmtpPort"]!)))
+        {
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential(
+                emailSettings["SmtpUsername"],
+                emailSettings["SmtpPassword"]);
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(fromEmail, fromName),
+                Subject = subject,
+                Body = message,
+                IsBodyHtml = true
+            };
+
+            mailMessage.To.Add(toEmail);
+
+            await client.SendMailAsync(mailMessage);
+        }
+    }
+
 }

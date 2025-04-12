@@ -21,12 +21,12 @@ public class SupportCustomerHandler(IEmailService emailService)
         CancellationToken cancellationToken)
     {
         if(string.IsNullOrEmpty(command.Name) || string.IsNullOrEmpty(command.Email) 
-            || string.IsNullOrEmpty(command.Phone) || string.IsNullOrEmpty(command.Message) || command.Phone.Length == 10)
+            || string.IsNullOrEmpty(command.Phone) || string.IsNullOrEmpty(command.Message) || command.Phone.Length != 10)
             return new SupportCustomerResult("Vui lòng nhập đầy đủ thông tin");
 
         //Send email to confirm registering
         var emailBody = GenerateSupportCustomerEmailContent(command.Name, command.Email, command.Phone, command.Message);
-        await emailService.SendEmailAsync(command.Email, "Gửi hỗ trợ thành công", emailBody);
+        await emailService.SendEmailForCustomerAsync(command.Email, command.Name, "workhive.vn.official@gmail.com", "Hỗ trợ người dùng", emailBody);
 
         return new SupportCustomerResult("Gửi hỗ trợ thành công, vui lòng kiểm tra email để xem thông tin chi tiết");
     }
