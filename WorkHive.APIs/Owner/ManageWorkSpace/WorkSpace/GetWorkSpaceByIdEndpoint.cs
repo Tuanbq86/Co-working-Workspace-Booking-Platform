@@ -31,7 +31,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .WithTags("Workspace")
             .WithSummary("Get Workspace by ID")
             //.RequireAuthorization("Owner")
-            .WithDescription("Retrieve a workspace using its ID.");
+            .WithDescription("Retrieve a workspace using its WorkspaceID.");
         }
     }
 }
