@@ -163,7 +163,9 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             Status = "PAID",
             Description = $"Thanh toán đơn booking: {newBooking.Id}",
             CreatedAt = DateTime.Now,
-            Title = "Thanh toán thành công"
+            Title = "Thanh toán thành công",
+            BeforeTransactionAmount = wallet.Balance + bookingPrice,
+            AfterTransactionAmount = wallet.Balance
         };
         await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfUser);
 
@@ -182,7 +184,9 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             Status = "PAID",
             Description = $"Nhận tiền đơn booking: {newBooking.Id}",
             CreatedAt = DateTime.Now,
-            Title = "Đặt chỗ"
+            Title = "Đặt chỗ",
+            BeforeTransactionAmount = walletOfOwner.Balance - ((newBooking.Price * 90) / 100),
+            AfterTransactionAmount = walletOfOwner.Balance
         };
         await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
 
@@ -297,13 +301,13 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         bookingOfEmail.BookingHistoryBeverages = beverages;
         bookingOfEmail.Booking_Price = newBooking.Price;
 
-        var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail);
+        var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail, workspaceOfOwner);
         await emailService.SendEmailAsync(user.Email, "Thông tin đặt chỗ", emailBody);
 
         return new BookingByUserWalletResult("Đặt chỗ thành công, vui lòng kiểm tra email để xem thông tin chi tiết");
     }
 
-    private string GenerateBookingDetailsEmailContent(BookingHistory booking)
+    private string GenerateBookingDetailsEmailContent(BookingHistory booking, Workspace workspace)
     {
         var sb = new StringBuilder();
 
@@ -335,6 +339,10 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã không gian</td>
                 <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Id}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã chỗ ngồi</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{workspace.Code}</td>
             </tr>
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên khách hàng</td>

@@ -41,21 +41,23 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
                 .FirstOrDefault(ws => ws.BookingId.Equals(placeBooking.Id));
             await bookUnit.workspaceTime.RemoveAsync(workspaceTimeOfPlaceBooking!);
 
-            //Tiến hành hoàn tiền vào ví user từ ví owner 90% từ ví owner và thêm 10% từ hệ thống
+            //Tiến hành hoàn tiền 80% giá trị đơn booking vào ví user
 
             //Cho user
             var customerWallet = bookUnit.customerWallet.GetAll().FirstOrDefault(cw => cw.UserId.Equals(placeBooking.UserId));
             var walletOfUser = bookUnit.wallet.GetById(customerWallet!.WalletId);
-            walletOfUser.Balance += placeBooking.Price;
+            walletOfUser.Balance += (placeBooking.Price * 80) / 100;
             await bookUnit.wallet.UpdateAsync(walletOfUser);
 
             var transactionHistoryOfUser = new TransactionHistory
             {
-                Amount = placeBooking.Price,
+                Amount = (placeBooking.Price * 80) / 100,
                 Description = $"Hoàn tiền cho đơn booking: {placeBooking.Id}",
                 Status = "REFUND",
                 CreatedAt = now,
-                Title = "Hoàn tiền thành công"
+                Title = "Hoàn tiền thành công",
+                BeforeTransactionAmount = walletOfUser.Balance - (placeBooking.Price * 80) / 100,
+                AfterTransactionAmount = walletOfUser.Balance
             };
             await bookUnit.transactionHistory.CreateAsync(transactionHistoryOfUser);
 
@@ -71,7 +73,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var userNotification = new UserNotification
             {
                 CreatedAt = now,
-                Description = $"Nội dung:\r\nYêu cầu hoàn tiền của bạn đã được xử lý thành công.\r\nSố tiền hoàn lại: {placeBooking.Price.ToVnd()}\r\nVui lòng kiểm tra số dư trong ví hệ thống",
+                Description = $"Nội dung:\r\nYêu cầu hoàn tiền của bạn đã được xử lý thành công.\r\nSố tiền hoàn lại: {((placeBooking.Price * 80) / 100).ToVnd()}\r\nVui lòng kiểm tra số dư trong ví hệ thống",
                 IsRead = 0,
                 Status = "REFUND",
                 UserId = placeBooking.UserId,
@@ -84,16 +86,22 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var owner = bookUnit.Owner.GetById(workspaceBooking.OwnerId);
             var ownerWallet = bookUnit.ownerWallet.GetAll().FirstOrDefault(ow => ow.OwnerId.Equals(owner.Id));
             var walletOfOwner = bookUnit.wallet.GetById(ownerWallet!.WalletId);
+            //Trừ 90% giá trị đơn booking vào ví owner
             walletOfOwner.Balance -= (placeBooking.Price * 90) / 100;
+            await bookUnit.wallet.UpdateAsync(walletOfOwner);
+            //Cộng thêm 20% giá trị của đơn booking vào ví owner
+            walletOfOwner.Balance += (placeBooking.Price * 20) / 100;
             await bookUnit.wallet.UpdateAsync(walletOfOwner);
 
             var transactionHistoryOfOwner = new TransactionHistory
             {
-                Amount = (placeBooking.Price * 90) / 100,
+                Amount = (placeBooking.Price * 20) / 100,
                 Description = $"Hoàn tiền đơn booking: {placeBooking.Id}",
                 Status = "REFUND",
                 CreatedAt = now,
-                Title = "Hoàn tiền"
+                Title = "Hoàn tiền",
+                BeforeTransactionAmount = walletOfOwner.Balance - ((placeBooking.Price * 20) / 100) + ((placeBooking.Price * 90) / 100),
+                AfterTransactionAmount = walletOfOwner.Balance
             };
             await bookUnit.transactionHistory.CreateAsync(transactionHistoryOfOwner);
 
@@ -109,7 +117,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var ownerNotification = new OwnerNotification
             {
                 CreatedAt = now,
-                Description = $"Nội dung:\r\nTrừ {((placeBooking.Price * 90) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Nội dung:\r\nCộng {((placeBooking.Price * 20) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
                 IsRead = 0,
                 Status = "REFUND",
                 OwnerId = owner.Id,

@@ -113,7 +113,9 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
                 Status = "PAID",
                 Description = $"Nhận tiền đơn booking: {booking.Id}",
                 CreatedAt = DateTime.Now,
-                Title = "Đặt chỗ"
+                Title = "Đặt chỗ",
+                BeforeTransactionAmount = walletOfOwner.Balance - (booking.Price * 90) / 100,
+                AfterTransactionAmount = walletOfOwner.Balance
             };
             await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
 
@@ -221,13 +223,13 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             bookingOfEmail.BookingHistoryAmenities = amenities;
             bookingOfEmail.BookingHistoryBeverages = beverages;
 
-            var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail);
+            var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail, workspace);
             await emailService.SendEmailAsync(user.Email, "Thông tin đặt chỗ", emailBody);
         }
 
         return new UpdateTimeResult("Cập nhật trạng thái thành công, vui lòng kiểm tra email để xem thông tin chi tiết");
     }
-    private string GenerateBookingDetailsEmailContent(BookingHistory booking)
+    private string GenerateBookingDetailsEmailContent(BookingHistory booking, Workspace workspace)
     {
         var sb = new StringBuilder();
 
@@ -259,6 +261,10 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã không gian</td>
                 <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Id}</td>
+            </tr>
+            <tr>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Mã chỗ ngồi</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{workspace.Code}</td>
             </tr>
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Tên khách hàng</td>

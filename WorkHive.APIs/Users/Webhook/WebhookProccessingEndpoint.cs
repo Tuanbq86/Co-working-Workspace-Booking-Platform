@@ -1,23 +1,23 @@
-﻿using Carter;
+﻿using System.Text.Json;
+using Carter;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Net.payOS.Types;
 using WorkHive.Services.Users.Webhook;
 
 namespace WorkHive.APIs.Users.Webhook;
-
-public record ProcessWebhookRequest(WebhookType WebhookData);
+//public record ProcessWebhookRequest(WebhookType WebhookData);
 public class WebhookProccessingEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/webhook", async ([FromBody]ProcessWebhookRequest request, ISender sender) =>
+        app.MapPost("/webhook", async ([FromBody]WebhookType request, ISender sender) =>
         {
             try
             {
-                var command = request.Adapt<ProcessWebhookCommand>();
-                await sender.Send(command);
+                await sender.Send(new ProcessWebhookCommand(request));
                 return Results.Ok();
             }
             catch

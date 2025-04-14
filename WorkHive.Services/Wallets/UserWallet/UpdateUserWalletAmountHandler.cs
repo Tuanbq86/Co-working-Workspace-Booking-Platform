@@ -44,7 +44,9 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
                 Status = Status.ToString(),
                 Description = $"Nạp tiền vào ví đã được xử lý thành công.",
                 CreatedAt = DateTime.Now,
-                Title = "Nạp tiền thành công"
+                Title = "Nạp tiền thành công",
+                BeforeTransactionAmount = wallet.Balance - command.Amount,
+                AfterTransactionAmount = wallet.Balance,
             };
             await userUnit.TransactionHistory.CreateAsync(transactionHistory);
 

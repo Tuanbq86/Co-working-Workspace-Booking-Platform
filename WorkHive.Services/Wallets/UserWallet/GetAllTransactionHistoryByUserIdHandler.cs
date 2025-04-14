@@ -34,7 +34,8 @@ public class GetAllTransactionHistoryByUserIdHandler(IUserUnitOfWork userUnit)
             Status = item.TransactionHistory.Status,
             Created_At = item.TransactionHistory.CreatedAt,
             Description = item.TransactionHistory.Description,
-            
+            BeforeTransactionAmount = item.TransactionHistory.BeforeTransactionAmount,
+            AfterTransactionAmount = item.TransactionHistory.AfterTransactionAmount,
         }).ToList();
 
         return new GetAllTransactionHistoryByUserIdResult(result);
