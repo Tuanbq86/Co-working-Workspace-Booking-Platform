@@ -17,12 +17,22 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
     {
         public async Task<CreatePromotionResult> Handle(CreatePromotionCommand command, CancellationToken cancellationToken)
         {
-            var existingPromotion = await unit.Promotion.GetFirstOrDefaultAsync(p => p.Code == command.Code);
-            if (existingPromotion != null)
+            var workspace = await unit.Workspace.GetByIdAsync(command.WorkspaceId);
+            if (workspace == null)
             {
-                return new CreatePromotionResult("Mã khuyến mãi đã tồn tại");
+                return new CreatePromotionResult("Không tìm thấy workspace.");
             }
 
+            //var ownerId = workspace.OwnerId;
+
+            // Kiểm tra mã khuyến mãi đã tồn tại cho cùng Owner chưa
+            var existingPromotion = await unit.Promotion
+                .GetFirstOrDefaultAsync(p => p.Code == command.Code && p.Workspace.Id == command.WorkspaceId);
+
+            if (existingPromotion != null)
+            {
+                return new CreatePromotionResult("Mã khuyến mãi đã tồn tại cho workspace này");
+            }
             var newPromotion = new Promotion
             {
                 Code = command.Code,
