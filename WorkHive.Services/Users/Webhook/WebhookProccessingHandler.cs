@@ -17,7 +17,7 @@ namespace WorkHive.Services.Users.Webhook;
 public record ProcessWebhookCommand(WebhookType WebhookData) : ICommand<Unit>;
 
 public class WebhookProccessingHandler(IConfiguration configuration, 
-    IBookingWorkspaceUnitOfWork bookUnit, IUserUnitOfWork userUnit, ILogger<WebhookProccessingHandler> logger)
+    IBookingWorkspaceUnitOfWork bookUnit, IUserUnitOfWork userUnit)
     : ICommandHandler<ProcessWebhookCommand, Unit>
 {
     private readonly string ClientID = configuration["PayOS:ClientId"]!;
@@ -29,127 +29,135 @@ public class WebhookProccessingHandler(IConfiguration configuration,
         try
         {
             var payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
+            payOS.verifyPaymentWebhookData(command.WebhookData);
 
-            WebhookData data  = payOS.verifyPaymentWebhookData(command.WebhookData);
+            //if (data.code != "00") return Unit.Value;
 
-            //var description = data.description;
-            string depo = "depopayment";
-            string book = "bookpayment";
-
-            logger.LogDebug("Thông tin data:" + data.ToString());
-
-            //Xử lý cho api Booking bằng ví PayOS
-            if (data.description.EndsWith(book, StringComparison.OrdinalIgnoreCase))
+            // Phân loại nghiệp vụ dựa trên description
+            if (command.WebhookData.data.description.Contains("bookpayment"))
             {
                 PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation
-                    (data.orderCode);
+                (command.WebhookData.data.orderCode);
                 var Status = paymentLinkInformation.status.ToString();
 
-                if (!(Status.Equals(PayOSStatus.PAID.ToString())))
-                {
-                    // Lấy phần đầu của orderCode (bookingId)
-                    var bookingId = command.WebhookData.data.orderCode / 1_000_000;
-                    var workspaceTime = bookUnit.workspaceTime.GetAll()
-                        .FirstOrDefault(x => x.BookingId.Equals(bookingId));
-
-                    bookUnit.workspaceTime.Remove(workspaceTime!);
-
-                    var booking = bookUnit.booking.GetById((int)bookingId);
-
-                    booking.Status = BookingStatus.Fail.ToString();
-
-                    bookUnit.booking.Update(booking);
-
-                    await bookUnit.SaveAsync();
-                }
-
-                //Pay successfully
-                if (Status.Equals(PayOSStatus.PAID.ToString()))
-                {
-                    var bookingId = command.WebhookData.data.orderCode / 1_000_000;
-                    var workspaceTime = bookUnit.workspaceTime.GetAll()
-                        .FirstOrDefault(x => x.BookingId.Equals(bookingId));
-
-                    var booking = bookUnit.booking.GetById((int)bookingId);
-
-                    booking.Status = BookingStatus.Success.ToString();
-                    workspaceTime!.Status = WorkspaceTimeStatus.InUse.ToString();
-
-                    await bookUnit.booking.UpdateAsync(booking);
-                    await bookUnit.workspaceTime.UpdateAsync(workspaceTime);
-
-                    //Cộng tiền 90 cho ví owner và ghi lại lịch sử giao dịch cho bên owner
-                    var workspace = bookUnit.workspace.GetById(booking.WorkspaceId);
-                    var owner = userUnit.Owner.GetById(workspace.OwnerId);
-
-                    var ownerWallet = await bookUnit.ownerWallet.GetOwnerWalletByOwnerIdForBooking(owner.Id);
-                    var walletOfOwner = userUnit.Wallet.GetById(ownerWallet.WalletId);
-                    walletOfOwner.Balance += (command.WebhookData.data.amount * 90) / 100;
-
-                    await bookUnit.wallet.UpdateAsync(walletOfOwner);
-
-                    //Create Transaction History for owner
-                    var transactionHistoryOfOwner = new TransactionHistory
-                    {
-                        Amount = (data.amount * 90) / 100,
-                        Status = "PAID",
-                        Description = $"Nhận tiền đơn booking: {bookingId}",
-                        CreatedAt = DateTime.Now
-                    };
-                    await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfOwner);
-
-                    var ownerTransactionHistory = new OwnerTransactionHistory
-                    {
-                        Status = "PAID",
-                        TransactionHistoryId = transactionHistoryOfOwner.Id,
-                        OwnerWalletId = ownerWallet.Id
-                    };
-                    await userUnit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
-                }
-                //return Unit.Value;
+                await HandleBookingPayment(command.WebhookData, Status);
             }
-
-            //Xử lý cho api User deposit
-            if (data.description.EndsWith(depo, StringComparison.OrdinalIgnoreCase))
+            else if (command.WebhookData.data.description.Contains("depopayment"))
             {
                 PaymentLinkInformation paymentLinkInformation = await payOS.getPaymentLinkInformation
-                    (data.orderCode);
+                (command.WebhookData.data.orderCode);
                 var Status = paymentLinkInformation.status.ToString();
-
-                if (Status.Equals(PayOSStatus.PAID.ToString()))
-                {
-                    var CustomerWalletId = data.orderCode / 1_000_000;
-                    //Update amount in wallet
-                    var customerWallet = userUnit.CustomerWallet.GetById((int)CustomerWalletId);
-                    var wallet = userUnit.Wallet.GetById(customerWallet.WalletId);
-                    wallet.Balance += data.amount;
-                    await userUnit.Wallet.UpdateAsync(wallet);
-
-                    //Create Transaction History
-                    var transactionHistory = new TransactionHistory
-                    {
-                        Amount = data.amount,
-                        Status = Status.ToString(),
-                        Description = "Nạp tiền",
-                        CreatedAt = DateTime.Now
-                    };
-                    await userUnit.TransactionHistory.CreateAsync(transactionHistory);
-
-                    var userTransactionHistory = new UserTransactionHistory
-                    {
-                        Status = Status.ToString(),
-                        TransactionHistoryId = transactionHistory.Id,
-                        CustomerWalletId = (int)CustomerWalletId
-                    };
-                    await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
-                }
-                //return Unit.Value;
+                await HandleDepositPayment(command.WebhookData, Status);
             }
+
+            return Unit.Value;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
         return Unit.Value;
+    }
+
+    private async Task HandleBookingPayment(WebhookType data, string status)
+    {
+        // Tách bookingId từ orderCode (bookingId + 6 chữ số timestamp)
+        var orderCodeStr = data.data.orderCode.ToString();
+        var bookingIdStr = orderCodeStr.Length <= 6
+            ? orderCodeStr
+            : orderCodeStr[..^6]; // Bỏ 6 chữ số cuối
+        var bookingId = int.Parse(bookingIdStr);
+
+        var booking = await bookUnit.booking.GetByIdAsync(bookingId);
+        if (booking == null) return;
+
+        if (status == "PAID")
+        {
+            // Xử lý booking thành công
+            booking.Status = BookingStatus.Success.ToString();
+            await bookUnit.booking.UpdateAsync(booking);
+
+            // Cập nhật WorkspaceTime
+            var workspaceTime = bookUnit.workspaceTime.GetAll()
+                .FirstOrDefault(wt => wt.BookingId == bookingId);
+            if (workspaceTime != null)
+            {
+                workspaceTime.Status = WorkspaceTimeStatus.InUse.ToString();
+                await bookUnit.workspaceTime.UpdateAsync(workspaceTime);
+            }
+
+            // Xử lý ví owner (90% số tiền)
+            var workspace = bookUnit.workspace.GetById(booking.WorkspaceId);
+            var ownerWallet = await bookUnit.ownerWallet.GetOwnerWalletByOwnerIdForBooking(workspace.OwnerId);
+            var wallet = userUnit.Wallet.GetById(ownerWallet.WalletId);
+            wallet.Balance += (int)(data.data.amount * 0.9m);
+            await userUnit.Wallet.UpdateAsync(wallet);
+        }
+        else
+        {
+            // Xử lý booking thất bại
+            booking.Status = BookingStatus.Fail.ToString();
+            await bookUnit.booking.UpdateAsync(booking);
+
+            // Rollback amenities (nếu cần)
+            var amenities = bookUnit.bookAmenity.GetAll().Where(ba => ba.BookingId == bookingId);
+            foreach (var amenity in amenities)
+            {
+                var amenityEntity = bookUnit.amenity.GetById(amenity.AmenityId);
+                amenityEntity.Quantity += amenity.Quantity;
+                await bookUnit.amenity.UpdateAsync(amenityEntity);
+            }
+
+            // Xóa WorkspaceTime
+            var workspaceTime = bookUnit.workspaceTime.GetAll()
+                .FirstOrDefault(wt => wt.BookingId == bookingId);
+            if (workspaceTime != null)
+            {
+                bookUnit.workspaceTime.Remove(workspaceTime);
+            }
+        }
+
+        await bookUnit.SaveAsync();
+    }
+
+    private async Task HandleDepositPayment(WebhookType data, string status)
+    {
+        // Tách customerWalletId từ orderCode (walletId + 6 chữ số timestamp)
+        var orderCodeStr = data.data.orderCode.ToString();
+        var walletIdStr = orderCodeStr.Length <= 6
+            ? orderCodeStr
+            : orderCodeStr[..^6]; // Bỏ 6 chữ số cuối
+        var customerWalletId = int.Parse(walletIdStr);
+
+        var customerWallet = userUnit.CustomerWallet.GetById(customerWalletId);
+        if (customerWallet == null) return;
+
+        if (status == "PAID")
+        {
+            // Cộng tiền vào ví
+            var wallet = userUnit.Wallet.GetById(customerWallet.WalletId);
+            wallet.Balance += data.data.amount;
+            await userUnit.Wallet.UpdateAsync(wallet);
+
+            // Ghi log lịch sử giao dịch
+            var transaction = new TransactionHistory
+            {
+                Amount = data.data.amount,
+                Status = "PAID",
+                Description = "Nạp tiền vào ví",
+                CreatedAt = DateTime.Now
+            };
+            await userUnit.TransactionHistory.CreateAsync(transaction);
+
+            var userTransaction = new UserTransactionHistory
+            {
+                Status = "PAID",
+                TransactionHistoryId = transaction.Id,
+                CustomerWalletId = customerWalletId
+            };
+            await userUnit.UserTransactionHistory.CreateAsync(userTransaction);
+        }
+
+        await userUnit.SaveAsync();
     }
 }

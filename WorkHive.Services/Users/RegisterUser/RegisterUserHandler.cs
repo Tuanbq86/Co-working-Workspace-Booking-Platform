@@ -84,7 +84,8 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
         {
             Status = WalletStatus.Active.ToString(),
             WalletId = wallet.Id,
-            UserId = newUser.Id
+            UserId = newUser.Id,
+            IsLock = 0
         };
         userUnit.CustomerWallet.Create(customerWallet);
 
