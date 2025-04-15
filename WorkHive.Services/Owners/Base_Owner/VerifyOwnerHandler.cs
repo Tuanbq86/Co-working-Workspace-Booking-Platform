@@ -42,25 +42,8 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.Status = "Handling";
 
 
-            var newOwnerVerifyRequest = new OwnerVerifyRequest
-            {
-                OwnerId = command.Id,
-                //UserId = owner.UserId,
-                Status = "Handling",
-                GoogleMapUrl = command.GoogleMapUrl,
-                LicenseName = command.LicenseName,
-                LicenseNumber = command.LicenseNumber,
-                LicenseAddress = command.LicenseAddress,
-                CharterCapital = command.CharterCapital,
-                LicenseFile = command.LicenseFile,
-                OwnerName = command.OwnerName,
-                RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
-            };
-
-
 
             await unit.WorkspaceOwner.UpdateAsync(owner);
-            await unit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
             await unit.SaveAsync();
 
             return new VerifyOwnerResult("Owner verification updated successfully");
