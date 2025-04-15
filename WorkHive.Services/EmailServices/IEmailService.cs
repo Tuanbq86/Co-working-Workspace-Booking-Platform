@@ -9,4 +9,5 @@ namespace WorkHive.Services.EmailServices;
 public interface IEmailService
 {
     public Task SendEmailAsync(string toEmail, string subject, string message);
+    public Task SendEmailForCustomerAsync(string fromEmail, string fromName, string toEmail, string subject, string message);
 }

@@ -23,6 +23,7 @@ public class UserUnitOfWork : IUserUnitOfWork
     public IOwnerTransactionHistoryRepository OwnerTransactionHistory { get; private set; }
     public IUserNotificationRepository UserNotification { get; private set; }
     public IUserPasswordResetTokenRepository PasswordResetToken { get; private set; }
+    public ICustomerWithdrawalRequestRepository CustomerWithdrawalRequest { get; private set; }
 
     public UserUnitOfWork(WorkHiveContext context)
     {
@@ -37,6 +38,7 @@ public class UserUnitOfWork : IUserUnitOfWork
         OwnerTransactionHistory = new OwnerTransactionHistoryRepository(_context);
         UserNotification = new UserNotificationRepository(_context);
         PasswordResetToken = new UserPasswordResetTokenRepository(_context);
+        CustomerWithdrawalRequest = new CustomerWithdrawalRequestRepository(_context);
     }
 
     public int Save()

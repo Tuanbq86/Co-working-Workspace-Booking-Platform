@@ -12,4 +12,6 @@ public record UserTransactionHistoryDTO
     public string? Status { get; set; }
     public string? Description { get; set; }
     public DateTime? Created_At { get; set; }
+    public decimal? BeforeTransactionAmount { get; set; }
+    public decimal? AfterTransactionAmount { get; set; }
 }

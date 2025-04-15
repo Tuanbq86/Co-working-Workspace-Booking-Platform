@@ -75,7 +75,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
 
             //create order code with time increasing by time
             var timestamp = DateTime.UtcNow.Ticks.ToString()[^6..]; // Lấy 6 chữ số cuối của timestamp
-            var depositeCode = long.Parse($"{checkUserWallet.Id}{timestamp}"); // Kết hợp bookingId và timestamp
+            var depositeCode = long.Parse($"{checkUserWallet.Id}{timestamp}"); // Kết hợp user wallet Id và timestamp
             //Tạo thời gian hết hạn cho link thanh toán
             var expiredAt = DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds();
 
@@ -83,7 +83,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
-                    description: "NẠP TIỀN VÍ WORKHIVE",
+                    description: $"depopayment",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
                     expiredAt: expiredAt,
