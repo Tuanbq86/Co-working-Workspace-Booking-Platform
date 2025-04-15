@@ -10,6 +10,6 @@ namespace WorkHive.Repositories.IRepositories
 {
     public interface IOwnerVerifyRequestRepository : IGenericRepository<OwnerVerifyRequest>
     {
-
+        public Task<List<OwnerVerifyRequest>> GetAllOwnerVerifyRequests();
     }
 }

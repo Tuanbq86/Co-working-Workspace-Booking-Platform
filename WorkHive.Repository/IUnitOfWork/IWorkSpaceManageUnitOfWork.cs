@@ -25,7 +25,7 @@ namespace WorkHive.Repositories.IUnitOfWork
         IBookingRepository Booking { get; }
         IPromotionRepository Promotion { get; }
         IOwnerNotificationRepository OwnerNotification { get; }
-
+        IOwnerVerifyRequestRepository OwnerVerifyRequest { get; }
 
         public int Save();
         public Task<int> SaveAsync();
