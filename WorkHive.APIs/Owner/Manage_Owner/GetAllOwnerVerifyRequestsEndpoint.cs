@@ -2,7 +2,7 @@
 using MediatR;
 using WorkHive.Services.Owners.Base_Owner;
 
-namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
+namespace WorkHive.APIs.Owner.Manage_Owner
 {
     public record GetAllOwnerVerifyRequestsResponse(List<GetOwnerVerifyRequestResult> Requests);
 
