@@ -6,17 +6,8 @@ using WorkHive.Services.Owners.Base_Owner;
 namespace WorkHive.APIs.Owner.Manage_Owner
 {
     public record VerifyOwnerRequest(
-        string IdentityName,
-        string IdentityNumber,
-        DateOnly? DateOfBirth,
         string Sex,
-        string Nationality,
         string GoogleMapUrl,
-        string PlaceOfOrigin,
-        string PlaceOfResidence,
-        DateOnly? IdentityExpiredDate,
-        DateOnly? IdentityCreatedDate,
-        string IdentityFile,
         string LicenseName,
         string LicenseNumber,
         string LicenseAddress,
