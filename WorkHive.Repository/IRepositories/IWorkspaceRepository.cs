@@ -22,4 +22,5 @@ public interface IWorkspaceRepository : IGenericRepository<Workspace>
     public IQueryable<Workspace> GetWorkspaceByCategorySearch(string Category);
     public IQueryable<Workspace> GetWorkspaceByWorkspaceNameSearch(string Name);
     public Task<List<Price>> GetPricesByWorkspaceIdAsync(int workspaceId);
+    public Task<List<Workspace>> GetWorkspaceForOwnerSearch(int ownerId);
 }

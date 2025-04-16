@@ -143,4 +143,13 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wp => wp.Policy)
             .AsQueryable();
     }
+
+    public async Task<List<Workspace>> GetWorkspaceForOwnerSearch(int ownerId)
+    {
+        return await _context.Workspaces
+            .Where(w => w.OwnerId == ownerId)
+            .Include(w => w.WorkspaceRatings)
+            .ThenInclude(wr => wr.Rating)
+            .ToListAsync();
+    }
 }

@@ -21,6 +21,8 @@ public interface IBookingWorkspaceUnitOfWork
     IUserTransactionHistoryRepository userTransactionHistory { get; }
     IOwnerTransactionHistoryRepository ownerTransactionHistory { get; }
     ITransactionHistoryRepository transactionHistory { get; }
+    IWorkspaceRatingRepository workspaceRating { get; }
+    IRatingRepository rating { get; }
     public int Save();
     public Task<int> SaveAsync();
 }
