@@ -31,13 +31,17 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
 
         var owners = bookingUnit.Owner.GetOwnerForSearch().ToList();
 
+
         if (!string.IsNullOrEmpty(query.OwnerName))
         {
-            owners = (List<WorkspaceOwner>)owners
-                .Where(w => EF.Functions.Like(w.LicenseName, $"%{query.OwnerName}%"));
+            owners = bookingUnit.Owner.GetOwnerForSearchWithOwnerName(query.OwnerName).ToList();
         }
 
-        foreach(var item in owners)
+        // Lọc ra các owner có trạng thái thành công
+        owners = owners.Where(w => w.Status.ToString().ToLower().Trim()
+        .Equals(WOwnerStatus.Success.ToString().ToLower().Trim())).ToList();
+
+        foreach (var item in owners)
         {
             var workspaces = bookingUnit.workspace.GetAll().Where(w => w.OwnerId == item.Id).ToList();
 
