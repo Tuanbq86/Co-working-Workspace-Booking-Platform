@@ -40,6 +40,11 @@ namespace WorkHive.Services.Owners.Base_Owner
                 request.CharterCapital,
                 request.LicenseFile,
                 request.OwnerName,
+                request.Facebook,
+                request.Instagram,
+                request.Tiktok,
+                request.CreatedAt,
+                request.UpdatedAt,
                 request.RegistrationDate
             );
         }

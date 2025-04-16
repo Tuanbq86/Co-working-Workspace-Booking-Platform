@@ -14,7 +14,7 @@ namespace WorkHive.Services.Owners.Base_Owner
     public record GetOwnerVerifyRequestResult(
         int Id,
         int OwnerId,
-        int UserId,
+        int? UserId,
         string Message,
         string Status,
         string GoogleMapUrl,
@@ -24,6 +24,11 @@ namespace WorkHive.Services.Owners.Base_Owner
         decimal? CharterCapital,
         string LicenseFile,
         string OwnerName,
+        string? Facebook,
+        string? Instagram,
+        string? Tiktok,
+        DateTime? CreatedAt,
+        DateTime? UpdatedAt,
         DateOnly? RegistrationDate
     );
 
@@ -59,6 +64,11 @@ namespace WorkHive.Services.Owners.Base_Owner
                 r.CharterCapital,
                 r.LicenseFile,
                 r.OwnerName,
+                r.Facebook,
+                r.Instagram,
+                r.Tiktok,
+                r.CreatedAt,
+                r.UpdatedAt,
                 r.RegistrationDate
             )).ToList();
         }
