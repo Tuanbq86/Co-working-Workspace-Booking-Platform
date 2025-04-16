@@ -12,6 +12,7 @@ namespace WorkHive.Services.Users.SearchWorkspace;
 public record SearchWorkspaceOwnerByOwnerNameQuery(string? OwnerName) : IQuery<SearchWorkspaceOwnerByOwnerNameResult>;
 public record SearchWorkspaceOwnerByOwnerNameResult(List<WorkspaceOwnerByOwnerNameDTO> WorkspaceOwnerByOwnerNameDTOs);
 public record WorkspaceOwnerByOwnerNameDTO(
+    int WorkspaceOwnerId,
     string Phone,
     string Email,
     string GoogleMapUrl,
@@ -19,7 +20,8 @@ public record WorkspaceOwnerByOwnerNameDTO(
     string LicenseAddress,
     string Avatar,
     double RateAverage,
-    int NumberOfBooking);
+    int NumberOfBooking,
+    int NumberOfWorkspace);
 
 public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork bookingUnit)
     : IQueryHandler<SearchWorkspaceOwnerByOwnerNameQuery, SearchWorkspaceOwnerByOwnerNameResult>
@@ -43,7 +45,8 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
 
         foreach (var item in owners)
         {
-            var workspaces = bookingUnit.workspace.GetAll().Where(w => w.OwnerId == item.Id).ToList();
+            var workspaces = bookingUnit.workspace.GetAll()
+                .Where(w => w.OwnerId == item.Id && w.Status.ToLower().Trim().Equals("active")).ToList();
 
             // Tính số sao trung bình của tất cả các workspace của owner
             double rate = 0;
@@ -85,6 +88,7 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
             }
 
             result.Add(new WorkspaceOwnerByOwnerNameDTO(
+                item.Id,
                 item.Phone,
                 item.Email,
                 item.GoogleMapUrl,
@@ -92,7 +96,8 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
                 item.LicenseAddress,
                 item.Avatar,
                 rate,
-                numberOfBooking));
+                numberOfBooking,
+                workspaces.Count));
         }
 
         return new SearchWorkspaceOwnerByOwnerNameResult(result);
