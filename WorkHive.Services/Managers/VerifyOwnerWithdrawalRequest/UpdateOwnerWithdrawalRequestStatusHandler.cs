@@ -36,8 +36,8 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 if (wallet.Balance == null || wallet.Balance <= 0)
                     return new UpdateOwnerWithdrawalRequestStatusResult("Ví không có tiền để rút.");
 
-                decimal withdrawAmount = wallet.Balance.Value;
-                wallet.Balance = 0;
+                decimal withdrawAmount = request.Balance.Value;
+                wallet.Balance = wallet.Balance - request.Balance;
                                         
                 // Ghi lại giao dịch
                 var transaction = new TransactionHistory
@@ -48,7 +48,9 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     CreatedAt = DateTime.Now,
                     BankAccountName = ownerWallet.BankAccountName,
                     BankName = ownerWallet.BankName,
-                    BankNumber = ownerWallet.BankNumber
+                    BankNumber = ownerWallet.BankNumber,
+                    BeforeTransactionAmount = wallet.Balance + withdrawAmount,
+                    AfterTransactionAmount = wallet.Balance,
 
                 };
 
@@ -66,7 +68,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 {
                     Description = $"Yêu cầu rút tiền của bạn đã được phê duyệt và đang trong trạng thái hoạt động. Bạn có thể kiểm tra lại lịch sử giao dịch.",
                     Status = "Active",
-                    OwnerId = ownerWallet.OwnerId,
+                    OwnerId = request.WorkspaceOwnerId,
                     CreatedAt = DateTime.Now,
                     IsRead = 0,
                     Title = "Yêu cầu rút tiền đã được duyệt"
@@ -77,6 +79,18 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 await unit.OwnerTransactionHistory.CreateAsync(ownerTransactionHistory);
                 await unit.Wallet.UpdateAsync(wallet);
                 await unit.SaveAsync();
+            }
+            else
+            {
+                var ownerNotification = new OwnerNotification
+                {
+                    Description = $"Yêu cầu rút tiền của bạn đã bị từ chối. Lý do: {command.ManagerResponse}",
+                    Status = "Active",
+                    OwnerId = request.WorkspaceOwnerId,
+                    CreatedAt = DateTime.Now,
+                    IsRead = 0,
+                    Title = "Yêu cầu rút tiền đã bị từ chối",
+                };
             }
 
             // Cập nhật trạng thái yêu cầu rút tiền
