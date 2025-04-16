@@ -52,8 +52,20 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public async Task<int> CreateAsync(T entity)
     {
-        _context.Add(entity);
-        return await _context.SaveChangesAsync();
+        
+        //try
+        //{
+            _context.Add(entity);
+            return await _context.SaveChangesAsync();
+        //}
+        //catch (Exception ex)
+        //{
+        //    Console.WriteLine("Lỗi SaveChangesAsync: " + ex.Message);
+        //    if (ex.InnerException != null)
+        //        Console.WriteLine("Inner: " + ex.InnerException.Message);
+        //    throw;
+        //}
+
     }
 
     public void Update(T entity)

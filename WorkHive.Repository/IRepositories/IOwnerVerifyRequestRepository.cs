@@ -11,5 +11,6 @@ namespace WorkHive.Repositories.IRepositories
     public interface IOwnerVerifyRequestRepository : IGenericRepository<OwnerVerifyRequest>
     {
         public Task<List<OwnerVerifyRequest>> GetAllOwnerVerifyRequests();
+        public Task<OwnerVerifyRequest?> GetByOwnerIdAsync(int ownerId, string status);
     }
 }

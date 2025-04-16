@@ -28,23 +28,16 @@ namespace WorkHive.Services.Staff
             owner.UpdatedAt = DateTime.Now;
 
             //================================================================
-            // Create a new OwnerVerifyRequest
-            //var newOwnerVerifyRequest = new OwnerVerifyRequest
-            //{
-            //    OwnerId = command.Id,
-            //    UserId = command.UserId,
-            //    Status = command.Status,
-            //    Message = command.Message,
-            //    GoogleMapUrl = owner.GoogleMapUrl,
-            //    LicenseName = owner.LicenseName,
-            //    LicenseNumber = owner.LicenseNumber,
-            //    LicenseAddress = owner.LicenseAddress,
-            //    CharterCapital = owner.CharterCapital,
-            //    LicenseFile = owner.LicenseFile,
-            //    OwnerName = owner.OwnerName,
-            //    RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
-            //};
-            //await OUnit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
+            var verifyRequest = await OUnit.OwnerVerifyRequest.GetByOwnerIdAsync(command.Id, "Handling");
+
+            if (verifyRequest == null)
+                return new UpdateOwnerStatusResult("Verify request not found");
+            verifyRequest.UserId = command.UserId;
+            verifyRequest.Status = command.Status;
+            verifyRequest.Message = command.Message;
+            verifyRequest.UpdatedAt = DateTime.Now;
+
+            await OUnit.OwnerVerifyRequest.UpdateAsync(verifyRequest);
 
             //================================================================
 

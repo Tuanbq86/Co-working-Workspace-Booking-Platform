@@ -22,5 +22,13 @@ namespace WorkHive.Repositories.Repositories
                 .Include(ovr => ovr.User)
                 .ToListAsync();
         }
+
+        public async Task<OwnerVerifyRequest?> GetByOwnerIdAsync(int ownerId, string status)
+        {
+            return await _context.OwnerVerifyRequests
+                .Where(x => x.OwnerId == ownerId && x.Status == status)
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefaultAsync();
+        }
     }
 }

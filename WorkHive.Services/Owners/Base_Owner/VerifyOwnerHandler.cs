@@ -53,23 +53,24 @@ namespace WorkHive.Services.Owners.Base_Owner
             {
                 OwnerId = command.Id,
                 //UserId = command.UserId,
-                //Status = command.Status,
+                Status = "Handling",
                 //Message = command.Message,
-                GoogleMapUrl = owner.GoogleMapUrl,
-                LicenseName = owner.LicenseName,
-                LicenseNumber = owner.LicenseNumber,
-                LicenseAddress = owner.LicenseAddress,
-                CharterCapital = owner.CharterCapital,
-                LicenseFile = owner.LicenseFile,
-                OwnerName = owner.OwnerName,
+                GoogleMapUrl = command.GoogleMapUrl,
+                LicenseName = command.LicenseName,
+                LicenseNumber = command.LicenseNumber,
+                LicenseAddress = command.LicenseAddress,
+                CharterCapital = command.CharterCapital,
+                LicenseFile = command.LicenseFile,
+                OwnerName = command.OwnerName,
                 RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
+                Facebook = command.Facebook,
+                Instagram = command.Instagram,
+                Tiktok = command.Tiktok,
+                CreatedAt = DateTime.Now
             };
 
-
-            await unit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
-
-
             await unit.WorkspaceOwner.UpdateAsync(owner);
+            await unit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
             await unit.SaveAsync();
 
             return new VerifyOwnerResult("Owner verification updated successfully");
