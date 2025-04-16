@@ -11,7 +11,7 @@ public partial class OwnerVerifyRequest
 
     public int OwnerId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
     public string Message { get; set; }
 
@@ -32,6 +32,16 @@ public partial class OwnerVerifyRequest
     public string OwnerName { get; set; }
 
     public DateOnly? RegistrationDate { get; set; }
+
+    public string Facebook { get; set; }
+
+    public string Instagram { get; set; }
+
+    public string Tiktok { get; set; }
+
+    public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
 
     public virtual WorkspaceOwner Owner { get; set; }
 

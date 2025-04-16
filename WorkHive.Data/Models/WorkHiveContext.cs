@@ -547,15 +547,17 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CharterCapital)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("charter_capital");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Facebook).HasColumnName("facebook");
             entity.Property(e => e.GoogleMapUrl).HasColumnName("google_map_url");
+            entity.Property(e => e.Instagram).HasColumnName("instagram");
             entity.Property(e => e.LicenseAddress).HasColumnName("license_address");
             entity.Property(e => e.LicenseFile)
                 .HasColumnType("text")
                 .HasColumnName("license_file");
-            entity.Property(e => e.LicenseName)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("license_name");
+            entity.Property(e => e.LicenseName).HasColumnName("license_name");
             entity.Property(e => e.LicenseNumber)
                 .HasMaxLength(13)
                 .IsFixedLength()
@@ -567,6 +569,10 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Tiktok).HasColumnName("tiktok");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerVerifyRequests)
@@ -576,7 +582,6 @@ public partial class WorkHiveContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.OwnerVerifyRequests)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Owner_Verify_Request_User");
         });
 

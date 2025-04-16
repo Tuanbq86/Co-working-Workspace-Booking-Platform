@@ -23,7 +23,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
                 return new UpdatePromotionResult("Không tìm thấy mã khuyến mãi");
             }
 
-            var existingPromotion = await unit.Promotion.GetFirstOrDefaultAsync(p => p.Code == command.Code && p.Id != command.Id);
+            var existingPromotion = await unit.Promotion.GetFirstOrDefaultAsync(p => p.Code == command.Code && p.Id != command.Id && p.WorkspaceId == promotion.WorkspaceId);
             if (existingPromotion != null)
             {
                 return new UpdatePromotionResult("Mã khuyến mãi đã tồn tại");
