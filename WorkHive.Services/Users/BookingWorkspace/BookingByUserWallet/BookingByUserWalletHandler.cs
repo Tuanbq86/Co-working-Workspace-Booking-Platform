@@ -15,7 +15,7 @@ namespace WorkHive.Services.Users.BookingWorkspace.BookingByUserWallet;
 public record BookingByUserWalletCommand(int UserId, int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price, string WorkspaceTimeCategory) 
     : ICommand<BookingByUserWalletResult>;
-public record BookingByUserWalletResult(string Notification);
+public record BookingByUserWalletResult(string Notification, int IsLock);
 
 public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit, IUserUnitOfWork userUnit, IEmailService emailService)
     : ICommandHandler<BookingByUserWalletCommand, BookingByUserWalletResult>
@@ -25,6 +25,11 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
     {
         //Lấy ví của customer để kiểm tra số dư có đủ để thanh toán booking hay không
         var customerWallet = await userUnit.CustomerWallet.GetCustomerWalletByUserId(command.UserId);
+
+        if(customerWallet.IsLock == 1)
+        {
+            return new BookingByUserWalletResult("Ví của bạn đã bị khóa", customerWallet.IsLock.Value);
+        }
 
         //Kiểm tra mã giảm giá và áp dụng cho price để so sánh
         var bookingPrice = command.Price;
@@ -44,7 +49,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         //So sánh số dư trong ví với số tiền sau khi đã áp dụng mã giảm giá
         if(customerWallet.Wallet.Balance < bookingPrice)
         {
-            return new BookingByUserWalletResult("Số dư trong ví không đủ để thực hiện booking");
+            return new BookingByUserWalletResult("Số dư trong ví không đủ để thực hiện booking", customerWallet.IsLock!.Value);
         }
 
         //Trừ tiền ví user và cộng 90% số tiền vào ví của owner có workspace tương ứng
@@ -304,7 +309,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
         var emailBody = GenerateBookingDetailsEmailContent(bookingOfEmail, workspaceOfOwner);
         await emailService.SendEmailAsync(user.Email, "Thông tin đặt chỗ", emailBody);
 
-        return new BookingByUserWalletResult("Đặt chỗ thành công, vui lòng kiểm tra email để xem thông tin chi tiết");
+        return new BookingByUserWalletResult("Đặt chỗ thành công, vui lòng kiểm tra email để xem thông tin chi tiết", customerWallet.IsLock!.Value);
     }
 
     private string GenerateBookingDetailsEmailContent(BookingHistory booking, Workspace workspace)

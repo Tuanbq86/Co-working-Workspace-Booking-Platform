@@ -9,7 +9,7 @@ namespace WorkHive.APIs.Users.Booking.BookingByUserWallet;
 
 public record BookingByUserWalletRequest(int UserId, int WorkspaceId, string StartDate, string EndDate,
     List<BookingAmenityDTO> Amenities, List<BookingBeverageDTO> Beverages, string PromotionCode, decimal Price, string WorkspaceTimeCategory);
-public record BookingByUserWalletResponse(string Notification);
+public record BookingByUserWalletResponse(string Notification, int IsLock);
 
 public class BookingByUserWalletEndpoint : ICarterModule
 {
