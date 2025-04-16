@@ -18,7 +18,11 @@ namespace WorkHive.Services.Owners.Base_Owner
         string LicenseNumber,
         string LicenseAddress,
         decimal? CharterCapital,
-        string LicenseFile
+        string LicenseFile,
+        string? Facebook,
+        string? Instagram,
+        string? Tiktok,
+        DateOnly? RegistrationDate
         ) : ICommand<VerifyOwnerResult>;
 
     public record VerifyOwnerResult(string Notification);
@@ -40,7 +44,29 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.LicenseFile = command.LicenseFile;
             owner.UpdatedAt = DateTime.Now;
             owner.Status = "Handling";
+            owner.Facebook = command.Facebook;
+            owner.Instagram = command.Instagram;
+            owner.Tiktok = command.Tiktok;
+            owner.RegistrationDate = command.RegistrationDate;
 
+            var newOwnerVerifyRequest = new OwnerVerifyRequest
+            {
+                OwnerId = command.Id,
+                //UserId = command.UserId,
+                //Status = command.Status,
+                //Message = command.Message,
+                GoogleMapUrl = owner.GoogleMapUrl,
+                LicenseName = owner.LicenseName,
+                LicenseNumber = owner.LicenseNumber,
+                LicenseAddress = owner.LicenseAddress,
+                CharterCapital = owner.CharterCapital,
+                LicenseFile = owner.LicenseFile,
+                OwnerName = owner.OwnerName,
+                RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
+            };
+
+
+            await unit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
 
 
             await unit.WorkspaceOwner.UpdateAsync(owner);

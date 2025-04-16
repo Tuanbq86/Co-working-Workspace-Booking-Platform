@@ -15,7 +15,10 @@ namespace WorkHive.APIs.Owner.Manage_Owner
         string LicenseFile,
         string? Facebook,
         string? Instagram,
-        string? Tiktok);
+        string? Tiktok,
+        string OwnerName,
+        DateOnly? RegistrationDate
+        );
 
     public record VerifyOwnerResponse(string Notification);
 

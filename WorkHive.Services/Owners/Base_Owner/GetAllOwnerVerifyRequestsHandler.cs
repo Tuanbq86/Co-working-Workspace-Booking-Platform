@@ -39,7 +39,7 @@ namespace WorkHive.Services.Owners.Base_Owner
     {
         public async Task<List<GetOwnerVerifyRequestResult>> Handle(GetAllOwnerVerifyRequestsQuery query, CancellationToken cancellationToken)
         {
-            var requests = await unit.OwnerVerifyRequest.GetAllAsync(); // Giả sử bạn có phương thức này
+            var requests = await unit.OwnerVerifyRequest.GetAllAsync(); 
 
             if (requests == null || !requests.Any())
             {

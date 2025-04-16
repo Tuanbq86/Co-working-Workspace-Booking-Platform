@@ -547,7 +547,9 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.CharterCapital)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("charter_capital");
+            entity.Property(e => e.Facebook).HasColumnName("facebook");
             entity.Property(e => e.GoogleMapUrl).HasColumnName("google_map_url");
+            entity.Property(e => e.Instagram).HasColumnName("instagram");
             entity.Property(e => e.LicenseAddress).HasColumnName("license_address");
             entity.Property(e => e.LicenseFile)
                 .HasColumnType("text")
@@ -567,6 +569,7 @@ public partial class WorkHiveContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Tiktok).HasColumnName("tiktok");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.OwnerVerifyRequests)
