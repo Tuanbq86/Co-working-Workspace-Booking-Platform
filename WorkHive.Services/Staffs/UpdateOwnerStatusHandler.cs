@@ -29,22 +29,22 @@ namespace WorkHive.Services.Staff
 
             //================================================================
             // Create a new OwnerVerifyRequest
-            var newOwnerVerifyRequest = new OwnerVerifyRequest
-            {
-                OwnerId = command.Id,
-                UserId = command.UserId,
-                Status = command.Status,
-                Message = command.Message,
-                GoogleMapUrl = owner.GoogleMapUrl,
-                LicenseName = owner.LicenseName,
-                LicenseNumber = owner.LicenseNumber,
-                LicenseAddress = owner.LicenseAddress,
-                CharterCapital = owner.CharterCapital,
-                LicenseFile = owner.LicenseFile,
-                OwnerName = owner.OwnerName,
-                RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
-            };
-            await OUnit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
+            //var newOwnerVerifyRequest = new OwnerVerifyRequest
+            //{
+            //    OwnerId = command.Id,
+            //    UserId = command.UserId,
+            //    Status = command.Status,
+            //    Message = command.Message,
+            //    GoogleMapUrl = owner.GoogleMapUrl,
+            //    LicenseName = owner.LicenseName,
+            //    LicenseNumber = owner.LicenseNumber,
+            //    LicenseAddress = owner.LicenseAddress,
+            //    CharterCapital = owner.CharterCapital,
+            //    LicenseFile = owner.LicenseFile,
+            //    OwnerName = owner.OwnerName,
+            //    RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
+            //};
+            //await OUnit.OwnerVerifyRequest.CreateAsync(newOwnerVerifyRequest);
 
             //================================================================
 

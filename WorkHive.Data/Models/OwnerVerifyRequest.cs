@@ -33,6 +33,12 @@ public partial class OwnerVerifyRequest
 
     public DateOnly? RegistrationDate { get; set; }
 
+    public string Facebook { get; set; }
+
+    public string Instagram { get; set; }
+
+    public string Tiktok { get; set; }
+
     public virtual WorkspaceOwner Owner { get; set; }
 
     public virtual User User { get; set; }

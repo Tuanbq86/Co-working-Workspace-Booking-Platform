@@ -11,16 +11,16 @@ namespace WorkHive.Services.Owners.Base_Owner
 {
     public record UpdateWorkspaceOwnerSocialsCommand(
         int Id,
-        string Facebook,
-        string Instagram,
-        string Tiktok
+        string? Facebook,
+        string? Instagram,
+        string? Tiktok
     ) : ICommand<bool>;
 
     public class UpdateWorkspaceOwnerSocialsValidator : AbstractValidator<UpdateWorkspaceOwnerSocialsCommand>
     {
         public UpdateWorkspaceOwnerSocialsValidator()
         {
-            RuleFor(x => x.Id).GreaterThan(0);
+            //RuleFor(x => x.Id).GreaterThan(0);
             //RuleFor(x => x.Facebook).MaximumLength(255);
             //RuleFor(x => x.Instagram).MaximumLength(255);
             //RuleFor(x => x.Tiktok).MaximumLength(255);
@@ -39,7 +39,7 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.Facebook = command.Facebook;
             owner.Instagram = command.Instagram;
             owner.Tiktok = command.Tiktok;
-            owner.UpdatedAt = DateTime.UtcNow;
+            owner.UpdatedAt = DateTime.Now;
 
             unit.WorkspaceOwner.Update(owner);
             await unit.SaveAsync();
