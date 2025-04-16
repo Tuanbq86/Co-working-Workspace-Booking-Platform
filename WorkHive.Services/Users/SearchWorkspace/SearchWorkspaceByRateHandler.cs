@@ -59,6 +59,13 @@ public class SearchWorkspaceByRateHandler(IBookingWorkspaceUnitOfWork bookingUni
                         wp.Policy.Name)).ToList()));
             }
         }
-        return new SearchWorkspaceByRateResult(result);
+
+        //Lấy 10 phần tử đầu tiên và sắp xếp dựa vào alphabet của tên workspace
+        var sortedTop10 = result
+        .OrderBy(w => w.Name)
+        .Take(10)
+        .ToList();
+
+        return new SearchWorkspaceByRateResult(sortedTop10);
     }
 }

@@ -42,6 +42,10 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
 
     public ITransactionHistoryRepository transactionHistory { get; private set; }
 
+    public IWorkspaceRatingRepository workspaceRating { get; private set; }
+
+    public IRatingRepository rating { get; private set; }
+
     public BookingWorkspaceUnitOfWork(WorkHiveContext context)
     {
         _context = context;
@@ -62,6 +66,8 @@ public class BookingWorkspaceUnitOfWork : IBookingWorkspaceUnitOfWork
         userTransactionHistory = new UserTransactionHistoryRepository(_context);
         ownerTransactionHistory = new OwnerTransactionHistoryRepository(_context);
         transactionHistory = new TransactionHistoryRepository(_context);
+        workspaceRating = new WorkspaceRatingRepository(_context);
+        rating = new RatingRepository(_context);
     }
 
     public int Save()

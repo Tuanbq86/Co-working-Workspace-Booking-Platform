@@ -129,5 +129,27 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
         .ToListAsync();
 }
 
+    public IQueryable<Workspace> GetWorkspaceByWorkspaceNameSearch(string Name)
+    {
+        return _context.Workspaces
+            .Include(w => w.Owner)
+            .Include(w => w.WorkspacePrices)
+            .ThenInclude(wp => wp.Price)
+            .Include(w => w.WorkspaceImages)
+            .ThenInclude(wi => wi.Image)
+            .Include(w => w.WorkspaceFacilities)
+            .ThenInclude(wf => wf.Facility)
+            .Include(w => w.WorkspacePolicies)
+            .ThenInclude(wp => wp.Policy)
+            .AsQueryable();
+    }
 
+    public async Task<List<Workspace>> GetWorkspaceForOwnerSearch(int ownerId)
+    {
+        return await _context.Workspaces
+            .Where(w => w.OwnerId == ownerId)
+            .Include(w => w.WorkspaceRatings)
+            .ThenInclude(wr => wr.Rating)
+            .ToListAsync();
+    }
 }

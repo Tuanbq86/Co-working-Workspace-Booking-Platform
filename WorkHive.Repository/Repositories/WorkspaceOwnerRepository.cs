@@ -144,4 +144,8 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
+    public IQueryable<WorkspaceOwner> GetOwnerForSearch()
+    {
+        return _context.WorkspaceOwners.AsQueryable();
+    }
 }
