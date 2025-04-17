@@ -21,6 +21,18 @@ public class WebhookProccessingHandler(IConfiguration configuration,
 
         var webhookData = payOS.verifyPaymentWebhookData(command.WebhookData);
         var orderCode = webhookData.orderCode;
+        var orderCodeString = orderCode.ToString();
+
+        // 1 cho booking, 2 cho deposit
+        var typeCode = orderCodeString.Substring(0, 1);
+        var timestampPart = orderCodeString.Substring(1, 6);
+
+        if (typeCode == "1")
+        {
+            //Lấy booking Id
+            var bookingIdStr = orderCodeString.Substring(7);
+            var bookingId = int.Parse(bookingIdStr);
+        }
 
 
 
