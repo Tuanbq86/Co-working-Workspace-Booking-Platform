@@ -94,6 +94,7 @@ public class UpdateCustomerWithdrawalRequestStatusHandler(IUserUnitOfWork userUn
         request.Status = command.Status;
         request.ManagerId = command.ManagerId;
         request.ManagerResponse = command.ManagerResponse;
+        request.UpdatedAt = DateTime.Now;
         await userUnit.CustomerWithdrawalRequest.UpdateAsync(request);
 
         var walletOfCustomer = userUnit.CustomerWallet.GetAll()

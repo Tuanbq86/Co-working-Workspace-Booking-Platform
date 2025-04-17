@@ -48,16 +48,21 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             items.Add(new ItemData(userUnit.User.GetById(command.UserId).Name, 1, command.Amount));
 
             //create order code with time increasing by time
-            var depositeCode = long.Parse(DateTime.UtcNow.Ticks.ToString()[^10..]);
+            var timestamp = DateTime.UtcNow.Ticks.ToString()[^6..]; // Lấy 6 chữ số cuối của timestamp
+            var depositeCode = long.Parse($"2{timestamp}{customerWallet.Id}"); // Kết hợp user wallet Id và timestamp
+            //Tạo thời gian hết hạn cho link thanh toán
+            var expiredAt = DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds();
+
 
             var domain = configuration["PayOS:Domain"]!;
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
-                    description: "NẠP TIỀN",
+                    description: "DEPOSIT PAYMENT",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
-            items: items
+                    items: items,
+                    expiredAt: expiredAt
             );
 
             var link = await payOS.createPaymentLink(paymentLinkRequest);
@@ -75,7 +80,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
 
             //create order code with time increasing by time
             var timestamp = DateTime.UtcNow.Ticks.ToString()[^6..]; // Lấy 6 chữ số cuối của timestamp
-            var depositeCode = long.Parse($"{checkUserWallet.Id}{timestamp}"); // Kết hợp user wallet Id và timestamp
+            var depositeCode = long.Parse($"2{timestamp}{checkUserWallet.Id}"); // Kết hợp user wallet Id và timestamp
             //Tạo thời gian hết hạn cho link thanh toán
             var expiredAt = DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds();
 
@@ -83,7 +88,7 @@ public class UserDepositHandler(IUserUnitOfWork userUnit, IConfiguration configu
             var paymentLinkRequest = new PaymentData(
                     orderCode: depositeCode,
                     amount: command.Amount,
-                    description: $"depopayment",
+                    description: $"DEPOSIT PAYMENT",
                     returnUrl: domain + "/success",
                     cancelUrl: domain + "/fail",
                     expiredAt: expiredAt,

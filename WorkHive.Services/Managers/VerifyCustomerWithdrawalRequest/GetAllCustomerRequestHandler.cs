@@ -15,7 +15,8 @@ public record CustomerRequestDTO(
         string BankNumber,
         string BankAccountName,
         decimal Balance,
-        string ManagerResponse
+        string ManagerResponse,
+        DateTime? UpdatedAt
     );
 public record GetAllCustomerRequestQuery() : IQuery<GetAllCustomerRequestResult>;
 public record GetAllCustomerRequestResult(List<CustomerRequestDTO> CustomerRequests);
@@ -44,7 +45,8 @@ public class GetAllCustomerRequestHandler(IUserUnitOfWork userUnit)
                 item.BankNumber,
                 item.BankAccountName,
                 item.Balance ?? 0,
-                item.ManagerResponse ?? "N/A"
+                item.ManagerResponse ?? "N/A",
+                item.UpdatedAt
             ));
         }
 

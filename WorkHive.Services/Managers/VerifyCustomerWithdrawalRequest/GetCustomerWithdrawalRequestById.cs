@@ -17,7 +17,8 @@ public record CustomerWithdrawalRequestByIdDTO(
         string BankNumber,
         string BankAccountName,
         decimal Balance,
-        string ManagerResponse
+        string ManagerResponse,
+        DateTime? UpdatedAt
     );
 
 public class GetCustomerWithdrawalRequestById(IUserUnitOfWork userUnit)
@@ -42,7 +43,8 @@ public class GetCustomerWithdrawalRequestById(IUserUnitOfWork userUnit)
                 "N/A",
                 "N/A",
                 0,
-                "N/A"
+                "N/A",
+                null
             ));
         }
         var customerWithdrawalRequestByIdDTO = new CustomerWithdrawalRequestByIdDTO(
@@ -57,7 +59,8 @@ public class GetCustomerWithdrawalRequestById(IUserUnitOfWork userUnit)
             checkNull.BankNumber,
             checkNull.BankAccountName,
             checkNull.Balance ?? 0,
-            checkNull.ManagerResponse ?? "N/A"
+            checkNull.ManagerResponse ?? "N/A",
+            checkNull.UpdatedAt
         );
 
         return new GetCustomerWithdrawalRequestByIdResult(customerWithdrawalRequestByIdDTO);

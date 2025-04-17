@@ -15,7 +15,8 @@ public record CustomerWithdrawalRequestDTO(
         string BankNumber,
         string BankAccountName,
         decimal Balance,
-        string ManagerResponse
+        string ManagerResponse,
+        DateTime? UpdatedAt
     );
 
 public record GetAllCustomerWithdrawalRequestByCustomerIdQuery(int CustomerId) : IQuery<GetAllCustomerWithdrawalRequestByCustomerIdResult>;
@@ -45,7 +46,8 @@ public class GetAllCustomerWithdrawalRequestHandler(IUserUnitOfWork userUnit)
                 item.BankNumber,
                 item.BankAccountName,
                 item.Balance ?? 0,
-                item.ManagerResponse ?? "N/A"
+                item.ManagerResponse ?? "N/A",
+                item.UpdatedAt
                 ));
         }
         return new GetAllCustomerWithdrawalRequestByCustomerIdResult(result);
