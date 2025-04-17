@@ -21,7 +21,7 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
         return newPassword.ToLower().Trim().Equals(confirmPassword.ToLower().Trim());
     }
 
-    public WorkspaceOwner FindWorkspaceOwnerByEmail(string email)
+    public WorkspaceOwner? FindWorkspaceOwnerByEmail(string email)
     {
         return _context.WorkspaceOwners.Where(x => x.Email.ToLower().Trim()
         .Equals(email.ToLower().Trim())).FirstOrDefault()!;
@@ -144,4 +144,9 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
+    public async Task<WorkspaceOwner> FindByEmailAsync(string email)
+    {
+        return await _context.WorkspaceOwners
+            .FirstOrDefaultAsync(o => o.Email == email);
+    }
 }
