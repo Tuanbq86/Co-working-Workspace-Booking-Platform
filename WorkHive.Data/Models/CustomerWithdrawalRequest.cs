@@ -17,6 +17,8 @@ public partial class CustomerWithdrawalRequest
 
     public DateTime? CreatedAt { get; set; }
 
+    public DateTime? UpdatedAt { get; set; }
+
     public int UserId { get; set; }
 
     public int? ManagerId { get; set; }
