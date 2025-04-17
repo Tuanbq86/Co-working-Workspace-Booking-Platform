@@ -12,12 +12,10 @@ public partial class WorkHiveContext : DbContext
         : base(options)
     {
     }
-
     public WorkHiveContext()
     {
         
     }
-
     public virtual DbSet<Amenity> Amenities { get; set; }
 
     public virtual DbSet<Beverage> Beverages { get; set; }
@@ -320,6 +318,9 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("status");
             entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.CustomerWithdrawalRequests)
@@ -641,6 +642,9 @@ public partial class WorkHiveContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("status");
             entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.WorkspaceOwnerId).HasColumnName("workspace_owner_id");
 

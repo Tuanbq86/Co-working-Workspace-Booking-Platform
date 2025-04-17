@@ -17,6 +17,8 @@ public partial class OwnerWithdrawalRequest
 
     public DateTime? CreatedAt { get; set; }
 
+    public DateTime? UpdatedAt { get; set; }
+
     public int WorkspaceOwnerId { get; set; }
 
     public int? UserId { get; set; }
