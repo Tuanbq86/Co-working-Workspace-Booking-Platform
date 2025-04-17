@@ -29,7 +29,7 @@ public class WebhookProccessingHandler(IConfiguration configuration,
         try
         {
             var payOS = new PayOS(ClientID, ApiKey, CheckSumKey);
-            payOS.verifyPaymentWebhookData(command.WebhookData);
+            var webHookData = payOS.verifyPaymentWebhookData(command.WebhookData);
 
             //if (data.code != "00") return Unit.Value;
 
