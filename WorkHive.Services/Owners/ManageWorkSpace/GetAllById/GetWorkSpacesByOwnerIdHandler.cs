@@ -10,7 +10,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 public record GetWorkSpacesByOwnerIdQuery(int Id) : IQuery<List<GetWorkSpaceByOwnerIdResult>>;
 
 public record GetWorkSpaceByOwnerIdResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category, 
-    string Status, int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string LicenseName, string phone, List<WorkspacesPriceDTO> Prices,
+    string Status, DateTime? CreatedAt, DateTime? UpdatedAt , int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string LicenseName, string phone, List<WorkspacesPriceDTO> Prices,
 List<WorkspacesImageDTO> Images, List<WorkspaceFacilityDTO> Facilities, List<WorkspacePolicyDTO> Policies);
 
 public record WorkspacesPriceDTO(int Id, decimal? Price, string Category);
@@ -50,6 +50,8 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
             ws.Capacity,
             ws.Category,
             ws.Status,
+            ws.CreatedAt,
+            ws.UpdatedAt,
             ws.CleanTime,
             ws.Area,
             ws.OwnerId,

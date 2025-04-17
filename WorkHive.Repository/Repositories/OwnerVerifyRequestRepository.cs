@@ -30,5 +30,12 @@ namespace WorkHive.Repositories.Repositories
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<OwnerVerifyRequest>> GetAllByOwnerIdAsync(int ownerId)
+        {
+            return await _context.OwnerVerifyRequests
+                .Where(r => r.OwnerId == ownerId)
+                .ToListAsync();
+        }
     }
 }
