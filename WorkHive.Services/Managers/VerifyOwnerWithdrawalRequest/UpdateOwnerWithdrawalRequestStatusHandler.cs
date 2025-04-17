@@ -94,6 +94,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
             }
 
             // Cập nhật trạng thái yêu cầu rút tiền
+            request.UpdatedAt = DateTime.Now;
             request.Status = command.Status;
             request.UserId = command.UserId;
             request.ManagerResponse = command.ManagerResponse;
