@@ -12,5 +12,6 @@ namespace WorkHive.Repositories.IRepositories
     {
         public Task<List<OwnerVerifyRequest>> GetAllOwnerVerifyRequests();
         public Task<OwnerVerifyRequest?> GetByOwnerIdAsync(int ownerId, string status);
+        public Task<List<OwnerVerifyRequest>> GetAllByOwnerIdAsync(int ownerId);
     }
 }
