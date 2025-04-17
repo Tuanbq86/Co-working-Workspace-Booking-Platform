@@ -28,6 +28,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     request.Description,
                     request.Status,
                     request.CreatedAt,
+                    request.UpdatedAt,
                     request.WorkspaceOwnerId,
                     request.UserId,
                     request.BankName,
