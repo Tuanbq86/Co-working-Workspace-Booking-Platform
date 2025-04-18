@@ -40,7 +40,7 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
         }
 
         // Lọc ra các owner có trạng thái thành công
-        owners = owners.Where(w => w.Status.ToString().ToLower().Trim()
+        owners = owners.Where(w => w.Status != null && w.Status.ToString().ToLower().Trim()
         .Equals(WOwnerStatus.Success.ToString().ToLower().Trim())).ToList();
 
         foreach (var item in owners)
