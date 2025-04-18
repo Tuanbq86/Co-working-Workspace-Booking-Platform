@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WorkHive.Data.Base;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IRepositories;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WorkHive.Repositories.Repositories;
 
@@ -144,6 +145,18 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
+    public IQueryable<WorkspaceOwner> GetOwnerForSearch()
+    {
+        return _context.WorkspaceOwners
+            .AsQueryable();
+    }
+
+    public IQueryable<WorkspaceOwner> GetOwnerForSearchWithOwnerName(string name)
+    {
+        return _context.WorkspaceOwners
+            .Where(w => EF.Functions.Like(w.LicenseName, $"%{name}%"))
+            .AsQueryable();
+    }
     public async Task<WorkspaceOwner> FindByEmailAsync(string email)
     {
         return await _context.WorkspaceOwners

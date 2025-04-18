@@ -8,21 +8,20 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
 
-namespace WorkHive.Services.Owners.Google_Login
+namespace WorkHive.Services.Google_Login
 {
-    public record GoogleLoginCommand(string IdToken) : IRequest<GoogleLoginResult>;
+    public record GoogleUserLoginCommand(string IdToken) : IRequest<GoogleUserLoginResult>;
 
-    public record GoogleLoginResult(string Token, WorkspaceOwner Owner);
+    public record GoogleUserLoginResult(string Token, User User);
 
-    public class GoogleLoginHandler(IWorkSpaceManageUnitOfWork unit, IConfiguration config)
-        : IRequestHandler<GoogleLoginCommand, GoogleLoginResult>
+    public class GoogleUserLoginHandler(IUserUnitOfWork unit, IConfiguration config)
+        : IRequestHandler<GoogleUserLoginCommand, GoogleUserLoginResult>
     {
-        public async Task<GoogleLoginResult> Handle(GoogleLoginCommand request, CancellationToken cancellationToken)
+        public async Task<GoogleUserLoginResult> Handle(GoogleUserLoginCommand request, CancellationToken cancellationToken)
         {
             using var httpClient = new HttpClient();
             var response = await httpClient.GetAsync($"https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={request.IdToken}");
@@ -34,30 +33,31 @@ namespace WorkHive.Services.Owners.Google_Login
             if (googleInfo == null || string.IsNullOrWhiteSpace(googleInfo.Email))
                 throw new Exception("Không thể xác thực token Google.");
 
-            var owner = await unit.WorkspaceOwner.FindByEmailAsync(googleInfo.Email);
-            if (owner == null)
+            var user = await unit.User.FindByEmailAsync(googleInfo.Email);
+            if (user == null)
             {
-                owner = new WorkspaceOwner
+                user = new User
                 {
                     Email = googleInfo.Email,
-                    OwnerName = googleInfo.Name,
+                    Name = googleInfo.Name,
                     Status = "Pending",
                     CreatedAt = DateTime.UtcNow,
                     Avatar = $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(googleInfo.Name)}",
-                    PhoneStatus = "Unverified"
+                    Phone = "",
+                    RoleId = 2, // Hoặc ID tương ứng với role người dùng
+                    IsBan = 0,
                 };
 
-                await unit.WorkspaceOwner.CreateAsync(owner);
-                await unit.SaveAsync(); // Đừng quên commit transaction nếu cần
+                await unit.User.CreateAsync(user);
+                await unit.SaveAsync();
             }
 
-            // JWT Token creation
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, owner.Email),
-                new Claim(ClaimTypes.Name, owner.OwnerName ?? ""),
-                new Claim("OwnerId", owner.Id.ToString()),
-                new Claim(ClaimTypes.Role, "WorkspaceOwner")
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Name ?? ""),
+                new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, "User")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
@@ -68,12 +68,19 @@ namespace WorkHive.Services.Owners.Google_Login
                 audience: config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: creds);
+                signingCredentials: creds
+            );
 
-            return new GoogleLoginResult(
+            return new GoogleUserLoginResult(
                 new JwtSecurityTokenHandler().WriteToken(jwt),
-                owner
+                user
             );
         }
+    }
+
+    public class GoogleTokenInfo
+    {
+        public string Email { get; set; }
+        public string Name { get; set; }
     }
 }

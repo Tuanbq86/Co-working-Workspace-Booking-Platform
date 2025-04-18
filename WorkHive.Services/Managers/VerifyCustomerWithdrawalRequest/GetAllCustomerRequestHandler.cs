@@ -3,7 +3,7 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Managers.VerifyCustomerWithdrawalRequest;
 
-public record CustomerWithdrawalRequestDTO(
+public record CustomerRequestDTO(
         int Id,
         string Title,
         string Description,
@@ -18,23 +18,22 @@ public record CustomerWithdrawalRequestDTO(
         string ManagerResponse,
         DateTime? UpdatedAt
     );
+public record GetAllCustomerRequestQuery() : IQuery<GetAllCustomerRequestResult>;
+public record GetAllCustomerRequestResult(List<CustomerRequestDTO> CustomerRequests);
 
-public record GetAllCustomerWithdrawalRequestByCustomerIdQuery(int CustomerId) : IQuery<GetAllCustomerWithdrawalRequestByCustomerIdResult>;
-public record GetAllCustomerWithdrawalRequestByCustomerIdResult(List<CustomerWithdrawalRequestDTO> CustomerWithdrawalRequests);
-
-public class GetAllCustomerWithdrawalRequestHandler(IUserUnitOfWork userUnit)
-    : IQueryHandler<GetAllCustomerWithdrawalRequestByCustomerIdQuery, GetAllCustomerWithdrawalRequestByCustomerIdResult>
+public class GetAllCustomerRequestHandler(IUserUnitOfWork userUnit)
+    : IQueryHandler<GetAllCustomerRequestQuery, GetAllCustomerRequestResult>
 {
-    public async Task<GetAllCustomerWithdrawalRequestByCustomerIdResult> Handle(GetAllCustomerWithdrawalRequestByCustomerIdQuery request, 
+    public async Task<GetAllCustomerRequestResult> Handle(GetAllCustomerRequestQuery query, 
         CancellationToken cancellationToken)
     {
-        var requests = await userUnit.CustomerWithdrawalRequest.GetByCustomerIdAsync(request.CustomerId);
+        List<CustomerRequestDTO> result = new List<CustomerRequestDTO>();
 
-        List<CustomerWithdrawalRequestDTO> result = new List<CustomerWithdrawalRequestDTO>();
+        var requests = await userUnit.CustomerWithdrawalRequest.GetAllAsync();
 
         foreach(var item in requests)
         {
-            result.Add(new CustomerWithdrawalRequestDTO(
+            result.Add(new CustomerRequestDTO(
                 item.Id,
                 item.Title,
                 item.Description,
@@ -48,8 +47,9 @@ public class GetAllCustomerWithdrawalRequestHandler(IUserUnitOfWork userUnit)
                 item.Balance ?? 0,
                 item.ManagerResponse ?? "N/A",
                 item.UpdatedAt
-                ));
+            ));
         }
-        return new GetAllCustomerWithdrawalRequestByCustomerIdResult(result);
+
+        return new GetAllCustomerRequestResult(result);
     }
 }
