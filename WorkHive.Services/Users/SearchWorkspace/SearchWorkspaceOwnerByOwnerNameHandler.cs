@@ -49,12 +49,13 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
                 .Where(w => w.OwnerId == item.Id && w.Status.ToLower().Trim().Equals("active")).ToList();
 
             // Tính số sao trung bình của tất cả các workspace của owner
-            double rate = 0;
+            double rate = 0.0;
 
-            foreach(var workspace in workspaces)
+            int rateSum = 0;
+            int count = 0;
+
+            foreach (var workspace in workspaces)
             {
-                int rateSum = 0;
-                int count = 0;
                 var workspaceRatings = bookingUnit.workspaceRating.GetAll()
                     .Where(wr => wr.WorkspaceId == workspace.Id).ToList();
 
@@ -64,13 +65,13 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
                     rateSum += (int)rating.Rate!;
                     count += 1;
                 }
-                if (count > 0)
-                {
-                    rate += (double)rateSum / count;
-                }
             }
 
-            rate = Math.Round(rate, 1);
+            if (count > 0)
+            {
+                rate += (double)rateSum / count;
+                rate = Math.Round(rate, 1);
+            }
 
             // Tính số lượng booking của tất cả các workspace của owner
             int numberOfBooking = 0;

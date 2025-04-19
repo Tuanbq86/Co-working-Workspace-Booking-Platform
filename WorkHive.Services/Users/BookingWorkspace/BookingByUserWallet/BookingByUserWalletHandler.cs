@@ -363,7 +363,7 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
             </tr>
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Trạng thái</td>
-                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Booking_Status}</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>Thành công</td>
             </tr>
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Ngày tạo</td>
@@ -390,11 +390,11 @@ public class BookingByUserWalletHandler(IBookingWorkspaceUnitOfWork bookingUnit,
                 <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Category}</td>
             </tr>
             <tr>
-                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Số lượng</td>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Số lượng(người)</td>
                 <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Capacity}</td>
             </tr>
             <tr>
-                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Khu vực</td>
+                <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Diện tích(m2)</td>
                 <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{booking.Workspace_Area}</td>
             </tr>");
 
