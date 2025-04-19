@@ -19,7 +19,8 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace
         List<PriceDTO> Prices,
         List<ImageDTO> Images,
         List<FacilityDTO> Facilities,
-        List<PolicyDTO> Policies
+        List<PolicyDTO> Policies,
+        List<DetailDTO> Details
     );
 
     public record UpdateWorkspaceResponse(string Notification);

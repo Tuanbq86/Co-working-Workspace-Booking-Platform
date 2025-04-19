@@ -47,6 +47,9 @@ namespace WorkHive.Repositories.UnitOfWork
 
         public IOwnerVerifyRequestRepository OwnerVerifyRequest { get; private set; }
 
+        public IDetailRepository Detail { get; private set; }
+        public IWorkspaceDetailRepository WorkspaceDetail { get; private set; }
+
 
         public WorkSpaceManageUnitOfWork(WorkHiveContext context)
         {
@@ -68,6 +71,8 @@ namespace WorkHive.Repositories.UnitOfWork
             Promotion = new PromotionRepository(_context);
             OwnerNotification = new OwnerNotificationRepository(_context);
             OwnerVerifyRequest = new OwnerVerifyRequestRepository(_context);
+            Detail = new DetailRepository(_context);
+            WorkspaceDetail = new WorkspaceDetailRepository(_context);
 
         }
         public int Save()

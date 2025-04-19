@@ -81,4 +81,10 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .Where(u => u.Bookings.Any(b => b.Workspace.OwnerId == ownerId && b.Status == status)) 
             .ToListAsync();
     }
+
+    public async Task<User> FindByEmailAsync(string email)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(o => o.Email == email);
+    }
 }

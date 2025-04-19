@@ -16,12 +16,13 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace
 {
     public record GetWorkSpaceByIdQuery(int id) : IQuery<GetWorkSpaceByIdResult>;
     public record GetWorkSpaceByIdResult(int Id, string Name, string Description,string Address, int? Capacity, string GoogleMapUrl, string Category, string Status, DateTime? CreatedAt, DateTime? UpdatedAt,int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string LicenseName, string phone, List<WorkspacePriceDTO> Prices,
-    List<WorkspaceImageDTO> Images, List<WorkspaceFacilityDT> Facilities, List<WorkspacePolicyDT> Policies);
+    List<WorkspaceImageDTO> Images, List<WorkspaceFacilityDT> Facilities, List<WorkspacePolicyDT> Policies, List<WorkspaceDetailDT> Details);
 
     public record WorkspacePriceDTO(int Id, decimal? Price, string Category);
     public record WorkspaceImageDTO(int Id, string ImgUrl);
     public record WorkspaceFacilityDT(int Id, string FacilityName);
     public record WorkspacePolicyDT(int Id, string PolicyName);
+    public record WorkspaceDetailDT(int Id, string DetailName);
 
 
 
@@ -85,7 +86,12 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace
                     .Select(wp => new WorkspacePolicyDT(
                         wp.Policy!.Id,
                         wp.Policy.Name ?? string.Empty
-                    )).ToList() ?? new List<WorkspacePolicyDT>()
+                    )).ToList() ?? new List<WorkspacePolicyDT>(),
+                workspace.WorkspaceDetails?.Where(wd => wd != null && wd.Detail != null)
+                    .Select(wd => new WorkspaceDetailDT(
+                        wd.Detail!.Id,
+                        wd.Detail.Name ?? string.Empty
+                    )).ToList() ?? new List<WorkspaceDetailDT>()
 
 
             );

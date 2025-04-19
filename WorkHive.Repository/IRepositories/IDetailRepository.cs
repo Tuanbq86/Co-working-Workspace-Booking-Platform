@@ -11,5 +11,6 @@ namespace WorkHive.Repositories.IRepositories
     public interface IDetailRepository : IGenericRepository<Detail>
     {
         Task<List<Detail>> GetDetailsByWorkspaceIdAsync(int workspaceId);
+        Task CreateDetailsAsync(List<Detail> Details);
     }
 }
