@@ -25,7 +25,8 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
         List<PriceDTO> Prices, 
         List<ImageDTO> Images, 
         List<FacilityDTO> Facilities, 
-        List<PolicyDTO> Policies
+        List<PolicyDTO> Policies,
+        List<DetailDTO> Details
         ): ICommand<UpdateWorkspaceResult>;
 
     public record UpdateWorkspaceResult(string Notification);
@@ -58,13 +59,6 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             if (workspace == null)
                 return new UpdateWorkspaceResult($"Workspace Id {command.Id} không tìm thấy.");
 
-            //var existingWorkspace = await workSpaceManageUnit.Workspace
-            //.GetByNameAsync(command.Name.ToLower());
-
-            //if (existingWorkspace != null && existingWorkspace.Id != command.Id)
-            //{
-            //    return new UpdateWorkspaceResult($"Tên workspace '{command.Name}' đã tồn tại. Vui lòng chọn tên khác.");
-            //}
 
 
             // Cập nhật thông tin cơ bản
@@ -118,12 +112,19 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 await workSpaceManageUnit.WorkspaceFacility.DeleteWorkspaceFacilitiesAsync(existingFacilities);
             }
 
-            await workSpaceManageUnit.SaveAsync();
+            // === Xóa toàn bộ danh sách chi tiết (Details) cũ ===
+            var existingDetails = await workSpaceManageUnit.WorkspaceDetail.GetByWorkspaceIdAsync(workspace.Id);
+            if (existingDetails.Any())
+            {
+                await workSpaceManageUnit.WorkspaceDetail.DeleteWorkspaceDetailsAsync(existingDetails);
+            }
+
+
+            //await workSpaceManageUnit.SaveAsync();
 
             // === Thêm mới danh sách ảnh ===
             var newImages = command.Images.Select(i => new Image { ImgUrl = i.ImgUrl, Title = "Workspace Image" }).ToList();
             await workSpaceManageUnit.Image.CreateImagesAsync(newImages);
-            await workSpaceManageUnit.SaveAsync();
 
             var workspaceImages = newImages.Select(img => new WorkspaceImage
             {
@@ -137,7 +138,6 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             // === Thêm mới danh sách tiện ích (Facilities) ===
             var newFacilities = command.Facilities.Select(f => new Facility { Name = f.FacilityName }).ToList();
             await workSpaceManageUnit.Facility.CreateFacilitiesAsync(newFacilities);
-            await workSpaceManageUnit.SaveAsync();
 
             var workspaceFacilities = newFacilities.Select(fac => new WorkspaceFacility
             {
@@ -150,7 +150,6 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             // === Thêm mới danh sách chính sách (Policies) ===
             var newPolicies = command.Policies.Select(p => new Policy { Name = p.PolicyName }).ToList();
             await workSpaceManageUnit.Policy.CreatePoliciesAsync(newPolicies);
-            await workSpaceManageUnit.SaveAsync();
 
             var workspacePolicies = newPolicies.Select(pol => new WorkspacePolicy
             {
@@ -159,6 +158,26 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             }).ToList();
 
             await workSpaceManageUnit.WorkspacePolicy.CreateWorkspacePoliciesAsync(workspacePolicies);
+
+            // === Thêm mới danh sách chi tiết (Details) ===
+            var newDetails = command.Details.Select(d => new Detail { Name = d.DetailName }).ToList();
+            await workSpaceManageUnit.Detail.CreateDetailsAsync(newDetails);
+
+            var workspaceDetails = newDetails.Select(det => new WorkspaceDetail
+            {
+                WorkspaceId = workspace.Id,
+                DetailId = det.Id
+            }).ToList();
+            await workSpaceManageUnit.WorkspaceDetail.CreateWorkspaceDetailsAsync(workspaceDetails);
+
+
+            var ownerNotification = new OwnerNotification
+            {
+                Description = $"Chúc mừng! Bạn đã cập nhật thành công không gian làm việc có tên {workspace.Name}. Hãy bắt đầu tổ chức các công việc của bạn ngay thôi.",
+                OwnerId = workspace.OwnerId,
+                CreatedAt = DateTime.Now
+            };
+            await workSpaceManageUnit.OwnerNotification.CreateAsync(ownerNotification);
 
             await workSpaceManageUnit.SaveAsync();
 
