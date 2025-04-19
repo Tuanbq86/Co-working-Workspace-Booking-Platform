@@ -26,6 +26,8 @@ namespace WorkHive.Repositories.IUnitOfWork
         IPromotionRepository Promotion { get; }
         IOwnerNotificationRepository OwnerNotification { get; }
         IOwnerVerifyRequestRepository OwnerVerifyRequest { get; }
+        IDetailRepository Detail { get; }
+        IWorkspaceDetailRepository WorkspaceDetail { get; }
 
         public int Save();
         public Task<int> SaveAsync();
