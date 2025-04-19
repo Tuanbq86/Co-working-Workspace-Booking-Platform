@@ -6,6 +6,8 @@ using WorkHive.Services.Users.Webhook;
 
 namespace WorkHive.APIs.Users.Webhook;
 
+public record ProcessWebhookResponse(string Notification);
+
 public class WebhookProccessingEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -14,8 +16,9 @@ public class WebhookProccessingEndpoint : ICarterModule
         {
             try
             {
-                await sender.Send(new ProcessWebhookCommand(WebhookData));
-                return Results.Ok();
+                var result = await sender.Send(new ProcessWebhookCommand(WebhookData));
+                var response = new ProcessWebhookResponse(result.Notification);
+                return Results.Ok(response);
             }
             catch
             {

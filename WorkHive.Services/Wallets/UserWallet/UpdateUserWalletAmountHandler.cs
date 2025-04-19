@@ -37,7 +37,7 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
             wallet.Balance += command.Amount;
             await userUnit.Wallet.UpdateAsync(wallet);
 
-            //Create Transaction History
+            //Create Transaction History for user
             var transactionHistory = new TransactionHistory
             {
                 Amount = command.Amount,
@@ -58,7 +58,7 @@ public class UpdateUserWalletAmountHandler(IUserUnitOfWork userUnit, IConfigurat
             };
             await userUnit.UserTransactionHistory.CreateAsync(userTransactionHistory);
 
-            //Thông báo
+            //Thông báo cho người dùng
             var userNotifi = new UserNotification
             {
                 UserId = customerWallet.UserId,

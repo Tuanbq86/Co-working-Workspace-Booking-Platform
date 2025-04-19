@@ -106,6 +106,13 @@ public class UpdateWorkspaceTimeStatusHandler(IUserUnitOfWork userUnit, IBooking
             };
             await userUnit.TransactionHistory.CreateAsync(transactionHistoryOfUser);
 
+            var userTransactionHistory = new UserTransactionHistory
+            {
+                Status = "PAID",
+                TransactionHistoryId = transactionHistoryOfUser.Id,
+                CustomerWalletId = walletOfOwner.Id
+            };
+
             //Create Transaction History for owner
             var transactionHistoryOfOwner = new TransactionHistory
             {
