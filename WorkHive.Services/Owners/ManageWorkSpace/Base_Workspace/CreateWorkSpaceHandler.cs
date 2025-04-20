@@ -12,7 +12,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
-    public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<PriceDTO> Prices,
+    public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string Code, List<PriceDTO> Prices,
     List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies, List<DetailDTO> Details) : ICommand<CreateWorkspaceResult>;
 
     public record PriceDTO(decimal? Price, string Category);
@@ -102,6 +102,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     OpenTime = command.OpenTime,
                     CloseTime = command.CloseTime,
                     Is24h = command.Is24h,
+                    Code = command.Code,
                     CreatedAt = DateTime.Now
                 };
 

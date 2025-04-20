@@ -38,13 +38,12 @@ namespace WorkHive.Services.Google_Login
             {
                 user = new User
                 {
-                    Email = googleInfo.Email,
+                    Email = googleInfo.Email.Trim(),
                     Name = googleInfo.Name,
-                    Status = "Pending",
+                    Status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     Avatar = $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(googleInfo.Name)}",
-                    Phone = "",
-                    RoleId = 2, // Hoặc ID tương ứng với role người dùng
+                    RoleId = 4, 
                     IsBan = 0,
                 };
 
