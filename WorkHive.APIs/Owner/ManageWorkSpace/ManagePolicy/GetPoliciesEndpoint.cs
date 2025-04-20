@@ -3,7 +3,7 @@ using MediatR;
 using WorkHive.Data.Models;
 using WorkHive.Services.Owners.ManageWorkSpace.Base_Policy;
 
-namespace WorkHive.APIs.Owner.ManagePolicy
+namespace WorkHive.APIs.Owner.ManageWorkSpace.ManagePolicy
 {
     public record GetPoliciesResponse(List<Policy> Policies);
     public class GetPoliciesEndpoint : ICarterModule

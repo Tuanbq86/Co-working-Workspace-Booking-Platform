@@ -3,7 +3,7 @@ using Mapster;
 using MediatR;
 using WorkHive.Services.Owners.ManageWorkSpace.Base_Policy;
 
-namespace WorkHive.APIs.Owner.ManagePolicy
+namespace WorkHive.APIs.Owner.ManageWorkSpace.ManagePolicy
 {
     public record CreatePolicyRequest(string Name);
     public record CreatePolicyResponse(string Notification);
