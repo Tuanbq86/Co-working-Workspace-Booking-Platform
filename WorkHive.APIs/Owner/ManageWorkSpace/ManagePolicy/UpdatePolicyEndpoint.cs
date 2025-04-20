@@ -1,8 +1,9 @@
 ﻿using Carter;
 using Mapster;
-using MediatR;using WorkHive.Services.Owners.ManageWorkSpace.Base_Policy;
+using MediatR;
+using WorkHive.Services.Owners.ManageWorkSpace.Base_Policy;
 
-namespace WorkHive.APIs.Owner.ManagePolicy
+namespace WorkHive.APIs.Owner.ManageWorkSpace.ManagePolicy
 {
     public record UpdatePolicyRequest(string Name);
     public record UpdatePolicyResponse(string Notification);

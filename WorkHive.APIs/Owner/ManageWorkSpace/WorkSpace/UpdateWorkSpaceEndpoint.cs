@@ -16,6 +16,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace
         TimeOnly? OpenTime,
         TimeOnly? CloseTime,
         int? Is24h,
+        string Code,
         List<PriceDTO> Prices,
         List<ImageDTO> Images,
         List<FacilityDTO> Facilities,

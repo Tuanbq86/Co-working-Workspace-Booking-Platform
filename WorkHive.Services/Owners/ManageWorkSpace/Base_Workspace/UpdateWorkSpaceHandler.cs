@@ -22,6 +22,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
         TimeOnly? OpenTime,
         TimeOnly? CloseTime, 
         int? Is24h,
+        string Code,
         List<PriceDTO> Prices, 
         List<ImageDTO> Images, 
         List<FacilityDTO> Facilities, 
@@ -72,6 +73,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
             workspace.OpenTime = command.OpenTime;
             workspace.CloseTime = command.CloseTime;
             workspace.Is24h = command.Is24h;
+            workspace.Code = command.Code;
             workspace.UpdatedAt = DateTime.Now;
 
 
