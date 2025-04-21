@@ -33,8 +33,8 @@ namespace WorkHive.Services.Owners.ManageCustomerBooking
             return users.Select(user => new GetUsersByOwnerIdResult(
                 user.Id,
                 user.Name,
-                user.Email,
-                user.Phone,
+                user.Email.Trim(),
+                user.Phone.Trim(),
                 user.Status,  
                 user.Avatar,
                 user.CreatedAt,

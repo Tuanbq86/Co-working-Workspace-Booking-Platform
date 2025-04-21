@@ -60,8 +60,8 @@ namespace WorkHive.Services.Owners.Base_Owner
 
             return owners.Select(owner => new GetWorkspaceOwnersResult(
            owner.Id,
-           owner.Phone,
-           owner.Email,
+           owner.Phone.Trim(),
+           owner.Email.Trim(),
            owner.Sex,
            owner.CreatedAt,
            owner.UpdatedAt,

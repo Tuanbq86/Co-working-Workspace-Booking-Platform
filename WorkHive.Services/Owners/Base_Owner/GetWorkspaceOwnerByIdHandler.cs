@@ -57,8 +57,8 @@ namespace WorkHive.Services.Owners.Base_Owner
 
             return new GetWorkspaceOwnerByIdResult(
                 owner.Id,
-                owner.Phone,
-                owner.Email,
+                owner.Phone.Trim(),
+                owner.Email.Trim(),
                 owner.Sex,
                 owner.CreatedAt,
                 owner.UpdatedAt,

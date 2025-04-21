@@ -29,8 +29,8 @@ namespace WorkHive.Services.Owners.ManageCustomerBooking
             return owners.Select(owner => new GetOwnersByUserIdResult(
                 owner.Id,
                 owner.OwnerName, 
-                owner.Email,
-                owner.Phone,
+                owner.Email.Trim(),
+                owner.Phone.Trim(),
                 owner.Status,
                 owner.CreatedAt
             )).ToList();

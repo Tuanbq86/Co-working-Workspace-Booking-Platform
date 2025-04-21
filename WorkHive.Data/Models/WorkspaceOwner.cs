@@ -51,6 +51,10 @@ public partial class WorkspaceOwner
 
     public DateOnly? RegistrationDate { get; set; }
 
+    public double? Latitude { get; set; }
+
+    public double? Longitude { get; set; }
+
     public virtual ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
 
     public virtual ICollection<Beverage> Beverages { get; set; } = new List<Beverage>();
