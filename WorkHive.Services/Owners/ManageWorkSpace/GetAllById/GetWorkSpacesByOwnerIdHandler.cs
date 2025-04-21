@@ -10,13 +10,14 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 public record GetWorkSpacesByOwnerIdQuery(int Id) : IQuery<List<GetWorkSpaceByOwnerIdResult>>;
 
 public record GetWorkSpaceByOwnerIdResult(int Id, string Name, string Address, string GoogleMapUrl, string Description, int? Capacity, string Category, 
-    string Status, DateTime? CreatedAt, DateTime? UpdatedAt , int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string LicenseName, string phone, List<WorkspacesPriceDTO> Prices,
-List<WorkspacesImageDTO> Images, List<WorkspaceFacilityDTO> Facilities, List<WorkspacePolicyDTO> Policies);
+    string Status, DateTime? CreatedAt, DateTime? UpdatedAt , int? CleanTime, int? Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string Code, string LicenseName, string phone, List<WorkspacesPriceDTO> Prices,
+List<WorkspacesImageDTO> Images, List<WorkspaceFacilityDTO> Facilities, List<WorkspacePolicyDTO> Policies, List<WorkspaceDetailDTO> Details);
 
 public record WorkspacesPriceDTO(int Id, decimal? Price, string Category);
 public record WorkspacesImageDTO(int Id, string ImgUrl);
 public record WorkspaceFacilityDTO(int Id, string FacilityName);
 public record WorkspacePolicyDTO(int Id, string PolicyName);
+public record WorkspaceDetailDTO(int Id, string DetailName);
 
 
 
@@ -58,6 +59,7 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
             ws.OpenTime,
             ws.CloseTime,
             ws.Is24h,
+            ws.Code,
             ws.Owner.LicenseName,
             ws.Owner.Phone,
             ws.WorkspacePrices.Select(wp => new WorkspacesPriceDTO(
@@ -76,6 +78,10 @@ public class GetWorkSpacesByOwnerIdHandler(IWorkSpaceManageUnitOfWork workSpaceM
             ws.WorkspacePolicies.Select(wp => new WorkspacePolicyDTO(
                 wp.Policy.Id,
                 wp.Policy.Name
+            )).ToList(),
+            ws.WorkspaceDetails.Select(wd => new WorkspaceDetailDTO(
+                wd.Detail.Id,
+                wd.Detail.Name
             )).ToList()
             )).ToList();
     }

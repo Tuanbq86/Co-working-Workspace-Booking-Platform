@@ -23,6 +23,8 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .Include(w => w.WorkspacePolicies)
             .ThenInclude(wp => wp.Policy)
             .Where(w => w.OwnerId == ownerId)
+            .Include(w => w.WorkspaceDetails)
+            .ThenInclude(wd => wd.Detail)
             .ToListAsync();
     }
     public async Task<Workspace?> GetWorkSpaceById(int Id)
@@ -37,6 +39,8 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wf => wf.Facility)
             .Include(w => w.WorkspacePolicies)
             .ThenInclude(wp => wp.Policy)
+            .Include(w => w.WorkspaceDetails)
+            .ThenInclude(wd => wd.Detail)
             .FirstOrDefaultAsync(w => w.Id == Id);
     }
 
@@ -52,6 +56,8 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wf => wf.Facility)
             .Include(w => w.WorkspacePolicies)
             .ThenInclude(wp => wp.Policy)
+            .Include(w => w.WorkspaceDetails)
+            .ThenInclude(wd => wd.Detail)
             .ToListAsync();
     }
 

@@ -21,5 +21,13 @@ namespace WorkHive.Repositories.Repositories
             .Where(i => i.WorkspaceDetails.Any(wi => wi.WorkspaceId == workspaceId))
             .ToListAsync();
         }
+
+        public async Task CreateDetailsAsync(List<Detail> Details)
+        {
+            if (Details == null || !Details.Any()) return;
+
+            await _context.Details.AddRangeAsync(Details);
+            await _context.SaveChangesAsync();
+        }
     }
 }

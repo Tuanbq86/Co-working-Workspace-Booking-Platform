@@ -6,8 +6,8 @@ using WorkHive.Data.Models;
 using WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace;
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
-    public record CreateWorkspaceRequest(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<PriceDTO> Prices,
-    List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies);
+    public record CreateWorkspaceRequest(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string Code, List<PriceDTO> Prices,
+    List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies, List<DetailDTO> Details);
 
     public record CreateWorkspaceResponse(string Notification);
 

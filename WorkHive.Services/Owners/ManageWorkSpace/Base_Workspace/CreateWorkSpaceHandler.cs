@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,14 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
 {
-    public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, List<PriceDTO> Prices,
-    List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies) : ICommand<CreateWorkspaceResult>;
+    public record CreateWorkSpaceCommand(string Name, string Description, int Capacity, string Category, string Status, int CleanTime, int Area, int OwnerId, TimeOnly? OpenTime, TimeOnly? CloseTime, int? Is24h, string Code, List<PriceDTO> Prices,
+    List<ImageDTO> Images, List<FacilityDTO> Facilities, List<PolicyDTO> Policies, List<DetailDTO> Details) : ICommand<CreateWorkspaceResult>;
 
     public record PriceDTO(decimal? Price, string Category);
     public record ImageDTO(string ImgUrl);
     public record FacilityDTO(string FacilityName);
     public record PolicyDTO(string PolicyName);
+    public record DetailDTO(string DetailName);
 
     public record CreateWorkspaceResult(string Notification);
 
@@ -73,6 +75,10 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     Name = p.PolicyName
                 }).ToList() ?? new List<Policy>();
 
+                List<Detail> details = command.Details.Select(d => new Detail
+                {
+                    Name = d.DetailName
+                }).ToList() ?? new List<Detail>();
 
 
 
@@ -80,6 +86,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 await workSpaceManageUnit.Price.CreatePricesAsync(prices);
                 await workSpaceManageUnit.Facility.CreateFacilitiesAsync(facilities);
                 await workSpaceManageUnit.Policy.CreatePoliciesAsync(policies);
+                await workSpaceManageUnit.Detail.CreateDetailsAsync(details);
                 await workSpaceManageUnit.SaveAsync();
 
                 var newWorkSpace = new Workspace
@@ -95,6 +102,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     OpenTime = command.OpenTime,
                     CloseTime = command.CloseTime,
                     Is24h = command.Is24h,
+                    Code = command.Code,
                     CreatedAt = DateTime.Now
                 };
 
@@ -128,6 +136,13 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                     PolicyId = pol.Id
                 }).ToList();
 
+                var workspaceDetails = details.Select(det => new WorkspaceDetail
+                {
+                    WorkspaceId = newWorkSpace.Id,
+                    DetailId = det.Id
+                }).ToList();
+
+
                 var ownerNotification = new OwnerNotification
                 {
                     Description = $"Chúc mừng! Bạn đã tạo thành công một không gian làm việc mới có tên {newWorkSpace.Name}. Hãy bắt đầu tổ chức các công việc của bạn ngay thôi.",
@@ -143,7 +158,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 await workSpaceManageUnit.WorkspacePrice.CreateWorkspacePricesAsync(workspacePrices);
                 await workSpaceManageUnit.WorkspacePolicy.CreateWorkspacePoliciesAsync(workspacePolicies);
                 await workSpaceManageUnit.WorkspaceFacility.CreateWorkspaceFacilitiesAsync(workspaceFacilities);
-
+                await workSpaceManageUnit.WorkspaceDetail.CreateWorkspaceDetailsAsync(workspaceDetails);
 
                 await workSpaceManageUnit.SaveAsync();
 
