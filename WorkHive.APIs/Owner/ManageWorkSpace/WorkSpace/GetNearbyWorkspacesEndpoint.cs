@@ -12,10 +12,10 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
         {
             app.MapGet("/workspaces/nearby", async (double lat, double lng, double? radiusKm, ISender sender) =>
             {
-                var query = new GetNearbyWorkspacesQuery(lat, lng, radiusKm ?? 5);  // Sử dụng GetNearbyWorkspacesQuery
-                var result = await sender.Send(query);  // Gửi yêu cầu thông qua MediatR
+                var query = new GetNearbyWorkspacesQuery(lat, lng, radiusKm ?? 5); 
+                var result = await sender.Send(query);  
 
-                return Results.Ok(new GetNearbyWorkspacesResponse(result));  // Trả về kết quả
+                return Results.Ok(new GetNearbyWorkspacesResponse(result));  
             })
             .WithName("GetNearbyWorkspaces")
             .Produces<GetNearbyWorkspacesResponse>(StatusCodes.Status200OK)
