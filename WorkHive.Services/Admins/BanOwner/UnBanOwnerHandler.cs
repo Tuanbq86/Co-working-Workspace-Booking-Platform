@@ -14,7 +14,7 @@ namespace WorkHive.Services.Admins.BanOwner;
 public record UnBanOwnerCommand(int OwnerId) : ICommand<UnBanOwnerResult>;
 public record UnBanOwnerResult(string Notification, int? IsBan);
 
-public class UnBanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
+public class UnBanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IBookingWorkspaceUnitOfWork bookUnit)
     : ICommandHandler<UnBanOwnerCommand, UnBanOwnerResult>
 {
     public async Task<UnBanOwnerResult> Handle(UnBanOwnerCommand command, 
@@ -31,6 +31,16 @@ public class UnBanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
         owner.IsBan = 0;
         owner.Status = "Active";
         await ownerUnit.WorkspaceOwner.UpdateAsync(owner);
+
+        var workspaces = bookUnit.workspace.GetAll().Where(x => x.OwnerId == owner.Id).ToList();
+        if (workspaces.Count > 0)
+        {
+            foreach (var item in workspaces)
+            {
+                item.Status = "Active";
+                await bookUnit.workspace.UpdateAsync(item);
+            }
+        }
 
         var ownerNotification = new OwnerNotification
         {
