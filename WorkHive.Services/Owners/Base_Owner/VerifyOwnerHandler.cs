@@ -10,20 +10,20 @@ using WorkHive.Repositories.IUnitOfWork;
 namespace WorkHive.Services.Owners.Base_Owner
 {
     public record VerifyOwnerCommand(
-        int Id,
-        string OwnerName,
-        string Sex,
-        string GoogleMapUrl,
-        string LicenseName,
-        string LicenseNumber,
-        string LicenseAddress,
-        decimal? CharterCapital,
-        string LicenseFile,
-        string? Facebook,
-        string? Instagram,
-        string? Tiktok,
-        DateOnly? RegistrationDate
-        ) : ICommand<VerifyOwnerResult>;
+         int Id,
+         string OwnerName,
+         string Sex,
+         string GoogleMapUrl,
+         string LicenseName,
+         string LicenseNumber,
+         string LicenseAddress,
+         decimal? CharterCapital,
+         string LicenseFile,
+         string? Facebook,
+         string? Instagram,
+         string? Tiktok,
+         DateOnly? RegistrationDate
+     ) : ICommand<VerifyOwnerResult>;
 
     public record VerifyOwnerResult(string Notification);
 
@@ -34,6 +34,10 @@ namespace WorkHive.Services.Owners.Base_Owner
             var owner = await unit.WorkspaceOwner.GetByIdAsync(command.Id);
             if (owner == null) return new VerifyOwnerResult("Owner not found");
 
+            // Parse tọa độ từ URL
+            var (lat, lng) = ExtractLatLngFromGoogleMapUrl(command.GoogleMapUrl);
+
+            // Cập nhật thông tin owner
             owner.Sex = command.Sex;
             owner.OwnerName = command.OwnerName;
             owner.GoogleMapUrl = command.GoogleMapUrl;
@@ -48,13 +52,14 @@ namespace WorkHive.Services.Owners.Base_Owner
             owner.Instagram = command.Instagram;
             owner.Tiktok = command.Tiktok;
             owner.RegistrationDate = command.RegistrationDate;
+            owner.Latitude = lat;
+            owner.Longitude = lng;
 
+            // Tạo bản ghi xác minh
             var newOwnerVerifyRequest = new OwnerVerifyRequest
             {
                 OwnerId = command.Id,
-                //UserId = command.UserId,
                 Status = "Handling",
-                //Message = command.Message,
                 GoogleMapUrl = command.GoogleMapUrl,
                 LicenseName = command.LicenseName,
                 LicenseNumber = command.LicenseNumber,
@@ -74,6 +79,29 @@ namespace WorkHive.Services.Owners.Base_Owner
             await unit.SaveAsync();
 
             return new VerifyOwnerResult("Owner verification updated successfully");
+        }
+
+        private static (double? Latitude, double? Longitude) ExtractLatLngFromGoogleMapUrl(string url)
+        {
+            try
+            {
+                var atIndex = url.IndexOf("/@");
+                if (atIndex >= 0)
+                {
+                    var coords = url.Substring(atIndex + 2).Split(',');
+                    if (coords.Length >= 2 &&
+                        double.TryParse(coords[0], out var lat) &&
+                        double.TryParse(coords[1], out var lng))
+                    {
+                        return (lat, lng);
+                    }
+                }
+                return (null, null);
+            }
+            catch
+            {
+                return (null, null);
+            }
         }
     }
 }
