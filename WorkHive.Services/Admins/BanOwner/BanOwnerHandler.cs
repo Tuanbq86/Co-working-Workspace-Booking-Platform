@@ -28,7 +28,7 @@ public class BanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IBookingWorksp
 
         //Ban và gửi thông báo
         owner.IsBan = 1;
-        owner.Status = "Inactive";
+        owner.Status = "Fail";
         await ownerUnit.WorkspaceOwner.UpdateAsync(owner);
 
         var workspaces = bookUnit.workspace.GetAll().Where(x => x.OwnerId == owner.Id).ToList();
@@ -45,7 +45,7 @@ public class BanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IBookingWorksp
         {
             OwnerId = owner.Id,
             Description = "Tài khoản đã bị cấm",
-            Status = "Inactive",
+            Status = "Active",
             IsRead = 0,
             CreatedAt = DateTime.Now
         };

@@ -29,7 +29,7 @@ public class UnBanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IBookingWork
 
         //Ban và gửi thông báo
         owner.IsBan = 0;
-        owner.Status = "Active";
+        owner.Status = "Success";
         await ownerUnit.WorkspaceOwner.UpdateAsync(owner);
 
         var workspaces = bookUnit.workspace.GetAll().Where(x => x.OwnerId == owner.Id).ToList();
