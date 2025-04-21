@@ -13,7 +13,7 @@ namespace WorkHive.Services.Admins.BanOwner;
 public record BanOwnerCommand(int OwnerId) : ICommand<BanOwnerResult>;
 public record BanOwnerResult(string Notification, int? IsBan);
 
-public class BanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
+public class BanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IBookingWorkspaceUnitOfWork bookUnit)
     : ICommandHandler<BanOwnerCommand, BanOwnerResult>
 {
     public async Task<BanOwnerResult> Handle(BanOwnerCommand command, 
@@ -28,14 +28,24 @@ public class BanOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit)
 
         //Ban và gửi thông báo
         owner.IsBan = 1;
-        owner.Status = "InActive";
+        owner.Status = "Inactive";
         await ownerUnit.WorkspaceOwner.UpdateAsync(owner);
+
+        var workspaces = bookUnit.workspace.GetAll().Where(x => x.OwnerId == owner.Id).ToList();
+        if(workspaces.Count > 0)
+        {
+            foreach(var item in workspaces)
+            {
+                item.Status = "Inactive";
+                await bookUnit.workspace.UpdateAsync(item);
+            }
+        }
 
         var ownerNotification = new OwnerNotification
         {
             OwnerId = owner.Id,
             Description = "Tài khoản đã bị cấm",
-            Status = "InActive",
+            Status = "Inactive",
             IsRead = 0,
             CreatedAt = DateTime.Now
         };
