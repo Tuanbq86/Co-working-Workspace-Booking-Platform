@@ -10,12 +10,15 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/workspaces/nearby", async (double lat, double lng, double? radiusKm, ISender sender) =>
+            app.MapGet("/workspaces/nearby", async (double? lat, double? lng, double? radiusKm, ISender sender) =>
             {
-                var query = new GetNearbyWorkspacesQuery(lat, lng, radiusKm ?? 5); 
-                var result = await sender.Send(query);  
+                if (lat is null || lng is null)
+                    return Results.Ok(null);
 
-                return Results.Ok(new GetNearbyWorkspacesResponse(result));  
+                var query = new GetNearbyWorkspacesQuery(lat.Value, lng.Value, radiusKm ?? 5);
+                var result = await sender.Send(query);
+
+                return Results.Ok(new GetNearbyWorkspacesResponse(result));
             })
             .WithName("GetNearbyWorkspaces")
             .Produces<GetNearbyWorkspacesResponse>(StatusCodes.Status200OK)
