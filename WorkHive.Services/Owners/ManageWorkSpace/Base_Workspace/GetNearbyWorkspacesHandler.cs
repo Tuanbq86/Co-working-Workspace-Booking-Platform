@@ -4,7 +4,7 @@ using WorkHive.Services.Owners.ManageWorkSpace.GetAllById;
 
 namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace
 {
-    public record GetNearbyWorkspacesQuery(double Lat, double Lng, double RadiusKm = 5) : IQuery<List<WorkspaceNearbyDT>>;
+    public record GetNearbyWorkspacesQuery(double Lat, double Lng, double RadiusKm = 200) : IQuery<List<WorkspaceNearbyDT>>;
 
     //public record WorkspaceNearbyDT(int Id, string Name, string Address, double Latitude, double Longitude, double DistanceKm);
 
@@ -38,12 +38,11 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace
             var ownerIds = allWorkspaces.Select(ws => ws.OwnerId).Distinct().ToList();
             var owners = await unit.WorkspaceOwner.GetOwnersByIdsAsync(ownerIds);
 
-            return allWorkspaces
+            var results = allWorkspaces
                 .Where(w => w.Owner?.Latitude != null && w.Owner?.Longitude != null)
                 .Select(w =>
                 {
                     var distance = Haversine(query.Lat, query.Lng, w.Owner.Latitude.Value, w.Owner.Longitude.Value);
-
                     var owner = owners.FirstOrDefault(o => o.Id == w.OwnerId);
 
                     return new WorkspaceNearbyDT(
@@ -68,29 +67,24 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace
                             wi.Image.Id,
                             wi.Image.ImgUrl
                         )).ToList(),
-                        //w.WorkspaceFacilities.Select(wf => new WorkspaceFacilityDTO(
-                        //    wf.Facility.Id,
-                        //    wf.Facility.Name
-                        //)).ToList(),
-                        //w.WorkspacePolicies.Select(wp => new WorkspacePolicyDTO(
-                        //    wp.Policy.Id,
-                        //    wp.Policy.Name
-                        //)).ToList(),
-                        //w.WorkspaceDetails.Select(wd => new WorkspaceDetailDTO(
-                        //    wd.Detail.Id,
-                        //    wd.Detail.Name
-                        //)).ToList(),
                         distance
                     );
-                })
-                .Where(w => w.DistanceKm <= query.RadiusKm)
+                });
+
+            if (query.RadiusKm > 0)
+            {
+                results = results.Where(w => w.DistanceKm <= query.RadiusKm);
+            }
+
+            return results
                 .OrderBy(w => w.DistanceKm)
                 .ToList();
         }
 
+
         private static double Haversine(double lat1, double lng1, double lat2, double lng2)
         {
-            var R = 6371; // radius of Earth in km
+            var R = 6371; 
             var dLat = (lat2 - lat1) * Math.PI / 180;
             var dLon = (lng2 - lng1) * Math.PI / 180;
             var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
