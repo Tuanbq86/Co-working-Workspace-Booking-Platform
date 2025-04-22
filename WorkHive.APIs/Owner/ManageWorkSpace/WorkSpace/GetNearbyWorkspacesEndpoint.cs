@@ -15,7 +15,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
                 if (lat is null || lng is null)
                     return Results.Ok(null);
 
-                var query = new GetNearbyWorkspacesQuery(lat.Value, lng.Value, radiusKm ?? 5);
+                var query = new GetNearbyWorkspacesQuery(lat.Value, lng.Value, radiusKm ?? 200);
                 var result = await sender.Send(query);
 
                 return Results.Ok(new GetNearbyWorkspacesResponse(result));
