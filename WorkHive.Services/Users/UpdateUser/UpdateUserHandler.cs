@@ -48,6 +48,7 @@ public class UpdateUserHandler(IUserUnitOfWork userUnit)
 
         //Check email and phone of user who get in database with others in database
         bool isDuplicate = userUnit.User.GetAll()
+                .Where(u => !string.IsNullOrEmpty(u.Phone))
                 .Any(u => u.Id != user.Id &&
               (u.Email.ToLower().Trim() == command.Email.ToLower().Trim() || u.Phone.ToLower().Trim() == command.Phone.ToLower().Trim()));
 
