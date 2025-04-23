@@ -32,3 +32,6 @@ node_modules/
 
 # System files
 Thumbs.db
+
+# Firebase config
+**/firebase-adminsdk.json

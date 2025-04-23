@@ -19,6 +19,7 @@ using WorkHive.Repositories.Repositories;
 using WorkHive.Repositories.UnitOfWork;
 using WorkHive.Services.EmailServices;
 using WorkHive.Services.UploadFiles;
+using WorkHive.Services.Users.FirebaseServices;
 
 namespace WorkHive.Services;
 
@@ -103,6 +104,8 @@ public static class DependencyInjection
         services.AddScoped<IWorkSpaceManageUnitOfWork, WorkSpaceManageUnitOfWork>();
         services.AddScoped<IFeedbackManageUnitOfWork, FeedbackManageUnitOfWork>();
         services.AddScoped<IWalletUnitOfWork, WalletUnitOfWork>();
+
+        services.AddSingleton<IFirebaseNotificationService, FirebaseNotificationService>();
 
         return services;
     }
