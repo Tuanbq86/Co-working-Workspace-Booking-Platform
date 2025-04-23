@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Admins\BanStaff\" />
+    <Folder Include="Admins\SupportCustomer\" />
   </ItemGroup>
 
 </Project>
