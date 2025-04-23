@@ -5,7 +5,7 @@ using WorkHive.Services.Users.NotificationMobile;
 
 namespace WorkHive.APIs.Users.NotificationMobile;
 
-public record SendNotificationForMobileRequest(string fcmToken, string title, string body);
+public record SendNotificationForMobileRequest(string FcmToken, string Title, string Body);
 public record SendNotificationForMobileResponse(string Notification);
 
 public class SendNotificationForMobileEndpoint : ICarterModule
