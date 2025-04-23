@@ -26,4 +26,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Admins\BanOwner\" />
+    <Folder Include="Admins\BanStaff\" />
+  </ItemGroup>
+
 </Project>
