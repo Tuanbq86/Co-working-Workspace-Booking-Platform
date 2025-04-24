@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WorkHive.BuildingBlocks.CQRS;
 using WorkHive.Data.Models;
 using WorkHive.Repositories.IUnitOfWork;
+using WorkHive.Services.EmailServices;
 
 namespace WorkHive.Services.Staff
 {
@@ -14,7 +15,7 @@ namespace WorkHive.Services.Staff
 
     public record UpdateOwnerStatusResult(string Notification);
 
-    public class UpdateOwnerStatusHandler(IWalletUnitOfWork unit, IWorkSpaceManageUnitOfWork OUnit) : ICommandHandler<UpdateOwnerStatusCommand, UpdateOwnerStatusResult>
+    public class UpdateOwnerStatusHandler(IWalletUnitOfWork unit, IWorkSpaceManageUnitOfWork OUnit, IEmailService emailService) : ICommandHandler<UpdateOwnerStatusCommand, UpdateOwnerStatusResult>
     {
         public async Task<UpdateOwnerStatusResult> Handle(UpdateOwnerStatusCommand command, CancellationToken cancellationToken)
         {
@@ -106,9 +107,99 @@ namespace WorkHive.Services.Staff
             //================================================================
 
             await unit.WorkspaceOwner.UpdateAsync(owner);
+            var emailBody = GenerateStatusEmailContent(owner.LicenseName, command.Status);
+            var subject = command.Status == "Success" ? "Xác thực tài khoản thành công" : "Xác thực tài khoản không thành công";
+            await emailService.SendEmailAsync(owner.Email, subject, emailBody);
+
             await unit.SaveAsync(); 
 
             return new UpdateOwnerStatusResult($"Owner status updated to {command.Status} and wallet set to '{walletStatus}'");
         }
+
+        //    private string GenerateStatusEmailContent(string licenseName, string status)
+        //    {
+        //        var sb = new StringBuilder();
+
+        //        sb.AppendLine($@"
+        //<div style='text-align: center; margin-bottom: 20px;'>
+        //    <img src='https://res.cloudinary.com/dcq99dv8p/image/upload/v1745459606/XacThucOwner_wyqshs.jpg' 
+        //         style='width: 100%; max-width: 1350px; height: auto; display: block; margin: 0 auto;' 
+        //         alt='Status Notification'>
+        //</div>");
+
+
+        //        sb.AppendLine("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>");
+
+        //        if (status == "Success")
+        //        {
+        //            sb.AppendLine($@"
+        //        <p style='font-size: 16px;'>Xin chúc mừng,</p>
+        //        <p style='font-size: 16px;'>Tài khoản <strong>{licenseName}</strong> của bạn đã được <strong>phê duyệt và xác thực thành công</strong> ✅</p>
+        //        <p style='font-size: 16px;'>Bạn đã có thể truy cập đầy đủ các tính năng của hệ thống WorkHive.</p>
+        //    ");
+        //        }
+        //        else
+        //        {
+        //            sb.AppendLine($@"
+        //        <p style='font-size: 16px;'>Xin chào,</p>
+        //        <p style='font-size: 16px;'>Rất tiếc, tài khoản <strong>{licenseName}</strong> của bạn đã bị <strong>từ chối xác thực</strong> ❌</p>
+        //        <p style='font-size: 16px;'>Vui lòng kiểm tra lại thông tin và gửi lại yêu cầu xác thực.</p>
+        //    ");
+        //        }
+
+        //        sb.AppendLine($@"
+        //    <p style='font-size: 16px; margin-top: 30px;'>Nếu cần hỗ trợ, vui lòng liên hệ <a href='mailto:workhive.vn.official@gmail.com' style='color: #0066cc;'>workhive.vn.official@gmail.com</a> hoặc gọi đến <a style='color: #0066cc;'>0867435157</a>.</p>
+        //    <p style='font-size: 16px;'>Trân trọng,<br>🌟 Đội ngũ WorkHive</p>
+        //</div>");
+
+        //        return sb.ToString();
+        //    }
+
+
+
+        private string GenerateStatusEmailContent(string licenseName, string status)
+        {
+            var sb = new StringBuilder();
+
+            // Chọn ảnh khác nhau tùy theo status
+            string imageUrl = status == "Success"
+                ? "https://res.cloudinary.com/dcq99dv8p/image/upload/v1745459606/XacThucOwner_wyqshs.jpg"
+                : "https://res.cloudinary.com/dcq99dv8p/image/upload/v1745460365/FailXacThuc_zi8w39.jpg";
+
+            sb.AppendLine($@"
+            <div style='text-align: center; margin-bottom: 20px;'>
+                <img src='{imageUrl}' 
+                     style='width: 100%; max-width: 1350px; height: auto; display: block; margin: 0 auto;' 
+                     alt='Status Notification'>
+            </div>");
+
+                        sb.AppendLine("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>");
+
+                        if (status == "Success")
+                        {
+                            sb.AppendLine($@"
+                    <p style='font-size: 16px;'>Xin chúc mừng,</p>
+                    <p style='font-size: 16px;'>Tài khoản <strong>{licenseName}</strong> của bạn đã được <strong>phê duyệt và xác thực thành công</strong> ✅</p>
+                    <p style='font-size: 16px;'>Bạn đã có thể truy cập đầy đủ các tính năng của hệ thống WorkHive.</p>
+                ");
+                        }
+                        else
+                        {
+                            sb.AppendLine($@"
+                    <p style='font-size: 16px;'>Xin chào,</p>
+                    <p style='font-size: 16px;'>Rất tiếc, tài khoản <strong>{licenseName}</strong> của bạn đã bị <strong>từ chối xác thực</strong> ❌</p>
+                    <p style='font-size: 16px;'>Vui lòng kiểm tra lại thông tin và gửi lại yêu cầu xác thực.</p>
+                ");
+                        }
+
+                        sb.AppendLine($@"
+                <p style='font-size: 16px; margin-top: 30px;'>Nếu cần hỗ trợ, vui lòng liên hệ <a href='mailto:workhive.vn.official@gmail.com' style='color: #0066cc;'>workhive.vn.official@gmail.com</a> hoặc gọi đến <a style='color: #0066cc;'>0867435157</a>.</p>
+                <p style='font-size: 16px;'>Trân trọng,<br>🌟 Đội ngũ WorkHive</p>
+            </div>");
+
+            return sb.ToString();
+        }
+
+
     }
 }
