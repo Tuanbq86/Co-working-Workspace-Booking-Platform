@@ -6,7 +6,7 @@ using WorkHive.Services.Users.BookingWorkspace.CancelBooking;
 namespace WorkHive.APIs.Users.Booking.CancelBooking;
 
 public record CancelBookingRequest(int BookingId);
-public record CancelBookingResponse(string Notification);
+public record CancelBookingResponse(string Notification, int IsLock);
 
 public class CancelBookingEndpoint : ICarterModule
 {
@@ -18,7 +18,7 @@ public class CancelBookingEndpoint : ICarterModule
 
             var result = await sender.Send(command);
 
-            var response = result.Adapt<CancelBookingResponse>();
+            var response = new CancelBookingResponse(result.Notificationn, result.IsLock);
 
             return Results.Ok(response);
         })

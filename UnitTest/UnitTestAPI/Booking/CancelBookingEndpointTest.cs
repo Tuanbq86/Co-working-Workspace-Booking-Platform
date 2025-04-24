@@ -24,7 +24,7 @@ public class CancelBookingEndpointTest
         var mockSender = A.Fake<ISender>();
 
         A.CallTo(() => mockSender.Send(A<CancelBookingCommand>.That.Matches(c => c.BookingId == 1), A<CancellationToken>._))
-            .Returns(new CancelBookingResult("Hủy booking thành công"));
+            .Returns(new CancelBookingResult("Hủy booking thành công", 0));
 
         var endpoint = async (CancelBookingRequest req, ISender sender) =>
         {
@@ -53,7 +53,7 @@ public class CancelBookingEndpointTest
         var mockSender = A.Fake<ISender>();
 
         A.CallTo(() => mockSender.Send(A<CancelBookingCommand>.That.Matches(c => c.BookingId == 99), A<CancellationToken>._))
-            .Returns(new CancelBookingResult("Không tìm thấy booking hợp lệ để hủy hoặc trạng thái chưa thành công để hủy"));
+            .Returns(new CancelBookingResult("Không tìm thấy booking hợp lệ để hủy hoặc trạng thái chưa thành công để hủy", 0));
 
         var endpoint = async (CancelBookingRequest req, ISender sender) =>
         {
@@ -81,7 +81,7 @@ public class CancelBookingEndpointTest
         var mockSender = A.Fake<ISender>();
 
         A.CallTo(() => mockSender.Send(A<CancelBookingCommand>.That.Matches(c => c.BookingId == 2), A<CancellationToken>._))
-            .Returns(new CancelBookingResult("Đã quá thời hạn 8 tiếng để hủy booking"));
+            .Returns(new CancelBookingResult("Đã quá thời hạn 8 tiếng để hủy booking", 0));
 
         var endpoint = async (CancelBookingRequest req, ISender sender) =>
         {
