@@ -8,7 +8,7 @@ namespace WorkHive.Services.Users.BookingWorkspace.CancelBooking;
 
 public record CancelBookingCommand(int BookingId)
     : ICommand<CancelBookingResult>;
-public record CancelBookingResult(string Notification);
+public record CancelBookingResult(string Notificationn, int IsLock);
 
 public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUnitOfWork userUnit)
     : ICommandHandler<CancelBookingCommand, CancelBookingResult>
@@ -21,14 +21,25 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
         //Valid booking không null và trạng thái của booking đó phải thành công
         if (placeBooking is null || placeBooking.Status != BookingStatus.Success.ToString())
         {
-            return new CancelBookingResult("Không tìm thấy booking hợp lệ để hủy hoặc trạng thái chưa thành công để hủy");
+            return new CancelBookingResult("Không tìm thấy booking hợp lệ để hủy hoặc trạng thái chưa thành công để hủy", 0);
+        }
+
+        //Kiểm tra nếu ví bị khóa thì không cho hủy
+        var customerWalletCheck = bookUnit.customerWallet.GetAll().FirstOrDefault(cw => cw.UserId.Equals(placeBooking.UserId));
+
+        if (customerWalletCheck is null)
+            return new CancelBookingResult("Không tìm thấy ví người dùng để thực hiện giao dịch", 0);
+
+        if (customerWalletCheck.IsLock == 1)
+        {
+            return new CancelBookingResult("Ví đã bị khóa để thực hiện yêu cầu rút tiền", customerWalletCheck.IsLock.Value);
         }
 
         //Thời điểm hủy phải nằm trong khoảng thời gian 8 tiếng trước startDate của booking đó
         var now = DateTime.Now;
         if (placeBooking.StartDate!.Value.AddHours(-8) < now)
         {
-            return new CancelBookingResult($"Đã quá thời hạn 8 tiếng để hủy booking tính từ startDate của đơn booking: {placeBooking.Id}");
+            return new CancelBookingResult($"Đã quá thời hạn 8 tiếng để hủy booking tính từ startDate của đơn booking: {placeBooking.Id}", 0);
         }
         else
         {
@@ -117,7 +128,7 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             var ownerNotification = new OwnerNotification
             {
                 CreatedAt = now,
-                Description = $"Nội dung:\r\nCộng {((placeBooking.Price * 20) / 100).ToVnd()} hoàn tiền đơn booking {placeBooking.Id}",
+                Description = $"Nội dung:\r\nHoàn 80% đơn booking {placeBooking.Id} số tiền: {((placeBooking.Price * 20) / 100).ToVnd()}",
                 IsRead = 0,
                 Status = "REFUND",
                 OwnerId = owner.Id,
@@ -126,6 +137,6 @@ public class CancelBookingHandler(IBookingWorkspaceUnitOfWork bookUnit, IUserUni
             await bookUnit.ownerNotification.CreateAsync(ownerNotification);
         }
 
-        return new CancelBookingResult("Hủy booking thành công");
+        return new CancelBookingResult("Hủy booking thành công", customerWalletCheck.IsLock!.Value);
     }
 }
