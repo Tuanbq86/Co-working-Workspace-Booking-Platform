@@ -43,7 +43,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
     public User FindUserByPhone(string phone)
     {
-        return _context.Users.Where(x => x.Phone.ToLower().Trim()
+        return _context.Users.Where(x => !string.IsNullOrEmpty(x.Phone) && x.Phone.ToLower().Trim()
         .Equals(phone.ToLower().Trim())).FirstOrDefault()!;
     }
 
