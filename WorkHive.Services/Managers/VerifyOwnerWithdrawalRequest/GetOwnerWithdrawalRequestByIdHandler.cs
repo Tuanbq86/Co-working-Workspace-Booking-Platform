@@ -9,20 +9,38 @@ using WorkHive.Repositories.IUnitOfWork;
 
 namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record GetOwnerWithdrawalRequestByIdQuery(int Id) : IQuery<OwnerWithdrawalRequestDTO?>;
+    public record GetOwnerWithdrawalRequestByIdQuery(int Id) : IQuery<OwnerWithdrawalRequestDT?>;
 
-    class GetOwnerWithdrawalRequestByIdHandler(IWalletUnitOfWork unit) : IQueryHandler<GetOwnerWithdrawalRequestByIdQuery, OwnerWithdrawalRequestDTO?>
+
+    public record OwnerWithdrawalRequestDT(
+    int Id,
+    string Title,
+    string Description,
+    string Status,
+    DateTime? CreatedAt,
+    DateTime? UpdatedAt,
+    int WorkspaceOwnerId,
+    int? UserId,
+    string BankName,
+    string BankNumber,
+    string BankAccountName,
+    decimal Balance,
+    string ManagerResponse,
+    decimal? WalletBalance
+);
+
+    class GetOwnerWithdrawalRequestByIdHandler(IWalletUnitOfWork unit) : IQueryHandler<GetOwnerWithdrawalRequestByIdQuery, OwnerWithdrawalRequestDT?>
     {
-        public async Task<OwnerWithdrawalRequestDTO?> Handle(GetOwnerWithdrawalRequestByIdQuery query, CancellationToken cancellationToken)
+        public async Task<OwnerWithdrawalRequestDT?> Handle(GetOwnerWithdrawalRequestByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var request = await unit.OwnerWithdrawalRequest.GetByIdAsync(query.Id);
+                var request = await unit.OwnerWithdrawalRequest.GetWithdrawalRequestByIdAsync(query.Id);
                 if (request == null) return null;
 
                 var ownerTransaction = await unit.OwnerTransactionHistory
     .GetLatestTransactionByOwnerIdAsync(request.WorkspaceOwnerId);
-                return new OwnerWithdrawalRequestDTO(
+                return new OwnerWithdrawalRequestDT(
                     request.Id, 
                     request.Title,
                     request.Description,
@@ -35,7 +53,11 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                     request.BankNumber,
                     request.BankAccountName,
                     request.Balance ?? 0,
-                    request.ManagerResponse ?? "N/A");
+                    request.ManagerResponse ?? "N/A",
+                    request.WorkspaceOwner.OwnerWallets
+                        .FirstOrDefault(x => x.Id == request.WorkspaceOwnerId)?.Wallet.Balance
+
+                    );
 
             }
             catch

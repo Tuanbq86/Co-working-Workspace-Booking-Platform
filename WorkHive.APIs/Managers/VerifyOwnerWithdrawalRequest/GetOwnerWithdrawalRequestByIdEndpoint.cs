@@ -4,7 +4,7 @@ using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
 namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
-    public record GetOwnerWithdrawalRequestByIdResponse(OwnerWithdrawalRequestDTO? Request);
+    public record GetOwnerWithdrawalRequestByIdResponse(OwnerWithdrawalRequestDT? Request);
 
 public class GetOwnerWithdrawalRequestByIdEndpoint : ICarterModule
 {

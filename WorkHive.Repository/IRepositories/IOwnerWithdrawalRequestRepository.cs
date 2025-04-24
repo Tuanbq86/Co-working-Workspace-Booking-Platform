@@ -11,5 +11,7 @@ namespace WorkHive.Repositories.IRepositories
     public interface IOwnerWithdrawalRequestRepository : IGenericRepository<OwnerWithdrawalRequest>
     {
         Task<List<OwnerWithdrawalRequest>> GetByOwnerIdAsync(int ownerId);
+
+        Task<OwnerWithdrawalRequest?> GetWithdrawalRequestByIdAsync(int id);
     }
 }
