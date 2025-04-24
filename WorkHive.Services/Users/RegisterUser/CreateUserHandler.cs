@@ -51,8 +51,9 @@ public class CreateUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenR
     {
         //Checking exist used email and phone number for registering
 
-        var existEmailOrPhoneUser = userUnit.User.GetAll().
-            Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
+        var existEmailOrPhoneUser = userUnit.User.GetAll()
+            .Where(u => !string.IsNullOrEmpty(u.Phone))
+            .Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
             x.Phone.Trim().ToLower().Equals(command.Phone.Trim().ToLower())).FirstOrDefault();
 
         if (existEmailOrPhoneUser is not null)
