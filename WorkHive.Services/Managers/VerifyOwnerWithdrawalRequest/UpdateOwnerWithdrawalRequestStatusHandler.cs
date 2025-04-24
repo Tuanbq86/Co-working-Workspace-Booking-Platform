@@ -44,7 +44,7 @@ namespace WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest
                 {
                     Amount = withdrawAmount,
                     Status = "Withdraw Success",
-                    Description = "Withdraw from owner wallet",
+                    Description = "Rút tiền từ ví chủ sở hữu.",
                     CreatedAt = DateTime.Now,
                     BankAccountName = ownerWallet.BankAccountName,
                     BankName = ownerWallet.BankName,

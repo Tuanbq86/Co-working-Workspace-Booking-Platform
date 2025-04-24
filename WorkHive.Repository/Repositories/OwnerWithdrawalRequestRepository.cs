@@ -18,8 +18,20 @@ namespace WorkHive.Repositories.Repositories
         public async Task<List<OwnerWithdrawalRequest>> GetByOwnerIdAsync(int ownerId)
         {
             return await _context.OwnerWithdrawalRequests
+                .Include(r => r.WorkspaceOwner)
+                .ThenInclude(r => r.OwnerWallets)
+                .ThenInclude(r => r.Wallet)
                 .Where(r => r.WorkspaceOwnerId == ownerId)
                 .ToListAsync();
+        } 
+        public async Task<OwnerWithdrawalRequest?> GetWithdrawalRequestByIdAsync(int id)
+        {
+            return await _context.OwnerWithdrawalRequests
+                .Include(r => r.WorkspaceOwner)
+                .ThenInclude(r => r.OwnerWallets)
+                .ThenInclude(r => r.Wallet)
+                .Where(r => r.Id == id)
+                .FirstOrDefaultAsync();
         }
 
     }
