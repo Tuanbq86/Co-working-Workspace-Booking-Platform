@@ -23,6 +23,7 @@ namespace WorkHive.APIs.Owner.ManagePromotion
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Promotion")
             .WithSummary("Delete a promotion")
+            .RequireAuthorization("Owner")
             .WithDescription("Deletes a promotion by its ID.");
         }
     }

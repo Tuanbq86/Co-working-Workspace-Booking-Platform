@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Owner")
             .WithSummary("Update an existing workspace owner")
+            .RequireAuthorization("Owner")
             .WithDescription("Updates a workspace owner by its ID with the provided details.");
         }
     }

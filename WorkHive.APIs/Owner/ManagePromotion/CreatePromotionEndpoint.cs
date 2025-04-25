@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.ManagePromotion
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Promotion")
             .WithSummary("Create a new promotion")
+            .RequireAuthorization("Owner")
             .WithDescription("Creates a new promotion with the provided details.");
         }
     }

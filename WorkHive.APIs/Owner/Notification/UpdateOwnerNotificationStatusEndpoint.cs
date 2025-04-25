@@ -22,6 +22,7 @@ namespace WorkHive.APIs.Owner.OwnerNotification
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("UpdateOwnerNotificationStatus")
             .WithTags("Owner notification")
+            .RequireAuthorization("Owner")
             .WithDescription("UpdateOwnerNotificationStatus");
         }
     }

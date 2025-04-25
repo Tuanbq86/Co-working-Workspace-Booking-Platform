@@ -25,6 +25,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
             .Produces(StatusCodes.Status400BadRequest)
             .WithTags("Owner")
             .WithSummary("Update owner socials")
+            .RequireAuthorization("Owner")
             .WithDescription("Cập nhật các mạng xã hội Facebook, Instagram, Tiktok cho WorkspaceOwner.");
         }
     }

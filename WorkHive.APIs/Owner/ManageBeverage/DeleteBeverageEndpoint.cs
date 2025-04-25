@@ -23,6 +23,7 @@ namespace WorkHive.APIs.Owner.ManageBeverage
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Beverage")
             .WithSummary("Delete a beverage")
+            .RequireAuthorization("Owner")
             .WithDescription("Deletes a beverage by its ID.");
         }
     }

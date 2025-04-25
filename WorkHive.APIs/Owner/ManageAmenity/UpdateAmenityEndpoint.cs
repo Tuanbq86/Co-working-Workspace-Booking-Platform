@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.ManageAmenity
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Amenity")
             .WithSummary("Update an existing amenity")
+            .RequireAuthorization("Owner")
             .WithDescription("Updates an amenity by its ID with the provided details.");
         }
     }

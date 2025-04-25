@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.ManagePromotion
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Promotion")
             .WithSummary("Update an existing promotion")
+            .RequireAuthorization("Owner")
             .WithDescription("Updates a promotion by its ID with the provided details.");
         }
     }
