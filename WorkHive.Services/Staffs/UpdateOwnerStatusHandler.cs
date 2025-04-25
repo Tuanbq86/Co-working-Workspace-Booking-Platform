@@ -42,7 +42,7 @@ namespace WorkHive.Services.Staff
 
             //================================================================
 
-            if (command.Status != "Success")
+            if (command.Status == "Success")
             {
                 // Create a new OwnerNotification
                 var ownerNotification = new OwnerNotification
