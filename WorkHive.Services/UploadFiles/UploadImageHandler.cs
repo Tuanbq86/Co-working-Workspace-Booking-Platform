@@ -41,7 +41,7 @@ public class UploadImageHandler(Cloudinary cloudinary)
             {
                 File = new FileDescription(image.FileName, image.OpenReadStream()),
                 Folder = "IMAGES",
-                Transformation = new Transformation().Width(500).Height(500).Crop("fill")
+                Transformation = new Transformation()/*.Width(500).Height(500).Crop("fill")*/
             };
 
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
