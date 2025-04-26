@@ -28,7 +28,7 @@ namespace WorkHive.APIs.Owner.ManageBeverage
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Beverage")
             .WithSummary("Get Beverages by Owner ID")
-            .RequireAuthorization("Owner")
+            //.RequireAuthorization("Owner")
             .WithDescription("Retrieve all beverages belonging to a specific Owner.");
         }
     }
