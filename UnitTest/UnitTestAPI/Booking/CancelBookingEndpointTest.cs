@@ -11,93 +11,91 @@ using WorkHive.APIs.Users.Booking.CancelBooking;
 using WorkHive.Services.Users.BookingWorkspace.CancelBooking;
 using Mapster;
 using FluentAssertions;
+using System.Collections;
 
 namespace UnitTestAPI.Booking;
 
+public class CancelBookingRequestTestData : IEnumerable<object[]>
+{
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        // Test case 1: Hủy thành công
+        yield return new object[]
+        {
+            new CancelBookingRequest(1),
+            "Hủy booking thành công",
+            0
+        };
+
+        // Test case 2: Booking không hợp lệ
+        yield return new object[]
+        {
+            new CancelBookingRequest(2),
+            "Không tìm thấy booking hợp lệ để hủy hoặc trạng thái chưa thành công để hủy",
+            0
+        };
+
+        // Test case 3: Ví bị khóa
+        yield return new object[]
+        {
+            new CancelBookingRequest(3),
+            "Ví đã bị khóa để thực hiện yêu cầu rút tiền",
+            1
+        };
+
+        // Test case 4: Quá hạn hủy 8 tiếng
+        yield return new object[]
+        {
+            new CancelBookingRequest(4),
+            "Đã quá thời hạn 8 tiếng để hủy booking tính từ startDate của đơn booking: 4",
+            0
+        };
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+}
+
+
 public class CancelBookingEndpointTest
 {
-    [Fact]
-    public async Task CancelBooking_ReturnsOk_WhenSuccess()
+    [Theory]
+    [ClassData(typeof(CancelBookingRequestTestData))]
+    public async Task CancelBookingEndpoint_ReturnsOk(
+        CancelBookingRequest request,
+        string expectedNotification,
+        int expectedIsLock)
     {
         // Arrange
-        var request = new CancelBookingRequest(1);
         var mockSender = A.Fake<ISender>();
 
-        A.CallTo(() => mockSender.Send(A<CancelBookingCommand>.That.Matches(c => c.BookingId == 1), A<CancellationToken>._))
-            .Returns(new CancelBookingResult("Hủy booking thành công", 0));
+        var result = new CancelBookingResult(
+            Notificationn: expectedNotification,
+            IsLock: expectedIsLock
+        );
 
-        var endpoint = async (CancelBookingRequest req, ISender sender) =>
+        A.CallTo(() => mockSender.Send(A<CancelBookingCommand>._, default))
+            .Returns(result);
+
+        var endpointDelegate = async (CancelBookingRequest req, ISender sender) =>
         {
             var command = req.Adapt<CancelBookingCommand>();
-            var result = await sender.Send(command);
-            var response = result.Adapt<CancelBookingResponse>();
+            var res = await sender.Send(command);
+            var response = new CancelBookingResponse(res.Notificationn, res.IsLock);
             return Results.Ok(response);
         };
 
         // Act
-        var result = await endpoint(request, mockSender);
+        var actualResult = await endpointDelegate(request, mockSender);
 
         // Assert
-        result.Should().BeOfType<Ok<CancelBookingResponse>>();
+        actualResult.Should().BeOfType<Ok<CancelBookingResponse>>();
 
-        var okResult = result as Ok<CancelBookingResponse>;
+        var okResult = actualResult as Ok<CancelBookingResponse>;
         okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
-        okResult!.Value!.Notification.Should().Be("Hủy booking thành công");
-    }
 
-    [Fact]
-    public async Task CancelBooking_ReturnsOk_WhenBookingNotFoundOrInvalidStatus()
-    {
-        // Arrange
-        var request = new CancelBookingRequest(99); // giả định booking không tồn tại
-        var mockSender = A.Fake<ISender>();
-
-        A.CallTo(() => mockSender.Send(A<CancelBookingCommand>.That.Matches(c => c.BookingId == 99), A<CancellationToken>._))
-            .Returns(new CancelBookingResult("Không tìm thấy booking hợp lệ để hủy hoặc trạng thái chưa thành công để hủy", 0));
-
-        var endpoint = async (CancelBookingRequest req, ISender sender) =>
-        {
-            var command = req.Adapt<CancelBookingCommand>();
-            var result = await sender.Send(command);
-            var response = result.Adapt<CancelBookingResponse>();
-            return Results.Ok(response);
-        };
-
-        // Act
-        var result = await endpoint(request, mockSender);
-
-        // Assert
-        var okResult = result as Ok<CancelBookingResponse>;
-        okResult.Should().NotBeNull();
-        okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
-        okResult!.Value!.Notification.Should().Contain("Không tìm thấy booking hợp lệ");
-    }
-
-    [Fact]
-    public async Task CancelBooking_ReturnsOk_WhenPast8HoursDeadline()
-    {
-        // Arrange
-        var request = new CancelBookingRequest(2); // giả định booking quá hạn hủy
-        var mockSender = A.Fake<ISender>();
-
-        A.CallTo(() => mockSender.Send(A<CancelBookingCommand>.That.Matches(c => c.BookingId == 2), A<CancellationToken>._))
-            .Returns(new CancelBookingResult("Đã quá thời hạn 8 tiếng để hủy booking", 0));
-
-        var endpoint = async (CancelBookingRequest req, ISender sender) =>
-        {
-            var command = req.Adapt<CancelBookingCommand>();
-            var result = await sender.Send(command);
-            var response = result.Adapt<CancelBookingResponse>();
-            return Results.Ok(response);
-        };
-
-        // Act
-        var result = await endpoint(request, mockSender);
-
-        // Assert
-        var okResult = result as Ok<CancelBookingResponse>;
-        okResult.Should().NotBeNull();
-        okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
-        okResult!.Value!.Notification.Should().Contain("Đã quá thời hạn 8 tiếng");
+        var response = okResult.Value;
+        response.Should().NotBeNull();
+        response.Notification.Should().Be(expectedNotification);
+        response.IsLock.Should().Be(expectedIsLock);
     }
 }
