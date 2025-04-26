@@ -24,6 +24,7 @@ public class UnBanStaffEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("UnBan staff")
         .WithTags("Moderate account")
+        .RequireAuthorization("Admin")
         .WithDescription("UnBan staff");
     }
 }

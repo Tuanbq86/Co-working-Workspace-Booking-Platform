@@ -27,6 +27,7 @@ public class CancelBookingEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Cancel booking workspace")
         .WithTags("Booking")
+        .RequireAuthorization("Customer")
         .WithDescription("Cancel booking workspace");
     }
 }

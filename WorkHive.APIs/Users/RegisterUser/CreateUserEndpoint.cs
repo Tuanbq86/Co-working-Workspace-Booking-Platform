@@ -28,6 +28,7 @@ public class CreateUserEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Create User")
         .WithTags("Register User")
+        .RequireAuthorization("Admin")
         .WithDescription("Create User");
     }
 }

@@ -25,6 +25,7 @@ public class BanStaffEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Ban staff")
         .WithTags("Moderate account")
+        .RequireAuthorization("Admin")
         .WithDescription("Ban staff");
     }
 }

@@ -30,6 +30,7 @@ public class UserDepositEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Create depoit request")
         .WithTags("CustomerWallet")
+        .RequireAuthorization("Customer")
         .WithDescription("Create depoit request");
     }
 }

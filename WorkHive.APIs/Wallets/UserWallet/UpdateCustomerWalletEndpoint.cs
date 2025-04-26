@@ -26,6 +26,7 @@ public class UpdateCustomerWalletEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Update customer wallet information")
         .WithTags("Customer Withdraw")
+        .RequireAuthorization("Customer")
         .WithDescription("Update customer wallet information");
     }
 }
