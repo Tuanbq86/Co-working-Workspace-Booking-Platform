@@ -33,3 +33,5 @@ public class UpdateCustomerWithdrawalRequestStatusEndpoint : ICarterModule
 
     }
 }
+
+//Manager

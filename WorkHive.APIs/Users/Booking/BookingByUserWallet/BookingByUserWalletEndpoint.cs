@@ -34,3 +34,4 @@ public class BookingByUserWalletEndpoint : ICarterModule
         .WithDescription("Booking workspace by workhive wallet");
     }
 }
+//Customer

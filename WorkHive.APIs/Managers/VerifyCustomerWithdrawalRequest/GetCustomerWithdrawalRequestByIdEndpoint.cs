@@ -27,4 +27,3 @@ public class GetCustomerWithdrawalRequestByIdEndpoint : ICarterModule
     }
 }
 
-//Customer + Manager
