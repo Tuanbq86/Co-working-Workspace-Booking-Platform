@@ -30,6 +30,7 @@ public class UpdateRatingEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Update Rating")
         .WithTags("Rating")
+        .RequireAuthorization("Customer")
         .WithDescription("Update Rating");
     }
 }

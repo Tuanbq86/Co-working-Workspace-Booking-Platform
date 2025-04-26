@@ -29,6 +29,7 @@ public class UpdateCustomerWithdrawalRequestStatusEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithTags("Customer Withdraw")
         .WithSummary("Update customer withdrawal request status")
+        .RequireAuthorization("Manager")
         .WithDescription("Update customer withdrawal request status");
 
     }

@@ -24,6 +24,7 @@ public class BanCustomerEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Ban customer")
         .WithTags("Moderate account")
+        .RequireAuthorization("Admin")
         .WithDescription("Ban customer");
     }
 }
