@@ -24,7 +24,7 @@ namespace WorkHive.APIs.Owner.Notification
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("GetListNotificationByOwnerId")
             .WithTags("Owner notification")
-            .RequireAuthorization("Owner")
+            //.RequireAuthorization("Owner")
             .WithDescription("GetListNotificationByOwnerId");
         }
     }
