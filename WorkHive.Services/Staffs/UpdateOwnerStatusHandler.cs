@@ -47,7 +47,7 @@ namespace WorkHive.Services.Staff
                 // Create a new OwnerNotification
                 var ownerNotification = new OwnerNotification
                 {
-                    Description = $"Tài khoản {owner.LicenseName} của bạn đã được phê duyệt và xác thực thành công. Bây giờ bạn có thể truy cập các tính năng đầy đủ.",
+                    Description = $"Tài khoản {owner.LicenseName} của bạn đã được phê duyệt và xác thực thành công. Bạn đã có thể trải nghiệm đầy đủ tất cả các tính năng.",
                     Status = "Active",
                     OwnerId = command.Id,
                     CreatedAt = DateTime.Now,

@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Owner")
             .WithSummary("Update avatar for workspace owner")
+            .RequireAuthorization("Owner")
             .WithDescription("Updates the avatar URL for a workspace owner.");
         }
     }

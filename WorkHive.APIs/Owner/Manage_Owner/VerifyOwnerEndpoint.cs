@@ -38,6 +38,7 @@ namespace WorkHive.APIs.Owner.Manage_Owner
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Owner")
             .WithSummary("Verify an owner")
+            .RequireAuthorization("Owner")
             .WithDescription("Updates owner verification details by ID.");
         }
     }

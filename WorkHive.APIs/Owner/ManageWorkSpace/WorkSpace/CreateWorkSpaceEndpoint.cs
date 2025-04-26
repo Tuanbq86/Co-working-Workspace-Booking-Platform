@@ -28,6 +28,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Workspace")
             .WithSummary("Create a new workspace")
+            .RequireAuthorization("Owner")
             .WithDescription("Creates a new workspace with the provided details.");
 
         }

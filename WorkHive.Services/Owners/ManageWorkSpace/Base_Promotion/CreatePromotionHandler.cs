@@ -25,7 +25,7 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.Base_Promotion
 
             //var ownerId = workspace.OwnerId;
 
-            // Kiểm tra mã khuyến mãi đã tồn tại cho cùng Owner chưa
+            // Kiểm tra mã khuyến mãi đã tồn tại cho cùng WS chưa
             var existingPromotion = await unit.Promotion
                 .GetFirstOrDefaultAsync(p => p.Code == command.Code && p.Workspace.Id == command.WorkspaceId);
 

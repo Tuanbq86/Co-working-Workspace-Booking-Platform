@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.ManagePolicy
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Policy")
             .WithSummary("Update an existing policy")
+            .RequireAuthorization("Owner")
             .WithDescription("Updates an existing policy by ID.");
         }
     }

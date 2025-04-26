@@ -23,6 +23,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.ManagePolicy
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Policy")
             .WithSummary("Create a new policy")
+            .RequireAuthorization("Owner")
             .WithDescription("Creates a new policy with the provided details.");
         }
     }

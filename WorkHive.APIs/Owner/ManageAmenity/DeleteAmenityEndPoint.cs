@@ -23,6 +23,7 @@ namespace WorkHive.APIs.Owner.ManageAmenity
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Amenity")
             .WithSummary("Delete an amenity")
+            .RequireAuthorization("Owner")
             .WithDescription("Deletes an amenity by its ID.");
         }
     }

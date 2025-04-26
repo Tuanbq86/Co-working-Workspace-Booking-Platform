@@ -24,6 +24,7 @@ namespace WorkHive.APIs.Owner.ManageBeverage
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Beverage")
             .WithSummary("Create a new beverage")
+            .RequireAuthorization("Owner")
             .WithDescription("Creates a new beverage with the provided details.");
         }
     }

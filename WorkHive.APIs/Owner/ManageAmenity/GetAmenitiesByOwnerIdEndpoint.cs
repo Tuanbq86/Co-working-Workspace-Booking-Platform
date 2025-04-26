@@ -31,6 +31,7 @@ namespace WorkHive.APIs.Owner.ManageAmenity
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Amenity")
             .WithSummary("Get Amenities by Owner ID")
+            .RequireAuthorization("Owner")
             .WithDescription("Retrieve all amenities belonging to a specific Owner.");
         }
     }

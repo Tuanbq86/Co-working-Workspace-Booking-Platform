@@ -23,6 +23,7 @@ namespace WorkHive.APIs.Owner.ManageWorkSpace.ManagePolicy
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithTags("Policy")
             .WithSummary("Delete a policy")
+            .RequireAuthorization("Owner")
             .WithDescription("Deletes a policy by ID.");
         }
     }
