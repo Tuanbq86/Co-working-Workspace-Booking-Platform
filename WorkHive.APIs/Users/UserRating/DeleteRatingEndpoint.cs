@@ -33,3 +33,4 @@ public class DeleteRatingEndpoint : ICarterModule
         .WithDescription("Delete rating");
     }
 }
+//Customer

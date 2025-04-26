@@ -27,3 +27,4 @@ namespace WorkHive.APIs.Owner.ManagePromotion
         }
     }
 }
+//Owner

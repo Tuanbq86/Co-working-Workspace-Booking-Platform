@@ -33,3 +33,4 @@ public class RatingBookedWorkspaceEndpoint : ICarterModule
         .WithDescription("Rating booking workspace");
     }
 }
+//Customer
