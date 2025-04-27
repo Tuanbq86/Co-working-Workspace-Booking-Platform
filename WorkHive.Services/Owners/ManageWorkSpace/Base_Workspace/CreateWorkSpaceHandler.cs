@@ -87,7 +87,6 @@ namespace WorkHive.Services.Owners.ManageWorkSpace.CRUD_Base_Workspace
                 await workSpaceManageUnit.Facility.CreateFacilitiesAsync(facilities);
                 await workSpaceManageUnit.Policy.CreatePoliciesAsync(policies);
                 await workSpaceManageUnit.Detail.CreateDetailsAsync(details);
-                await workSpaceManageUnit.SaveAsync();
 
                 var newWorkSpace = new Workspace
                 {
