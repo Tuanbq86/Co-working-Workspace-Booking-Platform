@@ -73,6 +73,7 @@ public class CreateUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenR
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             Status = "Active",
+            Avatar = "https://res.cloudinary.com/dcq99dv8p/image/upload/v1745717996/registerAvatar_d1j7br.jpg",
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempUser.Password, 13),
