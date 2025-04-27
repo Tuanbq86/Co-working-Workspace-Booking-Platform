@@ -29,7 +29,7 @@ public class DeleteRatingEndpoint : ICarterModule
         .Produces<DeleteRatingResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Delete rating")
-        .RequireAuthorization("Customer")
+        //.RequireAuthorization("Customer")
         .WithTags("Rating")
         .WithDescription("Delete rating");
     }

@@ -33,7 +33,7 @@ public class BookingWorkspaceEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Booking workspace")
         .WithTags("Booking")
-        .RequireAuthorization("Customer")
+        //.RequireAuthorization("Customer")
         .WithDescription("Booking workspace");
     }
 }
