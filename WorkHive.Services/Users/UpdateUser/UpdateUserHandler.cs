@@ -29,8 +29,8 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
             .Length(10).WithMessage("The number of characterics is exact 10 characterics");
 
         RuleFor(x => x.DateOfBirth)
-            .Must(dob => dob == null || (dob >= new DateOnly(1955, 1, 1) && dob <= new DateOnly(2013, 1, 1)))
-            .WithMessage("Date of birth must be between 01/01/1955 and 01/01/2013");
+            .Must(dob => dob == null || (dob >= new DateOnly(1900, 1, 1) && dob <= new DateOnly(2013, 1, 1)))
+            .WithMessage("Date of birth must be between 01/01/1900 and 01/01/2013");
     }
 }
 

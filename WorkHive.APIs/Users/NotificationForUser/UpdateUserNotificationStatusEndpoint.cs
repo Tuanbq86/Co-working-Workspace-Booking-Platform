@@ -23,7 +23,7 @@ public class UpdateUserNotificationStatusEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("UpdateUserNotificationStatus")
         .WithTags("User notification")
-        .RequireAuthorization("Customer")
+        //.RequireAuthorization("Customer")
         .WithDescription("UpdateUserNotificationStatus");
     }
 }

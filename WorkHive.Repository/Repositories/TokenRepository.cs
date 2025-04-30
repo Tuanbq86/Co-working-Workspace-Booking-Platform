@@ -57,7 +57,7 @@ public sealed class TokenRepository : ITokenRepository
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"]!,
             _configuration["Jwt:Issuer"]!,
             claims,
-            expires: DateTime.Now.AddMinutes(120),
+            expires: DateTime.Now.AddDays(3),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
@@ -81,7 +81,7 @@ public sealed class TokenRepository : ITokenRepository
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"]!,
             _configuration["Jwt:Issuer"]!,
             claims,
-            expires: DateTime.Now.AddMinutes(120),
+            expires: DateTime.Now.AddDays(3),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
