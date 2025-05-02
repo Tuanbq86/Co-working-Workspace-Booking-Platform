@@ -13,9 +13,9 @@ public record SearchWorkspaceOwnerByOwnerNameQuery(string? OwnerName) : IQuery<S
 public record SearchWorkspaceOwnerByOwnerNameResult(List<WorkspaceOwnerByOwnerNameDTO> WorkspaceOwnerByOwnerNameDTOs);
 public record WorkspaceOwnerByOwnerNameDTO(
     int WorkspaceOwnerId,
-    string Phone,
-    string Email,
-    string GoogleMapUrl,
+    //string Phone,
+    //string Email,
+    //string GoogleMapUrl,
     string LicenseName,
     string LicenseAddress,
     string Avatar,
@@ -90,9 +90,9 @@ public class SearchWorkspaceOwnerByOwnerNameHandler(IBookingWorkspaceUnitOfWork 
 
             result.Add(new WorkspaceOwnerByOwnerNameDTO(
                 item.Id,
-                item.Phone,
-                item.Email,
-                item.GoogleMapUrl,
+                //item.Phone,
+                //item.Email,
+                //item.GoogleMapUrl,
                 item.LicenseName,
                 item.LicenseAddress,
                 item.Avatar,
