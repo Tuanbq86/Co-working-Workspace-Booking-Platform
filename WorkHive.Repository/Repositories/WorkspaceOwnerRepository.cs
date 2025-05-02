@@ -154,6 +154,7 @@ public class WorkspaceOwnerRepository : GenericRepository<WorkspaceOwner>, IWork
     public IQueryable<WorkspaceOwner> GetOwnerForSearchWithOwnerName(string name)
     {
         return _context.WorkspaceOwners
+            .AsNoTracking()
             .Where(w => EF.Functions.Like(w.LicenseName, $"%{name}%"))
             .AsQueryable();
     }

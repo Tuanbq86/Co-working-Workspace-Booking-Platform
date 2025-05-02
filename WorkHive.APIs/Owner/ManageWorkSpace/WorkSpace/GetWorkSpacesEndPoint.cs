@@ -23,7 +23,7 @@ public class GetWorkSpacesEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("GetWorkSpaces")
-        .Produces<GetWorkSpacesByOwnerIdResponse>(StatusCodes.Status200OK)
+        .Produces<GetWorkSpacesResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithTags("Workspace")
         .WithSummary("Get all workspace ")

@@ -52,12 +52,13 @@ public class WorkspaceRepository : GenericRepository<Workspace>, IWorkspaceRepos
             .ThenInclude(wp => wp.Price)
             .Include(w => w.WorkspaceImages)
             .ThenInclude(wi => wi.Image)
-            .Include(w => w.WorkspaceFacilities)
-            .ThenInclude(wf => wf.Facility)
-            .Include(w => w.WorkspacePolicies)
-            .ThenInclude(wp => wp.Policy)
-            .Include(w => w.WorkspaceDetails)
-            .ThenInclude(wd => wd.Detail)
+            //.Include(w => w.WorkspaceFacilities)
+            //.ThenInclude(wf => wf.Facility)
+            //.Include(w => w.WorkspacePolicies)
+            //.ThenInclude(wp => wp.Policy)
+            //.Include(w => w.WorkspaceDetails)
+            //.ThenInclude(wd => wd.Detail)
+            .AsSplitQuery()
             .ToListAsync();
     }
 
