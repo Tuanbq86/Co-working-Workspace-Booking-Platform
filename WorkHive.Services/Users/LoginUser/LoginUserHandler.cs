@@ -37,7 +37,7 @@ public class LoginUserHandler(IUserUnitOfWork userUnit, ITokenRepository tokenRe
 
         var userList = await userUnit.User.GetAllAsync();
 
-        var user = userList.FirstOrDefault(u => u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim()) ||
+        var user = userList.FirstOrDefault(u => (!string.IsNullOrEmpty(u.Phone) && u.Phone.ToLower().Trim().Equals(command.Auth.ToLower().Trim())) ||
                    u.Email.ToLower().Trim().Equals(command.Auth.ToLower().Trim()));
 
         if (user is null)

@@ -24,6 +24,7 @@ public class UnBanOwnerEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("UnBan owner")
         .WithTags("Moderate account")
+        //.RequireAuthorization("Admin")
         .WithDescription("UnBan owner");
     }
 }

@@ -30,6 +30,8 @@ public class RatingBookedWorkspaceEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Rating booking workspace")
         .WithTags("Rating")
+        //.RequireAuthorization("Customer")
         .WithDescription("Rating booking workspace");
     }
 }
+//Customer

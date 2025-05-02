@@ -11,7 +11,7 @@ namespace WorkHive.Services.Wallets.Base_OwnerWallet
 {
     public record GetOwnerTransactionsByOwnerIdQuery(int Id) : IQuery<List<GetOwnerTransactionsByOwnerIdResult>>;
 
-    public record GetOwnerTransactionsByOwnerIdResult(int TransactionId, decimal? Amount, string Status, string Description, DateTime? CreatedAt);
+    public record GetOwnerTransactionsByOwnerIdResult(int TransactionId, decimal? Amount, string Status, string Description, DateTime? CreatedAt, decimal? BeforeAmount, decimal? AfterAmount);
 
     public class GetOwnerTransactionsByOwnerIdValidator : AbstractValidator<GetOwnerTransactionsByOwnerIdQuery>
     {
@@ -40,7 +40,9 @@ namespace WorkHive.Services.Wallets.Base_OwnerWallet
                 tr.Amount,
                 tr.Status,
                 tr.Description,
-                tr.CreatedAt
+                tr.CreatedAt,
+                tr.BeforeTransactionAmount,
+                tr.AfterTransactionAmount
             )).ToList();
         }
     }

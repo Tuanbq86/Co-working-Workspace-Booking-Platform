@@ -18,6 +18,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["WorkHive.APIs/WorkHive.APIs.csproj", "WorkHive.APIs/"]
+COPY ["WorkHive.APIs/firebase-adminsdk.json", "WorkHive.APIs/"]
 COPY ["WorkHive.Services/WorkHive.Services.csproj", "WorkHive.Services/"]
 COPY ["WorkHive.BuildingBlocks/WorkHive.BuildingBlocks.csproj", "WorkHive.BuildingBlocks/"]
 COPY ["WorkHive.Repository/WorkHive.Repositories.csproj", "WorkHive.Repository/"]

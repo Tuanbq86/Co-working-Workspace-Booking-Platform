@@ -90,7 +90,7 @@ public class RegisterOwnerHandler(IWorkspaceOwnerUnitOfWork ownerUnit, IEmailSer
     <p style='font-size: 16px;'>Giờ đây, bạn có thể bắt đầu quản lý không gian làm việc của mình, đăng tải thông tin, theo dõi đặt chỗ, và kết nối với khách hàng một cách dễ dàng.</p>
     
     <p style='font-size: 16px; margin-top: 30px;'><strong>Bắt đầu ngay!</strong></p>
-    <p style='font-size: 16px;'>👉 <a href='https://workhive-owners.vercel.app/' style='color: #0066cc;'>Đăng nhập ngay</a> để thiết lập không gian làm việc của bạn.</p>
+    <p style='font-size: 16px;'>👉 <a href='https://owner.workhive.io.vn/' style='color: #0066cc;'>Đăng nhập ngay</a> để thiết lập không gian làm việc của bạn.</p>
     
     <p style='font-size: 16px; margin-top: 30px;'>Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua email <a href='mailto:workhive.vn.official@gmail.com' style='color: #0066cc;'>workhive.vn.official@gmail.com</a> hoặc hotline <a style='color: #0066cc;'>0867435157</a>.</p>
     

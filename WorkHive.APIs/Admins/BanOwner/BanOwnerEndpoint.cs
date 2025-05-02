@@ -25,6 +25,7 @@ public class BanOwnerEndpoint : ICarterModule
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Ban owner")
         .WithTags("Moderate account")
+        //.RequireAuthorization("Admin")
         .WithDescription("Ban owner");
     }
 }

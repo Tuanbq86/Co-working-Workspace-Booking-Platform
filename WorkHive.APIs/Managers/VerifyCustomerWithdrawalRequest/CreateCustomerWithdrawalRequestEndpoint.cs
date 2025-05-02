@@ -25,6 +25,7 @@ public class CreateCustomerWithdrawalRequestEndpoint : ICarterModule
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Customer Withdraw")
             .WithSummary("Create a new customer withdrawal request")
+            //.RequireAuthorization("Customer")
             .WithDescription("Creates a new withdrawal request for a customer.");
     }
 }

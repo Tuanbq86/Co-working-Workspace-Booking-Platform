@@ -114,6 +114,15 @@ public class UpdateCustomerWithdrawalRequestStatusHandler(IUserUnitOfWork userUn
     private string GenerateWithDrawEmailContent(CustomerWithdrawalRequest request)
     {
         var sb = new StringBuilder();
+
+        // Chuyển trạng thái sang tiếng Việt
+        var statusText = request.Status?.ToLower() switch
+        {
+            "fail" => "Thất bại",
+            "success" => "Thành công",
+            _ => "Không xác định"
+        };
+
         //Phần nội dung
         sb.AppendLine($@"
     <div style='display: flex; justify-content: center;'>
@@ -129,7 +138,7 @@ public class UpdateCustomerWithdrawalRequestStatusHandler(IUserUnitOfWork userUn
             </tr>
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Trạng thái</td>
-                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{request.Status}</td>
+                <td style='padding: 10px; font-size: 16px; border: 1px solid #ddd;' colspan='2'>{statusText}</td>
             </tr>
             <tr>
                 <td style='padding: 10px; font-size: 16px; font-weight: bold; border: 1px solid #ddd;'>Ngày tạo</td>

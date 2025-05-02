@@ -43,8 +43,9 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
     {
         //Checking exist used email and phone number for registering
 
-        var existEmailAndPhoneUser = userUnit.User.GetAll().
-            Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
+        var existEmailAndPhoneUser = userUnit.User.GetAll()
+            .Where(u => !string.IsNullOrEmpty(u.Phone))
+            .Where(x => x.Email.Trim().ToLower().Equals(command.Email.Trim().ToLower()) ||
             x.Phone.Trim().ToLower().Equals(command.Phone.Trim().ToLower())).FirstOrDefault();
 
         if (existEmailAndPhoneUser is not null)
@@ -64,6 +65,7 @@ public class RegisterUserHandler(IUserUnitOfWork userUnit, ITokenRepository toke
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             Status = "Active",
+            Avatar = "https://res.cloudinary.com/dcq99dv8p/image/upload/v1745717996/registerAvatar_d1j7br.jpg",
             //Using Bcrypt to hash password using SHA-512 algorithm
             //Work factor time so long when increment for safety(13)
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword(tempUser.Password, 13),
