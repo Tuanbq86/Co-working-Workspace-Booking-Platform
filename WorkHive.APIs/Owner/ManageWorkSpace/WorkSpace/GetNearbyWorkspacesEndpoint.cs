@@ -4,6 +4,10 @@ using WorkHive.Services.Owners.ManageWorkSpace.Base_Workspace;
 
 namespace WorkHive.APIs.Owner.ManageWorkSpace.WorkSpace
 {
+    /// <summary>
+    /// Query to get nearby workspaces based on latitude, longitude, and optional radius.
+    /// </summary>
+    /// <param name="Workspaces"></param>
     public record GetNearbyWorkspacesResponse(List<WorkspaceNearbyDT> Workspaces);
 
     public class GetNearbyWorkspacesEndpoint : ICarterModule
