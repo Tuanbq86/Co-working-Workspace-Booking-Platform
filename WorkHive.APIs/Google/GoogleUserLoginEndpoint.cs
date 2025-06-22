@@ -4,6 +4,8 @@ using WorkHive.Services.Google_Login;
 
 namespace WorkHive.APIs.Google
 {
+    /// <summary>
+    /// 
     public class GoogleUserLoginEndpoint : ICarterModule
     {
         public record GoogleLoginRequest(string IdToken);
