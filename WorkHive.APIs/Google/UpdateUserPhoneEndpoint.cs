@@ -5,6 +5,10 @@ using WorkHive.Services.Google_Login;
 
 namespace WorkHive.APIs.Google
 {
+    /// <summary>
+    /// Command to update a user's phone number.
+    /// </summary>
+    /// <param name="Phone"></param>
     public record UpdateUserPhoneRequest(string Phone);
     public record UpdateUserPhoneResponse(string Notification);
     public class UpdateUserPhoneEndpoint : ICarterModule
