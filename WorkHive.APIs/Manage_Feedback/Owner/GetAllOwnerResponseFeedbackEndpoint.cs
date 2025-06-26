@@ -4,6 +4,18 @@ using WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response;
 
 namespace WorkHive.APIs.Manage_Feedback.Owner
 {
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <param name="Title"></param>
+    /// <param name="Description"></param>
+    /// <param name="Status"></param>
+    /// <param name="UserId"></param>
+    /// <param name="OwnerId"></param>
+    /// <param name="FeedbackId"></param>
+    /// <param name="CreatedAt"></param>
+    /// <param name="ImageUrls"></param>
     public record GetAllOwnerResponseFeedbackResponse(int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? FeedbackId, DateTime? CreatedAt, List<string> ImageUrls);
 
     public class GetAllOwnerResponseFeedbackEndpoint : ICarterModule
