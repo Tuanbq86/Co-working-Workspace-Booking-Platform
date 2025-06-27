@@ -6,6 +6,10 @@ namespace WorkHive.APIs.Manage_Feedback.Owner
 {
     public class GetResponseFeedbackByFeedbackIdEndpoint : ICarterModule
     {
+        /// <summary>
+        /// Registers the endpoint for retrieving owner response feedback by FeedbackId.
+        /// </summary>
+        /// <param name="app"></param>
         public void AddRoutes(IEndpointRouteBuilder app)
         {
             app.MapGet("/response-feedbacks/feedback/{feedbackId:int}", async (int feedbackId, ISender sender) =>
