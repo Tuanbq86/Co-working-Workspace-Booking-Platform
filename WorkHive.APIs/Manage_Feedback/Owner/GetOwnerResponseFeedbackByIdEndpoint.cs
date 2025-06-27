@@ -5,6 +5,8 @@ using WorkHive.Services.Manage_Feedback.WorkspaceOwner_Response;
 
 namespace WorkHive.APIs.Manage_Feedback.Owner
 {
+    /// <summary>
+    /// 
     public record GetOwnerResponseFeedbackByIdResponse(int Id, string Title, string Description, string Status, int UserId, int OwnerId, int? FeedbackId, DateTime? CreatedAt, List<string> ImageUrls);
     public class GetOwnerResponseFeedbackByIdEndpoint : ICarterModule
     {
