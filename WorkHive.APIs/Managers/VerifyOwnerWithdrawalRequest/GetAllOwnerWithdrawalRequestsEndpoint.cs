@@ -4,6 +4,10 @@ using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
 namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
+    /// <summary>
+    /// Represents a response containing all owner withdrawal requests.
+    /// </summary>
+    /// <param name="Requests"></param>
     public record GetAllOwnerWithdrawalRequestsResponse(List<OwnerWithdrawalRequestDTO> Requests);
 
     public class GetAllOwnerWithdrawalRequestsEndpoint : ICarterModule

@@ -5,6 +5,12 @@ using WorkHive.Services.Managers.VerifyOwnerWithdrawalRequest;
 
 namespace WorkHive.APIs.Managers.VerifyOwnerWithdrawalRequest
 {
+    /// <summary>
+    /// Represents a request to create a new owner withdrawal request.  
+    /// </summary>
+    /// <param name="Title"></param>
+    /// <param name="Description"></param>
+    /// <param name="WorkspaceOwnerId"></param>
     public record CreateOwnerWithdrawalRequestRequest(string Title, string Description, int WorkspaceOwnerId);
 
     public record CreateOwnerWithdrawalRequestResponse(string Notification);
